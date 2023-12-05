@@ -14,6 +14,11 @@ This project is an update of the p5.sound.js library, with the following goals:
 - Code stability and readability
 - Updated and fewer dependencies
 
+## Usage
+
+To use this library, make sure you have p5.js installed. Visit the [p5.js website](https://p5js.org/) for more information and installation instructions.
+
+
 ## Testing with examples
 
 We are currently hosting `examples`  on this collection [https://editor.p5js.org/montoyamoraga/collections/xydp5uPw0](https://editor.p5js.org/montoyamoraga/collections/xydp5uPw0).

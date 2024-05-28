@@ -6,7 +6,6 @@ class Amplitude {
   }
 
   setInput(input) {
-    //if input == GainNode then connect else go to next input
     if (Object.values(input)[0].input.constructor.name === "GainNode") {
       this.input.connect(Object.values(input)[0].input);
     }

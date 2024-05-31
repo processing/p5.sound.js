@@ -1,24 +1,30 @@
 import * as Tone from "tone";
 
 class Oscillator {
-  constructor(freq, type) {
-    this.osc= new Tone.Oscillator().toDestination();
-    if (typeof freq === "number") {
-      this.osc.frequency.value = freq;
+  constructor(frequency, type) {
+    console.log(type);
+    //this.osc.type = "sine";
+    if (typeof frequency === "number") {
+      this.frequency = frequency;
       console.log('i received a number for freq');
-    } else {
-      this.osc.frequency.value = 440;
+    } else if (typeof frequency === "undefined"){
+      this.frequency = 440;
       //console.log('i didnt receive a number so i set oscillator to 440');
     }
     if (typeof type === "string") {
-      this.osc.type = type;
+      this.type = type;
       console.log('i received a string for type');
     }
-    if (type === "undefined") {
-      this.osc.type = "sine";
-      console.log('i received a string for type')
+    if (typeof type === "undefined") {
+      this.type = "sine";
     }
+    
+    this.osc = new Tone.Oscillator().toDestination();
+    this.osc.frequency.value = this.frequency;
+    this.osc.type = this.type;
+    console.log('freq', this.osc.frequency.value, 'type', this.osc.type);
     this.osc.volume.value = -20;
+    //this.osc.type = "sine";
   }
 
   freq(f) {
@@ -28,7 +34,7 @@ class Oscillator {
   setType(t) {
     this.osc.type = t;
   }
-  
+
   connect(destination) {
     //handle if destination is Amplitude (input is Analyser not GainNode)
     console.log(Object.values(destination)[0].input.constructor.name);
@@ -58,16 +64,17 @@ class Oscillator {
 }
 
 class SawOsc extends Oscillator {
-  constructor() {
-    super(this.osc.type = "sawtooth"); 
-    console.log(this.osc.type);
+  constructor(frequency, type) {
+    this.type = "sawtooth";
+    super(frequency, type);
+    this.osc.type = this.type;
   }
 }
 
 class SqrOsc extends Oscillator {
-  constructor() {
-    super(this.osc.type = "square");
-    console.log('SqrOsc');
+  constructor(freq) {
+    super(freq, 'square');
+    //console.log('SqrOsc');
   }
 }
 
@@ -84,4 +91,4 @@ class SinOsc extends Oscillator {
 }
 
 export default Oscillator;
-export { SinOsc, TriOsc, SawOsc, SqrOsc };
+export { SawOsc };

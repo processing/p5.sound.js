@@ -16,17 +16,18 @@ p5.prototype.Biquad = Biquad;
 import Amplitude from './Amplitude';
 p5.prototype.Amplitude = Amplitude;
 
+import SawOsc from './Oscillator';
+p5.prototype.SawOsc = SawOsc;
+/*
 import SinOsc from './Oscillator';
 p5.prototype.SinOsc = SinOsc;
 
 import TriOsc from './Oscillator';
 p5.prototype.TriOsc = TriOsc;
 
-import SawOsc from './Oscillator';
-p5.prototype.SawOsc = SawOsc;
-
 import SqrOsc from './Oscillator';
 p5.prototype.SqrOsc = SqrOsc;
+*/
 
 import Noise from './Noise';
 p5.prototype.Noise = Noise;

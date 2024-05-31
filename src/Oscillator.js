@@ -25,6 +25,10 @@ class Oscillator {
     this.osc.frequency.value = f;
   }
 
+  setType(t) {
+    this.osc.type = t;
+  }
+  
   connect(destination) {
     //handle if destination is Amplitude (input is Analyser not GainNode)
     console.log(Object.values(destination)[0].input.constructor.name);

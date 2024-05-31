@@ -1,5 +1,5 @@
-import audioContext from './AudioContext';
-p5.prototype.getAudioContext = audioContext.getAudioContext;
+//import audioContext from './AudioContext';
+//p5.prototype.getAudioContext = audioContext.getAudioContext;
 
 import Oscillator from './Oscillator';
 p5.prototype.Oscillator = Oscillator;

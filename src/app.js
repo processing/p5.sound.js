@@ -43,3 +43,6 @@ p5.prototype.SoundFile = SoundFile;
 
 p5.prototype.loadSound = loadSound;
 p5.prototype.registerPreloadMethod('loadSound', p5.prototype);
+
+import AudioIn from './AudioIn';
+p5.prototype.AudioIn = AudioIn;

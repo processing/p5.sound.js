@@ -2,7 +2,7 @@ import * as Tone from "tone";
 
 class Delay {
   constructor() {
-    this.delay= new Tone.PingPongDelay("4n", 0.2).toDestination();
+    this.delay= new Tone.FeedbackDelay(0.250, 0.2).toDestination();
   }
 
   delayTime(t) {

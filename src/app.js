@@ -4,6 +4,9 @@
 import Oscillator from './Oscillator';
 p5.prototype.Oscillator = Oscillator;
 
+import Envelope from './Envelope';
+p5.prototype.Envelope = Envelope;
+
 import Delay from './Delay';
 p5.prototype.Delay = Delay;
 

@@ -23,7 +23,7 @@ class Oscillator {
     this.osc.frequency.value = this.frequency;
     this.osc.type = this.type;
     console.log('freq', this.osc.frequency.value, 'type', this.osc.type);
-    this.osc.volume.value = -20;
+    this.osc.volume.value = -10;
     //this.osc.type = "sine";
   }
 

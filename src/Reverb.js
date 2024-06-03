@@ -9,8 +9,12 @@ class Reverb {
     this.reverb.decay.value = t;
   }
 
+  getNode() {
+    return this.reverb;
+  }
+
   connect(destination) {
-    this.reverb.connect(Object.values(destination)[0].input);
+    this.reverb.connect(destination.getNode());
   }
 
   disconnect() {

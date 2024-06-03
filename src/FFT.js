@@ -11,6 +11,9 @@ class FFT {
             normalRange: true,
         });
     }
+    getNode() {
+        return this.analyzer;
+    }
     
     analyze() {
         return this.analyzer.getValue();

@@ -13,8 +13,12 @@ class Biquad {
     this.biquad.frequency.value = f;
   }
   
+  getNode() {
+    return this.biquad;
+  }
+
   connect(destination) {
-    this.biquad.connect(Object.values(destination)[0].input);
+    this.biquad.connect(destination.getNode());
   }
 
   disconnect() {

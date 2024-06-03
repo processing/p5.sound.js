@@ -2,7 +2,6 @@ import * as Tone from "tone";
 
 class Oscillator {
   constructor(frequency, type) {
-    console.log(type);
     //this.osc.type = "sine";
     if (typeof frequency === "number") {
       this.frequency = frequency;
@@ -17,14 +16,12 @@ class Oscillator {
     }
     if (typeof type === "undefined") {
       this.type = "sine";
-    }
-    
+    } 
     this.osc = new Tone.Oscillator().toDestination();
     this.osc.frequency.value = this.frequency;
     this.osc.type = this.type;
     console.log('freq', this.osc.frequency.value, 'type', this.osc.type);
     this.osc.volume.value = -10;
-    //this.osc.type = "sine";
   }
 
   freq(f) {
@@ -35,20 +32,8 @@ class Oscillator {
     this.osc.type = t;
   }
 
-  connection(destination) {
-    //handle if destination is Amplitude (input is Analyser not GainNode)
-    /*
-    console.log(Object.values(destination)[0].input.constructor.name);
-    if (Object.values(destination)[0].input.constructor.name === "Gain" || Object.values(destination)[0].input.constructor.name === "StereoPannerNode")  {
-      this.osc.connect(Object.values(destination)[0].input);
-    }
-    else {
-      this.osc.connect(Object.values(destination)[0].input.input);
-    }
-    */
-   connect(this.osc.output, destination);
-   console.log(destination);
-   connect(destination);
+  connect(destination) {
+    this.osc.connect(destination.getNode());
   }
 
   volume(v) {

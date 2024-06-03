@@ -16,11 +16,16 @@ class Envelope {
   }
 
   play() {
-    this.envelope.triggerAttackRelease();
+    console.log('i did it!');
+    this.envelope.triggerAttack();
+  }
+
+  getNode() {
+    return this.envelope;
   }
 
   connect(destination) {
-    this.envelope.connect(Object.values(destination)[0].input);
+    this.envelope.connect(destination.getNode());
   }
 
   disconnect() {

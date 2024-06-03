@@ -14,7 +14,14 @@ class Amplitude {
     }
     this.amplitude.connect(Object.values(input)[0].input);
   }
+  getNode() {
+    return this.envelope;
+  }
 
+  connect(destination) {
+    this.envelope.connect(destination.getNode());
+  }
+  
   getLevel() {
     return this.amplitude.getValue();
   }

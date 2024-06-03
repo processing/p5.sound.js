@@ -10,8 +10,12 @@ class Panner {
     this.panner.pan.rampTo(clamp(p), 0.01);
   }
 
+  getNode() {
+    return this.panner;
+  }
+
   connect(destination) {
-    this.panner.connect(Object.values(destination)[0].input);
+    this.panner.connect(destination.getNode());
   }
 
   disconnect() {

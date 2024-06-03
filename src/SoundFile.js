@@ -16,8 +16,12 @@ class SoundFile {
     this.soundfile.volume.value = -10;
   }
 
+  getNode() {
+    return this.soundfile;
+  }
+
   connect(destination) {
-    this.soundfile.connect(Object.values(destination)[0].input);
+    this.soundfile.connect(destination.getNode());
   }
 
   disconnect() {

@@ -11,8 +11,12 @@ class Noise {
     this.noise.type = t;
   }
   
+  getNode() {
+    return this.noise;
+  }
+
   connect(destination) {
-    this.noise.connect(Object.values(destination)[0].input);
+    this.noise.connect(destination.getNode());
   }
 
   disconnect() {

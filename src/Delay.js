@@ -16,7 +16,10 @@ class Delay {
   connect(destination) {
     this.delay.connect(Object.values(destination)[0].input);
   }
-
+  
+  getNode() {
+    return this.delay;
+  }
   disconnect() {
     this.delay.disconnect(Tone.Context.destination);
   }

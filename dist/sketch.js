@@ -6,6 +6,7 @@ let delay;
 let env;
 let pan;
 let fft;
+let reverb;
 
 function setup() {
     cnv = createCanvas(400, 400);
@@ -13,9 +14,10 @@ function setup() {
     cnv.mousePressed(playSound);
     background(220);
     pan = new Panner();
+    reverb = new Reverb();
     osc = new Oscillator();
-    //env = new Envelope(0.1, 0.1, 1.0, 0.1);
-    //delay = new Delay();
+    env = new Envelope(0.1, 0.1, 1.0, 0.1);
+    delay = new Delay(1.80, 1.997);
     //osc = new SawOsc();
     //console.log('osc', osc);
     //osc.setType('square');
@@ -25,7 +27,11 @@ function setup() {
     //mic.disconnect();
     //mic.connect(meter);
     //mic.connect(delay);
-    //osc.disconnect();
+    osc.disconnect();
+    osc.connect(delay);
+    delay.disconnect();
+    delay.connect(reverb);
+    reverb.connect(fft);
     //console.log(fft);
     //osc.connect(fft);
     //env.connect(meter);
@@ -36,18 +42,18 @@ function setup() {
 function playSound() {
     //mic.start();
     osc.start();
-    //env.play();
+    env.play();
     //console.log('play');
 }
 
 function draw() {
     background(220);
     //color = map(meter.getLevel(), 0, 1, 0, 255);
-    //osc.freq(map(mouseX, 0, width, 100, 1000));
+    osc.freq(map(mouseX, 0, width, 100, 1000));
     //fill(color);
     //ellipse(width/2, height/2, 100, 100);
     let spectrum = fft.analyze();
-    console.log(spectrum);
+    //console.log(spectrum);
     for (let i = 0; i < spectrum.length; i++) {
         rect(0 + i * 10, spectrum[i] * 100, 10, spectrum[i]);
     }

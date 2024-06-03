@@ -35,8 +35,9 @@ class Oscillator {
     this.osc.type = t;
   }
 
-  connect(destination) {
+  connection(destination) {
     //handle if destination is Amplitude (input is Analyser not GainNode)
+    /*
     console.log(Object.values(destination)[0].input.constructor.name);
     if (Object.values(destination)[0].input.constructor.name === "Gain" || Object.values(destination)[0].input.constructor.name === "StereoPannerNode")  {
       this.osc.connect(Object.values(destination)[0].input);
@@ -44,6 +45,10 @@ class Oscillator {
     else {
       this.osc.connect(Object.values(destination)[0].input.input);
     }
+    */
+   connect(this.osc.output, destination);
+   console.log(destination);
+   connect(destination);
   }
 
   volume(v) {

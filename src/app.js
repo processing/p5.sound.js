@@ -19,6 +19,9 @@ p5.prototype.Biquad = Biquad;
 import Amplitude from './Amplitude';
 p5.prototype.Amplitude = Amplitude;
 
+import FFT from './FFT';
+p5.prototype.FFT = FFT;
+
 import SawOsc from './Oscillator';
 p5.prototype.SawOsc = SawOsc;
 /*

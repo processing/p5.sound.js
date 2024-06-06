@@ -69,6 +69,7 @@ class FFT {
     analyze() {
         return this.analyzer.getValue();
     }
+    
     //previously called the 'waveform()' method in p5.sound, changed to 'samples()' because Waveform() is a class in Tone.js
     samples() {
         return this.waveform.getValue();

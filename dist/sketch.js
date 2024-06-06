@@ -10,7 +10,7 @@ let reverb;
 
 function setup() {
     cnv = createCanvas(400, 400);
-    fft = new FFT();
+    fft = new FFT(256);
     cnv.mousePressed(playSound);
     background(220);
     pan = new Panner();
@@ -28,7 +28,8 @@ function setup() {
     //mic.connect(meter);
     //mic.connect(delay);
     osc.disconnect();
-    osc.connect(env);
+    osc.connect(fft);
+    osc.connect(delay);
     delay.disconnect();
     delay.connect(reverb);
     reverb.connect(fft);
@@ -49,10 +50,12 @@ function playSound() {
 function draw() {
     background(220);
     //color = map(meter.getLevel(), 0, 1, 0, 255);
-    //osc.freq(map(mouseX, 0, width, 100, 1000));
+    osc.freq(map(mouseX, 0, width, 100, 1000));
+    delay.delayTime(map(mouseY, 0, height, 0.1, 0.9));
     //fill(color);
     //ellipse(width/2, height/2, 100, 100);
     let spectrum = fft.analyze();
+
     //console.log(spectrum);
     for (let i = 0; i < spectrum.length; i++) {
         rect(0 + i * 10, spectrum[i] * 100, 10, spectrum[i]);

@@ -2,17 +2,13 @@ import * as Tone from "tone";
 
 class Oscillator {
   constructor(frequency, type) {
-    //this.osc.type = "sine";
     if (frequency && typeof frequency === "number") {
       this.frequency = frequency;
-      console.log('i received a number for freq');
     } else if (typeof frequency === "undefined"){
       this.frequency = 440;
-      //console.log('i didnt receive a number so i set oscillator to 440');
     }
     if (typeof type === "string") {
       this.type = type;
-      console.log('i received a string for type');
     }
     if (typeof type === "undefined") {
       this.type = "sine";

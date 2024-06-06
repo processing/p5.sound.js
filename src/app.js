@@ -22,18 +22,12 @@ p5.prototype.Amplitude = Amplitude;
 import FFT from './FFT';
 p5.prototype.FFT = FFT;
 
-import SawOsc from './Oscillator';
+import {SawOsc, SinOsc, TriOsc, SqrOsc} from './Oscillator';
 p5.prototype.SawOsc = SawOsc;
-/*
-import SinOsc from './Oscillator';
 p5.prototype.SinOsc = SinOsc;
-
-import TriOsc from './Oscillator';
 p5.prototype.TriOsc = TriOsc;
-
-import SqrOsc from './Oscillator';
 p5.prototype.SqrOsc = SqrOsc;
-*/
+
 
 import Noise from './Noise';
 p5.prototype.Noise = Noise;

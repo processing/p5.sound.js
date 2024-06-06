@@ -3,7 +3,7 @@ import * as Tone from "tone";
 class Oscillator {
   constructor(frequency, type) {
     //this.osc.type = "sine";
-    if (typeof frequency === "number") {
+    if (frequency && typeof frequency === "number") {
       this.frequency = frequency;
       console.log('i received a number for freq');
     } else if (typeof frequency === "undefined"){
@@ -20,7 +20,6 @@ class Oscillator {
     this.osc = new Tone.Oscillator().toDestination();
     this.osc.frequency.value = this.frequency;
     this.osc.type = this.type;
-    console.log('freq', this.osc.frequency.value, 'type', this.osc.type);
     this.osc.volume.value = -10;
   }
 
@@ -54,31 +53,32 @@ class Oscillator {
 }
 
 class SawOsc extends Oscillator {
-  constructor(frequency, type) {
-    this.type = "sawtooth";
-    super(frequency, type);
-    this.osc.type = this.type;
+  constructor(frequency) {
+    super(frequency);
+    this.osc.type = "sawtooth";
   }
 }
 
 class SqrOsc extends Oscillator {
-  constructor(freq) {
-    super(freq, 'square');
-    //console.log('SqrOsc');
+  constructor(frequency) {
+    super(frequency);
+    this.osc.type = "square";
   }
 }
 
 class TriOsc extends Oscillator {
-  constructor() {
-    super(this.osc.type = "triangle");
+  constructor(frequency) {
+    super(frequency);
+    this.osc.type = "triangle"
   }
 }
 
 class SinOsc extends Oscillator {
-  constructor() {
-    super(this.osc.type = "sine");
+  constructor(frequency) {
+    super(frequency);
+    this.osc.type = "sine"
   }
 }
 
 export default Oscillator;
-export { SawOsc };
+export { SawOsc, SqrOsc, TriOsc, SinOsc};

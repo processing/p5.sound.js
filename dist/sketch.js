@@ -15,10 +15,10 @@ function setup() {
     background(220);
     pan = new Panner();
     reverb = new Reverb();
-    osc = new Oscillator();
+    //osc = new Oscillator();
     env = new Envelope(0.1, 0.1, 1.0, 0.1);
     delay = new Delay(1.80, 1.997);
-    //osc = new SawOsc();
+    osc = new SawOsc(480);
     //console.log('osc', osc);
     //osc.setType('square');
     //mic = new AudioIn();
@@ -28,7 +28,7 @@ function setup() {
     //mic.connect(meter);
     //mic.connect(delay);
     osc.disconnect();
-    osc.connect(delay);
+    osc.connect(env);
     delay.disconnect();
     delay.connect(reverb);
     reverb.connect(fft);
@@ -49,7 +49,7 @@ function playSound() {
 function draw() {
     background(220);
     //color = map(meter.getLevel(), 0, 1, 0, 255);
-    osc.freq(map(mouseX, 0, width, 100, 1000));
+    //osc.freq(map(mouseX, 0, width, 100, 1000));
     //fill(color);
     //ellipse(width/2, height/2, 100, 100);
     let spectrum = fft.analyze();

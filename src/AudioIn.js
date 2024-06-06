@@ -25,9 +25,9 @@ class AudioIn {
         return this.audioIn;
       }
     
-      connect(destination) {
-        this.audioIn.connect(destination.getNode());
-      }
+    connect(destination) {
+    this.audioIn.connect(destination.getNode());
+    }
     
     disconnect() {
         this.audioIn.disconnect(Tone.Context.destination);

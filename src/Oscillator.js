@@ -1,8 +1,7 @@
 import * as Tone from "tone";
 
-/**
- *  <a href="/reference/#/Oscillator">Oscillator</a> 
- *  <p>Creates an oscillator.</p>
+/** 
+ *  Creates an oscillator.
  *  @class Oscillator
  *  @constructor
  *  @param {Number} [freq] frequency defaults to 440Hz
@@ -39,7 +38,6 @@ import * as Tone from "tone";
  *  function playOscillator() {
  *    // starting an oscillator on a user gesture will enable audio
  *    // in browsers that have a strict autoplay policy.
- *    // See also: userStartAudio();
  *    osc.start();
  *    playing = true;
  *  }
@@ -70,14 +68,78 @@ class Oscillator {
     this.osc.volume.value = -10;
   }
 
+  /**
+   * Adjusts the frequency of the oscillator.
+   * @method freq
+   * @param {Number} frequency frequency of the oscillator 
+   */
   freq(f) {
     this.osc.frequency.value = f;
   }
 
+  /**
+   * Sets the type of the oscillator. 
+   * @method setType
+   * @for Oscillator
+   * @param {String} type of the oscillator. Options:
+   *                         'sine' (default), 'triangle',
+   *                         'sawtooth', 'square'
+   */
   setType(t) {
     this.osc.type = t;
   }
 
+  /**
+     *  Returns  current type of oscillator eg. 'sine', 'triangle', 'sawtooth' or 'square'.
+     *  @method  getType
+     *  @for Oscillator
+     *  @returns {String} type of oscillator  eg . 'sine', 'triangle', 'sawtooth' or 'square'.
+  */
+  getType() {
+    return this.oscillator.type;
+  }
+
+  /**
+   * Connects the oscillator to a destination for processing.
+   * @method connect
+   * @for Oscillator
+   * @param {Object} unit A p5.sound processor or modulation index.
+   * @example
+   * <div>
+   * <code>
+   * let osc, reverb;
+   * let playing = false;
+   *
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   background(220);
+   *   cnv.mousePressed(playSound);
+   *   osc = new Oscillator();
+   *   reverb = new Reverb();
+   *   osc.disconnect();
+   *   osc.connect(reverb);
+   *   stroke(0);
+   *   textAlign(CENTER);
+   *   text('click to play', width/2, 20);
+   * }
+   *
+   * function playSound() {
+   *   if (!playing) {
+   *     osc.start();
+   *     playing = true;
+   *   } 
+   *   else {
+   *     osc.stop();
+   *     playing = false;
+   *   }
+   * }
+   *
+   * function draw() { 
+   *    osc.freq(map(mouseX, 0, width, 100, 1000));
+   * }
+   * </code>
+   * </div>
+   */
   connect(destination) {
     this.osc.connect(destination.getNode());
   }
@@ -85,20 +147,57 @@ class Oscillator {
   volume(v) {
     this.osc.volume.value = v;
   }
-
+  /**
+   * Disconnects the oscillator from the output destination.
+   * @method disconnect
+   * @for Oscillator
+   */
   disconnect() {
     this.osc.disconnect(Tone.Context.destination);
   }
-
+  /**
+   * Starts the oscillator. Usually from user gesture.
+   * @method start
+   * @for Oscillator
+   * @example
+   * <div>
+   * <code>
+   * let osc;
+   * 
+   * function setup() {
+   *    let cnv = createCanvas(100, 100);
+   *    cnv.mousePressed(startOscillator);
+   *    osc = new Oscillator();
+   * }
+   * 
+   * function startOscillator() {
+   *   osc.start();
+   * }
+   * </code>
+   * </div>
+   */
   start() {
     this.osc.start();
   }
 
+  /**
+   * Stops the oscillator.
+   * @method stop
+   * @for Oscillator
+   */
   stop() {
     this.osc.stop();
   }
 }
 
+/**
+ *  Creates a sawtooth oscillator.
+ *
+ *  @class SawOsc
+ *  @constructor
+ *  @extends Oscillator
+ *  @param {Number} [freq] Set the frequency
+ */
 class SawOsc extends Oscillator {
   constructor(frequency) {
     super(frequency);
@@ -106,6 +205,14 @@ class SawOsc extends Oscillator {
   }
 }
 
+/**
+ *  Creates a square oscillator.
+ *
+ *  @class SqrOsc
+ *  @constructor
+ *  @extends Oscillator
+ *  @param {Number} [freq] Set the frequency
+ */
 class SqrOsc extends Oscillator {
   constructor(frequency) {
     super(frequency);
@@ -113,6 +220,14 @@ class SqrOsc extends Oscillator {
   }
 }
 
+/**
+ *  Creates a triangle oscillator.
+ *
+ *  @class TriOsc
+ *  @constructor
+ *  @extends Oscillator
+ *  @param {Number} [freq] Set the frequency
+ */
 class TriOsc extends Oscillator {
   constructor(frequency) {
     super(frequency);
@@ -120,6 +235,14 @@ class TriOsc extends Oscillator {
   }
 }
 
+/**
+ *  Creates a sine oscillator.
+ *
+ *  @class SinOsc
+ *  @constructor
+ *  @extends Oscillator
+ *  @param {Number} [freq] Set the frequency
+ */
 class SinOsc extends Oscillator {
   constructor(frequency) {
     super(frequency);

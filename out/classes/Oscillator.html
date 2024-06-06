@@ -39,6 +39,10 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/Oscillator.html">Oscillator</a></li>
+                                <li><a href="../classes/SawOsc.html">SawOsc</a></li>
+                                <li><a href="../classes/SinOsc.html">SinOsc</a></li>
+                                <li><a href="../classes/SqrOsc.html">SqrOsc</a></li>
+                                <li><a href="../classes/TriOsc.html">TriOsc</a></li>
                             </ul>
                 
                 
@@ -89,8 +93,8 @@
 
 
 <div class="box intro">
-    <p><a href="/reference/#/Oscillator">Oscillator</a></p>
-<p>Creates an oscillator.</p>
+    <p>Creates an oscillator.</p>
+
 </div>
 
     <div class="constructor">
@@ -193,7 +197,6 @@ osc.freq(freq);
 <p>function playOscillator() {
 // starting an oscillator on a user gesture will enable audio
 // in browsers that have a strict autoplay policy.
-// See also: userStartAudio();
 osc.start();
 playing = true;
 }</p>
@@ -213,17 +216,412 @@ playing = false;
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_connect">connect</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_disconnect">disconnect</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_freq">freq</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getType">getType</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setType">setType</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_start">start</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_stop">stop</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_connect" class="method item">
+    <h3 class="name"><code>connect</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>unit</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Oscillator.js.html#l102"><code>src&#x2F;Oscillator.js:102</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Connects the oscillator to a destination for processing.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">unit</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>A p5.sound processor or modulation index.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <div>
+<code>
+let osc, reverb;
+let playing = false;
+<p>function setup() {
+let cnv = createCanvas(100, 100);
+background(220);
+cnv.mousePressed(playSound);
+osc = new Oscillator();
+reverb = new Reverb();
+osc.disconnect();
+osc.connect(reverb);
+stroke(0);
+textAlign(CENTER);
+text('click to play', width/2, 20);
+}</p>
+<p>function playSound() {
+if (!playing) {
+osc.start();
+playing = true;
+}
+else {
+osc.stop();
+playing = false;
+}
+}</p>
+<p>function draw() {
+osc.freq(map(mouseX, 0, width, 100, 1000));
+}
+</code></p>
+</div>
+            </div>
+        </div>
+</div>
+<div id="method_disconnect" class="method item">
+    <h3 class="name"><code>disconnect</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Oscillator.js.html#l150"><code>src&#x2F;Oscillator.js:150</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Disconnects the oscillator from the output destination.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_freq" class="method item">
+    <h3 class="name"><code>freq</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>frequency</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Oscillator.js.html#l71"><code>src&#x2F;Oscillator.js:71</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Adjusts the frequency of the oscillator.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">frequency</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>frequency of the oscillator</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_getType" class="method item">
+    <h3 class="name"><code>getType</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Oscillator.js.html#l92"><code>src&#x2F;Oscillator.js:92</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns  current type of oscillator eg. 'sine', 'triangle', 'sawtooth' or 'square'.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>type of oscillator  eg . 'sine', 'triangle', 'sawtooth' or 'square'.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setType" class="method item">
+    <h3 class="name"><code>setType</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>type</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Oscillator.js.html#l80"><code>src&#x2F;Oscillator.js:80</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Sets the type of the oscillator.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">type</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <p>of the oscillator. Options:
+'sine' (default), 'triangle',
+'sawtooth', 'square'</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_start" class="method item">
+    <h3 class="name"><code>start</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Oscillator.js.html#l158"><code>src&#x2F;Oscillator.js:158</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Starts the oscillator. Usually from user gesture.</p>
+
+    </div>
+
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <div>
+<code>
+let osc;
+<p>function setup() {
+let cnv = createCanvas(100, 100);
+cnv.mousePressed(startOscillator);
+osc = new Oscillator();
+}</p>
+<p>function startOscillator() {
+osc.start();
+}
+</code></p>
+</div>
+            </div>
+        </div>
+</div>
+<div id="method_stop" class="method item">
+    <h3 class="name"><code>stop</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Oscillator.js.html#l183"><code>src&#x2F;Oscillator.js:183</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Stops the oscillator.</p>
+
+    </div>
+
+
+
+
+</div>
+            </div>
 
 
 

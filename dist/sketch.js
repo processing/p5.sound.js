@@ -33,6 +33,7 @@ function setup() {
     delay.disconnect();
     delay.connect(reverb);
     reverb.connect(fft);
+    fft.samples();
     //console.log(fft);
     //osc.connect(fft);
     //env.connect(meter);

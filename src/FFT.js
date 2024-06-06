@@ -3,9 +3,9 @@ import * as Tone from "tone";
 /*
 fft example
 let osc;
-let cnv;
+
 function setup(){
-    cnv = createCanvas(100,100);
+    let cnv = createCanvas(100,100);
     cnv.mouseClicked(togglePlay);
     fft = new FFT(32);
     osc = new TriOsc(440);
@@ -25,7 +25,16 @@ function setup(){
       rect(x, height, width / spectrum.length, h )
     }
   
-    //let waveform = fft.waveform();
+    let waveform = fft.samples();
+    noFill();
+    beginShape();
+    stroke(20);
+    for (let i = 0; i < waveform.length; i++){
+        let x = map(i, 0, waveform.length, 0, width);
+        let y = map( waveform[i], -1, 1, 0, height);
+        vertex(x,y);
+    }
+    endShape();
     
     text('tap to play', 20, 20);
     osc.freq(map(mouseX, 0, width, 100, 2000));
@@ -60,10 +69,9 @@ class FFT {
     analyze() {
         return this.analyzer.getValue();
     }
-
-    waveform() {
-        console.log('waveform');
-        //return this.waveform.getValue();
+    //previously called the 'waveform()' method in p5.sound, changed to 'samples()' because Waveform() is a class in Tone.js
+    samples() {
+        return this.waveform.getValue();
     }
 }
 

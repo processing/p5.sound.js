@@ -2,10 +2,10 @@ import * as Tone from "tone";
 
 class Envelope {
   constructor(a, d, s, r) {
-    this.attack = a || 0.1;
-    this.decay = d || 0.2;
-    this.sustain = s || 0.5;
-    this.release = r || 0.8;
+    this.attack = a || 0.0;
+    this.decay = d || 0.12;
+    this.sustain = s || 0.1;
+    this.release = r || 0.2;
 
     this.envelope = new Tone.AmplitudeEnvelope({
       attack: this.attack,
@@ -16,8 +16,7 @@ class Envelope {
   }
 
   play() {
-    console.log('i did it!');
-    this.envelope.triggerAttack();
+    this.envelope.triggerAttackRelease(this.sustain);
   }
 
   getNode() {

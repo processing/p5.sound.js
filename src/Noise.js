@@ -2,9 +2,11 @@ import * as Tone from "tone";
 
 class Noise {
   constructor(type) {
-    this.noise= new Tone.Noise().toDestination();
-    this.noise.type = "pink";
-    this.noise.volume.value = -10;
+    if (typeof type === "undefined") {
+      type = "white";
+    }
+    this.noise = new Tone.Noise().toDestination();
+    this.noise.type = type;
   }
 
   type(t) {

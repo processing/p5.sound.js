@@ -1,64 +1,29 @@
-let osc;
-let cnv;
-let mic; 
-let meter;
-let delay;
-let env;
-let pan;
-let fft;
-let reverb;
-
+let noise, env, reverb;
+let randomTime = 0;
+  
 function setup() {
-    cnv = createCanvas(400, 400);
-    fft = new FFT(256);
-    cnv.mousePressed(playSound);
-    background(220);
-    pan = new Panner();
-    reverb = new Reverb();
-    //osc = new Oscillator();
-    env = new Envelope(0.1, 0.1, 1.0, 0.1);
-    delay = new Delay(1.80, 1.997);
-    osc = new SawOsc(480);
-    //console.log('osc', osc);
-    //osc.setType('square');
-    //mic = new AudioIn();
-    //meter = new Amplitude();
-    
-    //mic.disconnect();
-    //mic.connect(meter);
-    //mic.connect(delay);
-    osc.disconnect();
-    osc.connect(fft);
-    osc.connect(delay);
-    delay.disconnect();
-    delay.connect(reverb);
-    reverb.connect(fft);
-    fft.samples();
-    //console.log(fft);
-    //osc.connect(fft);
-    //env.connect(meter);
-    //env.connect(delay);
-    
+   let cnv = createCanvas(100, 100);
+   cnv.mousePressed(playSound);
+   noise = new Noise();
+   env = new Envelope(0.01, 0.0, 0.1, 1.2);
+   reverb = new Reverb(2000);
+   noise.disconnect();
+   noise.connect(env);
+   env.disconnect();
+   env.connect(reverb);
+   noise.start();
+   textAlign(CENTER);
+   text('click to play', width/2, 20);
 }
 
 function playSound() {
-    //mic.start();
-    osc.start();
-    env.play();
-    //console.log('play');
+   randomTime = random(0.1, 3);
+   reverb.set(randomTime);
+   env.play();
 }
 
 function draw() {
-    background(220);
-    //color = map(meter.getLevel(), 0, 1, 0, 255);
-    osc.freq(map(mouseX, 0, width, 100, 1000));
-    delay.delayTime(map(mouseY, 0, height, 0.1, 0.9));
-    //fill(color);
-    //ellipse(width/2, height/2, 100, 100);
-    let spectrum = fft.analyze();
-
-    //console.log(spectrum);
-    for (let i = 0; i < spectrum.length; i++) {
-        rect(0 + i * 10, spectrum[i] * 100, 10, spectrum[i]);
-    }
+   background(220);
+   text('click to play', width/2, 20);
+   text('decay ' + round(randomTime, 2), width/2, 40);
 }

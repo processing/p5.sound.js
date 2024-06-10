@@ -1,11 +1,11 @@
 import * as Tone from "tone";
 
 class Envelope {
-  constructor(a, d, s, r) {
-    this.attack = a || 0.0;
-    this.decay = d || 0.12;
-    this.sustain = s || 0.1;
-    this.release = r || 0.2;
+  constructor(a = 0.1, d = 0.12, s = 0.1, r = 0.2) {
+    this.attack = a;
+    this.decay = d;
+    this.sustain = s;
+    this.release = r;
 
     this.envelope = new Tone.AmplitudeEnvelope({
       attack: this.attack,

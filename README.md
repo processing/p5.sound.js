@@ -26,8 +26,19 @@ Examples for Reference Pages for each class done
 June 21st - 
 Pre-release candidate and integration with p5 website done
 
+to install dependencies
+```
+npm install
+```
+
+to build reference pages
+```
+yuidoc .
+```
+
 to build library
 ```
 npm run build
 ```
+
 

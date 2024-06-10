@@ -141,7 +141,17 @@ class Oscillator {
    * </div>
    */
   connect(destination) {
+    //console.log("other node: " + destination.getNode());
     this.osc.connect(destination.getNode());
+    /*
+    if (destination instanceof Tone.Signal) {
+      // If the destination is a Tone.Signal (which Tone.Param inherits from), connect the oscillator's output to it
+      this.osc.connect(destination.getNode());
+    } else  {
+      console.log(destination);// If the destination is an audio node, connect the oscillator to the audio node
+      this.osc.connect(destination);
+    }
+    */
   }
 
   volume(v) {

@@ -1,5 +1,37 @@
 import * as Tone from "tone";
-
+/**
+ * Creates an Amplitude object for getting loudness.
+ * @class Amplitude
+ * @example
+ * <div>
+ * <code>
+ * let sound, amp, cnv;
+ * 
+ * function preload() {
+ *   //replace this sound with something local with rights to distribute
+ *   sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+ * }
+ * 
+ * function setup() {
+ *   cnv = createCanvas(100, 100);
+ *   cnv.mousePressed(playSound);
+ *   amp = new Amplitude();
+ *   sound.connect(amp);
+ * }
+ * 
+ * function playSound() {
+ *   sound.play();
+ * }
+ * 
+ * function draw() {
+ *   background(220);
+ *   let level = amp.getLevel();
+ *   level = map(level, 0, 0.5, 0, 255);
+ *   fill(level, 0, 0);
+ * }
+ * 
+ * 
+ */
 class Amplitude {
   constructor() {
     this.amplitude = new Tone.Meter({normalRange:true});
@@ -16,11 +48,11 @@ class Amplitude {
   }
 
   getNode() {
-    return this.envelope;
+    return this.amplitude;
   }
 
   connect(destination) {
-    this.envelope.connect(destination.getNode());
+    this.amplitude.connect(destination.getNode());
   }
   
   getLevel() {

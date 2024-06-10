@@ -4,6 +4,12 @@
 import Oscillator from './Oscillator';
 p5.prototype.Oscillator = Oscillator;
 
+import {SawOsc, SinOsc, TriOsc, SqrOsc} from './Oscillator';
+p5.prototype.SawOsc = SawOsc;
+p5.prototype.SinOsc = SinOsc;
+p5.prototype.TriOsc = TriOsc;
+p5.prototype.SqrOsc = SqrOsc;
+
 import Envelope from './Envelope';
 p5.prototype.Envelope = Envelope;
 
@@ -21,13 +27,6 @@ p5.prototype.Amplitude = Amplitude;
 
 import FFT from './FFT';
 p5.prototype.FFT = FFT;
-
-import {SawOsc, SinOsc, TriOsc, SqrOsc} from './Oscillator';
-p5.prototype.SawOsc = SawOsc;
-p5.prototype.SinOsc = SinOsc;
-p5.prototype.TriOsc = TriOsc;
-p5.prototype.SqrOsc = SqrOsc;
-
 
 import Noise from './Noise';
 p5.prototype.Noise = Noise;

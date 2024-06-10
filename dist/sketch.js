@@ -1,29 +1,38 @@
-let noise, env, reverb;
-let randomTime = 0;
-  
+let sound, amp, cnv;
+let osc;
+let delay;
+function preload() {
+  //replace this sound with something local with rights to distribute
+  sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+}
+
 function setup() {
-   let cnv = createCanvas(100, 100);
-   cnv.mousePressed(playSound);
-   noise = new Noise();
-   env = new Envelope(0.01, 0.0, 0.1, 1.2);
-   reverb = new Reverb(2000);
-   noise.disconnect();
-   noise.connect(env);
-   env.disconnect();
-   env.connect(reverb);
-   noise.start();
-   textAlign(CENTER);
-   text('click to play', width/2, 20);
+  cnv = createCanvas(100, 100);
+  cnv.mousePressed(playSound);
+  amp = new Amplitude();
+  //console.log(amp);
+   osc = new SinOsc();
+   delay = new Delay();
+   osc.connect(amp);
+   osc.connect(delay);
+  
+ 
+  //osc.connect(amp);
+  //sound.disconnect();
+  
 }
 
 function playSound() {
-   randomTime = random(0.1, 3);
-   reverb.set(randomTime);
-   env.play();
+   //osc.start();
+  console.log(sound);
+  sound.connect(amp);
+  sound.play();
+  //sound.connect(amp);
 }
 
 function draw() {
-   background(220);
-   text('click to play', width/2, 20);
-   text('decay ' + round(randomTime, 2), width/2, 40);
-}
+  let level = amp.getLevel();
+  level = map(level, 0, 0.5, 0, 255);
+fill(level, 0, 0);
+   background(level, 0, 0);
+ }

@@ -1,6 +1,3 @@
-//import audioContext from './AudioContext';
-//p5.prototype.getAudioContext = audioContext.getAudioContext;
-
 import Oscillator from './Oscillator';
 p5.prototype.Oscillator = Oscillator;
 
@@ -21,6 +18,9 @@ p5.prototype.Reverb = Reverb;
 
 import Biquad from './Biquad';
 p5.prototype.Biquad = Biquad;
+
+import Gain from './Gain';
+p5.prototype.Gain = Gain;
 
 import Amplitude from './Amplitude';
 p5.prototype.Amplitude = Amplitude;
@@ -45,3 +45,6 @@ p5.prototype.registerPreloadMethod('loadSound', p5.prototype);
 
 import AudioIn from './AudioIn';
 p5.prototype.AudioIn = AudioIn;
+
+//import Recorder from './Recorder';
+//p5.prototype.Recorder = Recorder;

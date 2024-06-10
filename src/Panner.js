@@ -1,5 +1,5 @@
 import * as Tone from "tone";
-const clamp = (val, min =-1, max =1) => Math.min(Math.max(val, min), max);
+import { clamp } from './Utils';
 
 /**
  * Creates a panner.
@@ -13,12 +13,7 @@ class Panner {
   }
 
   pan(p) {
-    if (typeof p === "undefined") {
-      console.log('haha');
-      return this.panner.pan;
-    }
-
-    this.panner.pan.rampTo(clamp(p), 0.01);
+    this.panner.pan.rampTo(clamp(p, -1, 1), 0.01);
   }
 
   getNode() {

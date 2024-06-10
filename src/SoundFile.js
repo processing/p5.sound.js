@@ -1,14 +1,30 @@
 import * as Tone from "tone";
 
 function loadSound (url) {
-  let player;
-  const buffer = new Tone.ToneAudioBuffer(url, () => {
-    console.log('buffer loaded');
+  
+  const encoded =  encodeURI(url);
+  //encoded = encodeURI(encoded);
+  console.log(encoded);
+  const buffer = new Tone.ToneAudioBuffer(encoded, () => {
+    console.log('this buffer was loaded ' + encoded);
   });
-  player = new SoundFile(buffer, console.log('buffer loaded'));
+  const player = new SoundFile(buffer, console.log('none'));
   self._decrementPreload();
   return player;
 }
+
+/*
+function loadSound (url) {
+  let player;
+  const buffer = new Tone.ToneAudioBuffer(url, () => {
+    console.log('buffer loaded');
+    player = new SoundFile(buffer, () => {
+      self._decrementPreload();
+    });
+  });
+  return player;
+}
+*/
 
 class SoundFile {
   constructor(buffer) {
@@ -21,6 +37,7 @@ class SoundFile {
   }
 
   connect(destination) {
+    console.log(destination.getNode());
     this.soundfile.connect(destination.getNode());
   }
 

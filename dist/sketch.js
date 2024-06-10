@@ -1,3 +1,4 @@
+
 let sound, amp, cnv;
 let osc;
 let delay;
@@ -5,7 +6,8 @@ let filter;
 let gain;
 function preload() {
   //replace this sound with something local with rights to distribute
-  sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+  //sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+  sound = loadSound("assets/el jefe.mp3");
 }
 
 function setup() {

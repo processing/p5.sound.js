@@ -1,6 +1,5 @@
 import * as Tone from "tone";
-
-const clamp = (val, min=-1, max=1) => Math.min(Math.max(val, min), max)
+import { clamp } from "./Utils";
 
 class Panner3D {
   constructor() {
@@ -33,11 +32,11 @@ class Panner3D {
   }
 
   positionX(p) {
-    this.panner3d.positionX.rampTo(clamp(p), 0.01);
+    this.panner3d.positionX.rampTo(clamp(p, -1, 1), 0.01);
   }
 
   positionY(p) {
-    this.panner3d.positionY.rampTo(clamp(p), 0.01);
+    this.panner3d.positionY.rampTo(clamp(p, -1, 1), 0.01);
   }
 
   PositionZ(p) {

@@ -1,5 +1,5 @@
 import * as Tone from "tone";
-const clamp = (val, min =-1, max =1) => Math.min(Math.max(val, min), max)
+const clamp = (val, min =-1, max =1) => Math.min(Math.max(val, min), max);
 
 /**
  * Creates a panner.

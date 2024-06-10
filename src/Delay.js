@@ -1,4 +1,5 @@
 import * as Tone from "tone";
+const clamp = (val, min =0, max =1) => Math.min(Math.max(val, min), max);
 
 class Delay {
   constructor(d, f) {
@@ -15,14 +16,14 @@ class Delay {
 
   delayTime(value) {
     if (value !== undefined) {
-      this.delay.delayTime.value = value;
+      this.delay.delayTime.rampTo(clamp(value), 0.1);
     }
     return this.delay.delayTime.value;
   }
 
   feedback(value) {
     if (value !== undefined) {
-      this.delay.feedback.value = value;
+      this.delay.feedback.rampTo(clamp(value), 0.1);
     }
     return this.delay.feedback.value;
   }

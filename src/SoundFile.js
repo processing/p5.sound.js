@@ -1,35 +1,19 @@
 import * as Tone from "tone";
 
-function loadSound (url) {
-  
-  const encoded =  encodeURI(url);
-  //encoded = encodeURI(encoded);
-  console.log(encoded);
-  const buffer = new Tone.ToneAudioBuffer(encoded, () => {
-    console.log('this buffer was loaded ' + encoded);
-  });
-  const player = new SoundFile(buffer, console.log('none'));
-  self._decrementPreload();
-  return player;
-}
-
-/*
-function loadSound (url) {
-  let player;
-  const buffer = new Tone.ToneAudioBuffer(url, () => {
-    console.log('buffer loaded');
-    player = new SoundFile(buffer, () => {
+function loadSound (path) {
+  let player = new SoundFile(
+    path,
+    function () { 
       self._decrementPreload();
-    });
-  });
+    }
+  );
   return player;
 }
-*/
 
 class SoundFile {
-  constructor(buffer) {
-    this.soundfile = new Tone.Player(buffer).toDestination();
-    this.soundfile.volume.value = -10;
+  constructor(buffer, callback) {
+    this.soundfile = new Tone.Player(buffer, callback).toDestination();
+    this.soundfile.volume.value = 0;
   }
 
   getNode() {
@@ -37,7 +21,6 @@ class SoundFile {
   }
 
   connect(destination) {
-    console.log(destination.getNode());
     this.soundfile.connect(destination.getNode());
   }
 

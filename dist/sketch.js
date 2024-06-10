@@ -6,8 +6,8 @@ let filter;
 let gain;
 function preload() {
   //replace this sound with something local with rights to distribute
-  //sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-  sound = loadSound("assets/el jefe.mp3");
+  sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+  //sound = loadSound("assets/el jefe.mp3");
 }
 
 function setup() {
@@ -22,7 +22,8 @@ function setup() {
   //console.log(amp);
    //osc = new SinOsc();
   delay = new Delay();
-  
+  sound.connect(delay);
+  delay.connect(amp);
   //filter.disconnect();
   //filter.connect(gain);
   //gain.connect(delay);
@@ -46,8 +47,7 @@ function playSound() {
   //filter.connect(gain);
   //gain.connect(delay);
   //delay.connect(amp)
-  sound.connect(delay);
-  delay.connect(amp);
+  
   sound.play();
   //sound.connect(amp);
 }

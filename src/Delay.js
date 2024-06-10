@@ -1,18 +1,31 @@
 import * as Tone from "tone";
 
 class Delay {
-  constructor() {
-    this.delay= new Tone.FeedbackDelay(0.250, 0.2).toDestination();
+  constructor(d, f) {
+    if (typeof d === "undefined") {
+      d = 0.250;
+    }
+    if (typeof f === "undefined") {
+      f = 0.2;
+    }
+    this.d = d;
+    this.f = f;
+    this.delay = new Tone.FeedbackDelay(this.d, this.f).toDestination();
   }
 
-  delayTime(t) {
-    this.delay.delayTime.value = t;
+  delayTime(value) {
+    if (value !== undefined) {
+      this.delay.delayTime.value = value;
+    }
+    return this.delay.delayTime.value;
   }
 
-  feedback(f) {
-    this.delay.feedback.value = f;
+  feedback(value) {
+    if (value !== undefined) {
+      this.delay.feedback.value = value;
+    }
+    return this.delay.feedback.value;
   }
-
   connect(destination) {
     this.delay.connect(destination.getNode());
   }

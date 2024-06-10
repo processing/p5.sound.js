@@ -11,10 +11,10 @@ function setup() {
   cnv.mousePressed(playSound);
   amp = new Amplitude();
   //console.log(amp);
-   osc = new SinOsc();
-   delay = new Delay();
-   osc.connect(amp);
-   osc.connect(delay);
+   //osc = new SinOsc();
+ delay = new Delay();
+   console.log(delay);
+   
   
  
   //osc.connect(amp);
@@ -24,8 +24,10 @@ function setup() {
 
 function playSound() {
    //osc.start();
-  console.log(sound);
-  sound.connect(amp);
+
+  sound.connect(delay);
+  delay.connect(amp);
+  
   sound.play();
   //sound.connect(amp);
 }
@@ -34,5 +36,12 @@ function draw() {
   let level = amp.getLevel();
   level = map(level, 0, 0.5, 0, 255);
 fill(level, 0, 0);
+let dtime = map(mouseX, 0, width, 0, 1);
+   console.log(dtime);
+
+   delay.delayTime(dtime);
+   let f = map(mouseY, 0, height, 0, .9);
+   delay.feedback(f);
    background(level, 0, 0);
+   
  }

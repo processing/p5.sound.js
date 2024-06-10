@@ -1,5 +1,19 @@
 import * as Tone from "tone";
 
+/**
+ * An amplitude envelope class.
+ * @class Envelope
+ * @constructor
+ * @param {Number} [a] - attack time
+ * @param {Number} [d] - decay time
+ * @param {Number} [s] - sustain time
+ * @param {Number} [r] - release time
+ * @example
+ * <div>
+ * <code>
+ *  
+ */
+
 class Envelope {
   constructor(a = 0.1, d = 0.12, s = 0.1, r = 0.2) {
     this.attack = a;

@@ -1,5 +1,8 @@
 import * as Tone from "tone";
 
+/**
+ * Generate a buffer with random values.
+ */
 class Noise {
   constructor(type) {
     if (typeof type === "undefined") {

@@ -1,7 +1,7 @@
 import * as Tone from "tone";
 
 /**
- * Creates an FFT object for analyzing audio.
+ * Analyze the frequency of sound. Returns results from the frequency spectrum or time domain (waveform).
  * @class FFT
  * @constructor
  * @param {Number} [fftSize] FFT anaylsis size. Must be a power of two between 16 and 1024. Defaults to 32.

@@ -1,6 +1,9 @@
 import * as Tone from "tone";
 import { clamp } from './Utils';
 
+/**
+ * A delay effect with parameters for feedback, and delay time.
+ */
 class Delay {
   constructor(d = 0.250, f = 0.2)  {
     this.d = d;

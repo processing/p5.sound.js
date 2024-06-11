@@ -1,5 +1,8 @@
 import * as Tone from "tone";
 
+/**
+ * Get sound from an input source, typically a computer microphone.
+ */
 class AudioIn {
     constructor() {
         this.audioIn = new Tone.UserMedia().toDestination();

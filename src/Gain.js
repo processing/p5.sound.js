@@ -1,5 +1,8 @@
 import * as Tone from "tone";
 
+/**
+ * Generate a gain node.
+ */
 class Gain {
   constructor() {
     //proof constructor so that if you give string it will set type but if you give number it will set cutoff, if you give both it will set both

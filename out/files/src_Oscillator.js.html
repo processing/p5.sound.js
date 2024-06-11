@@ -93,7 +93,7 @@
 import * as Tone from &quot;tone&quot;;
 
 /** 
- * Creates an oscillator.
+ * Generate Sine, Triangle, Square and Sawtooth waveforms.
  * @class Oscillator
  * @constructor
  * @param {Number} [freq] frequency defaults to 440Hz
@@ -233,17 +233,7 @@ class Oscillator {
    * &lt;/div&gt;
    */
   connect(destination) {
-    //console.log(&quot;other node: &quot; + destination.getNode());
     this.osc.connect(destination.getNode());
-    /*
-    if (destination instanceof Tone.Signal) {
-      // If the destination is a Tone.Signal (which Tone.Param inherits from), connect the oscillator&#x27;s output to it
-      this.osc.connect(destination.getNode());
-    } else  {
-      console.log(destination);// If the destination is an audio node, connect the oscillator to the audio node
-      this.osc.connect(destination);
-    }
-    */
   }
 
   volume(v) {

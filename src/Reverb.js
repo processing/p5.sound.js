@@ -1,7 +1,7 @@
 import * as Tone from "tone";
 
 /**
- * Creates a reverb effect.
+ * Add reverb to a sound by specifying duration and decay.
  * @class Reverb
  * @constructor
  * @param {Number} [time] Set the decay time of the reverb

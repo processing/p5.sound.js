@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>SqrOsc</title>
+    <title>Reverb</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -86,15 +86,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>SqrOsc Class</h1>
+<h1>Reverb Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends <a href="../classes/Oscillator.html" class="crosslink">Oscillator</a>
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_Oscillator.js.html#l209"><code>src&#x2F;Oscillator.js:209</code></a>
+            Defined in: <a href="../files/src_Reverb.js.html#l3"><code>src&#x2F;Reverb.js:3</code></a>
         </div>
 
 
@@ -102,19 +99,19 @@
 
 
 <div class="box intro">
-    <p>Creates a square oscillator.</p>
+    <p>Add reverb to a sound by specifying duration and decay.</p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_SqrOsc" class="method item">
-    <h3 class="name"><code>SqrOsc</code></h3>
+<div id="method_Reverb" class="method item">
+    <h3 class="name"><code>Reverb</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[freq]</code>
+                        <code class="optional">[time]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -129,7 +126,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_Oscillator.js.html#l209"><code>src&#x2F;Oscillator.js:209</code></a>
+        <a href="../files/src_Reverb.js.html#l3"><code>src&#x2F;Reverb.js:3</code></a>
         </p>
 
 
@@ -145,13 +142,13 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[freq]</code>
+                        <code class="param-name optional">[time]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>Set the frequency</p>
+                        <p>Set the decay time of the reverb</p>
 
                     </div>
 
@@ -161,6 +158,41 @@
 
 
 
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <div>
+<code>
+let osc, env, reverb;
+let randomTime = 0;
+<p>function setup() {
+let cnv = createCanvas(100, 100);
+cnv.mousePressed(playSound);
+noise = new Noise();
+env = new Envelope();
+reverb = new Reverb();
+noise.disconnect();
+noise.connect(env);
+env.disconnect();
+env.connect(reverb);
+noise.start();
+textAlign(CENTER);
+}</p>
+<p>function playSound() {
+randomTime = random(0.1, 3);
+Reverb(randomTime);
+env.play();
+}</p>
+<p>function draw() {
+background(220);
+text('click to play', width/2, 20);
+text('decay ' + round(randomTime, 2), width/2, 40);
+}
+</code></p>
+</div>
+            </div>
+        </div>
 </div>
     </div>
 
@@ -178,33 +210,17 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited">
+                    <ul class="index-list methods">
+                            <li class="index-item method">
                                 <a href="#method_connect">connect</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_disconnect">disconnect</a>
 
                             </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_freq">freq</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_getType">getType</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_setType">setType</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_start">start</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_stop">stop</a>
+                            <li class="index-item method">
+                                <a href="#method_set">set</a>
 
                             </li>
                     </ul>
@@ -217,7 +233,7 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_connect" class="method item inherited">
+<div id="method_connect" class="method item">
     <h3 class="name"><code>connect</code></h3>
 
         <div class="args">
@@ -236,9 +252,9 @@
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Oscillator.html#method_connect">Oscillator</a>:
-        <a href="../files/src_Oscillator.js.html#l102"><code>src&#x2F;Oscillator.js:102</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_Reverb.js.html#l62"><code>src&#x2F;Reverb.js:62</code></a>
         </p>
 
 
@@ -246,7 +262,7 @@
     </div>
 
     <div class="description">
-        <p>Connects the oscillator to a destination for processing.</p>
+        <p>Connects the Reverb to a destination for processing.</p>
 
     </div>
 
@@ -270,45 +286,8 @@
 
 
 
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <div>
-<code>
-let osc, reverb;
-let playing = false;
-<p>function setup() {
-let cnv = createCanvas(100, 100);
-background(220);
-cnv.mousePressed(playSound);
-osc = new Oscillator();
-reverb = new Reverb();
-osc.disconnect();
-osc.connect(reverb);
-stroke(0);
-textAlign(CENTER);
-text('click to play', width/2, 20);
-}</p>
-<p>function playSound() {
-if (!playing) {
-osc.start();
-playing = true;
-}
-else {
-osc.stop();
-playing = false;
-}
-}</p>
-<p>function draw() {
-osc.freq(map(mouseX, 0, width, 100, 1000));
-}
-</code></p>
 </div>
-            </div>
-        </div>
-</div>
-<div id="method_disconnect" class="method item inherited">
+<div id="method_disconnect" class="method item">
     <h3 class="name"><code>disconnect</code></h3>
 
         <span class="paren">()</span>
@@ -321,9 +300,9 @@ osc.freq(map(mouseX, 0, width, 100, 1000));
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Oscillator.html#method_disconnect">Oscillator</a>:
-        <a href="../files/src_Oscillator.js.html#l151"><code>src&#x2F;Oscillator.js:151</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_Reverb.js.html#l72"><code>src&#x2F;Reverb.js:72</code></a>
         </p>
 
 
@@ -331,7 +310,7 @@ osc.freq(map(mouseX, 0, width, 100, 1000));
     </div>
 
     <div class="description">
-        <p>Disconnects the oscillator from the output destination.</p>
+        <p>Disconnects the Reverb from the output destination.</p>
 
     </div>
 
@@ -339,13 +318,13 @@ osc.freq(map(mouseX, 0, width, 100, 1000));
 
 
 </div>
-<div id="method_freq" class="method item inherited">
-    <h3 class="name"><code>freq</code></h3>
+<div id="method_set" class="method item">
+    <h3 class="name"><code>set</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>frequency</code>
+                        <code>t</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -358,9 +337,9 @@ osc.freq(map(mouseX, 0, width, 100, 1000));
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Oscillator.html#method_freq">Oscillator</a>:
-        <a href="../files/src_Oscillator.js.html#l71"><code>src&#x2F;Oscillator.js:71</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_Reverb.js.html#l48"><code>src&#x2F;Reverb.js:48</code></a>
         </p>
 
 
@@ -368,7 +347,7 @@ osc.freq(map(mouseX, 0, width, 100, 1000));
     </div>
 
     <div class="description">
-        <p>Adjusts the frequency of the oscillator.</p>
+        <p>Set the decay time of the reverb.</p>
 
     </div>
 
@@ -377,198 +356,18 @@ osc.freq(map(mouseX, 0, width, 100, 1000));
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">frequency</code>
+                        <code class="param-name">t</code>
                         <span class="type">Number</span>
 
 
                     <div class="param-description">
-                        <p>frequency of the oscillator</p>
+                        <p>Decay time of the reverb</p>
 
                     </div>
 
                 </li>
             </ul>
         </div>
-
-
-
-</div>
-<div id="method_getType" class="method item inherited">
-    <h3 class="name"><code>getType</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Oscillator.html#method_getType">Oscillator</a>:
-        <a href="../files/src_Oscillator.js.html#l92"><code>src&#x2F;Oscillator.js:92</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Returns current type of oscillator eg. 'sine', 'triangle', 'sawtooth' or 'square'.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">String</span>:
-                    <p>type of oscillator  eg. 'sine', 'triangle', 'sawtooth' or 'square'.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setType" class="method item inherited">
-    <h3 class="name"><code>setType</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>type</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Oscillator.html#method_setType">Oscillator</a>:
-        <a href="../files/src_Oscillator.js.html#l80"><code>src&#x2F;Oscillator.js:80</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Sets the type of the oscillator.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">type</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>of the oscillator. Options:
-'sine' (default), 'triangle',
-'sawtooth', 'square'</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_start" class="method item inherited">
-    <h3 class="name"><code>start</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Oscillator.html#method_start">Oscillator</a>:
-        <a href="../files/src_Oscillator.js.html#l160"><code>src&#x2F;Oscillator.js:160</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Starts the oscillator. Usually from user gesture.</p>
-
-    </div>
-
-
-
-
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <div>
-<code>
-let osc;
-<p>function setup() {
-let cnv = createCanvas(100, 100);
-cnv.mousePressed(startOscillator);
-osc = new Oscillator();
-}</p>
-<p>function startOscillator() {
-osc.start();
-}
-</code></p>
-</div>
-            </div>
-        </div>
-</div>
-<div id="method_stop" class="method item inherited">
-    <h3 class="name"><code>stop</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Oscillator.html#method_stop">Oscillator</a>:
-        <a href="../files/src_Oscillator.js.html#l185"><code>src&#x2F;Oscillator.js:185</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Stops the oscillator.</p>
-
-    </div>
-
 
 
 

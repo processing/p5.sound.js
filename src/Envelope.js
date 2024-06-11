@@ -1,7 +1,7 @@
 import * as Tone from "tone";
 
 /**
- * An amplitude envelope class.
+ * Generate an amplitude envelope.
  * @class Envelope
  * @constructor
  * @param {Number} [a] - attack time

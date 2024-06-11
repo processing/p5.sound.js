@@ -1,6 +1,6 @@
 import * as Tone from "tone";
 /**
- * Creates an Amplitude object for getting loudness.
+ * Get the current volume of a sound.
  * @class Amplitude
  * @example
  * <div>

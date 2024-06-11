@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/FFT.js</title>
+    <title>SoundFile</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -86,109 +86,231 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/FFT.js</h1>
+<h1>SoundFile Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import * as Tone from &quot;tone&quot;;
 
-/**
- * Analyze the frequency of sound. Returns results from the frequency spectrum or time domain (waveform).
- * @class FFT
- * @constructor
- * @param {Number} [fftSize] FFT anaylsis size. Must be a power of two between 16 and 1024. Defaults to 32.
- * @example
- * let osc;
- *
- * function setup(){
- *   let cnv = createCanvas(100,100);
- *   cnv.mouseClicked(togglePlay);
- *   fft = new FFT(32);
- *   osc = new TriOsc(440);
- *   osc.connect(fft);
- * }
- * 
- * function draw(){
- *   background(220);
- *   let spectrum = fft.analyze();
- *   noStroke();
- *   fill(255, 0, 0);
- * 
- *   for (let i = 0; i &lt; spectrum.length; i++) {
- *     let x = map(i, 0, spectrum.length, 0, width);     
- *     let h = -height + map(spectrum[i], 0, 0.1, height, 0);
- *     rect(x, height, width / spectrum.length, h )
- *   }
- * 
- *   let waveform = fft.samples();
- *   noFill();
- *   beginShape();
- *   stroke(20);
- *   
- *   for (let i = 0; i &lt; waveform.length; i++){
- *     let x = map(i, 0, waveform.length, 0, width);
- *     let y = map( waveform[i], -1, 1, 0, height);
- *     vertex(x,y);
- *   }
- *   endShape();
- *   
- *   textAlignt(CENTER);
- *   text(&#x27;tap to play&#x27;, width/2, 20);
- *   osc.freq(map(mouseX, 0, width, 100, 2000));
- * }
- * 
- * function togglePlay() {
- *   osc.start();
- * }
- * &lt;/code&gt;
- * &lt;/div&gt;
- */
-class FFT {
-    constructor(fftSize) {
-        if (fftSize === undefined) {
-            fftSize = 32;
-        }
-        this.fftSize = fftSize;
-        this.analyzer = new Tone.FFT({
-            size: fftSize,
-            normalRange: true,
-        });
-        this.waveform = new Tone.Waveform();
-        //creates a single gain node to connect to for the analyzer and waveform
-        this.gain = new Tone.Gain(1);
-        this.gain.connect(this.analyzer);
-        this.gain.connect(this.waveform);
-    }
+        <div class="foundat">
+            Defined in: <a href="../files/src_SoundFile.js.html#l13"><code>src&#x2F;SoundFile.js:13</code></a>
+        </div>
 
-    //return the gain node which is the parent node to the analyzer and waveform
-    getNode() {    
-        return this.gain;
-    }
-    
-    /**
-     * Returns the frequency spectrum of the input signal.
-     * @method analyze
-     * @for FFT
-     * @returns {Array} Array of amplitude values from 0 to 1.
-     */
-    analyze() {
-        return this.analyzer.getValue();
-    }
-    
-    /**
-     * Returns an array of sample values of input audio.
-     * @method samples
-     * @for FFT
-     * @returns {Array} Array of sample values from -1 to -1.
-     */
-    //previously called the &#x27;waveform()&#x27; method in p5.sound, changed to &#x27;samples()&#x27; because Waveform() is a class in Tone.js
-    samples() {
-        return this.waveform.getValue();
-    }
+
+</div>
+
+
+<div class="box intro">
+    <p>Load and play sound files.</p>
+
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_SoundFile" class="method item">
+    <h3 class="name"><code>SoundFile</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_SoundFile.js.html#l13"><code>src&#x2F;SoundFile.js:13</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <div>
+<code>
+let sound, amp, delay, cnv;
+<p>function preload() {
+//replace this sound with something local with rights to distribute
+//need to fix local asset loading first though :)
+sound = loadSound('<a href="https://tonejs.github.io/audio/berklee/gong_1.mp3">https://tonejs.github.io/audio/berklee/gong_1.mp3</a>');
+}</p>
+<p>function setup() {
+cnv = createCanvas(100, 100);
+textAlign(CENTER);
+cnv.mousePressed(playSound);
+amp = new Amplitude();
+delay = new Delay();
+sound.disconnect();
+sound.connect(delay);
+delay.connect(amp);
+}</p>
+<p>function playSound() {
+sound.play();
+}</p>
+<p>function draw() {
+let dtime = map(mouseX, 0, width, 0, 1);
+delay.delayTime(dtime);
+let f = map(mouseY, 0, height, 0, .75);
+delay.feedback(f);
+let level = map(amp.getLevel(), 0, 0.5, 0, 255);
+background(level, 0, 0);
+fill(255);
+text('click to play', width/2, 20);
 }
+</code></p>
+</div>
+            </div>
+        </div>
+</div>
+    </div>
 
-export default FFT;
-    </pre>
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_play">play</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_start">start</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_stop">stop</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_play" class="method item">
+    <h3 class="name"><code>play</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_SoundFile.js.html#l83"><code>src&#x2F;SoundFile.js:83</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Start the soundfile.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_start" class="method item">
+    <h3 class="name"><code>start</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_SoundFile.js.html#l74"><code>src&#x2F;SoundFile.js:74</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Start the soundfile.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_stop" class="method item">
+    <h3 class="name"><code>stop</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_SoundFile.js.html#l92"><code>src&#x2F;SoundFile.js:92</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Stop the soundfile.</p>
+
+    </div>
+
+
+
+
+</div>
+            </div>
+
+
+
+    </div>
 </div>
                     </div>
                 </div>

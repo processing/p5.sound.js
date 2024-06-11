@@ -1,5 +1,8 @@
 import * as Tone from "tone";
 
+/**
+ * Filter the frequency range of a sound.
+ */
 class Biquad {
   constructor(c, t) {
     //proof constructor so that if you give string it will set type but if you give number it will set cutoff, if you give both it will set both

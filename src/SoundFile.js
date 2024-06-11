@@ -11,7 +11,7 @@ function loadSound (path) {
 }
 
 /**
- * A sound file player.
+ * Load and play sound files.
  * @class SoundFile
  * @constructor
  * @example

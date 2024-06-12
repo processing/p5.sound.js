@@ -1,6 +1,16 @@
 import * as Tone from "tone";
 import { clamp } from "./Utils";
 
+/**
+ * A 3D panning effect.
+ * @class Panner3D
+ * @constructor
+ * @example
+ * <div>
+ * <code>
+ * </code>
+ * </div>
+ */
 class Panner3D {
   constructor() {
     this.panner3d= new Tone.Panner3D(0, 0, 0).toDestination();

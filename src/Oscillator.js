@@ -81,7 +81,7 @@ class Oscillator {
    * Sets the type of the oscillator. 
    * @method setType
    * @for Oscillator
-   * @param {String} type of the oscillator. Options:
+   * @param {String} type type of the oscillator. Options:
    *                 'sine' (default), 'triangle',
    *                 'sawtooth', 'square'
    */

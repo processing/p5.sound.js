@@ -2,6 +2,7 @@ import * as Tone from "tone";
 /**
  * Get the current volume of a sound.
  * @class Amplitude
+ * @constructor
  * @example
  * <div>
  * <code>
@@ -29,8 +30,8 @@ import * as Tone from "tone";
  *   level = map(level, 0, 0.5, 0, 255);
  *   fill(level, 0, 0);
  * }
- * 
- * 
+ * </code>
+ * </div>
  */
 class Amplitude {
   constructor() {

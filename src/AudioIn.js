@@ -2,6 +2,13 @@ import * as Tone from "tone";
 
 /**
  * Get sound from an input source, typically a computer microphone.
+ * @class AudioIn
+ * @constructor
+ * @example
+ * <div>
+ * <code>
+ * </code>
+ * </div>
  */
 class AudioIn {
     constructor() {

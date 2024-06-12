@@ -11,7 +11,8 @@ import * as Tone from "tone";
  * @example
  * <div>
  * <code>
- *  
+ * </code>
+ * </div>
  */
 
 class Envelope {

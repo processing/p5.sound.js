@@ -39,10 +39,16 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/Amplitude.html">Amplitude</a></li>
+                                <li><a href="../classes/AudioIn.html">AudioIn</a></li>
+                                <li><a href="../classes/Biquad.html">Biquad</a></li>
+                                <li><a href="../classes/Delay.html">Delay</a></li>
                                 <li><a href="../classes/Envelope.html">Envelope</a></li>
                                 <li><a href="../classes/FFT.html">FFT</a></li>
+                                <li><a href="../classes/Gain.html">Gain</a></li>
+                                <li><a href="../classes/Noise.html">Noise</a></li>
                                 <li><a href="../classes/Oscillator.html">Oscillator</a></li>
                                 <li><a href="../classes/Panner.html">Panner</a></li>
+                                <li><a href="../classes/Panner3D.html">Panner3D</a></li>
                                 <li><a href="../classes/Reverb.html">Reverb</a></li>
                                 <li><a href="../classes/SawOsc.html">SawOsc</a></li>
                                 <li><a href="../classes/SinOsc.html">SinOsc</a></li>
@@ -94,16 +100,20 @@ import * as Tone from &quot;tone&quot;;
 import { clamp } from &#x27;./Utils&#x27;;
 
 /**
- * Creates a panner.
+ * A panning effect.
  * @class Panner
  * @constructor
  * @example
+ * &lt;div&gt;
+ * &lt;code&gt;
+ * &lt;/code&gt;
+ * &lt;/div&gt;
  */
 class Panner {
   constructor() {
     this.panner= new Tone.Panner(0).toDestination();
   }
-
+  
   pan(p) {
     this.panner.pan.rampTo(clamp(p, -1, 1), 0.01);
   }

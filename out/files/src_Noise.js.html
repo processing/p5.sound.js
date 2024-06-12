@@ -39,10 +39,16 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/Amplitude.html">Amplitude</a></li>
+                                <li><a href="../classes/AudioIn.html">AudioIn</a></li>
+                                <li><a href="../classes/Biquad.html">Biquad</a></li>
+                                <li><a href="../classes/Delay.html">Delay</a></li>
                                 <li><a href="../classes/Envelope.html">Envelope</a></li>
                                 <li><a href="../classes/FFT.html">FFT</a></li>
+                                <li><a href="../classes/Gain.html">Gain</a></li>
+                                <li><a href="../classes/Noise.html">Noise</a></li>
                                 <li><a href="../classes/Oscillator.html">Oscillator</a></li>
                                 <li><a href="../classes/Panner.html">Panner</a></li>
+                                <li><a href="../classes/Panner3D.html">Panner3D</a></li>
                                 <li><a href="../classes/Reverb.html">Reverb</a></li>
                                 <li><a href="../classes/SawOsc.html">SawOsc</a></li>
                                 <li><a href="../classes/SinOsc.html">SinOsc</a></li>
@@ -94,6 +100,41 @@ import * as Tone from &quot;tone&quot;;
 
 /**
  * Generate a buffer with random values.
+ * @class Noise
+ * @constructor
+ * @param {String} [type] - the type of noise (white, pink, brown)
+ * @example
+ * &lt;div&gt;
+ * &lt;code&gt;
+ * let noise, env, cnv;
+ * let types = [&#x27;white&#x27;, &#x27;pink&#x27;, &#x27;brown&#x27;];
+ * let noiseType = &#x27;brown&#x27;;
+ * 
+ * function setup() {
+ *   cnv = createCanvas(100, 100);
+ *   textAlign(CENTER);
+ *   cnv.mousePressed(start);
+ *   noise = new Noise(noiseType);
+ *   env = new Envelope(0.01, 0.1, 0.15, 0.5);
+ *   noise.disconnect();
+ *   noise.connect(env);
+ *   noise.start();
+ * }
+ * 
+ * function start() {
+ *   noiseType = random(types);
+ *   noise.type(noiseType);
+ *   env.play();
+ * }
+ * 
+ * function draw() {
+ *   background(noiseType);
+ *   text(&#x27;tap to play&#x27;, width/2, 20);
+ *   let txt = &#x27;type: &#x27; + noiseType;
+ *   text(txt, width/2, 40);
+ * }
+ * &lt;/code&gt;
+ * &lt;/div&gt;
  */
 class Noise {
   constructor(type) {
@@ -103,7 +144,11 @@ class Noise {
     this.noise = new Tone.Noise().toDestination();
     this.noise.type = type;
   }
-
+  /**
+   * @method type
+   * @for Noise
+   * @param {String} t - the type of noise (white, pink, brown) 
+   */
   type(t) {
     this.noise.type = t;
   }
@@ -120,10 +165,20 @@ class Noise {
     this.noise.disconnect(Tone.Context.destination);
   }
 
+  /**
+   * Starts the noise source.
+   * @method stop
+   * @for Noise
+   */
   start() {
     this.noise.start();
   }
-
+  
+  /**
+   * Stops the noise source.
+   * @method stop
+   * @for Noise
+   */
   stop() {
     this.noise.stop();
   }

@@ -1,33 +1,27 @@
-let sound, amp, delay, cnv;
-
-function preload() {
-  //replace this sound with something local with rights to distribute
-  //need to fix local asset loading first though :) 
-  sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-}
+let noise, env, cnv;
+let types = ['white', 'pink', 'brown'];
+let noiseType = 'brown';
 
 function setup() {
-   cnv = createCanvas(100, 100);
-   textAlign(CENTER);
-   cnv.mousePressed(playSound);
-   amp = new Amplitude();
-   delay = new Delay();
-   sound.disconnect();
-   sound.connect(delay);
-   delay.connect(amp);
+  cnv = createCanvas(100, 100);
+  textAlign(CENTER);
+  cnv.mousePressed(start);
+  noise = new Noise(noiseType);
+  env = new Envelope(0.01, 0.1, 0.15, 0.5);
+  noise.disconnect();
+  noise.connect(env);
+  noise.start();
 }
 
-function playSound() {
-   sound.play();
+function start() {
+  noiseType = random(types);
+  noise.type(noiseType);
+  env.play();
 }
 
 function draw() {
-   let dtime = map(mouseX, 0, width, 0, 1);
-   delay.delayTime(dtime);
-   let f = map(mouseY, 0, height, 0, .75);
-   delay.feedback(f);
-   let level = map(amp.getLevel(), 0, 0.5, 0, 255);
-   background(level, 0, 0);
-   fill(255);
-   text('click to play', width/2, 20);
- }
+  background(noiseType);
+  text('tap to play', width/2, 20);
+  let txt = 'type: ' + noiseType;
+  text(txt, width/2, 40);
+}

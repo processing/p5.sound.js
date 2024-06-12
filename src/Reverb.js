@@ -4,7 +4,7 @@ import * as Tone from "tone";
  * Add reverb to a sound by specifying duration and decay.
  * @class Reverb
  * @constructor
- * @param {Number} [time] Set the decay time of the reverb
+ * @param {Number} [decayTime] Set the decay time of the reverb
  * @example
  * <div>
  * <code>
@@ -35,6 +35,7 @@ import * as Tone from "tone";
  *   background(220);
  *   text('click to play', width/2, 20);
  *   text('decay ' + round(randomTime, 2), width/2, 40);
+ *   describe('Click to play a sound with a random decay time.');
  * }
  * </code>
  * </div>

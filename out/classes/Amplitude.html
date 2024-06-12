@@ -97,7 +97,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_Amplitude.js.html#l2"><code>src&#x2F;Amplitude.js:2</code></a>
+            Defined in: <a href="../files/src_Amplitude.js.html#l3"><code>src&#x2F;Amplitude.js:3</code></a>
         </div>
 
 
@@ -126,7 +126,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_Amplitude.js.html#l2"><code>src&#x2F;Amplitude.js:2</code></a>
+        <a href="../files/src_Amplitude.js.html#l3"><code>src&#x2F;Amplitude.js:3</code></a>
         </p>
 
 
@@ -154,6 +154,8 @@ sound = loadSound('<a href="https://tonejs.github.io/audio/berklee/gong_1.mp3">h
 <p>function setup() {
 cnv = createCanvas(100, 100);
 cnv.mousePressed(playSound);
+textAlign(CENTER);
+fill(255);
 amp = new Amplitude();
 sound.connect(amp);
 }</p>
@@ -161,10 +163,11 @@ sound.connect(amp);
 sound.play();
 }</p>
 <p>function draw() {
-background(220);
 let level = amp.getLevel();
-level = map(level, 0, 0.5, 0, 255);
-fill(level, 0, 0);
+level = map(level, 0, 0.2, 0, 255);
+background(level, 0, 0);
+text('tap to play', width/2, 20);
+describe('The color of the background changes based on the amplitude of the sound.');
 }
 </code></p>
 </div>
@@ -177,17 +180,135 @@ fill(level, 0, 0);
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_getLevel">getLevel</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setInput">setInput</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_getLevel" class="method item">
+    <h3 class="name"><code>getLevel</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Amplitude.js.html#l63"><code>src&#x2F;Amplitude.js:63</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Connect an input to the amplitude object.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>Amplitude level (volume) of a sound.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setInput" class="method item">
+    <h3 class="name"><code>setInput</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>input</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_Amplitude.js.html#l45"><code>src&#x2F;Amplitude.js:45</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Connect an  to the amplitude object.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">input</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>An object that has audio output.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+            </div>
 
 
 

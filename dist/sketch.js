@@ -1,27 +1,28 @@
-let noise, env, cnv;
-let types = ['white', 'pink', 'brown'];
-let noiseType = 'brown';
-
-function setup() {
-  cnv = createCanvas(100, 100);
-  textAlign(CENTER);
-  cnv.mousePressed(start);
-  noise = new Noise(noiseType);
-  env = new Envelope(0.01, 0.1, 0.15, 0.5);
-  noise.disconnect();
-  noise.connect(env);
-  noise.start();
+let sound, amp, cnv;
+  
+function preload() {
+   //replace this sound with something local with rights to distribute
+   sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
 }
 
-function start() {
-  noiseType = random(types);
-  noise.type(noiseType);
-  env.play();
+function setup() {
+   cnv = createCanvas(100, 100);
+   cnv.mousePressed(playSound);
+   fill(255);
+   textAlign(CENTER);
+   amp = new Amplitude();
+   sound.connect(amp);
+}
+
+function playSound() {
+   sound.play();
 }
 
 function draw() {
-  background(noiseType);
-  text('tap to play', width/2, 20);
-  let txt = 'type: ' + noiseType;
-  text(txt, width/2, 40);
+   let level = amp.getLevel();
+   level = map(level, 0, 0.2, 0, 255);
+   background(level, 0, 0);
+   
+   text('tap to play', width/2, 20);
+   describe('The color of the background changes based on the amplitude of the sound.');
 }

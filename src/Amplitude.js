@@ -1,4 +1,5 @@
 import * as Tone from "tone";
+
 /**
  * Get the current volume of a sound.
  * @class Amplitude
@@ -7,7 +8,7 @@ import * as Tone from "tone";
  * <div>
  * <code>
  * let sound, amp, cnv;
- * 
+ *   
  * function preload() {
  *   //replace this sound with something local with rights to distribute
  *   sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
@@ -16,6 +17,8 @@ import * as Tone from "tone";
  * function setup() {
  *   cnv = createCanvas(100, 100);
  *   cnv.mousePressed(playSound);
+ *   textAlign(CENTER);
+ *   fill(255);
  *   amp = new Amplitude();
  *   sound.connect(amp);
  * }
@@ -25,10 +28,11 @@ import * as Tone from "tone";
  * }
  * 
  * function draw() {
- *   background(220);
  *   let level = amp.getLevel();
- *   level = map(level, 0, 0.5, 0, 255);
- *   fill(level, 0, 0);
+ *   level = map(level, 0, 0.2, 0, 255);
+ *   background(level, 0, 0);
+ *   text('tap to play', width/2, 20);
+ *   describe('The color of the background changes based on the amplitude of the sound.');
  * }
  * </code>
  * </div>
@@ -38,14 +42,14 @@ class Amplitude {
     this.amplitude = new Tone.Meter({normalRange:true});
   }
 
+  /**
+   * Connect an  to the amplitude object.
+   * @method setInput
+   * @for Amplitude
+   * @param {Object} input - An object that has audio output.
+   */
   setInput(input) {
-    if (Object.values(input)[0].input.constructor.name === "GainNode") {
-      this.input.connect(Object.values(input)[0].input);
-    }
-    else {
-      console.log("input is not a GainNode")
-    }
-    this.amplitude.connect(Object.values(input)[0].input);
+    input.getNode().connect(this.amplitude);
   }
 
   getNode() {
@@ -55,7 +59,13 @@ class Amplitude {
   connect(destination) {
     this.amplitude.connect(destination.getNode());
   }
-  
+
+  /**
+   * Connect an input to the amplitude object.
+   * @method getLevel
+   * @for Amplitude
+   * @return {Number} Amplitude level (volume) of a sound.
+   */
   getLevel() {
     return this.amplitude.getValue();
   }

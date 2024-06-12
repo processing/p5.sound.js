@@ -1,11 +1,13 @@
 import * as Tone from "tone";
 
 /**
- * Analyze the frequency of sound. Returns results from the frequency spectrum or time domain (waveform).
+ * Analyze the frequency spectrum and waveform of sounds.
  * @class FFT
  * @constructor
  * @param {Number} [fftSize] FFT anaylsis size. Must be a power of two between 16 and 1024. Defaults to 32.
  * @example
+ * <div>
+ * <code>
  * let osc;
  *
  * function setup(){
@@ -28,7 +30,7 @@ import * as Tone from "tone";
  *     rect(x, height, width / spectrum.length, h )
  *   }
  * 
- *   let waveform = fft.samples();
+ *   let waveform = fft.waveform();
  *   noFill();
  *   beginShape();
  *   stroke(20);
@@ -40,9 +42,10 @@ import * as Tone from "tone";
  *   }
  *   endShape();
  *   
- *   textAlignt(CENTER);
+ *   textAlign(CENTER);
  *   text('tap to play', width/2, 20);
  *   osc.freq(map(mouseX, 0, width, 100, 2000));
+ *   describe('The sketch displays the frequency spectrum and waveform of the sound that plays.');
  * }
  * 
  * function togglePlay() {
@@ -52,20 +55,17 @@ import * as Tone from "tone";
  * </div>
  */
 class FFT {
-    constructor(fftSize) {
-        if (fftSize === undefined) {
-            fftSize = 32;
-        }
+    constructor(fftSize = 32) {
         this.fftSize = fftSize;
         this.analyzer = new Tone.FFT({
-            size: fftSize,
+            size: this.fftSize,
             normalRange: true,
         });
-        this.waveform = new Tone.Waveform();
+        this.samples = new Tone.Waveform();
         //creates a single gain node to connect to for the analyzer and waveform
         this.gain = new Tone.Gain(1);
         this.gain.connect(this.analyzer);
-        this.gain.connect(this.waveform);
+        this.gain.connect(this.samples);
     }
 
     //return the gain node which is the parent node to the analyzer and waveform
@@ -84,14 +84,13 @@ class FFT {
     }
     
     /**
-     * Returns an array of sample values of input audio.
-     * @method samples
+     * Returns an array of sample values from the input audio.
+     * @method waveform
      * @for FFT
-     * @returns {Array} Array of sample values from -1 to -1.
+     * @return {Array} Array of sample values from -1 to -1.
      */
-    //previously called the 'waveform()' method in p5.sound, changed to 'samples()' because Waveform() is a class in Tone.js
-    samples() {
-        return this.waveform.getValue();
+    waveform() {
+        return this.samples.getValue();
     }
 }
 

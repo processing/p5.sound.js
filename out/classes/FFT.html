@@ -105,7 +105,7 @@
 
 
 <div class="box intro">
-    <p>Analyze the frequency of sound. Returns results from the frequency spectrum or time domain (waveform).</p>
+    <p>Analyze the frequency spectrum and waveform of sounds.</p>
 
 </div>
 
@@ -168,7 +168,9 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-                <p>let osc;</p>
+                <div>
+<code>
+let osc;
 <p>function setup(){
 let cnv = createCanvas(100,100);
 cnv.mouseClicked(togglePlay);
@@ -186,7 +188,7 @@ let x = map(i, 0, spectrum.length, 0, width);<br>
 let h = -height + map(spectrum[i], 0, 0.1, height, 0);
 rect(x, height, width / spectrum.length, h )
 }</p>
-<p>let waveform = fft.samples();
+<p>let waveform = fft.waveform();
 noFill();
 beginShape();
 stroke(20);</p>
@@ -196,9 +198,10 @@ let y = map( waveform[i], -1, 1, 0, height);
 vertex(x,y);
 }
 endShape();</p>
-<p>textAlignt(CENTER);
+<p>textAlign(CENTER);
 text('tap to play', width/2, 20);
 osc.freq(map(mouseX, 0, width, 100, 2000));
+describe('The sketch displays the frequency spectrum and waveform of the sound that plays.');
 }</p>
 <p>function togglePlay() {
 osc.start();
@@ -230,7 +233,7 @@ osc.start();
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_samples">samples</a>
+                                <a href="#method_waveform">waveform</a>
 
                             </li>
                     </ul>
@@ -286,8 +289,8 @@ osc.start();
 
 
 </div>
-<div id="method_samples" class="method item">
-    <h3 class="name"><code>samples</code></h3>
+<div id="method_waveform" class="method item">
+    <h3 class="name"><code>waveform</code></h3>
 
         <span class="paren">()</span>
 
@@ -312,7 +315,7 @@ osc.start();
     </div>
 
     <div class="description">
-        <p>Returns an array of sample values of input audio.</p>
+        <p>Returns an array of sample values from the input audio.</p>
 
     </div>
 

@@ -4,8 +4,11 @@ import * as Tone from "tone";
  * Filter the frequency range of a sound.
  * @class Biquad
  * @constructor
- * @param {Number} [c] - cutoff frequency
- * @param {String} [t] - filter type
+ * @param {Number} [cutoff] cutoff frequency of the filter
+ * @param {String} [type] filter type. Options: "lowpass", 
+ *                        "highpass", "bandpass", "lowshelf",
+ *                        "highshelf", "notch", "allpass", 
+ *                        "peaking"
  */
 class Biquad {
   constructor(c, t) {

@@ -4,7 +4,7 @@ import * as Tone from "tone";
  * Generate Sine, Triangle, Square and Sawtooth waveforms.
  * @class Oscillator
  * @constructor
- * @param {Number} [freq] frequency defaults to 440Hz
+ * @param {Number} [frequency] frequency defaults to 440Hz
  * @param {String} [type] type of oscillator. Options:
  *                        'sine' (default), 'triangle',
  *                        'sawtooth', 'square'

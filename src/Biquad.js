@@ -18,6 +18,18 @@ class Biquad {
     this.biquad= new Tone.BiquadFilter(this.cutoff, this.type).toDestination();
   }
 
+  res(r) {
+    this.biquad.Q.value = r;
+  }
+
+  gain(g) {
+    this.biquad.gain.value = g;
+  }
+
+  setType(t) {
+    this.biquad.type = t;
+  }
+
   set(f) {
     this.biquad.frequency.value = f;
   }

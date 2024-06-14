@@ -7,6 +7,37 @@ import { clamp } from './Utils';
  * @constructor
  * @param {Number} [d] - delay time
  * @param {Number} [f] - feedback amount
+ * @example
+ * <div>
+ * <code>
+ * let osc;
+ * 
+ * function setup() {
+ *   let cnv = createCanvas(100, 100);
+ *   background(220);
+ *   textAlign(CENTER);
+ *   text('tap to play', width/2, height/2);
+ * 
+ *   osc = new Oscillator('square');
+ *   osc.amp(0.5);
+ *   delay = new Delay(0.12, 0.7);
+ *   
+ *   osc.disconnect();
+ *   osc.connect(delay);
+ * 
+ *   cnv.mousePressed(oscStart);
+ *   describe('Tap to play a square wave with delay effect.');
+ * }
+ * 
+ * function oscStart() {
+ *   osc.start();
+ * }
+ * 
+ * </code>
+ * </div>
+ * function mouseReleased() {
+ *   osc.stop();
+ * }
  */
 class Delay {
   constructor(d = 0.250, f = 0.2)  {

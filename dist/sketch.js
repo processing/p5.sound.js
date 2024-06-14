@@ -1,11 +1,17 @@
-let osc;
+let osc, env, delay;
  
   function setup(){
     let cnv = createCanvas(100,100);
     cnv.mouseClicked(togglePlay);
     fft = new FFT(32);
-    osc = new TriOsc(440);
-    osc.connect(fft);
+    osc = new TriOsc();
+    env = new Envelope();
+    delay = new Delay();
+    osc.disconnect();
+    osc.connect(env);
+    env.disconnect();
+    env.connect(delay);
+    delay.connect(fft);
   }
   
   function draw(){
@@ -39,4 +45,5 @@ let osc;
   
   function togglePlay() {
     osc.start();
+    env.play();
   }

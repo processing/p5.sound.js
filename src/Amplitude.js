@@ -43,7 +43,7 @@ class Amplitude {
   }
 
   /**
-   * Connect an  to the amplitude object.
+   * Connect an audio source to the amplitude object.
    * @method setInput
    * @for Amplitude
    * @param {Object} input - An object that has audio output.
@@ -61,7 +61,7 @@ class Amplitude {
   }
 
   /**
-   * Connect an input to the amplitude object.
+   * Get the current amplitude value of a sound.
    * @method getLevel
    * @for Amplitude
    * @return {Number} Amplitude level (volume) of a sound.

@@ -1,49 +1,30 @@
-let osc, env, delay;
- 
+let osc, env, delay, sound;
+
+  function preload(){
+    sound = loadSound('https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3');
+  }
+
   function setup(){
     let cnv = createCanvas(100,100);
     cnv.mouseClicked(togglePlay);
-    fft = new FFT(32);
-    osc = new TriOsc();
-    env = new Envelope();
-    delay = new Delay();
-    osc.disconnect();
-    osc.connect(env);
-    env.disconnect();
-    env.connect(delay);
-    delay.connect(fft);
+    sound.amp(0.1); 
+    sound.loop();
   }
   
   function draw(){
+    frameRate(1);
     background(220);
-    let spectrum = fft.analyze();
-    noStroke();
-    fill(255, 0, 0);
-  
-    for (let i = 0; i < spectrum.length; i++) {
-      let x = map(i, 0, spectrum.length, 0, width);     
-      let h = -height + map(spectrum[i], 0, 0.1, height, 0);
-      rect(x, height, width / spectrum.length, h )
-    }
-  
-    let waveform = fft.waveform();
-    noFill();
-    beginShape();
-    stroke(20);
-    
-    for (let i = 0; i < waveform.length; i++){
-      let x = map(i, 0, waveform.length, 0, width);
-      let y = map( waveform[i], -1, 1, 0, height);
-      vertex(x,y);
-    }
-    endShape();
-    
-    textAlign(CENTER);
-    text('tap to play', width/2, 20);
-    osc.freq(map(mouseX, 0, width, 100, 2000));
+    //let randPos = random(0, sound.duration())
+    //console.log(randPos);
+    //sound.jump(randPos);
+    //let time = sound.currentTime();
+    //console.log(time);
   }
   
   function togglePlay() {
-    osc.start();
-    env.play();
+    if (sound.isPlaying()) {
+      sound.pause();
+    } else {
+      sound.play();
+    }
   }

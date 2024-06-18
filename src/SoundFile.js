@@ -57,6 +57,7 @@ class SoundFile {
   constructor(buffer, callback) {
     this.soundfile = new Tone.Player(buffer, callback).toDestination();
     this.soundfile.volume.value = 0;
+    this.startTime = 0;
   }
 
   getNode() {
@@ -86,6 +87,7 @@ class SoundFile {
    * @for SoundFile
    */
   play() {
+    //startTime = Tone.currentTime;
     this.soundfile.start();
   }
 
@@ -97,6 +99,95 @@ class SoundFile {
   stop() {
     this.soundfile.stop();
   }
+
+  /**
+   * Pause the soundfile.
+   * @method pause
+   * @for SoundFile 
+   */
+  pause() {
+    //no such pause method in Tone.js need to find workaround
+    
+  }
+
+  /**
+   * Loop the soundfile.
+   * @method loop
+   * @for SoundFile
+   * @param {Boolean} value 
+   */
+  loop(value = true) {
+    this.soundfile.loop = value;
+  }
+
+  /**
+   * Stop the soundfile.
+   * @method amp
+   * @for SoundFile
+   * @param {Number} value amplitude value between 0 and 1.
+   */
+  amp(value) {
+    let dbValue = Tone.gainToDb(value);
+    this.soundfile.volume.value = dbValue;
+  }
+
+  /**
+   * Set the playback rate of the soundfile.
+   * @method rate
+   * @for SoundFile
+   * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
+   */
+  rate(value) {
+    this.soundfile.playbackRate = value;
+  }
+
+  /**
+   * Returns the duration of a sound file in seconds.
+   * @method duration
+   * @for SoundFile 
+   * @return {Number} duration
+   */
+  duration() {
+    return this.soundfile.buffer.duration;
+  }
+
+  /**
+   * Return the sample rate of the sound file.
+   * @method sampleRate
+   * @for SoundFile
+   * @return {Number} sampleRate
+   */
+  sampleRate() {
+    if (this.soundfile.buffer) return this.sounfile.buffer.sampleRate;
+  }
+
+  /**
+   * Return the current position of the p5.SoundFile playhead, in seconds.
+   * @method currentTime
+   * @for SoundFile
+   * @return {Number} currentTime
+   */
+  currentTime() {
+    //let currentTime = Tone.Transport.seconds - this.soundfile.startTime;
+    return currentTime;
+  }
+
+  /**
+   * Move the playhead of a soundfile that is currently playing to a new position.
+   * @method jump
+   * @for SoundFile 
+   * @param {Number} value Time to jump to.
+   */
+  jump(value) {
+    this.soundfile.seek(value);
+  }
+
+  isPlaying() {
+    return this.soundfile.state === 'started';
+  }
+
+
+  
 }
 
 export default SoundFile;

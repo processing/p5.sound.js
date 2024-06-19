@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>FFT</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Amplitude.html">Amplitude</a></li>
+                                <li><a href="../classes/AudioIn.html">AudioIn</a></li>
+                                <li><a href="../classes/Biquad.html">Biquad</a></li>
+                                <li><a href="../classes/Delay.html">Delay</a></li>
+                                <li><a href="../classes/Envelope.html">Envelope</a></li>
+                                <li><a href="../classes/FFT.html">FFT</a></li>
+                                <li><a href="../classes/Gain.html">Gain</a></li>
+                                <li><a href="../classes/Noise.html">Noise</a></li>
+                                <li><a href="../classes/Oscillator.html">Oscillator</a></li>
+                                <li><a href="../classes/Panner.html">Panner</a></li>
+                                <li><a href="../classes/Panner3D.html">Panner3D</a></li>
+                                <li><a href="../classes/Reverb.html">Reverb</a></li>
+                                <li><a href="../classes/SawOsc.html">SawOsc</a></li>
+                                <li><a href="../classes/SinOsc.html">SinOsc</a></li>
+                                <li><a href="../classes/SoundFile.html">SoundFile</a></li>
+                                <li><a href="../classes/SqrOsc.html">SqrOsc</a></li>
+                                <li><a href="../classes/TriOsc.html">TriOsc</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1>FFT Class</h1>
+<div class="box meta">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/src_FFT.js.html#l3"><code>src&#x2F;FFT.js:3</code></a>
+        </div>
+
+
+</div>
+
+
+<div class="box intro">
+    <p>Analyze the frequency spectrum and waveform of sounds.</p>
+
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_FFT" class="method item">
+    <h3 class="name"><code>FFT</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fftSize]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_FFT.js.html#l3"><code>src&#x2F;FFT.js:3</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fftSize]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>FFT anaylsis size. Must be a power of two between 16 and 1024. Defaults to 32.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <div>
+<code>
+let osc;
+<p>function setup(){
+let cnv = createCanvas(100,100);
+cnv.mouseClicked(togglePlay);
+fft = new FFT(32);
+osc = new TriOsc(440);
+osc.connect(fft);
+}</p>
+<p>function draw(){
+background(220);
+let spectrum = fft.analyze();
+noStroke();
+fill(255, 0, 0);</p>
+<p>for (let i = 0; i &lt; spectrum.length; i++) {
+let x = map(i, 0, spectrum.length, 0, width);<br>
+let h = -height + map(spectrum[i], 0, 0.1, height, 0);
+rect(x, height, width / spectrum.length, h )
+}</p>
+<p>let waveform = fft.waveform();
+noFill();
+beginShape();
+stroke(20);</p>
+<p>for (let i = 0; i &lt; waveform.length; i++){
+let x = map(i, 0, waveform.length, 0, width);
+let y = map( waveform[i], -1, 1, 0, height);
+vertex(x,y);
+}
+endShape();</p>
+<p>textAlign(CENTER);
+text('tap to play', width/2, 20);
+osc.freq(map(mouseX, 0, width, 100, 2000));
+describe('The sketch displays the frequency spectrum and waveform of the sound that plays.');
+}</p>
+<p>function togglePlay() {
+osc.start();
+}
+</code></p>
+</div>
+            </div>
+        </div>
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_analyze">analyze</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_waveform">waveform</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_analyze" class="method item">
+    <h3 class="name"><code>analyze</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_FFT.js.html#l76"><code>src&#x2F;FFT.js:76</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns the frequency spectrum of the input signal.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array</span>:
+                    <p>Array of amplitude values from 0 to 1.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_waveform" class="method item">
+    <h3 class="name"><code>waveform</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_FFT.js.html#l86"><code>src&#x2F;FFT.js:86</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns an array of sample values from the input audio.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array</span>:
+                    <p>Array of sample values from -1 to -1.</p>
+
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

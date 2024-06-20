@@ -5,8 +5,8 @@ import { clamp } from './Utils';
  * A delay effect with parameters for feedback, and delay time.
  * @class Delay
  * @constructor
- * @param {Number} [d] - delay time
- * @param {Number} [f] - feedback amount
+ * @param {Number} [delayTime] delay time
+ * @param {Number} [feedback] feedback amount
  * @example
  * <div>
  * <code>

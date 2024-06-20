@@ -50,22 +50,25 @@ import * as Tone from "tone";
  * </div>
  */
 class Oscillator {
-  constructor(frequency, type) {
-    if (frequency && typeof frequency === "number") {
-      this.frequency = frequency;
-    } else if (typeof frequency === "undefined"){
-      this.frequency = 440;
+  constructor(frequency = 440, type = "sine") {
+    if (typeof frequency === "string" && typeof type === "string") {
+      let f = frequency;
+      frequency = 440;
+      type = f;
     }
-    if (typeof type === "string") {
-      this.type = type;
+    if (typeof frequency === "string" && typeof type === "number") {
+      let t = type;
+      let f = frequency;
+      type = f;
+      frequency = t;
     }
-    if (typeof type === "undefined") {
-      this.type = "sine";
-    } 
+    
+    this.frequency = frequency;
+    this.type = type;
     this.osc = new Tone.Oscillator().toDestination();
     this.osc.frequency.value = this.frequency;
     this.osc.type = this.type;
-    this.osc.volume.value = -10;
+    this.osc.volume.value = -6;
   }
 
   /**

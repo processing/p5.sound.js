@@ -1,43 +1,38 @@
-let osc, delay, env;
-  
+let player;
+
+function preload() {
+  player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+}
+
 function setup() {
+  describe('A sketch that calculates and displays the length of a sound file using number of samples and sample rate.');
   let cnv = createCanvas(100, 100);
+  cnv.mousePressed(playSound);
   background(220);
   textAlign(CENTER);
-  textSize(9);
-  text('click and drag mouse', width/2, height/2);
-
-  osc = new Oscillator('sawtooth');
-  osc.amp(0.74);
-  env = new Envelope(0.01);
-  delay = new Delay(0.12, 0.7);
+  textWrap(WORD);
+  textSize(10);
+  player.loop();
   
-  osc.disconnect();
-  osc.connect(env);
-  env.disconnect();
-  env.connect(delay);
-
-  cnv.mousePressed(oscStart);
-  cnv.mouseReleased(oscStop);
-  cnv.mouseOut(oscStop);
-  describe('Tap to play a square wave with delay effect.');
+  //text(info, 0, 20, 100);
 }
 
-function oscStart() {
-  background(0, 255, 255);
-  text('release to hear delay', width/2, height/2);
-  osc.start();
-  env.triggerAttack();
+function playSound() {
+  if (!player.isPlaying()) {
+    console.log(player.isPlaying());
+    player.play();
+  }
+  else {
+    console.log(player.isPlaying())
+    player.pause();
+  }
+  
+  
 }
 
-function oscStop() {
-  background(220);
-  text('click and drag mouse', width/2, height/2);
-  env.triggerRelease();
-} 
-  
 function draw() {
+  frameRate(10);
+  background(220);
   
-  let dtime = map(mouseX, 0, width, 0.1, 0.5);
-  delay.delayTime(dtime);
-}
+
+} 

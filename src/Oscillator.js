@@ -147,8 +147,15 @@ class Oscillator {
     this.osc.connect(destination.getNode());
   }
 
-  volume(v) {
-    this.osc.volume.value = v;
+  /**
+   * Adjust the amplitude of the Oscillator.
+   * @method amp
+   * @for Oscillator
+   * @param {Number} amplitude value between 0 and 1.
+   */
+  amp(value) {
+    let dbValue = Tone.gainToDb(value);
+    this.osc.volume.value = dbValue;
   }
 
   /**

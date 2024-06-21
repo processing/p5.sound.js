@@ -128,9 +128,9 @@ class SoundFile {
   loop(value = true) {
     this.soundfile.loop = value;
   }
-
+  
   /**
-   * Stop the soundfile.
+   * Adjust the amplitude of the soundfile.
    * @method amp
    * @for SoundFile
    * @param {Number} value amplitude value between 0 and 1.

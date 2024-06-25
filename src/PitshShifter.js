@@ -7,6 +7,27 @@ import * as Tone from "tone";
  * @example
  * <div>
  * <code>
+ * let soundFile, pitchShifter;
+ * 
+ * function preload() {
+ *   soundFile = loadSound('assets/Damscray_DancingTiger.mp3');
+ * }
+ * 
+ * function setup() {
+ *   createCanvas(100, 100);
+ *   frameRate(1);
+ *   pitchShifter = new PitchShifter();
+ *   soundFile.disconnect();
+ *   soundFile.connect(pitchShifter);
+ *   soundFile.loop();
+ *   soundFile.play();  
+ * }
+ * 
+ * function draw() {
+ *   background(220);
+ *   let pitchValue = random(-12, 12);
+ *   pitchShifter.shift(pitchValue);
+ * }
  * </code>
  * </div>
  */
@@ -41,8 +62,8 @@ class PitchShifter {
     }
 
     /**
-     * Disconnects the Pitch Shifter from a destination for processing.
-     * @method connect
+     * Disconnects the Pitch Shifter from a destination.
+     * @method disconnect
      * @for PitchShifter
      * @param {Object} unit A p5.sound processor or modulation index.
      */

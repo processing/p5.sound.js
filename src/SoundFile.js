@@ -59,6 +59,7 @@ class SoundFile {
     this.soundfile = new Tone.Player(buffer, successCallback).toDestination();
     this.playing = false;
     this.rate = 1;
+    this.paused = false;
   }
 
   getNode() {
@@ -80,8 +81,10 @@ class SoundFile {
    */
   start() {
     this.soundfile.playbackRate = this.rate;
-    this.soundfile.start();
     this.playing = true;
+    if (!this.paused) {
+      this.soundfile.start();
+    }
   }
 
   /**
@@ -91,9 +94,10 @@ class SoundFile {
    */
   play() {
     this.soundfile.playbackRate = this.rate;
-    console.log(this.rate);
-    this.soundfile.start();
     this.playing = true;
+    if (!this.paused) {
+      this.soundfile.start();
+    }
     //Tone.getTransport().start();
   }
 
@@ -115,6 +119,7 @@ class SoundFile {
     //no such pause method in Tone.js need to find workaround
     this.soundfile.playbackRate = 0;
     this.playing = false;
+    this.paused = true;
   }
 
   /**

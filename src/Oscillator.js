@@ -74,10 +74,21 @@ class Oscillator {
   /**
    * Adjusts the frequency of the oscillator.
    * @method freq
-   * @param {Number} frequency frequency of the oscillator 
+   * @for Oscillator
+   * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). 
    */
   freq(f) {
     this.osc.frequency.value = f;
+  }
+
+  /**
+   * Adjusts the phase of the oscillator.
+   * @method phase
+   * @for Oscillator
+   * @param {Number} phase phase of the oscillator in degrees (0-360). 
+   */
+  phase(p) {
+    this.osc.phase = p;
   }
 
   /**

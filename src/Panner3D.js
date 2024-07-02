@@ -2,7 +2,7 @@ import * as Tone from "tone";
 import { clamp } from "./Utils";
 
 /**
- * A 3D panning effect.
+ * A 3D sound spatializer.
  * @class Panner3D
  * @constructor
  * @example
@@ -13,22 +13,41 @@ import { clamp } from "./Utils";
  */
 class Panner3D {
   constructor() {
-    this.panner3d= new Tone.Panner3D(0, 0, 0).toDestination();
+    this.panner3d= new Tone.Panner3D({
+      coneInnerAngle:360,
+      coneOuterAngle:360,
+      coneOuterGain:1,
+      positionX:0,
+      positionY:0,
+      positionZ:0,
+    }).toDestination();
   }
 
+  /**
+   * Connects an input source to the 3D panner.
+   * @method process
+   * @for Panner3D
+   * @param {Object} input an input source to process with the 3D panner.
+   */
+  process(input) {
+    input.getNode().connect(this.panner3d);
+  }
+
+  /**
+   * Set the x, y, and z position of the 3D panner.
+   * @method set
+   * @for Panner3D
+   * @param {Number} xPosition the x coordinate of the panner.
+   * @param {Number} yPosition the y coordinate of the panner.
+   * @param {Number} zPosition the z coordinate of the panner.
+   */
   set(x, y, z) {
     this.panner3d.positionX.value = x;
     this.panner3d.positionY.value = y;
     this.panner3d.positionZ.value = z;
   }
 
-  orient(x, y, z) {
-    this.panner3d.orientationX.value = x;
-    this.panner3d.orientationY.value = y;
-    this.panner3d.orientationZ.value = z;
-  }
-
-  setFallof(rolloffFactor, maxDistance) {
+  setFalloff(rolloffFactor, maxDistance) {
     this.panner3d.rolloffFactor = rolloffFactor;
     this.panner3d.maxDistance = maxDistance;
   }

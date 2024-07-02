@@ -11,8 +11,7 @@ import * as Tone from "tone";
  *                        "peaking"
  */
 class Biquad {
-  constructor(c, t) {
-    //proof constructor so that if you give string it will set type but if you give number it will set cutoff, if you give both it will set both
+  constructor(c = 800, t = "lowpass") {
     this.type = t;
     this.cutoff = c;
     this.biquad= new Tone.BiquadFilter(this.cutoff, this.type).toDestination();

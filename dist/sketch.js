@@ -5,34 +5,30 @@ function preload() {
 }
 
 function setup() {
-  describe('A sketch that calculates and displays the length of a sound file using number of samples and sample rate.');
+  describe('A sketch that pauses and resumes sound file playback.');
   let cnv = createCanvas(100, 100);
   cnv.mousePressed(playSound);
   background(220);
   textAlign(CENTER);
   textWrap(WORD);
   textSize(10);
-  player.loop();
+  background(220);
+  text('click to play', 0, 20, 100);
   
-  //text(info, 0, 20, 100);
+  player.loop();
 }
 
 function playSound() {
   if (!player.isPlaying()) {
     console.log(player.isPlaying());
     player.play();
+    background(220);
+    text('click to pause', 0, 20, 100);
   }
   else {
     console.log(player.isPlaying())
     player.pause();
+    background(220);
+    text('click to play', 0, 20, 100);
   }
-  
-  
 }
-
-function draw() {
-  frameRate(10);
-  background(220);
-  
-
-} 

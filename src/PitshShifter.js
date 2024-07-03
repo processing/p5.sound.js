@@ -37,6 +37,7 @@ class PitchShifter {
     }
     
     /**
+     * Shift the pitch of the source audio.
      * @method shift
      * @for PitchShifter
      * @param {Number} pitchValue amount of semitones to shift the pitch
@@ -46,29 +47,17 @@ class PitchShifter {
             this.pitchshifter.pitch = value;
         }
     }
-
-    getNode() {
-        return this.pitchshifter;
-      }
     
-    /**
-     * Connects the Pitch Shifter to a destination for processing.
-     * @method connect
-     * @for PitchShifter
-     * @param {Object} unit A p5.sound processor or modulation index.
-     */
     connect(destination) {
     this.pitchshifter.connect(destination.getNode());
     }
 
-    /**
-     * Disconnects the Pitch Shifter from a destination.
-     * @method disconnect
-     * @for PitchShifter
-     * @param {Object} unit A p5.sound processor or modulation index.
-     */
     disconnect() {
         this.pitchshifter.disconnect(Tone.Context.destination);
+    }
+
+    getNode() {
+        return this.pitchshifter;
     }
 }
 

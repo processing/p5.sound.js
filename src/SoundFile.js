@@ -62,18 +62,6 @@ class SoundFile {
     this.paused = false;
   }
 
-  getNode() {
-    return this.soundfile;
-  }
-
-  connect(destination) {
-    this.soundfile.connect(destination.getNode());
-  }
-
-  disconnect() {
-    this.soundfile.disconnect(Tone.Context.destination);
-  }
-
   /**
    * Start the soundfile.
    * @method start
@@ -139,13 +127,11 @@ class SoundFile {
    * 
    * function playSound() {
    *   if (!player.isPlaying()) {
-   *     console.log(player.isPlaying());
    *     player.play();
    *     background(220);
    *     text('click to pause', 0, 20, 100);
    *   }
    *   else {
-   *     console.log(player.isPlaying())
    *     player.pause();
    *     background(220);
    *     text('click to play', 0, 20, 100);
@@ -227,17 +213,6 @@ class SoundFile {
    */
   sampleRate() {
     if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
-  }
-
-  /**
-   * Return the current position of the p5.SoundFile playhead, in seconds.
-   * @method currentTime
-   * @for SoundFile
-   * @return {Number} currentTime
-   */
-  currentTime() {
-    //let currentTime = Tone.Transport.seconds - this.soundfile.startTime;
-    return currentTime;
   }
 
   /**
@@ -366,7 +341,18 @@ class SoundFile {
   channels() {
     if (this.soundfile.buffer) return this.soundfile.buffer.numberOfChannels;
   }
-  
+
+  connect(destination) {
+    this.soundfile.connect(destination.getNode());
+  }
+
+  disconnect() {
+    this.soundfile.disconnect(Tone.Context.destination);
+  }
+
+  getNode() {
+    return this.soundfile;
+  }
 }
 
 export default SoundFile;

@@ -72,16 +72,16 @@ class Panner3D {
     this.panner3d.positionZ.rampTo(clamp(p), 0.01);
   }
 
-  getNode() {
-    return this.panner3d;
-  }
-
   connect(destination) {
     this.panner3d.connect(destination.getNode());
   }
 
   disconnect() {
     this.panner3d.disconnect(Tone.Context.destination);
+  }
+
+  getNode() {
+    return this.panner3d;
   }
 }
 

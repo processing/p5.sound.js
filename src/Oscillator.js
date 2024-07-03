@@ -114,51 +114,6 @@ class Oscillator {
   }
 
   /**
-   * Connects the oscillator to a destination for processing.
-   * @method connect
-   * @for Oscillator
-   * @param {Object} unit A p5.sound processor or modulation index.
-   * @example
-   * <div>
-   * <code>
-   * let osc, reverb;
-   * let playing = false;
-   *
-   * function setup() {
-   *   let cnv = createCanvas(100, 100);
-   *   background(220);
-   *   cnv.mousePressed(playSound);
-   *   osc = new Oscillator();
-   *   reverb = new Reverb();
-   *   osc.disconnect();
-   *   osc.connect(reverb);
-   *   stroke(0);
-   *   textAlign(CENTER);
-   *   text('click to play', width/2, 20);
-   * }
-   *
-   * function playSound() {
-   *   if (!playing) {
-   *     osc.start();
-   *     playing = true;
-   *   } 
-   *   else {
-   *     osc.stop();
-   *     playing = false;
-   *   }
-   * }
-   *
-   * function draw() { 
-   *   osc.freq(map(mouseX, 0, width, 100, 1000));
-   * }
-   * </code>
-   * </div>
-   */
-  connect(destination) {
-    this.osc.connect(destination.getNode());
-  }
-
-  /**
    * Adjust the amplitude of the Oscillator.
    * @method amp
    * @for Oscillator
@@ -167,15 +122,6 @@ class Oscillator {
   amp(value) {
     let dbValue = Tone.gainToDb(value);
     this.osc.volume.value = dbValue;
-  }
-
-  /**
-   * Disconnects the oscillator from the output destination.
-   * @method disconnect
-   * @for Oscillator
-   */
-  disconnect() {
-    this.osc.disconnect(Tone.Context.destination);
   }
 
   /**
@@ -210,6 +156,18 @@ class Oscillator {
    */
   stop() {
     this.osc.stop();
+  }
+
+  connect(destination) {
+    this.osc.connect(destination.getNode());
+  }
+
+  disconnect() {
+    this.osc.disconnect(Tone.Context.destination);
+  }
+
+  getNode() {
+    return this.osc;
   }
 }
 

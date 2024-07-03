@@ -1,34 +1,28 @@
-let player;
+let panner, lfo, soundfile, cnv;
 
 function preload() {
-  player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+  soundfile = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
 }
 
 function setup() {
-  describe('A sketch that pauses and resumes sound file playback.');
-  let cnv = createCanvas(100, 100);
-  cnv.mousePressed(playSound);
+  describe('a sketch that pans a sound source using an LFO.');
+  cnv = createCanvas(100, 100);
   background(220);
-  textAlign(CENTER);
-  textWrap(WORD);
-  textSize(10);
-  background(220);
-  text('click to play', 0, 20, 100);
+  cnv.mousePressed(startSound);
   
-  player.loop();
+  panner = new Panner();
+  lfo = new Oscillator(1);
+  //disconnect lfo from speakers because we don't want to hear it!
+  lfo.disconnect();
+  panner.pan(lfo);
+
+  soundfile.loop();
+  soundfile.disconnect();
+  soundfile.connect(panner);
+  
 }
 
-function playSound() {
-  if (!player.isPlaying()) {
-    console.log(player.isPlaying());
-    player.play();
-    background(220);
-    text('click to pause', 0, 20, 100);
-  }
-  else {
-    console.log(player.isPlaying())
-    player.pause();
-    background(220);
-    text('click to play', 0, 20, 100);
-  }
+function startSound() {
+  lfo.start();
+  soundfile.start();
 }

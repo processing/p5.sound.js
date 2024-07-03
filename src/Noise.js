@@ -54,18 +54,6 @@ class Noise {
   type(t) {
     this.noise.type = t;
   }
-  
-  getNode() {
-    return this.noise;
-  }
-
-  connect(destination) {
-    this.noise.connect(destination.getNode());
-  }
-
-  disconnect() {
-    this.noise.disconnect(Tone.Context.destination);
-  }
 
   /**
    * Starts the noise source.
@@ -83,6 +71,18 @@ class Noise {
    */
   stop() {
     this.noise.stop();
+  }
+
+  connect(destination) {
+    this.noise.connect(destination.getNode());
+  }
+
+  disconnect() {
+    this.noise.disconnect(Tone.Context.destination);
+  }
+
+  getNode() {
+    return this.noise;
   }
 }
 

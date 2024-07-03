@@ -142,18 +142,6 @@ class Envelope {
     input.getNode().connect(this.envelope);
   }
 
-  getNode() {
-    return this.envelope;
-  }
-
-  connect(destination) {
-    this.envelope.connect(destination.getNode());
-  }
-
-  disconnect() {
-    this.envelope.disconnect(Tone.Context.destination);
-  }
-
   /**
    * Sets the attack, decay, sustain, and release times of the envelope.
    * @method setADSR
@@ -188,6 +176,18 @@ class Envelope {
    */
   attackTime(value) {
     this.envelope.attack = value;
+  }
+
+  connect(destination) {
+    this.envelope.connect(destination.getNode());
+  }
+
+  disconnect() {
+    this.envelope.disconnect(Tone.Context.destination);
+  }
+
+  getNode() {
+    return this.envelope;
   }
 }
 

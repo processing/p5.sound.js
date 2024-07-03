@@ -57,16 +57,16 @@ class Gain {
     this.gain.gain.rampTo(value, 0.1);
   }
 
-  getNode() {
-    return this.gain;
-  }
-
   connect(destination) {
     this.gain.connect(destination.getNode());
   }
 
   disconnect() {
     this.gain.disconnect(Tone.Context.destination);
+  }
+
+  getNode() {
+    return this.gain;
   }
 }
 

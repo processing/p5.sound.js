@@ -8,7 +8,7 @@ import * as Tone from "tone";
  * @example
  * <div>
  * <code>
- * let osc, env, reverb;
+ * let noise, osc, env, reverb;
  * let randomTime = 0;
  * 
  * function setup() {
@@ -27,7 +27,7 @@ import * as Tone from "tone";
  * 
  * function playSound() {
  *  randomTime = random(0.1, 3);
- *  Reverb(randomTime); 
+ *  reverb.set(randomTime); 
  *  env.play();
  * }
  * 
@@ -50,33 +50,22 @@ class Reverb {
    * Set the decay time of the reverb.
    * @method set
    * @for Reverb
-   * @param {Number} t Decay time of the reverb
+   * @param {Number} time Decay time of the reverb
    */
   set(t) {
     this.reverb.decay = t;
   }
 
-  getNode() {
-    return this.reverb;
-  }
-
-  /**
-   * Connects the Reverb to a destination for processing.
-   * @method connect
-   * @for Reverb
-   * @param {Object} unit A p5.sound processor or modulation index.
-   */
   connect(destination) {
     this.reverb.connect(destination.getNode());
   }
   
-  /**
-   * Disconnects the Reverb from the output destination.
-   * @method disconnect
-   * @for Reverb
-   */
   disconnect() {
     this.reverb.disconnect(Tone.Context.destination);
+  }
+
+  getNode() {
+    return this.reverb;
   }
 }
 

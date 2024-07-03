@@ -146,12 +146,12 @@ class Delay {
     this.delay.volume.rampTo(dbValue, 0.1);
   }
 
-  connect(destination) {
-    this.delay.connect(destination.getNode());
-  }
-  
   getNode() {
     return this.delay;
+  }
+
+  connect(destination) {
+    this.delay.connect(destination.getNode());
   }
 
   disconnect() {

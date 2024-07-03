@@ -52,14 +52,6 @@ class Amplitude {
     input.getNode().connect(this.amplitude);
   }
 
-  getNode() {
-    return this.amplitude;
-  }
-
-  connect(destination) {
-    this.amplitude.connect(destination.getNode());
-  }
-
   /**
    * Get the current amplitude value of a sound.
    * @method getLevel
@@ -68,6 +60,14 @@ class Amplitude {
    */
   getLevel() {
     return this.amplitude.getValue();
+  }
+
+  connect(destination) {
+    this.amplitude.connect(destination.getNode());
+  }
+
+  getNode() {
+    return this.amplitude;
   }
 }
 

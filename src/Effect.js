@@ -1,9 +1,9 @@
 import * as Tone from "tone";
 
+//eventually it would be nice to have this be used as a base class for all effects
 class Effect {
   constructor() {
-    //proof constructor so that if you give string it will set type but if you give number it will set cutoff, if you give both it will set both
-    //this.gain = new Tone.Gain(1).toDestination();
+    
   }
 
   getNode() {

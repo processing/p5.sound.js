@@ -45,6 +45,7 @@ class AudioIn {
     constructor() {
         this.audioIn = new Tone.UserMedia().toDestination();
     }
+    
     /**
      * Start the audio input.
      * @method start

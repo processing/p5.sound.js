@@ -7,26 +7,35 @@ import * as Tone from "tone";
  * @example
  * <div>
  * <code>
- * let soundFile, pitchShifter;
- * 
+ *  let cnv, soundFile, pitchShifter;
+ *  
  * function preload() {
- *   soundFile = loadSound('assets/Damscray_DancingTiger.mp3');
+ *   soundFile = loadSound('assets/gtrSample.mp3');
  * }
- * 
+ *  
  * function setup() {
- *   createCanvas(100, 100);
- *   frameRate(1);
+ *   cnv = createCanvas(100, 100);
+ *   cnv.mousePressed(startSound);
+ *   background(220);
+ *   textAlign(CENTER);
+ *   textSize(9);
+ *   text('click to play sound', width/2, height/2);
  *   pitchShifter = new PitchShifter();
+ *   
  *   soundFile.disconnect();
  *   soundFile.connect(pitchShifter);
- *   soundFile.loop();
- *   soundFile.play();  
+ *   //change the pitch and retrigger sample when done playing
+ *   soundFile.onended(changePitch);
  * }
  * 
- * function draw() {
- *   background(220);
+ * function startSound () {
+ *   soundFile.play();
+ * }
+ *  
+ * function changePitch () {
  *   let pitchValue = random(-12, 12);
  *   pitchShifter.shift(pitchValue);
+ *   soundFile.play();
  * }
  * </code>
  * </div>

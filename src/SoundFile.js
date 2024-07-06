@@ -180,6 +180,7 @@ class SoundFile {
     let dbValue = Tone.gainToDb(value);
     this.soundfile.volume.value = dbValue;
   }
+  
   /**
    * Change the path for the soundfile.
    * @method setPath
@@ -219,21 +220,21 @@ class SoundFile {
    *   text('a new sound was loaded', 0, 20, 100);
    *   soundSource.setPath('https://tonejs.github.io/audio/berklee/gong_2.mp3', playSound); 
    * }
-   *   setPath(path, successCallback) {
-   *     this.soundfile.load(path).then(() => {
-   *       if (successCallback) {
-   *         successCallback();
-   *       }
-   *       else {
-   *         console.log('Audio loaded successfully!');
-   *       }
-   *     }).catch((error) => {
-   *       console.error('Error loading audio:', error);
-   *     });
-   *   }
    * </code>
    * </div>
    */
+  setPath(path, successCallback) {
+    this.soundfile.load(path).then(() => {
+      if (successCallback) {
+        successCallback();
+      }
+      else {
+        console.log('Audio loaded successfully!');
+      }
+    }).catch((error) => {
+      console.error('Error loading audio:', error);
+    });
+  }
 
   /**
    * Set the playback rate of the soundfile.

@@ -1,7 +1,9 @@
-let soundSource, cnv, btn;
+
+
+let soundSource, cnv, filter;
 
 function preload() {
-  soundSource = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+  soundSource = loadSound('assets/eljefe.mp3');
 }
 
 function setup() {
@@ -14,8 +16,8 @@ function setup() {
   textWrap(WORD);
   textSize(10);
   text('click to play sound or the button to load a new sound', 0, 20, 100);
-  btn = createButton('New Sound');
-  btn.mousePressed(setNewPath);
+
+  delay = new Biquad(0.5, 0.4);
   soundSource.loop();  
 }
 
@@ -23,9 +25,9 @@ function playSound() {
   soundSource.play();
 }
 
-function setNewPath() {
+function draw() {
   background(220);
-  text('a new sound was loaded', 0, 20, 100);
-  soundSource.setPath('https://tonejs.github.io/audio/berklee/gong_2.mp3', playSound); 
+  f = map(mouseX, 0, width, 0, 8000);
+  delay.freq(f);
 }
 

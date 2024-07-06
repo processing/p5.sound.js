@@ -1,10 +1,11 @@
 import * as Tone from "tone";
+import { clamp } from "./Utils";
 
 /**
  * Filter the frequency range of a sound.
  * @class Biquad
  * @constructor
- * @param {Number} [cutoff] cutoff frequency of the filter
+ * @param {Number} [cutoff] cutoff frequency of the filter, a value between 0 and 24000.
  * @param {String} [type] filter type. Options: "lowpass", 
  *                        "highpass", "bandpass", "lowshelf",
  *                        "highshelf", "notch", "allpass", 
@@ -54,7 +55,7 @@ class Biquad {
    * @param {Number} cutoffFrequency the cutoff frequency of the filter.
    */
   freq(f) {
-    this.biquad.frequency.value = f;
+    this.biquad.frequency.value = clamp(f, 0, 24000);
   }
 
   connect(destination) {

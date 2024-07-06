@@ -6,27 +6,38 @@ import * as Tone from "tone";
  * @constructor
  * @example
  * <div>
- * let mic, delay;
+ * <code>
+ * let mic, delay, filter;
  * 
  * function setup() {
  *   let cnv = createCanvas(100, 100);
  *   cnv.mousePressed(startMic);
  *   background(220);
+ *   
  *   mic = new AudioIn();
- *   mic.disonnect();
- *   mic.connect()
- *   textSize(10);
- *   textAlighn(CENTER);
+ *   delay = new Delay(0.74, 0.1);
+ *   filter = new Biquad(600, "bandpass");
+ *   
+ *   mic.disconnect();
+ *   mic.connect(delay);
+ *   delay.disconnect();
+ *   delay.connect(filter);
+ *   
+ *   textAlign(CENTER);
  *   textWrap(WORD);
- *   text('watch out for feedback', 20);
+ *   textSize(10);
+ *   text('click to open mic, watch out for feedback', 0, 20, 100);
+ *   describe('a sketch that accesses the user\'s microphone and connects it to a delay line.')
  * }
  * 
  * function startMic() {
  *   mic.start();
  * }
- *   
- *   
- * <code>
+ * 
+ * function draw() {
+ *   d = map(mouseX, 0, width, 0.0, 0.5);
+ *   delay.delayTime(d);
+ * }
  * </code>
  * </div>
  */
@@ -37,6 +48,7 @@ class AudioIn {
     /**
      * Start the audio input.
      * @method start
+     * @for AudioIn
      */
     start() {
         Tone.start();

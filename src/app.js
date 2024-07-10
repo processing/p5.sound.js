@@ -1,3 +1,9 @@
+import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './Utils';
+p5.prototype.getAudioContext = getAudioContext;
+p5.prototype.setAudioContext = setAudioContext;
+p5.prototype.userStartAudio = userStartAudio;
+p5.prototype.userStopAudio = userStopAudio;
+
 import Oscillator from './Oscillator';
 p5.prototype.Oscillator = Oscillator;
 

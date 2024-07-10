@@ -1,6 +1,9 @@
 
 
 let soundSource, cnv, filter;
+let started = false;
+
+let rate = 0;
 
 function preload() {
   soundSource = loadSound('assets/eljefe.mp3');
@@ -16,18 +19,26 @@ function setup() {
   textWrap(WORD);
   textSize(10);
   text('click to play sound or the button to load a new sound', 0, 20, 100);
-
-  delay = new Biquad(0.5, 0.4);
-  soundSource.loop();  
+  
+  delay = new Delay(0.5, 0.4);
+  soundSource.disconnect();
+  soundSource.connect(delay);
+  soundSource.loop();
+  soundSource.play(); 
+  let context = getAudioContext();
+  console.log(context); 
 }
 
 function playSound() {
-  soundSource.play();
+  if (!started) {
+    userStartAudio();
+    started = true;
+  }
+  else {
+    userStopAudio();
+    started = false;
+  }
+  
 }
 
-function draw() {
-  background(220);
-  f = map(mouseX, 0, width, 0, 8000);
-  delay.freq(f);
-}
 

@@ -1,7 +1,26 @@
+import * as Tone from "tone";
+
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
 
-//Tone Audio Context
+function getAudioContext() {
+    context = Tone.getContext();
+    return context;
+}
 
-export { clamp };
+function setAudioContext(context) {
+    Tone.setContext(context);
+}
+
+function userStartAudio() {
+    Tone.start();
+}
+
+function userStopAudio() {
+    context = Tone.getContext();
+    console.log(context);
+    context.suspend();
+}
+
+export { clamp, getAudioContext, setAudioContext, userStartAudio, userStopAudio };

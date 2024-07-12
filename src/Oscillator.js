@@ -104,16 +104,6 @@ class Oscillator {
   }
 
   /**
-   *  Returns current type of oscillator eg. 'sine', 'triangle', 'sawtooth' or 'square'.
-   *  @method  getType
-   *  @for Oscillator
-   *  @returns {String} type of oscillator  eg. 'sine', 'triangle', 'sawtooth' or 'square'.
-  */
-  getType() {
-    return this.oscillator.type;
-  }
-
-  /**
    * Adjust the amplitude of the Oscillator.
    * @method amp
    * @for Oscillator

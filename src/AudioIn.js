@@ -70,6 +70,17 @@ class AudioIn {
     stop() {
         this.audioIn.close();
     }
+
+    /**
+     * Set amplitude (volume) of a mic input between 0 and 1.0.
+     * @method amp
+     * @for AudioIn
+     * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
+     */
+    amp(value) {
+        let dbValue = Tone.gainToDb(value);
+        this.delay.volume.rampTo(dbValue, 0.1);
+    }
     
     getNode() {
         return this.audioIn;

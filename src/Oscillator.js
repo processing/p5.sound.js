@@ -1,4 +1,5 @@
 import * as Tone from "tone";
+import { clamp } from "./Utils";
 
 /** 
  * Generate Sine, Triangle, Square and Sawtooth waveforms.
@@ -78,7 +79,7 @@ class Oscillator {
    * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). 
    */
   freq(f) {
-    this.osc.frequency.value = f;
+    this.osc.frequency.value = clamp(f, 0, 24000);
   }
 
   /**
@@ -108,8 +109,43 @@ class Oscillator {
    * @method amp
    * @for Oscillator
    * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal.
+   * @example
+   * <div>
+   * <code>
+   * let osc, lfo;
+   * let cnv;
+   * 
+   * function setup() {
+   *   cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(startSound);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   
+   *   osc = new Oscillator('sine');
+   *   lfo = new Oscillator(1);
+   *   lfo.disconnect();
+   *   osc.amp(lfo);
+   * }
+   * 
+   * function startSound() {
+   *   lfo.start();
+   *   osc.start();
+   * }
+   * 
+   * function draw(){
+   *   background(220);
+   *   text('click to play sound', 0, height/2 - 20, 100);
+   *   text('control lfo with mouseX position', 0, height/2, 100);
+   * 
+   *   let freq = map(mouseX, 0, width, 0, 10);
+   *   lfo.freq(freq);
+   * }
+   * </code>
+   * </div>
    */
   amp(value) {
+    //if value is an object (i.e. audio signal such as an LFO), connect it to the oscillator's volume
     if (typeof value === "object") {
       value.getNode().connect(this.osc.volume);
       return;

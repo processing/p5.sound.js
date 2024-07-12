@@ -107,9 +107,13 @@ class Oscillator {
    * Adjust the amplitude of the Oscillator.
    * @method amp
    * @for Oscillator
-   * @param {Number} amplitude value between 0 and 1.
+   * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal.
    */
   amp(value) {
+    if (typeof value === "object") {
+      value.getNode().connect(this.osc.volume);
+      return;
+    }
     let dbValue = Tone.gainToDb(value);
     this.osc.volume.value = dbValue;
   }

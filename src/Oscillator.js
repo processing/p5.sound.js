@@ -15,7 +15,7 @@ import { clamp } from "./Utils";
  * let osc, playing, freq, amp;
  *
  * function setup() {
- *   describe("a sketch that demonstrates amplitude modulation with an LFO and sine tone");
+ *   describe("a sketch that demonstrates the frequency and amplitude parameters of an oscillator.");
  *   let cnv = createCanvas(100, 100);
  *   cnv.mousePressed(playOscillator);
  *   osc = new Oscillator();
@@ -117,6 +117,7 @@ class Oscillator {
    * let cnv;
    * 
    * function setup() {
+   *   describe("a sketch that demonstrates amplitude modulation with an LFO and sine tone");
    *   cnv = createCanvas(100, 100);
    *   cnv.mousePressed(startSound);
    *   textAlign(CENTER);

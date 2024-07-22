@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { Oscillator as ToneOscillator, gainToDb as ToneGainToDb } from "tone";
 import { clamp } from "./Utils";
 
 /** 
@@ -67,7 +67,7 @@ class Oscillator {
     
     this.frequency = frequency;
     this.type = type;
-    this.osc = new Tone.Oscillator().toDestination();
+    this.osc = new ToneOscillator().toDestination();
     this.osc.frequency.value = this.frequency;
     this.osc.type = this.type;
     this.osc.volume.value = -6;
@@ -152,7 +152,7 @@ class Oscillator {
       value.getNode().connect(this.osc.volume);
       return;
     }
-    let dbValue = Tone.gainToDb(value);
+    let dbValue = ToneGainToDb(value);
     this.osc.volume.value = dbValue;
   }
 

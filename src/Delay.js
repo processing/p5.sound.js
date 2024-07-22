@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { FeedbackDelay as ToneFeedbackDelay, gainToDb as ToneGainToDb } from "tone";
 import { clamp } from './Utils';
 
 /**
@@ -43,7 +43,7 @@ class Delay {
   constructor(d = 0.250, f = 0.2)  {
     this.d = d;
     this.f = f;
-    this.delay = new Tone.FeedbackDelay(this.d, this.f).toDestination();
+    this.delay = new ToneFeedbackDelay(this.d, this.f).toDestination();
   }
 
   /**
@@ -142,7 +142,7 @@ class Delay {
    * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
    */
   amp(value) {
-    let dbValue = Tone.gainToDb(value);
+    let dbValue = ToneGainToDb(value);
     this.delay.volume.rampTo(dbValue, 0.1);
   }
 

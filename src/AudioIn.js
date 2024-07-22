@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { UserMedia as ToneUserMedia, gainToDb as ToneGainToDb} from "tone";
 
 /**
  * Get sound from an input source, typically a computer microphone.
@@ -43,7 +43,7 @@ import * as Tone from "tone";
  */
 class AudioIn {
     constructor() {
-        this.audioIn = new Tone.UserMedia().toDestination();
+        this.audioIn = new ToneUserMedia().toDestination();
     }
     
     /**
@@ -78,7 +78,7 @@ class AudioIn {
      * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
      */
     amp(value) {
-        let dbValue = Tone.gainToDb(value);
+        let dbValue = ToneGainToDb(value);
         this.delay.volume.rampTo(dbValue, 0.1);
     }
     

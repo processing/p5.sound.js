@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { Gain as ToneGain } from "tone";
 
 /**
  * Generate a gain node to use for mixing and main volume.
@@ -44,7 +44,7 @@ import * as Tone from "tone";
  */
 class Gain {
   constructor(value = 1) {
-    this.gain = new Tone.Gain(value).toDestination();
+    this.gain = new ToneGain(value).toDestination();
   }
 
   /**

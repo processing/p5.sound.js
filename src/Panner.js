@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { Panner as TonePanner } from "tone";
 import { clamp } from './Utils';
 
 /**
@@ -40,7 +40,7 @@ import { clamp } from './Utils';
  */
 class Panner {
   constructor() {
-    this.panner= new Tone.Panner(0).toDestination();
+    this.panner= new TonePanner(0).toDestination();
   }
   
   /**

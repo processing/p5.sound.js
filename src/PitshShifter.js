@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { PitchShift as TonePitchShift } from "tone";
 
 /**
  * Change the pitch of a sound.
@@ -42,7 +42,7 @@ import * as Tone from "tone";
  */
 class PitchShifter {
     constructor(shiftValue = 1) {
-        this.pitchshifter = new Tone.PitchShift(shiftValue).toDestination();
+        this.pitchshifter = new TonePitchShift(shiftValue).toDestination();
     }
     
     /**

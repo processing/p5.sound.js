@@ -1,4 +1,5 @@
-import * as Tone from "tone";
+import { FFT as ToneFFT, Waveform as ToneWaveform, Gain as ToneGain } from "tone";
+//import * as Tone from "tone";
 
 /**
  * Analyze the frequency spectrum and waveform of sounds.
@@ -57,13 +58,13 @@ import * as Tone from "tone";
 class FFT {
     constructor(fftSize = 32) {
         this.fftSize = fftSize;
-        this.analyzer = new Tone.FFT({
+        this.analyzer = new ToneFFT({
             size: this.fftSize,
             normalRange: true,
         });
-        this.samples = new Tone.Waveform();
+        this.samples = new ToneWaveform();
         //creates a single gain node to connect to for the analyzer and waveform
-        this.gain = new Tone.Gain(1);
+        this.gain = new ToneGain(1);
         this.gain.connect(this.analyzer);
         this.gain.connect(this.samples);
     }

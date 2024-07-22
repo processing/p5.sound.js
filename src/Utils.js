@@ -1,16 +1,16 @@
-import * as Tone from "tone";
+import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone";
 
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
 
 function getAudioContext() {
-    context = Tone.getContext();
+    context = ToneGetContext();
     return context;
 }
 
 function setAudioContext(context) {
-    Tone.setContext(context);
+    ToneSetContext(context);
 }
 
 function userStartAudio() {
@@ -18,7 +18,7 @@ function userStartAudio() {
 }
 
 function userStopAudio() {
-    context = Tone.getContext();
+    context = ToneGetContext();
     console.log(context);
     context.suspend();
 }

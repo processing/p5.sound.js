@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { Player as TonePlayer, gainToDb as ToneGainToDb} from "tone";
 
 function loadSound (path) {
   let player = new SoundFile(
@@ -55,7 +55,7 @@ function loadSound (path) {
  */
 class SoundFile {
   constructor(buffer, successCallback) {
-    this.soundfile = new Tone.Player(buffer, successCallback).toDestination();
+    this.soundfile = new TonePlayer(buffer, successCallback).toDestination();
     this.playing = false;
     this.rate = 1;
     this.paused = false;
@@ -177,7 +177,7 @@ class SoundFile {
    * @param {Number} amplitude amplitude value between 0 and 1.
    */
   amp(value) {
-    let dbValue = Tone.gainToDb(value);
+    let dbValue = ToneGainToDb(value);
     this.soundfile.volume.value = dbValue;
   }
   

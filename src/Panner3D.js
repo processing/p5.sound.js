@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { Panner3D as TonePanner3D } from "tone";
 
 /**
  * A 3D sound spatializer.
@@ -99,7 +99,7 @@ import * as Tone from "tone";
  */
 class Panner3D {
   constructor() {
-    this.panner3d= new Tone.Panner3D({
+    this.panner3d= new TonePanner3D({
       coneInnerAngle:360,
       coneOuterAngle:360,
       coneOuterGain:1,

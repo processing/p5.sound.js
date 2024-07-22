@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { Noise as ToneNoise } from "tone";
 
 /**
  * Generate a buffer with random values.
@@ -43,7 +43,7 @@ class Noise {
     if (typeof type === "undefined") {
       type = "white";
     }
-    this.noise = new Tone.Noise().toDestination();
+    this.noise = new ToneNoise().toDestination();
     this.noise.type = type;
   }
   /**

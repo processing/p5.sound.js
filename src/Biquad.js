@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { BiquadFilter as ToneBiquadFilter} from "tone";
 import { clamp } from "./Utils";
 
 /**
@@ -15,7 +15,7 @@ class Biquad {
   constructor(c = 800, t = "lowpass") {
     this.type = t;
     this.cutoff = c;
-    this.biquad= new Tone.BiquadFilter(this.cutoff, this.type).toDestination();
+    this.biquad= new ToneBiquadFilter(this.cutoff, this.type).toDestination();
   }
   
   /**

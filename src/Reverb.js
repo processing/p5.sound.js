@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { Reverb as ToneReverb } from "tone";
 
 /**
  * Add reverb to a sound by specifying duration and decay.
@@ -43,7 +43,7 @@ import * as Tone from "tone";
 class Reverb {
   constructor(decayTime) {
     this.decayTime = decayTime || 1;
-    this.reverb = new Tone.Reverb(this.decayTime).toDestination();
+    this.reverb = new ToneReverb(this.decayTime).toDestination();
   }
 
   /**

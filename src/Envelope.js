@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone";
 
 /**
  * Generate an amplitude envelope.
@@ -23,7 +23,7 @@ class Envelope {
     this.sustain = s;
     this.release = r;
 
-    this.envelope = new Tone.AmplitudeEnvelope({
+    this.envelope = new ToneAmplitudeEnvelope({
       attack: this.attack,
       decay: this.decay,
       sustain: this.sustain,

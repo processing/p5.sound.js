@@ -1,4 +1,4 @@
-import * as Tone from "tone";
+import { Meter as ToneMeter } from "tone";
 
 /**
  * Get the current volume of a sound.
@@ -39,7 +39,7 @@ import * as Tone from "tone";
  */
 class Amplitude {
   constructor() {
-    this.amplitude = new Tone.Meter({normalRange:true});
+    this.amplitude = new ToneMeter({normalRange:true});
   }
 
   /**

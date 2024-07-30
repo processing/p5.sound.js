@@ -1,4 +1,4 @@
-import { Noise as ToneNoise } from "tone";
+import { Noise as ToneNoise, Context as ToneContext } from "tone";
 
 /**
  * Generate a buffer with random values.
@@ -78,7 +78,7 @@ class Noise {
   }
 
   disconnect() {
-    this.noise.disconnect(Tone.Context.destination);
+    this.noise.disconnect(ToneContext.destination);
   }
 
   getNode() {

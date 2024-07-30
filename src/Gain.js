@@ -1,4 +1,4 @@
-import { Gain as ToneGain } from "tone";
+import { Gain as ToneGain, Context as ToneContext } from "tone";
 
 /**
  * Generate a gain node to use for mixing and main volume.
@@ -62,7 +62,7 @@ class Gain {
   }
 
   disconnect() {
-    this.gain.disconnect(Tone.Context.destination);
+    this.gain.disconnect(ToneContext.destination);
   }
 
   getNode() {

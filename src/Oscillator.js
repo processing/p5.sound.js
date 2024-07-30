@@ -1,4 +1,4 @@
-import { Oscillator as ToneOscillator, gainToDb as ToneGainToDb } from "tone";
+import { Oscillator as ToneOscillator, gainToDb as ToneGainToDb, Context as ToneContext } from "tone";
 import { clamp } from "./Utils";
 
 /** 
@@ -79,8 +79,8 @@ class Oscillator {
    * @for Oscillator
    * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). 
    */
-  freq(f) {
-    this.osc.frequency.value = clamp(f, 0, 24000);
+  freq(f, p = 0.1) {
+    this.osc.frequency.rampTo(clamp(f, 0, 24000), p);
   }
 
   /**
@@ -146,14 +146,14 @@ class Oscillator {
    * </code>
    * </div>
    */
-  amp(value) {
+  amp(value, p = 0.1) {
     //if value is an object (i.e. audio signal such as an LFO), connect it to the oscillator's volume
     if (typeof value === "object") {
       value.getNode().connect(this.osc.volume);
       return;
     }
     let dbValue = ToneGainToDb(value);
-    this.osc.volume.value = dbValue;
+    this.osc.volume.rampTo(dbValue, p);
   }
 
   /**
@@ -195,7 +195,7 @@ class Oscillator {
   }
 
   disconnect() {
-    this.osc.disconnect(Tone.Context.destination);
+    this.osc.disconnect(ToneContext.destination);
   }
 
   getNode() {

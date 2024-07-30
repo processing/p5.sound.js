@@ -1,4 +1,4 @@
-import { FeedbackDelay as ToneFeedbackDelay, gainToDb as ToneGainToDb } from "tone";
+import { FeedbackDelay as ToneFeedbackDelay, gainToDb as ToneGainToDb, Context as ToneContext } from "tone";
 import { clamp } from './Utils';
 
 /**
@@ -155,7 +155,7 @@ class Delay {
   }
 
   disconnect() {
-    this.delay.disconnect(Tone.Context.destination);
+    this.delay.disconnect(ToneContext.destination);
   }
 }
 

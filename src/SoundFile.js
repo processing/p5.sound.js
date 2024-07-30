@@ -1,4 +1,4 @@
-import { Player as TonePlayer, gainToDb as ToneGainToDb} from "tone";
+import { Player as TonePlayer, gainToDb as ToneGainToDb, Context as ToneContext} from "tone";
 
 function loadSound (path) {
   let player = new SoundFile(
@@ -399,7 +399,7 @@ class SoundFile {
   }
 
   disconnect() {
-    this.soundfile.disconnect(Tone.Context.destination);
+    this.soundfile.disconnect(ToneContext.destination);
   }
 
   getNode() {

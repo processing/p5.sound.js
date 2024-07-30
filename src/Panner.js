@@ -1,4 +1,4 @@
-import { Panner as TonePanner } from "tone";
+import { Panner as TonePanner, Context as ToneContext } from "tone";
 import { clamp } from './Utils';
 
 /**
@@ -66,7 +66,7 @@ class Panner {
   }
 
   disconnect() {
-    this.panner.disconnect(Tone.Context.destination);
+    this.panner.disconnect(ToneContext.destination);
   }
 }
 

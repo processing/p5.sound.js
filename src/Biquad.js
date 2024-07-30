@@ -1,4 +1,4 @@
-import { BiquadFilter as ToneBiquadFilter} from "tone";
+import { BiquadFilter as ToneBiquadFilter, Context as ToneContext} from "tone";
 import { clamp } from "./Utils";
 
 /**
@@ -63,7 +63,7 @@ class Biquad {
   }
 
   disconnect() {
-    this.biquad.disconnect(Tone.Context.destination);
+    this.biquad.disconnect(ToneContext.destination);
   }
 
   getNode() {

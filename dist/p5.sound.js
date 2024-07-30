@@ -11856,9 +11856,9 @@ function disconnect(srcNode, dstNode, outputNumber = 0, inputNumber = 0) {
  * 	gainNode.gain.rampTo(0, 0.4, 0.2);
  * }, 0.7, 1);
  */
-class Gain$1 extends ToneAudioNode {
+class Gain$2 extends ToneAudioNode {
     constructor() {
-        const options = optionsFromArguments(Gain$1.getDefaults(), arguments, [
+        const options = optionsFromArguments(Gain$2.getDefaults(), arguments, [
             "gain",
             "units",
         ]);
@@ -11926,7 +11926,7 @@ class OneShotSource extends ToneAudioNode {
         /**
          * The public output node
          */
-        this.output = new Gain$1({
+        this.output = new Gain$2({
             context: this.context,
             gain: 0,
         });
@@ -13207,9 +13207,9 @@ Emitter.mixin(Clock);
  * 	pulse.start(0).stop(0.01);
  * }, 0.5, 1);
  */
-class Delay$1 extends ToneAudioNode {
+class Delay$2 extends ToneAudioNode {
     constructor() {
-        const options = optionsFromArguments(Delay$1.getDefaults(), arguments, [
+        const options = optionsFromArguments(Delay$2.getDefaults(), arguments, [
             "delayTime",
             "maxDelay",
         ]);
@@ -13270,7 +13270,7 @@ class Volume extends ToneAudioNode {
         ]);
         super(options);
         this.name = "Volume";
-        this.input = this.output = new Gain$1({
+        this.input = this.output = new Gain$2({
             context: this.context,
             gain: options.volume,
             units: "decibels",
@@ -13340,7 +13340,7 @@ class DestinationClass extends ToneAudioNode {
         super(options);
         this.name = "Destination";
         this.input = new Volume({ context: this.context });
-        this.output = new Gain$1({ context: this.context });
+        this.output = new Gain$2({ context: this.context });
         /**
          * The volume of the master output in decibels. -Infinity is silent, and 0 is no change.
          * @example
@@ -15235,9 +15235,9 @@ class TransportClass extends ToneWithContext {
             // that the initial input is in this range, while leaving room for
             // tempo changes.
             const scaleFactor = 1 / 64 / sourceValue;
-            const scaleBefore = new Gain$1(scaleFactor);
+            const scaleBefore = new Gain$2(scaleFactor);
             const reciprocal = new Pow(-1);
-            const scaleAfter = new Gain$1(scaleFactor);
+            const scaleAfter = new Gain$2(scaleFactor);
             // @ts-ignore
             source.chain(scaleBefore, reciprocal, scaleAfter);
             source = scaleAfter;
@@ -15253,7 +15253,7 @@ class TransportClass extends ToneWithContext {
                 ratio = 0;
             }
         }
-        const ratioSignal = new Gain$1(ratio);
+        const ratioSignal = new Gain$2(ratio);
         // @ts-ignore
         source.connect(ratioSignal);
         // @ts-ignore
@@ -15799,9 +15799,9 @@ class ToneBufferSource extends OneShotSource {
  * autoFilter.start();
  * @category Source
  */
-class Noise$1 extends Source {
+class Noise$2 extends Source {
     constructor() {
-        const options = optionsFromArguments(Noise$1.getDefaults(), arguments, [
+        const options = optionsFromArguments(Noise$2.getDefaults(), arguments, [
             "type",
         ]);
         super(options);
@@ -16324,9 +16324,9 @@ class ToneOscillatorNode extends OneShotSource {
  * const osc = new Tone.Oscillator(440, "sine").toDestination().start();
  * @category Source
  */
-class Oscillator$1 extends Source {
+class Oscillator$2 extends Source {
     constructor() {
-        const options = optionsFromArguments(Oscillator$1.getDefaults(), arguments, ["frequency", "type"]);
+        const options = optionsFromArguments(Oscillator$2.getDefaults(), arguments, ["frequency", "type"]);
         super(options);
         this.name = "Oscillator";
         /**
@@ -16441,14 +16441,14 @@ class Oscillator$1 extends Source {
      */
     _getCachedPeriodicWave() {
         if (this._type === "custom") {
-            const oscProps = Oscillator$1._periodicWaveCache.find((description) => {
+            const oscProps = Oscillator$2._periodicWaveCache.find((description) => {
                 return (description.phase === this._phase &&
                     deepEquals(description.partials, this._partials));
             });
             return oscProps;
         }
         else {
-            const oscProps = Oscillator$1._periodicWaveCache.find((description) => {
+            const oscProps = Oscillator$2._periodicWaveCache.find((description) => {
                 return (description.type === this._type &&
                     description.phase === this._phase);
             });
@@ -16492,7 +16492,7 @@ class Oscillator$1 extends Source {
                     this._oscillator.setPeriodicWave(this._wave);
                 }
                 // set the cache
-                Oscillator$1._periodicWaveCache.push({
+                Oscillator$2._periodicWaveCache.push({
                     imag,
                     partialCount: this._partialCount,
                     partials: this._partials,
@@ -16501,8 +16501,8 @@ class Oscillator$1 extends Source {
                     type: this._type,
                     wave: this._wave,
                 });
-                if (Oscillator$1._periodicWaveCache.length > 100) {
-                    Oscillator$1._periodicWaveCache.shift();
+                if (Oscillator$2._periodicWaveCache.length > 100) {
+                    Oscillator$2._periodicWaveCache.shift();
                 }
             }
         }
@@ -16690,7 +16690,7 @@ class Oscillator$1 extends Source {
 /**
  * Cache the periodic waves to avoid having to redo computations
  */
-Oscillator$1._periodicWaveCache = [];
+Oscillator$2._periodicWaveCache = [];
 
 /**
  * AudioToGain converts an input in AudioRange [-1,1] to NormalRange [0,1].
@@ -16758,7 +16758,7 @@ class Multiply extends Signal {
         this._mult =
             this.input =
                 this.output =
-                    new Gain$1({
+                    new Gain$2({
                         context: this.context,
                         minValue: options.minValue,
                         maxValue: options.maxValue,
@@ -16810,10 +16810,10 @@ class AMOscillator extends Source {
         /**
          * the node where the modulation happens
          */
-        this._modulationNode = new Gain$1({
+        this._modulationNode = new Gain$2({
             context: this.context,
         });
-        this._carrier = new Oscillator$1({
+        this._carrier = new Oscillator$2({
             context: this.context,
             detune: options.detune,
             frequency: options.frequency,
@@ -16823,7 +16823,7 @@ class AMOscillator extends Source {
         });
         (this.frequency = this._carrier.frequency),
             (this.detune = this._carrier.detune);
-        this._modulator = new Oscillator$1({
+        this._modulator = new Oscillator$2({
             context: this.context,
             phase: options.phase,
             type: options.modulationType,
@@ -16840,7 +16840,7 @@ class AMOscillator extends Source {
         readOnly(this, ["frequency", "detune", "harmonicity"]);
     }
     static getDefaults() {
-        return Object.assign(Oscillator$1.getDefaults(), {
+        return Object.assign(Oscillator$2.getDefaults(), {
             harmonicity: 1,
             modulationType: "square",
         });
@@ -16961,11 +16961,11 @@ class FMOscillator extends Source {
         /**
          * the node where the modulation happens
          */
-        this._modulationNode = new Gain$1({
+        this._modulationNode = new Gain$2({
             context: this.context,
             gain: 0,
         });
-        this._carrier = new Oscillator$1({
+        this._carrier = new Oscillator$2({
             context: this.context,
             detune: options.detune,
             frequency: 0,
@@ -16979,7 +16979,7 @@ class FMOscillator extends Source {
             units: "frequency",
             value: options.frequency,
         });
-        this._modulator = new Oscillator$1({
+        this._modulator = new Oscillator$2({
             context: this.context,
             phase: options.phase,
             type: options.modulationType,
@@ -17010,7 +17010,7 @@ class FMOscillator extends Source {
         ]);
     }
     static getDefaults() {
-        return Object.assign(Oscillator$1.getDefaults(), {
+        return Object.assign(Oscillator$2.getDefaults(), {
             harmonicity: 1,
             modulationIndex: 2,
             modulationType: "square",
@@ -17138,7 +17138,7 @@ class PulseOscillator extends Source {
         /**
          * gate the width amount
          */
-        this._widthGate = new Gain$1({
+        this._widthGate = new Gain$2({
             context: this.context,
             gain: 0,
         });
@@ -17154,7 +17154,7 @@ class PulseOscillator extends Source {
             units: "audioRange",
             value: options.width,
         });
-        this._triangle = new Oscillator$1({
+        this._triangle = new Oscillator$2({
             context: this.context,
             detune: options.detune,
             frequency: options.frequency,
@@ -17296,7 +17296,7 @@ class FatOscillator extends Source {
         readOnly(this, ["frequency", "detune"]);
     }
     static getDefaults() {
-        return Object.assign(Oscillator$1.getDefaults(), {
+        return Object.assign(Oscillator$2.getDefaults(), {
             count: 3,
             spread: 20,
             type: "sawtooth",
@@ -17374,7 +17374,7 @@ class FatOscillator extends Source {
             this._forEach((osc) => osc.dispose());
             this._oscillators = [];
             for (let i = 0; i < count; i++) {
-                const osc = new Oscillator$1({
+                const osc = new Oscillator$2({
                     context: this.context,
                     volume: -6 - count * 1.1,
                     type: this._type,
@@ -17480,7 +17480,7 @@ class PWMOscillator extends Source {
         // change the pulse oscillator type
         this._pulse.carrierType = "sine";
         this.modulationFrequency = this._pulse.frequency;
-        this._modulator = new Oscillator$1({
+        this._modulator = new Oscillator$2({
             context: this.context,
             detune: options.detune,
             frequency: options.frequency,
@@ -17580,7 +17580,7 @@ const OmniOscillatorSourceMap = {
     am: AMOscillator,
     fat: FatOscillator,
     fm: FMOscillator,
-    oscillator: Oscillator$1,
+    oscillator: Oscillator$2,
     pulse: PulseOscillator,
     pwm: PWMOscillator,
 };
@@ -17612,7 +17612,7 @@ class OmniOscillator extends Source {
         this.set(options);
     }
     static getDefaults() {
-        return Object.assign(Oscillator$1.getDefaults(), FMOscillator.getDefaults(), AMOscillator.getDefaults(), FatOscillator.getDefaults(), PulseOscillator.getDefaults(), PWMOscillator.getDefaults());
+        return Object.assign(Oscillator$2.getDefaults(), FMOscillator.getDefaults(), AMOscillator.getDefaults(), FatOscillator.getDefaults(), PulseOscillator.getDefaults(), PWMOscillator.getDefaults());
     }
     /**
      * start the oscillator
@@ -17916,386 +17916,6 @@ class OmniOscillator extends Source {
         this.detune.dispose();
         this.frequency.dispose();
         this._oscillator.dispose();
-        return this;
-    }
-}
-
-/**
- * Add a signal and a number or two signals. When no value is
- * passed into the constructor, Tone.Add will sum input and `addend`
- * If a value is passed into the constructor, the it will be added to the input.
- *
- * @example
- * return Tone.Offline(() => {
- * 	const add = new Tone.Add(2).toDestination();
- * 	add.addend.setValueAtTime(1, 0.2);
- * 	const signal = new Tone.Signal(2);
- * 	// add a signal and a scalar
- * 	signal.connect(add);
- * 	signal.setValueAtTime(1, 0.1);
- * }, 0.5, 1);
- * @category Signal
- */
-class Add extends Signal {
-    constructor() {
-        super(optionsFromArguments(Add.getDefaults(), arguments, ["value"]));
-        this.override = false;
-        this.name = "Add";
-        /**
-         * the summing node
-         */
-        this._sum = new Gain$1({ context: this.context });
-        this.input = this._sum;
-        this.output = this._sum;
-        /**
-         * The value which is added to the input signal
-         */
-        this.addend = this._param;
-        connectSeries(this._constantSource, this._sum);
-    }
-    static getDefaults() {
-        return Object.assign(Signal.getDefaults(), {
-            value: 0,
-        });
-    }
-    dispose() {
-        super.dispose();
-        this._sum.dispose();
-        return this;
-    }
-}
-
-/**
- * Performs a linear scaling on an input signal.
- * Scales a NormalRange input to between
- * outputMin and outputMax.
- *
- * @example
- * const scale = new Tone.Scale(50, 100);
- * const signal = new Tone.Signal(0.5).connect(scale);
- * // the output of scale equals 75
- * @category Signal
- */
-class Scale extends SignalOperator {
-    constructor() {
-        const options = optionsFromArguments(Scale.getDefaults(), arguments, [
-            "min",
-            "max",
-        ]);
-        super(options);
-        this.name = "Scale";
-        this._mult = this.input = new Multiply({
-            context: this.context,
-            value: options.max - options.min,
-        });
-        this._add = this.output = new Add({
-            context: this.context,
-            value: options.min,
-        });
-        this._min = options.min;
-        this._max = options.max;
-        this.input.connect(this.output);
-    }
-    static getDefaults() {
-        return Object.assign(SignalOperator.getDefaults(), {
-            max: 1,
-            min: 0,
-        });
-    }
-    /**
-     * The minimum output value. This number is output when the value input value is 0.
-     */
-    get min() {
-        return this._min;
-    }
-    set min(min) {
-        this._min = min;
-        this._setRange();
-    }
-    /**
-     * The maximum output value. This number is output when the value input value is 1.
-     */
-    get max() {
-        return this._max;
-    }
-    set max(max) {
-        this._max = max;
-        this._setRange();
-    }
-    /**
-     * set the values
-     */
-    _setRange() {
-        this._add.value = this._min;
-        this._mult.value = this._max - this._min;
-    }
-    dispose() {
-        super.dispose();
-        this._add.dispose();
-        this._mult.dispose();
-        return this;
-    }
-}
-
-/**
- * Tone.Zero outputs 0's at audio-rate. The reason this has to be
- * it's own class is that many browsers optimize out Tone.Signal
- * with a value of 0 and will not process nodes further down the graph.
- * @category Signal
- */
-class Zero extends SignalOperator {
-    constructor() {
-        super(optionsFromArguments(Zero.getDefaults(), arguments));
-        this.name = "Zero";
-        /**
-         * The gain node which connects the constant source to the output
-         */
-        this._gain = new Gain$1({ context: this.context });
-        /**
-         * Only outputs 0
-         */
-        this.output = this._gain;
-        /**
-         * no input node
-         */
-        this.input = undefined;
-        connect(this.context.getConstant(0), this._gain);
-    }
-    /**
-     * clean up
-     */
-    dispose() {
-        super.dispose();
-        disconnect(this.context.getConstant(0), this._gain);
-        return this;
-    }
-}
-
-/**
- * LFO stands for low frequency oscillator. LFO produces an output signal
- * which can be attached to an AudioParam or Tone.Signal
- * in order to modulate that parameter with an oscillator. The LFO can
- * also be synced to the transport to start/stop and change when the tempo changes.
- * @example
- * return Tone.Offline(() => {
- * 	const lfo = new Tone.LFO("4n", 400, 4000).start().toDestination();
- * }, 0.5, 1);
- * @category Source
- */
-class LFO extends ToneAudioNode {
-    constructor() {
-        const options = optionsFromArguments(LFO.getDefaults(), arguments, [
-            "frequency",
-            "min",
-            "max",
-        ]);
-        super(options);
-        this.name = "LFO";
-        /**
-         * The value that the LFO outputs when it's stopped
-         */
-        this._stoppedValue = 0;
-        /**
-         * A private placeholder for the units
-         */
-        this._units = "number";
-        /**
-         * If the input value is converted using the {@link units}
-         */
-        this.convert = true;
-        /**
-         * Private methods borrowed from Param
-         */
-        // @ts-ignore
-        this._fromType = Param.prototype._fromType;
-        // @ts-ignore
-        this._toType = Param.prototype._toType;
-        // @ts-ignore
-        this._is = Param.prototype._is;
-        // @ts-ignore
-        this._clampValue = Param.prototype._clampValue;
-        this._oscillator = new Oscillator$1(options);
-        this.frequency = this._oscillator.frequency;
-        this._amplitudeGain = new Gain$1({
-            context: this.context,
-            gain: options.amplitude,
-            units: "normalRange",
-        });
-        this.amplitude = this._amplitudeGain.gain;
-        this._stoppedSignal = new Signal({
-            context: this.context,
-            units: "audioRange",
-            value: 0,
-        });
-        this._zeros = new Zero({ context: this.context });
-        this._a2g = new AudioToGain({ context: this.context });
-        this._scaler = this.output = new Scale({
-            context: this.context,
-            max: options.max,
-            min: options.min,
-        });
-        this.units = options.units;
-        this.min = options.min;
-        this.max = options.max;
-        // connect it up
-        this._oscillator.chain(this._amplitudeGain, this._a2g, this._scaler);
-        this._zeros.connect(this._a2g);
-        this._stoppedSignal.connect(this._a2g);
-        readOnly(this, ["amplitude", "frequency"]);
-        this.phase = options.phase;
-    }
-    static getDefaults() {
-        return Object.assign(Oscillator$1.getDefaults(), {
-            amplitude: 1,
-            frequency: "4n",
-            max: 1,
-            min: 0,
-            type: "sine",
-            units: "number",
-        });
-    }
-    /**
-     * Start the LFO.
-     * @param time The time the LFO will start
-     */
-    start(time) {
-        time = this.toSeconds(time);
-        this._stoppedSignal.setValueAtTime(0, time);
-        this._oscillator.start(time);
-        return this;
-    }
-    /**
-     * Stop the LFO.
-     * @param  time The time the LFO will stop
-     */
-    stop(time) {
-        time = this.toSeconds(time);
-        this._stoppedSignal.setValueAtTime(this._stoppedValue, time);
-        this._oscillator.stop(time);
-        return this;
-    }
-    /**
-     * Sync the start/stop/pause to the transport
-     * and the frequency to the bpm of the transport
-     * @example
-     * const lfo = new Tone.LFO("8n");
-     * lfo.sync().start(0);
-     * // the rate of the LFO will always be an eighth note, even as the tempo changes
-     */
-    sync() {
-        this._oscillator.sync();
-        this._oscillator.syncFrequency();
-        return this;
-    }
-    /**
-     * unsync the LFO from transport control
-     */
-    unsync() {
-        this._oscillator.unsync();
-        this._oscillator.unsyncFrequency();
-        return this;
-    }
-    /**
-     * After the oscillator waveform is updated, reset the `_stoppedSignal` value to match the updated waveform
-     */
-    _setStoppedValue() {
-        this._stoppedValue = this._oscillator.getInitialValue();
-        this._stoppedSignal.value = this._stoppedValue;
-    }
-    /**
-     * The minimum output of the LFO.
-     */
-    get min() {
-        return this._toType(this._scaler.min);
-    }
-    set min(min) {
-        min = this._fromType(min);
-        this._scaler.min = min;
-    }
-    /**
-     * The maximum output of the LFO.
-     */
-    get max() {
-        return this._toType(this._scaler.max);
-    }
-    set max(max) {
-        max = this._fromType(max);
-        this._scaler.max = max;
-    }
-    /**
-     * The type of the oscillator.
-     * @see {@link Oscillator.type}
-     */
-    get type() {
-        return this._oscillator.type;
-    }
-    set type(type) {
-        this._oscillator.type = type;
-        this._setStoppedValue();
-    }
-    /**
-     * The oscillator's partials array.
-     * @see {@link Oscillator.partials}
-     */
-    get partials() {
-        return this._oscillator.partials;
-    }
-    set partials(partials) {
-        this._oscillator.partials = partials;
-        this._setStoppedValue();
-    }
-    /**
-     * The phase of the LFO.
-     */
-    get phase() {
-        return this._oscillator.phase;
-    }
-    set phase(phase) {
-        this._oscillator.phase = phase;
-        this._setStoppedValue();
-    }
-    /**
-     * The output units of the LFO.
-     */
-    get units() {
-        return this._units;
-    }
-    set units(val) {
-        const currentMin = this.min;
-        const currentMax = this.max;
-        // convert the min and the max
-        this._units = val;
-        this.min = currentMin;
-        this.max = currentMax;
-    }
-    /**
-     * Returns the playback state of the source, either "started" or "stopped".
-     */
-    get state() {
-        return this._oscillator.state;
-    }
-    /**
-     * @param node the destination to connect to
-     * @param outputNum the optional output number
-     * @param inputNum the input number
-     */
-    connect(node, outputNum, inputNum) {
-        if (node instanceof Param || node instanceof Signal) {
-            this.convert = node.convert;
-            this.units = node.units;
-        }
-        connectSignal(this, node, outputNum, inputNum);
-        return this;
-    }
-    dispose() {
-        super.dispose();
-        this._oscillator.dispose();
-        this._stoppedSignal.dispose();
-        this._zeros.dispose();
-        this._scaler.dispose();
-        this._a2g.dispose();
-        this._amplitudeGain.dispose();
-        this.amplitude.dispose();
         return this;
     }
 }
@@ -18751,9 +18371,9 @@ class GainToAudio extends SignalOperator {
  * }, 1.5, 1);
  * @category Component
  */
-class Envelope$1 extends ToneAudioNode {
+class Envelope$2 extends ToneAudioNode {
     constructor() {
-        const options = optionsFromArguments(Envelope$1.getDefaults(), arguments, ["attack", "decay", "sustain", "release"]);
+        const options = optionsFromArguments(Envelope$2.getDefaults(), arguments, ["attack", "decay", "sustain", "release"]);
         super(options);
         this.name = "Envelope";
         /**
@@ -19089,16 +18709,16 @@ class Envelope$1 extends ToneAudioNode {
 }
 __decorate([
     timeRange(0)
-], Envelope$1.prototype, "attack", void 0);
+], Envelope$2.prototype, "attack", void 0);
 __decorate([
     timeRange(0)
-], Envelope$1.prototype, "decay", void 0);
+], Envelope$2.prototype, "decay", void 0);
 __decorate([
     range(0, 1)
-], Envelope$1.prototype, "sustain", void 0);
+], Envelope$2.prototype, "sustain", void 0);
 __decorate([
     timeRange(0)
-], Envelope$1.prototype, "release", void 0);
+], Envelope$2.prototype, "release", void 0);
 /**
  * Generate some complex envelope curves.
  */
@@ -19417,7 +19037,7 @@ __decorate([
  * }, 1.5, 1);
  * @category Component
  */
-class AmplitudeEnvelope extends Envelope$1 {
+class AmplitudeEnvelope extends Envelope$2 {
     constructor() {
         super(optionsFromArguments(AmplitudeEnvelope.getDefaults(), arguments, [
             "attack",
@@ -19426,7 +19046,7 @@ class AmplitudeEnvelope extends Envelope$1 {
             "release",
         ]));
         this.name = "AmplitudeEnvelope";
-        this._gainNode = new Gain$1({
+        this._gainNode = new Gain$2({
             context: this.context,
             gain: 0,
         });
@@ -19479,7 +19099,7 @@ class Synth extends Monophonic {
     }
     static getDefaults() {
         return Object.assign(Monophonic.getDefaults(), {
-            envelope: Object.assign(omitFromObject(Envelope$1.getDefaults(), Object.keys(ToneAudioNode.getDefaults())), {
+            envelope: Object.assign(omitFromObject(Envelope$2.getDefaults(), Object.keys(ToneAudioNode.getDefaults())), {
                 attack: 0.005,
                 decay: 0.1,
                 release: 1,
@@ -20197,21 +19817,21 @@ class CrossFade extends ToneAudioNode {
         /**
          * The input which is at full level when fade = 0
          */
-        this.a = new Gain$1({
+        this.a = new Gain$2({
             context: this.context,
             gain: 0,
         });
         /**
          * The input which is at full level when fade = 1
          */
-        this.b = new Gain$1({
+        this.b = new Gain$2({
             context: this.context,
             gain: 0,
         });
         /**
          * The output is a mix between `a` and `b` at the ratio of `fade`
          */
-        this.output = new Gain$1({ context: this.context });
+        this.output = new Gain$2({ context: this.context });
         this._internalChannels = [this.a, this.b];
         this.fade = new Signal({
             context: this.context,
@@ -20272,15 +19892,15 @@ class Effect extends ToneAudioNode {
         /**
          * connect the effectSend to the input of hte effect
          */
-        this.effectSend = new Gain$1({ context: this.context });
+        this.effectSend = new Gain$2({ context: this.context });
         /**
          * connect the output of the effect to the effectReturn
          */
-        this.effectReturn = new Gain$1({ context: this.context });
+        this.effectReturn = new Gain$2({ context: this.context });
         /**
          * The effect input node
          */
-        this.input = new Gain$1({ context: this.context });
+        this.input = new Gain$2({ context: this.context });
         /**
          * The effect output
          */
@@ -20327,9 +19947,9 @@ class Effect extends ToneAudioNode {
  * }, 0.5, 2);
  * @category Component
  */
-class Panner$1 extends ToneAudioNode {
+class Panner$2 extends ToneAudioNode {
     constructor() {
-        const options = optionsFromArguments(Panner$1.getDefaults(), arguments, [
+        const options = optionsFromArguments(Panner$2.getDefaults(), arguments, [
             "pan",
         ]);
         super(options);
@@ -20468,7 +20088,7 @@ class FeedbackEffect extends Effect {
     constructor(options) {
         super(options);
         this.name = "FeedbackEffect";
-        this._feedbackGain = new Gain$1({
+        this._feedbackGain = new Gain$2({
             context: this.context,
             gain: options.feedback,
             units: "normalRange",
@@ -20510,7 +20130,7 @@ class FeedbackDelay extends FeedbackEffect {
         const options = optionsFromArguments(FeedbackDelay.getDefaults(), arguments, ["delayTime", "feedback"]);
         super(options);
         this.name = "FeedbackDelay";
-        this._delayNode = new Delay$1({
+        this._delayNode = new Delay$2({
             context: this.context,
             delayTime: options.delayTime,
             maxDelay: options.maxDelay,
@@ -20535,138 +20155,6 @@ class FeedbackDelay extends FeedbackEffect {
 }
 
 /**
- * PitchShift does near-realtime pitch shifting to the incoming signal.
- * The effect is achieved by speeding up or slowing down the delayTime
- * of a DelayNode using a sawtooth wave.
- * Algorithm found in [this pdf](http://dsp-book.narod.ru/soundproc.pdf).
- * Additional reference by [Miller Pucket](http://msp.ucsd.edu/techniques/v0.11/book-html/node115.html).
- * @category Effect
- */
-class PitchShift extends FeedbackEffect {
-    constructor() {
-        const options = optionsFromArguments(PitchShift.getDefaults(), arguments, ["pitch"]);
-        super(options);
-        this.name = "PitchShift";
-        this._frequency = new Signal({ context: this.context });
-        this._delayA = new Delay$1({
-            maxDelay: 1,
-            context: this.context,
-        });
-        this._lfoA = new LFO({
-            context: this.context,
-            min: 0,
-            max: 0.1,
-            type: "sawtooth",
-        }).connect(this._delayA.delayTime);
-        this._delayB = new Delay$1({
-            maxDelay: 1,
-            context: this.context,
-        });
-        this._lfoB = new LFO({
-            context: this.context,
-            min: 0,
-            max: 0.1,
-            type: "sawtooth",
-            phase: 180,
-        }).connect(this._delayB.delayTime);
-        this._crossFade = new CrossFade({ context: this.context });
-        this._crossFadeLFO = new LFO({
-            context: this.context,
-            min: 0,
-            max: 1,
-            type: "triangle",
-            phase: 90,
-        }).connect(this._crossFade.fade);
-        this._feedbackDelay = new Delay$1({
-            delayTime: options.delayTime,
-            context: this.context,
-        });
-        this.delayTime = this._feedbackDelay.delayTime;
-        readOnly(this, "delayTime");
-        this._pitch = options.pitch;
-        this._windowSize = options.windowSize;
-        // connect the two delay lines up
-        this._delayA.connect(this._crossFade.a);
-        this._delayB.connect(this._crossFade.b);
-        // connect the frequency
-        this._frequency.fan(this._lfoA.frequency, this._lfoB.frequency, this._crossFadeLFO.frequency);
-        // route the input
-        this.effectSend.fan(this._delayA, this._delayB);
-        this._crossFade.chain(this._feedbackDelay, this.effectReturn);
-        // start the LFOs at the same time
-        const now = this.now();
-        this._lfoA.start(now);
-        this._lfoB.start(now);
-        this._crossFadeLFO.start(now);
-        // set the initial value
-        this.windowSize = this._windowSize;
-    }
-    static getDefaults() {
-        return Object.assign(FeedbackEffect.getDefaults(), {
-            pitch: 0,
-            windowSize: 0.1,
-            delayTime: 0,
-            feedback: 0,
-        });
-    }
-    /**
-     * Repitch the incoming signal by some interval (measured in semi-tones).
-     * @example
-     * const pitchShift = new Tone.PitchShift().toDestination();
-     * const osc = new Tone.Oscillator().connect(pitchShift).start().toDestination();
-     * pitchShift.pitch = -12; // down one octave
-     * pitchShift.pitch = 7; // up a fifth
-     */
-    get pitch() {
-        return this._pitch;
-    }
-    set pitch(interval) {
-        this._pitch = interval;
-        let factor = 0;
-        if (interval < 0) {
-            this._lfoA.min = 0;
-            this._lfoA.max = this._windowSize;
-            this._lfoB.min = 0;
-            this._lfoB.max = this._windowSize;
-            factor = intervalToFrequencyRatio(interval - 1) + 1;
-        }
-        else {
-            this._lfoA.min = this._windowSize;
-            this._lfoA.max = 0;
-            this._lfoB.min = this._windowSize;
-            this._lfoB.max = 0;
-            factor = intervalToFrequencyRatio(interval) - 1;
-        }
-        this._frequency.value = factor * (1.2 / this._windowSize);
-    }
-    /**
-     * The window size corresponds roughly to the sample length in a looping sampler.
-     * Smaller values are desirable for a less noticeable delay time of the pitch shifted
-     * signal, but larger values will result in smoother pitch shifting for larger intervals.
-     * A nominal range of 0.03 to 0.1 is recommended.
-     */
-    get windowSize() {
-        return this._windowSize;
-    }
-    set windowSize(size) {
-        this._windowSize = this.toSeconds(size);
-        this.pitch = this._pitch;
-    }
-    dispose() {
-        super.dispose();
-        this._frequency.dispose();
-        this._delayA.dispose();
-        this._delayB.dispose();
-        this._lfoA.dispose();
-        this._lfoB.dispose();
-        this._crossFade.dispose();
-        this._crossFadeLFO.dispose();
-        this._feedbackDelay.dispose();
-        return this;
-    }
-}
-
-/**
  * Simple convolution created with decaying noise.
  * Generates an Impulse Response Buffer
  * with Tone.Offline then feeds the IR into ConvolverNode.
@@ -20678,9 +20166,9 @@ class PitchShift extends FeedbackEffect {
  *
  * @category Effect
  */
-class Reverb$1 extends Effect {
+class Reverb$2 extends Effect {
     constructor() {
-        const options = optionsFromArguments(Reverb$1.getDefaults(), arguments, [
+        const options = optionsFromArguments(Reverb$2.getDefaults(), arguments, [
             "decay",
         ]);
         super(options);
@@ -20739,12 +20227,12 @@ class Reverb$1 extends Effect {
             const previousReady = this.ready;
             // create a noise burst which decays over the duration in each channel
             const context = new OfflineContext(2, this._decay + this._preDelay, this.context.sampleRate);
-            const noiseL = new Noise$1({ context });
-            const noiseR = new Noise$1({ context });
+            const noiseL = new Noise$2({ context });
+            const noiseR = new Noise$2({ context });
             const merge = new Merge({ context });
             noiseL.connect(merge, 0, 0);
             noiseR.connect(merge, 0, 1);
-            const gainNode = new Gain$1({ context }).toDestination();
+            const gainNode = new Gain$2({ context }).toDestination();
             merge.connect(gainNode);
             noiseL.start(0);
             noiseR.start(0);
@@ -20791,7 +20279,7 @@ class Analyser extends ToneAudioNode {
         this.input =
             this.output =
                 this._gain =
-                    new Gain$1({ context: this.context });
+                    new Gain$2({ context: this.context });
         this._split = new Split({
             context: this.context,
             channels: options.channels,
@@ -21013,9 +20501,9 @@ class Meter extends MeterBase {
  * Read more about FFT algorithms on [Wikipedia] (https://en.wikipedia.org/wiki/Fast_Fourier_transform).
  * @category Component
  */
-class FFT$1 extends MeterBase {
+class FFT$2 extends MeterBase {
     constructor() {
-        const options = optionsFromArguments(FFT$1.getDefaults(), arguments, [
+        const options = optionsFromArguments(FFT$2.getDefaults(), arguments, [
             "size",
         ]);
         super(options);
@@ -21126,7 +20614,7 @@ class Solo extends ToneAudioNode {
         ]);
         super(options);
         this.name = "Solo";
-        this.input = this.output = new Gain$1({
+        this.input = this.output = new Gain$2({
             context: this.context,
         });
         if (!Solo._allSolos.has(this.context)) {
@@ -21245,7 +20733,7 @@ class PanVol extends ToneAudioNode {
         ]);
         super(options);
         this.name = "PanVol";
-        this._panner = this.input = new Panner$1({
+        this._panner = this.input = new Panner$2({
             context: this.context,
             pan: options.pan,
             channelCount: options.channelCount,
@@ -21361,7 +20849,7 @@ class Channel extends ToneAudioNode {
      */
     _getBus(name) {
         if (!Channel.buses.has(name)) {
-            Channel.buses.set(name, new Gain$1({ context: this.context }));
+            Channel.buses.set(name, new Gain$2({ context: this.context }));
         }
         return Channel.buses.get(name);
     }
@@ -21377,7 +20865,7 @@ class Channel extends ToneAudioNode {
      */
     send(name, volume = 0) {
         const bus = this._getBus(name);
-        const sendKnob = new Gain$1({
+        const sendKnob = new Gain$2({
             context: this.context,
             units: "decibels",
             gain: volume,
@@ -21413,9 +20901,9 @@ Channel.buses = new Map();
  * A spatialized panner node which supports equalpower or HRTF panning.
  * @category Component
  */
-class Panner3D$1 extends ToneAudioNode {
+class Panner3D$2 extends ToneAudioNode {
     constructor() {
-        const options = optionsFromArguments(Panner3D$1.getDefaults(), arguments, ["positionX", "positionY", "positionZ"]);
+        const options = optionsFromArguments(Panner3D$2.getDefaults(), arguments, ["positionX", "positionY", "positionZ"]);
         super(options);
         this.name = "Panner3D";
         this._panner = this.input = this.output = this.context.createPanner();
@@ -21635,108 +21123,7 @@ function userStartAudio() {
 }
 function userStopAudio() {
   context = getContext();
-  console.log(context);
   context.suspend();
-}
-
-function _callSuper(t, o, e) {
-  return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
-}
-function _isNativeReflectConstruct() {
-  try {
-    var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-  } catch (t) {}
-  return (_isNativeReflectConstruct = function () {
-    return !!t;
-  })();
-}
-function _toPrimitive(t, r) {
-  if ("object" != typeof t || !t) return t;
-  var e = t[Symbol.toPrimitive];
-  if (void 0 !== e) {
-    var i = e.call(t, r || "default");
-    if ("object" != typeof i) return i;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
-  }
-  return ("string" === r ? String : Number)(t);
-}
-function _toPropertyKey(t) {
-  var i = _toPrimitive(t, "string");
-  return "symbol" == typeof i ? i : i + "";
-}
-function _typeof(o) {
-  "@babel/helpers - typeof";
-
-  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
-    return typeof o;
-  } : function (o) {
-    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-  }, _typeof(o);
-}
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-  }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  Object.defineProperty(subClass, "prototype", {
-    writable: false
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-  return _setPrototypeOf(o, p);
-}
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return self;
-}
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  } else if (call !== void 0) {
-    throw new TypeError("Derived constructors may only return object or undefined");
-  }
-  return _assertThisInitialized(self);
 }
 
 /** 
@@ -21789,25 +21176,24 @@ function _possibleConstructorReturn(self, call) {
  * </code> 
  * </div>
  */
-var Oscillator = /*#__PURE__*/function () {
-  function Oscillator() {
-    var frequency = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 440;
-    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "sine";
-    _classCallCheck(this, Oscillator);
+class Oscillator {
+  constructor() {
+    let frequency = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 440;
+    let type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "sine";
     if (typeof frequency === "string" && typeof type === "string") {
-      var f = frequency;
+      let f = frequency;
       frequency = 440;
       type = f;
     }
     if (typeof frequency === "string" && typeof type === "number") {
-      var t = type;
-      var _f = frequency;
-      type = _f;
+      let t = type;
+      let f = frequency;
+      type = f;
       frequency = t;
     }
     this.frequency = frequency;
     this.type = type;
-    this.osc = new Oscillator$1().toDestination();
+    this.osc = new Oscillator$2().toDestination();
     this.osc.frequency.value = this.frequency;
     this.osc.type = this.type;
     this.osc.volume.value = -6;
@@ -21819,145 +21205,129 @@ var Oscillator = /*#__PURE__*/function () {
    * @for Oscillator
    * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). 
    */
-  return _createClass(Oscillator, [{
-    key: "freq",
-    value: function freq(f) {
-      this.osc.frequency.value = clamp(f, 0, 24000);
-    }
+  freq(f) {
+    let p = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.1;
+    this.osc.frequency.rampTo(clamp(f, 0, 24000), p);
+  }
 
-    /**
-     * Adjusts the phase of the oscillator.
-     * @method phase
-     * @for Oscillator
-     * @param {Number} phase phase of the oscillator in degrees (0-360). 
-     */
-  }, {
-    key: "phase",
-    value: function phase(p) {
-      this.osc.phase = p;
-    }
+  /**
+   * Adjusts the phase of the oscillator.
+   * @method phase
+   * @for Oscillator
+   * @param {Number} phase phase of the oscillator in degrees (0-360). 
+   */
+  phase(p) {
+    this.osc.phase = p;
+  }
 
-    /**
-     * Sets the type of the oscillator. 
-     * @method setType
-     * @for Oscillator
-     * @param {String} type type of the oscillator. Options:
-     *                 'sine' (default), 'triangle',
-     *                 'sawtooth', 'square'
-     */
-  }, {
-    key: "setType",
-    value: function setType(t) {
-      this.osc.type = t;
-    }
+  /**
+   * Sets the type of the oscillator. 
+   * @method setType
+   * @for Oscillator
+   * @param {String} type type of the oscillator. Options:
+   *                 'sine' (default), 'triangle',
+   *                 'sawtooth', 'square'
+   */
+  setType(t) {
+    this.osc.type = t;
+  }
 
-    /**
-     * Adjust the amplitude of the Oscillator.
-     * @method amp
-     * @for Oscillator
-     * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal.
-     * @example
-     * <div>
-     * <code>
-     * let osc, lfo;
-     * let cnv;
-     * 
-     * function setup() {
-     *   describe("a sketch that demonstrates amplitude modulation with an LFO and sine tone");
-     *   cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(startSound);
-     *   textAlign(CENTER);
-     *   textWrap(WORD);
-     *   textSize(10);
-     *   
-     *   osc = new Oscillator('sine');
-     *   lfo = new Oscillator(1);
-     *   lfo.disconnect();
-     *   osc.amp(lfo);
-     * }
-     * 
-     * function startSound() {
-     *   lfo.start();
-     *   osc.start();
-     * }
-     * 
-     * function draw(){
-     *   background(220);
-     *   text('click to play sound', 0, height/2 - 20, 100);
-     *   text('control lfo with mouseX position', 0, height/2, 100);
-     * 
-     *   let freq = map(mouseX, 0, width, 0, 10);
-     *   lfo.freq(freq);
-     * }
-     * </code>
-     * </div>
-     */
-  }, {
-    key: "amp",
-    value: function amp(value) {
-      //if value is an object (i.e. audio signal such as an LFO), connect it to the oscillator's volume
-      if (_typeof(value) === "object") {
-        value.getNode().connect(this.osc.volume);
-        return;
-      }
-      var dbValue = gainToDb(value);
-      this.osc.volume.value = dbValue;
+  /**
+   * Adjust the amplitude of the Oscillator.
+   * @method amp
+   * @for Oscillator
+   * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal.
+   * @example
+   * <div>
+   * <code>
+   * let osc, lfo;
+   * let cnv;
+   * 
+   * function setup() {
+   *   describe("a sketch that demonstrates amplitude modulation with an LFO and sine tone");
+   *   cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(startSound);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   
+   *   osc = new Oscillator('sine');
+   *   lfo = new Oscillator(1);
+   *   lfo.disconnect();
+   *   osc.amp(lfo);
+   * }
+   * 
+   * function startSound() {
+   *   lfo.start();
+   *   osc.start();
+   * }
+   * 
+   * function draw(){
+   *   background(220);
+   *   text('click to play sound', 0, height/2 - 20, 100);
+   *   text('control lfo with mouseX position', 0, height/2, 100);
+   * 
+   *   let freq = map(mouseX, 0, width, 0, 10);
+   *   lfo.freq(freq);
+   * }
+   * </code>
+   * </div>
+   */
+  amp(value) {
+    let p = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.1;
+    //if value is an object (i.e. audio signal such as an LFO), connect it to the oscillator's volume
+    if (typeof value === "object") {
+      value.getNode().connect(this.osc.volume);
+      return;
     }
+    let dbValue = gainToDb(value);
+    this.osc.volume.rampTo(dbValue, p);
+  }
 
-    /**
-     * Starts the oscillator. Usually from user gesture.
-     * @method start
-     * @for Oscillator
-     * @example
-     * <div>
-     * <code>
-     * let osc;
-     * 
-     * function setup() {
-     *   let cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(startOscillator);
-     *   osc = new Oscillator();
-     * }
-     * 
-     * function startOscillator() {
-     *   osc.start();
-     * }
-     * </code>
-     * </div>
-     */
-  }, {
-    key: "start",
-    value: function start() {
-      this.osc.start();
-    }
+  /**
+   * Starts the oscillator. Usually from user gesture.
+   * @method start
+   * @for Oscillator
+   * @example
+   * <div>
+   * <code>
+   * let osc;
+   * 
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(startOscillator);
+   *   osc = new Oscillator();
+   * }
+   * 
+   * function startOscillator() {
+   *   osc.start();
+   * }
+   * </code>
+   * </div>
+   */
+  start() {
+    this.osc.start();
+  }
 
-    /**
-     * Stops the oscillator.
-     * @method stop
-     * @for Oscillator
-     */
-  }, {
-    key: "stop",
-    value: function stop() {
-      this.osc.stop();
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.osc.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.osc.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.osc;
-    }
-  }]);
-}();
+  /**
+   * Stops the oscillator.
+   * @method stop
+   * @for Oscillator
+   */
+  stop() {
+    this.osc.stop();
+  }
+  connect(destination) {
+    this.osc.connect(destination.getNode());
+  }
+  disconnect() {
+    this.osc.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.osc;
+  }
+}
+
 /**
  * Creates a sawtooth oscillator.
  * @class SawOsc
@@ -21965,17 +21335,13 @@ var Oscillator = /*#__PURE__*/function () {
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
  */
-var SawOsc = /*#__PURE__*/function (_Oscillator) {
-  function SawOsc(frequency) {
-    var _this;
-    _classCallCheck(this, SawOsc);
-    _this = _callSuper(this, SawOsc, [frequency]);
-    _this.osc.type = "sawtooth";
-    return _this;
+class SawOsc extends Oscillator {
+  constructor(frequency) {
+    super(frequency);
+    this.osc.type = "sawtooth";
   }
-  _inherits(SawOsc, _Oscillator);
-  return _createClass(SawOsc);
-}(Oscillator);
+}
+
 /**
  * Creates a square oscillator.
  * @class SqrOsc
@@ -21983,17 +21349,13 @@ var SawOsc = /*#__PURE__*/function (_Oscillator) {
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
  */
-var SqrOsc = /*#__PURE__*/function (_Oscillator2) {
-  function SqrOsc(frequency) {
-    var _this2;
-    _classCallCheck(this, SqrOsc);
-    _this2 = _callSuper(this, SqrOsc, [frequency]);
-    _this2.osc.type = "square";
-    return _this2;
+class SqrOsc extends Oscillator {
+  constructor(frequency) {
+    super(frequency);
+    this.osc.type = "square";
   }
-  _inherits(SqrOsc, _Oscillator2);
-  return _createClass(SqrOsc);
-}(Oscillator);
+}
+
 /**
  * Creates a triangle oscillator.
  * @class TriOsc
@@ -22001,17 +21363,13 @@ var SqrOsc = /*#__PURE__*/function (_Oscillator2) {
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
  */
-var TriOsc = /*#__PURE__*/function (_Oscillator3) {
-  function TriOsc(frequency) {
-    var _this3;
-    _classCallCheck(this, TriOsc);
-    _this3 = _callSuper(this, TriOsc, [frequency]);
-    _this3.osc.type = "triangle";
-    return _this3;
+class TriOsc extends Oscillator {
+  constructor(frequency) {
+    super(frequency);
+    this.osc.type = "triangle";
   }
-  _inherits(TriOsc, _Oscillator3);
-  return _createClass(TriOsc);
-}(Oscillator);
+}
+
 /**
  * Creates a sine oscillator.
  * @class SinOsc
@@ -22019,17 +21377,13 @@ var TriOsc = /*#__PURE__*/function (_Oscillator3) {
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
  */
-var SinOsc = /*#__PURE__*/function (_Oscillator4) {
-  function SinOsc(frequency) {
-    var _this4;
-    _classCallCheck(this, SinOsc);
-    _this4 = _callSuper(this, SinOsc, [frequency]);
-    _this4.osc.type = "sine";
-    return _this4;
+class SinOsc extends Oscillator {
+  constructor(frequency) {
+    super(frequency);
+    this.osc.type = "sine";
   }
-  _inherits(SinOsc, _Oscillator4);
-  return _createClass(SinOsc);
-}(Oscillator);
+}
+var Oscillator$1 = Oscillator;
 
 /**
  * Generate an amplitude envelope.
@@ -22046,13 +21400,12 @@ var SinOsc = /*#__PURE__*/function (_Oscillator4) {
  * </code>
  * </div>
  */
-var Envelope = /*#__PURE__*/function () {
-  function Envelope() {
-    var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0.1;
-    var d = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.12;
-    var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.1;
-    var r = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.2;
-    _classCallCheck(this, Envelope);
+class Envelope {
+  constructor() {
+    let a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0.1;
+    let d = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.12;
+    let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.1;
+    let r = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.2;
     this.attack = a;
     this.attackLevel = 1;
     this.decay = d;
@@ -22071,177 +21424,158 @@ var Envelope = /*#__PURE__*/function () {
    * @method play
    * @for Envelope
    */
-  return _createClass(Envelope, [{
-    key: "play",
-    value: function play() {
-      this.envelope.triggerAttackRelease(this.sustain);
-    }
+  play() {
+    this.envelope.triggerAttackRelease(this.sustain);
+  }
 
-    /**
-     * Trigger the Attack, and Decay portion of the Envelope. Similar to holding
-     * down a key on a piano, but it will hold the sustain level until you let go.
-     * @method triggerAttack
-     * @for Envelope
-     * @example
-     * <div>
-     * <code>
-     * let osc, env;
-     * 
-     * function setup() {
-     *   let cnv = createCanvas(100, 100);
-     *   background(220);
-     *   cnv.mousePressed(playSound);
-     *   cnv.mouseReleased(stopSound);
-     *   textAlign(CENTER);
-     *   textSize(10);
-     *   text('tap to triggerAttack', width/2, height/2);
-     * 
-     *   osc = new Oscillator();
-     *   osc.disconnect();
-     *   env = new Envelope();
-     *   osc.connect(env);
-     * }
-     * 
-     * function playSound() {
-     *   background(0, 255, 255);
-     *   text('release to release', width/2, height/2);
-     *   osc.start();
-     *   env.attackTime(random(0.00, 0.25));
-     *   env.triggerAttack(0.5);
-     * }
-     * 
-     * function stopSound() {
-     *   background(220);
-     *   text('tap to triggerAttack', width/2, height/2);
-     *   env.releaseTime(random(0.1, 0.3));
-     *   env.triggerRelease();
-     * }
-     * </code>
-     * </div>
-     */
-  }, {
-    key: "triggerAttack",
-    value: function triggerAttack() {
-      this.envelope.triggerAttack();
-    }
-    /**
-     * Trigger the Release of the envelope. Similar to releasing the key on 
-     * a piano and letting the sound fade according to the release level and 
-     * release time. 
-     * @method triggerRelease
-     * @for Envelope
-     * @example
-     * <div>
-     * <code>
-     * let osc, env;
-     * 
-     * function setup() {
-     *   let cnv = createCanvas(100, 100);
-     *   background(220);
-     *   cnv.mousePressed(playSound);
-     *   cnv.mouseReleased(stopSound);
-     *   textAlign(CENTER);
-     *   textSize(10);
-     *   text('tap to triggerAttack', width/2, height/2);
-     * 
-     *   osc = new Oscillator();
-     *   osc.disconnect();
-     *   env = new Envelope();
-     *   osc.connect(env);
-     * }
-     * 
-     * function playSound() {
-     *   background(0, 255, 255);
-     *   text('release to release', width/2, height/2);
-     *   osc.start();
-     *   env.attackTime(random(0.00, 0.25));
-     *   env.triggerAttack(0.5);
-     * }
-     * 
-     * function stopSound() {
-     *   background(220);
-     *   text('tap to triggerAttack', width/2, height/2);
-     *   env.releaseTime(random(0.1, 0.3));
-     *   env.triggerRelease();
-     * }
-     * </code>
-     * </div>
-     */
-  }, {
-    key: "triggerRelease",
-    value: function triggerRelease() {
-      this.envelope.triggerRelease();
-    }
+  /**
+   * Trigger the Attack, and Decay portion of the Envelope. Similar to holding
+   * down a key on a piano, but it will hold the sustain level until you let go.
+   * @method triggerAttack
+   * @for Envelope
+   * @example
+   * <div>
+   * <code>
+   * let osc, env;
+   * 
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   background(220);
+   *   cnv.mousePressed(playSound);
+   *   cnv.mouseReleased(stopSound);
+   *   textAlign(CENTER);
+   *   textSize(10);
+   *   text('tap to triggerAttack', width/2, height/2);
+   * 
+   *   osc = new Oscillator();
+   *   osc.disconnect();
+   *   env = new Envelope();
+   *   osc.connect(env);
+   * }
+   * 
+   * function playSound() {
+   *   background(0, 255, 255);
+   *   text('release to release', width/2, height/2);
+   *   osc.start();
+   *   env.attackTime(random(0.00, 0.25));
+   *   env.triggerAttack(0.5);
+   * }
+   * 
+   * function stopSound() {
+   *   background(220);
+   *   text('tap to triggerAttack', width/2, height/2);
+   *   env.releaseTime(random(0.1, 0.3));
+   *   env.triggerRelease();
+   * }
+   * </code>
+   * </div>
+   */
 
-    /**
-     * @method setInput
-     * @for Envelope
-     * @param {Object} unit A p5.sound Object 
-     */
-  }, {
-    key: "setInput",
-    value: function setInput(input) {
-      input.getNode().connect(this.envelope);
-    }
+  triggerAttack() {
+    this.envelope.triggerAttack();
+  }
+  /**
+   * Trigger the Release of the envelope. Similar to releasing the key on 
+   * a piano and letting the sound fade according to the release level and 
+   * release time. 
+   * @method triggerRelease
+   * @for Envelope
+   * @example
+   * <div>
+   * <code>
+   * let osc, env;
+   * 
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   background(220);
+   *   cnv.mousePressed(playSound);
+   *   cnv.mouseReleased(stopSound);
+   *   textAlign(CENTER);
+   *   textSize(10);
+   *   text('tap to triggerAttack', width/2, height/2);
+   * 
+   *   osc = new Oscillator();
+   *   osc.disconnect();
+   *   env = new Envelope();
+   *   osc.connect(env);
+   * }
+   * 
+   * function playSound() {
+   *   background(0, 255, 255);
+   *   text('release to release', width/2, height/2);
+   *   osc.start();
+   *   env.attackTime(random(0.00, 0.25));
+   *   env.triggerAttack(0.5);
+   * }
+   * 
+   * function stopSound() {
+   *   background(220);
+   *   text('tap to triggerAttack', width/2, height/2);
+   *   env.releaseTime(random(0.1, 0.3));
+   *   env.triggerRelease();
+   * }
+   * </code>
+   * </div>
+   */
+  triggerRelease() {
+    this.envelope.triggerRelease();
+  }
 
-    /**
-     * Sets the attack, decay, sustain, and release times of the envelope.
-     * @method setADSR
-     * @for Envelope
-     * @param {Number} attack how quickly the envelope reaches the maximum level
-     * @param {Number} decay how quickly the envelope reaches the sustain level
-     * @param {Number} sustain how long the envelope stays at the decay level
-     * @param {Number} release how quickly the envelope fades out after the sustain level
-     */
-  }, {
-    key: "setADSR",
-    value: function setADSR(a, d, s, r) {
-      this.envelope.attack = a;
-      this.envelope.decay = d;
-      this.envelope.sustain = s;
-      this.envelope.release = r;
-    }
+  /**
+   * @method setInput
+   * @for Envelope
+   * @param {Object} unit A p5.sound Object 
+   */
+  setInput(input) {
+    input.getNode().connect(this.envelope);
+  }
 
-    /**
-     * Sets the release time of the envelope.
-     * @method releaseTime
-     * @for Envelope
-     * @param {Number} releaseTime the release time in seconds 
-     */
-  }, {
-    key: "releaseTime",
-    value: function releaseTime(value) {
-      this.envelope.release = value;
-    }
+  /**
+   * Sets the attack, decay, sustain, and release times of the envelope.
+   * @method setADSR
+   * @for Envelope
+   * @param {Number} attack how quickly the envelope reaches the maximum level
+   * @param {Number} decay how quickly the envelope reaches the sustain level
+   * @param {Number} sustain how long the envelope stays at the decay level
+   * @param {Number} release how quickly the envelope fades out after the sustain level
+   */
+  setADSR(a, d, s, r) {
+    this.envelope.attack = a;
+    this.envelope.decay = d;
+    this.envelope.sustain = s;
+    this.envelope.release = r;
+  }
 
-    /**
-     * Sets the attack time of the envelope.
-     * @method attackTime
-     * @for Envelope
-     * @param {Number} attackTime the attack time in seconds 
-     */
-  }, {
-    key: "attackTime",
-    value: function attackTime(value) {
-      this.envelope.attack = value;
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.envelope.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.envelope.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.envelope;
-    }
-  }]);
-}();
+  /**
+   * Sets the release time of the envelope.
+   * @method releaseTime
+   * @for Envelope
+   * @param {Number} releaseTime the release time in seconds 
+   */
+  releaseTime(value) {
+    this.envelope.release = value;
+  }
+
+  /**
+   * Sets the attack time of the envelope.
+   * @method attackTime
+   * @for Envelope
+   * @param {Number} attackTime the attack time in seconds 
+   */
+  attackTime(value) {
+    this.envelope.attack = value;
+  }
+  connect(destination) {
+    this.envelope.connect(destination.getNode());
+  }
+  disconnect() {
+    this.envelope.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.envelope;
+  }
+}
+var Envelope$1 = Envelope;
 
 /**
  * A delay effect with parameters for feedback, and delay time.
@@ -22281,11 +21615,10 @@ var Envelope = /*#__PURE__*/function () {
  *   osc.stop();
  * }
  */
-var Delay = /*#__PURE__*/function () {
-  function Delay() {
-    var d = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0.250;
-    var f = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.2;
-    _classCallCheck(this, Delay);
+class Delay {
+  constructor() {
+    let d = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0.250;
+    let f = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.2;
     this.d = d;
     this.f = f;
     this.delay = new FeedbackDelay(this.d, this.f).toDestination();
@@ -22346,76 +21679,62 @@ var Delay = /*#__PURE__*/function () {
    *   delay.delayTime(dtime);
    * }
    */
-  return _createClass(Delay, [{
-    key: "delayTime",
-    value: function delayTime(value) {
-      var rampTime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.1;
-      //legacy behavior
-      if (rampTime == 0) {
-        this.delay.delayTime.value = clamp(value, 0, 1);
-        return;
-      }
-      //new tape emulation behavior
-      this.delay.delayTime.rampTo(clamp(value, 0, 1), rampTime);
+  delayTime(value) {
+    let rampTime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.1;
+    //legacy behavior
+    if (rampTime == 0) {
+      this.delay.delayTime.value = clamp(value, 0, 1);
+      return;
     }
+    //new tape emulation behavior
+    this.delay.delayTime.rampTo(clamp(value, 0, 1), rampTime);
+  }
 
-    /**
-     * The amount of feedback in the delay line.
-     * @method feedback
-     * @for Delay
-     * @param {number} feedbackAmount A number between 0 and 0.99.
-     */
-  }, {
-    key: "feedback",
-    value: function feedback(value) {
-      this.delay.feedback.rampTo(clamp(value, 0, 0.99), 0.1);
-    }
+  /**
+   * The amount of feedback in the delay line.
+   * @method feedback
+   * @for Delay
+   * @param {number} feedbackAmount A number between 0 and 0.99.
+   */
+  feedback(value) {
+    this.delay.feedback.rampTo(clamp(value, 0, 0.99), 0.1);
+  }
 
-    /**
-     * Process an input signal with a delay effect.
-     * @method process
-     * @for Delay
-     * @param {Object} unit A p5.sound source such as an Oscillator, Soundfile, or AudioIn object. 
-     * @param {Number} delayTime The amount of delay in seconds. A number between 0 and 1.
-     * @param {Number} feedback The amount of feedback. A number between 0 and 1.
-     */
-  }, {
-    key: "process",
-    value: function process(input, delayTime, feedback) {
-      this.delay.delayTime.value = delayTime;
-      this.delay.feedback.value = feedback;
-      input.getNode().connect(this.delay);
-    }
+  /**
+   * Process an input signal with a delay effect.
+   * @method process
+   * @for Delay
+   * @param {Object} unit A p5.sound source such as an Oscillator, Soundfile, or AudioIn object. 
+   * @param {Number} delayTime The amount of delay in seconds. A number between 0 and 1.
+   * @param {Number} feedback The amount of feedback. A number between 0 and 1.
+   */
+  process(input, delayTime, feedback) {
+    this.delay.delayTime.value = delayTime;
+    this.delay.feedback.value = feedback;
+    input.getNode().connect(this.delay);
+  }
 
-    /**
-     * Adjust the amplitude of the delay effect.
-     * @method amp
-     * @for Delay
-     * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
-     */
-  }, {
-    key: "amp",
-    value: function amp(value) {
-      var dbValue = gainToDb(value);
-      this.delay.volume.rampTo(dbValue, 0.1);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.delay;
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.delay.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.delay.disconnect(Tone.Context.destination);
-    }
-  }]);
-}();
+  /**
+   * Adjust the amplitude of the delay effect.
+   * @method amp
+   * @for Delay
+   * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
+   */
+  amp(value) {
+    let dbValue = gainToDb(value);
+    this.delay.volume.rampTo(dbValue, 0.1);
+  }
+  getNode() {
+    return this.delay;
+  }
+  connect(destination) {
+    this.delay.connect(destination.getNode());
+  }
+  disconnect() {
+    this.delay.disconnect(Context.destination);
+  }
+}
+var Delay$1 = Delay;
 
 /**
  * Add reverb to a sound by specifying duration and decay.
@@ -22457,11 +21776,10 @@ var Delay = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var Reverb = /*#__PURE__*/function () {
-  function Reverb(decayTime) {
-    _classCallCheck(this, Reverb);
+class Reverb {
+  constructor(decayTime) {
     this.decayTime = decayTime || 1;
-    this.reverb = new Reverb$1(this.decayTime).toDestination();
+    this.reverb = new Reverb$2(this.decayTime).toDestination();
   }
 
   /**
@@ -22470,28 +21788,20 @@ var Reverb = /*#__PURE__*/function () {
    * @for Reverb
    * @param {Number} time Decay time of the reverb
    */
-  return _createClass(Reverb, [{
-    key: "set",
-    value: function set(t) {
-      this.reverb.decay = t;
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.reverb.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.reverb.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.reverb;
-    }
-  }]);
-}();
+  set(t) {
+    this.reverb.decay = t;
+  }
+  connect(destination) {
+    this.reverb.connect(destination.getNode());
+  }
+  disconnect() {
+    this.reverb.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.reverb;
+  }
+}
+var Reverb$1 = Reverb;
 
 /**
  * Filter the frequency range of a sound.
@@ -22503,11 +21813,10 @@ var Reverb = /*#__PURE__*/function () {
  *                        "highshelf", "notch", "allpass", 
  *                        "peaking"
  */
-var Biquad = /*#__PURE__*/function () {
-  function Biquad() {
-    var c = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 800;
-    var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "lowpass";
-    _classCallCheck(this, Biquad);
+class Biquad {
+  constructor() {
+    let c = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 800;
+    let t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "lowpass";
     this.type = t;
     this.cutoff = c;
     this.biquad = new BiquadFilter(this.cutoff, this.type).toDestination();
@@ -22519,64 +21828,50 @@ var Biquad = /*#__PURE__*/function () {
    * @for Biquad
    * @param {Number} resonance resonance of the filter. A number between 0 and 100.
    */
-  return _createClass(Biquad, [{
-    key: "res",
-    value: function res(r) {
-      this.biquad.Q.value = r;
-    }
+  res(r) {
+    this.biquad.Q.value = r;
+  }
 
-    /**
-     * The gain of the filter in dB units.
-     * @method gain
-     * @for Biquad
-     * @param {Number} gain gain value in dB units. The gain is only used for lowshelf, highshelf, and peaking filters.
-     */
-  }, {
-    key: "gain",
-    value: function gain(g) {
-      this.biquad.gain.value = g;
-    }
+  /**
+   * The gain of the filter in dB units.
+   * @method gain
+   * @for Biquad
+   * @param {Number} gain gain value in dB units. The gain is only used for lowshelf, highshelf, and peaking filters.
+   */
+  gain(g) {
+    this.biquad.gain.value = g;
+  }
 
-    /**
-     * Set the type of the filter.
-     * @method setType
-     * @for Biquad
-     * @param {String} type type of the filter. Options: "lowpass", "highpass", "bandpass", "lowshelf", "highshelf", "notch", "allpass", "peaking" 
-     */
-  }, {
-    key: "setType",
-    value: function setType(t) {
-      this.biquad.type = t;
-    }
+  /**
+   * Set the type of the filter.
+   * @method setType
+   * @for Biquad
+   * @param {String} type type of the filter. Options: "lowpass", "highpass", "bandpass", "lowshelf", "highshelf", "notch", "allpass", "peaking" 
+   */
+  setType(t) {
+    this.biquad.type = t;
+  }
 
-    /**
-     * Set the cutoff frequency of the filter.
-     * @method freq
-     * @for Biquad
-     * @param {Number} cutoffFrequency the cutoff frequency of the filter.
-     */
-  }, {
-    key: "freq",
-    value: function freq(f) {
-      this.biquad.frequency.value = clamp(f, 0, 24000);
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.biquad.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.biquad.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.biquad;
-    }
-  }]);
-}();
+  /**
+   * Set the cutoff frequency of the filter.
+   * @method freq
+   * @for Biquad
+   * @param {Number} cutoffFrequency the cutoff frequency of the filter.
+   */
+  freq(f) {
+    this.biquad.frequency.value = clamp(f, 0, 24000);
+  }
+  connect(destination) {
+    this.biquad.connect(destination.getNode());
+  }
+  disconnect() {
+    this.biquad.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.biquad;
+  }
+}
+var Biquad$1 = Biquad;
 
 /**
  * Change the pitch of a sound.
@@ -22618,11 +21913,10 @@ var Biquad = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var PitchShifter = /*#__PURE__*/function () {
-  function PitchShifter() {
-    var shiftValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    _classCallCheck(this, PitchShifter);
-    this.pitchshifter = new PitchShift(shiftValue).toDestination();
+class PitchShifter {
+  constructor() {
+    let shiftValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    this.pitchshifter = new TonePitchShift(shiftValue).toDestination();
   }
 
   /**
@@ -22631,30 +21925,22 @@ var PitchShifter = /*#__PURE__*/function () {
    * @for PitchShifter
    * @param {Number} pitchValue amount of semitones to shift the pitch
    */
-  return _createClass(PitchShifter, [{
-    key: "shift",
-    value: function shift(value) {
-      if (value !== undefined) {
-        this.pitchshifter.pitch = value;
-      }
+  shift(value) {
+    if (value !== undefined) {
+      this.pitchshifter.pitch = value;
     }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.pitchshifter.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.pitchshifter.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.pitchshifter;
-    }
-  }]);
-}();
+  }
+  connect(destination) {
+    this.pitchshifter.connect(destination.getNode());
+  }
+  disconnect() {
+    this.pitchshifter.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.pitchshifter;
+  }
+}
+var PitchShifter$1 = PitchShifter;
 
 /**
  * Generate a gain node to use for mixing and main volume.
@@ -22698,11 +21984,10 @@ var PitchShifter = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var Gain = /*#__PURE__*/function () {
-  function Gain() {
-    var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    _classCallCheck(this, Gain);
-    this.gain = new Gain$1(value).toDestination();
+class Gain {
+  constructor() {
+    let value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    this.gain = new Gain$2(value).toDestination();
   }
 
   /**
@@ -22711,28 +21996,20 @@ var Gain = /*#__PURE__*/function () {
    * @for Gain
    * @param {Number} amplitude amplitude value between 0 and 1.
    */
-  return _createClass(Gain, [{
-    key: "amp",
-    value: function amp(value) {
-      this.gain.gain.rampTo(value, 0.1);
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.gain.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.gain.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.gain;
-    }
-  }]);
-}();
+  amp(value) {
+    this.gain.gain.rampTo(value, 0.1);
+  }
+  connect(destination) {
+    this.gain.connect(destination.getNode());
+  }
+  disconnect() {
+    this.gain.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.gain;
+  }
+}
+var Gain$1 = Gain;
 
 /**
  * Get the current volume of a sound.
@@ -22771,9 +22048,8 @@ var Gain = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var Amplitude = /*#__PURE__*/function () {
-  function Amplitude() {
-    _classCallCheck(this, Amplitude);
+class Amplitude {
+  constructor() {
     this.amplitude = new Meter({
       normalRange: true
     });
@@ -22785,35 +22061,30 @@ var Amplitude = /*#__PURE__*/function () {
    * @for Amplitude
    * @param {Object} input - An object that has audio output.
    */
-  return _createClass(Amplitude, [{
-    key: "setInput",
-    value: function setInput(input) {
-      input.getNode().connect(this.amplitude);
-    }
+  setInput(input) {
+    input.getNode().connect(this.amplitude);
+  }
 
-    /**
-     * Get the current amplitude value of a sound.
-     * @method getLevel
-     * @for Amplitude
-     * @return {Number} Amplitude level (volume) of a sound.
-     */
-  }, {
-    key: "getLevel",
-    value: function getLevel() {
-      return this.amplitude.getValue();
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.amplitude.connect(destination.getNode());
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.amplitude;
-    }
-  }]);
-}();
+  /**
+   * Get the current amplitude value of a sound.
+   * @method getLevel
+   * @for Amplitude
+   * @return {Number} Amplitude level (volume) of a sound.
+   */
+  getLevel() {
+    return this.amplitude.getValue();
+  }
+  connect(destination) {
+    this.amplitude.connect(destination.getNode());
+  }
+  disconnect() {
+    this.amplitude.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.amplitude;
+  }
+}
+var Amplitude$1 = Amplitude;
 
 //import * as Tone from "tone";
 
@@ -22871,54 +22142,47 @@ var Amplitude = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var FFT = /*#__PURE__*/function () {
-  function FFT() {
-    var fftSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;
-    _classCallCheck(this, FFT);
+class FFT {
+  constructor() {
+    let fftSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;
     this.fftSize = fftSize;
-    this.analyzer = new FFT$1({
+    this.analyzer = new FFT$2({
       size: this.fftSize,
       normalRange: true
     });
     this.samples = new Waveform();
     //creates a single gain node to connect to for the analyzer and waveform
-    this.gain = new Gain$1(1);
+    this.gain = new Gain$2(1);
     this.gain.connect(this.analyzer);
     this.gain.connect(this.samples);
   }
 
   //return the gain node which is the parent node to the analyzer and waveform
-  return _createClass(FFT, [{
-    key: "getNode",
-    value: function getNode() {
-      return this.gain;
-    }
+  getNode() {
+    return this.gain;
+  }
 
-    /**
-     * Returns the frequency spectrum of the input signal.
-     * @method analyze
-     * @for FFT
-     * @returns {Array} Array of amplitude values from 0 to 1.
-     */
-  }, {
-    key: "analyze",
-    value: function analyze() {
-      return this.analyzer.getValue();
-    }
+  /**
+   * Returns the frequency spectrum of the input signal.
+   * @method analyze
+   * @for FFT
+   * @returns {Array} Array of amplitude values from 0 to 1.
+   */
+  analyze() {
+    return this.analyzer.getValue();
+  }
 
-    /**
-     * Returns an array of sample values from the input audio.
-     * @method waveform
-     * @for FFT
-     * @return {Array} Array of sample values from -1 to -1.
-     */
-  }, {
-    key: "waveform",
-    value: function waveform() {
-      return this.samples.getValue();
-    }
-  }]);
-}();
+  /**
+   * Returns an array of sample values from the input audio.
+   * @method waveform
+   * @for FFT
+   * @return {Array} Array of sample values from -1 to -1.
+   */
+  waveform() {
+    return this.samples.getValue();
+  }
+}
+var FFT$1 = FFT;
 
 /**
  * Generate a buffer with random values.
@@ -22958,13 +22222,12 @@ var FFT = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var Noise = /*#__PURE__*/function () {
-  function Noise(type) {
-    _classCallCheck(this, Noise);
+class Noise {
+  constructor(type) {
     if (typeof type === "undefined") {
       type = "white";
     }
-    this.noise = new Noise$1().toDestination();
+    this.noise = new Noise$2().toDestination();
     this.noise.type = type;
   }
   /**
@@ -22972,50 +22235,38 @@ var Noise = /*#__PURE__*/function () {
    * @for Noise
    * @param {String} t - the type of noise (white, pink, brown) 
    */
-  return _createClass(Noise, [{
-    key: "type",
-    value: function type(t) {
-      this.noise.type = t;
-    }
+  type(t) {
+    this.noise.type = t;
+  }
 
-    /**
-     * Starts the noise source.
-     * @method stop
-     * @for Noise
-     */
-  }, {
-    key: "start",
-    value: function start() {
-      this.noise.start();
-    }
+  /**
+   * Starts the noise source.
+   * @method stop
+   * @for Noise
+   */
+  start() {
+    this.noise.start();
+  }
 
-    /**
-     * Stops the noise source.
-     * @method stop
-     * @for Noise
-     */
-  }, {
-    key: "stop",
-    value: function stop() {
-      this.noise.stop();
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.noise.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.noise.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.noise;
-    }
-  }]);
-}();
+  /**
+   * Stops the noise source.
+   * @method stop
+   * @for Noise
+   */
+  stop() {
+    this.noise.stop();
+  }
+  connect(destination) {
+    this.noise.connect(destination.getNode());
+  }
+  disconnect() {
+    this.noise.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.noise;
+  }
+}
+var Noise$1 = Noise;
 
 /**
  * A panning effect.
@@ -23054,10 +22305,9 @@ var Noise = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var Panner = /*#__PURE__*/function () {
-  function Panner() {
-    _classCallCheck(this, Panner);
-    this.panner = new Panner$1(0).toDestination();
+class Panner {
+  constructor() {
+    this.panner = new Panner$2(0).toDestination();
   }
 
   /**
@@ -23066,32 +22316,24 @@ var Panner = /*#__PURE__*/function () {
    * @for Panner
    * @param {Number, Object}  panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or a an audio rate signal such as an LFO.
    */
-  return _createClass(Panner, [{
-    key: "pan",
-    value: function pan(p) {
-      if (_typeof(p) === "object") {
-        p.getNode().connect(this.panner.pan);
-        return;
-      }
-      this.panner.pan.rampTo(clamp(p, -1, 1), 0.01);
+  pan(p) {
+    if (typeof p === "object") {
+      p.getNode().connect(this.panner.pan);
+      return;
     }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.panner;
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.panner.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.panner.disconnect(Tone.Context.destination);
-    }
-  }]);
-}();
+    this.panner.pan.rampTo(clamp(p, -1, 1), 0.01);
+  }
+  getNode() {
+    return this.panner;
+  }
+  connect(destination) {
+    this.panner.connect(destination.getNode());
+  }
+  disconnect() {
+    this.panner.disconnect(Context.destination);
+  }
+}
+var Panner$1 = Panner;
 
 /**
  * A 3D sound spatializer.
@@ -23190,10 +22432,9 @@ var Panner = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var Panner3D = /*#__PURE__*/function () {
-  function Panner3D() {
-    _classCallCheck(this, Panner3D);
-    this.panner3d = new Panner3D$1({
+class Panner3D {
+  constructor() {
+    this.panner3d = new Panner3D$2({
       coneInnerAngle: 360,
       coneOuterAngle: 360,
       coneOuterGain: 1,
@@ -23209,121 +22450,99 @@ var Panner3D = /*#__PURE__*/function () {
    * @for Panner3D
    * @param {Object} input an input source to process with the 3D panner.
    */
-  return _createClass(Panner3D, [{
-    key: "process",
-    value: function process(input) {
-      input.getNode().connect(this.panner3d);
-    }
+  process(input) {
+    input.getNode().connect(this.panner3d);
+  }
 
-    /**
-     * Set the x, y, and z position of the 3D panner.
-     * @method set
-     * @for Panner3D
-     * @param {Number} xPosition the x coordinate of the panner.
-     * @param {Number} yPosition the y coordinate of the panner.
-     * @param {Number} zPosition the z coordinate of the panner.
-     */
-  }, {
-    key: "set",
-    value: function set(x, y, z) {
-      this.panner3d.positionX.rampTo(x, 0.01);
-      this.panner3d.positionY.rampTo(y, 0.01);
-      this.panner3d.positionZ.rampTo(z, 0.01);
-    }
+  /**
+   * Set the x, y, and z position of the 3D panner.
+   * @method set
+   * @for Panner3D
+   * @param {Number} xPosition the x coordinate of the panner.
+   * @param {Number} yPosition the y coordinate of the panner.
+   * @param {Number} zPosition the z coordinate of the panner.
+   */
+  set(x, y, z) {
+    this.panner3d.positionX.rampTo(x, 0.01);
+    this.panner3d.positionY.rampTo(y, 0.01);
+    this.panner3d.positionZ.rampTo(z, 0.01);
+  }
 
-    /**
-     * The rolloff rate of the panner.
-     * @method setFalloff
-     * @for Panner3D
-     * @param {Number} rolloffFactor 
-     * @param {Number} maxDistance 
-     */
-  }, {
-    key: "setFalloff",
-    value: function setFalloff(rolloffFactor, maxDistance) {
-      this.panner3d.rolloffFactor = rolloffFactor;
-      this.panner3d.maxDistance = maxDistance;
-    }
+  /**
+   * The rolloff rate of the panner.
+   * @method setFalloff
+   * @for Panner3D
+   * @param {Number} rolloffFactor 
+   * @param {Number} maxDistance 
+   */
+  setFalloff(rolloffFactor, maxDistance) {
+    this.panner3d.rolloffFactor = rolloffFactor;
+    this.panner3d.maxDistance = maxDistance;
+  }
 
-    /**
-     * Set the maximum distance of the panner.
-     * @method maxDist
-     * @for Panner3D
-     * @param {Number} distance the maximum distance that the sound source can be heard from.
-     */
-  }, {
-    key: "maxDist",
-    value: function maxDist(d) {
-      this.panner3d.maxDistance = d;
-    }
+  /**
+   * Set the maximum distance of the panner.
+   * @method maxDist
+   * @for Panner3D
+   * @param {Number} distance the maximum distance that the sound source can be heard from.
+   */
+  maxDist(d) {
+    this.panner3d.maxDistance = d;
+  }
 
-    /**
-     * Set the rolloff rate of the panner.
-     * @method rolloff
-     * @for Panner3D
-     * @param {Number} r the rolloff rate of the panner.
-     */
-  }, {
-    key: "rolloff",
-    value: function rolloff(r) {
-      this.panner3d.rolloffFactor = r;
-    }
+  /**
+   * Set the rolloff rate of the panner.
+   * @method rolloff
+   * @for Panner3D
+   * @param {Number} r the rolloff rate of the panner.
+   */
+  rolloff(r) {
+    this.panner3d.rolloffFactor = r;
+  }
 
-    /**
-     * Set the X position of the sound source.
-     * @method positionX
-     * @for Panner3D
-     * @param {Number} positionX the x position of the sound source.
-     */
-  }, {
-    key: "positionX",
-    value: function positionX(p) {
-      this.panner3d.positionX.rampTo(p, 0.01);
-    }
+  /**
+   * Set the X position of the sound source.
+   * @method positionX
+   * @for Panner3D
+   * @param {Number} positionX the x position of the sound source.
+   */
+  positionX(p) {
+    this.panner3d.positionX.rampTo(p, 0.01);
+  }
 
-    /**
-     * Set the Y position of the sound source.
-     * @method positionY
-     * @for Panner3D
-     * @param {Number} positionY the y position of the sound source.
-     */
-  }, {
-    key: "positionY",
-    value: function positionY(p) {
-      this.panner3d.positionY.rampTo(p, 0.01);
-    }
+  /**
+   * Set the Y position of the sound source.
+   * @method positionY
+   * @for Panner3D
+   * @param {Number} positionY the y position of the sound source.
+   */
+  positionY(p) {
+    this.panner3d.positionY.rampTo(p, 0.01);
+  }
 
-    /**
-     * Set the Z position of the sound source.
-     * @method positionZ
-     * @for Panner3D
-     * @param {Number} positionZ the z position of the sound source.
-     */
-  }, {
-    key: "positionZ",
-    value: function positionZ(p) {
-      this.panner3d.positionZ.rampTo(p, 0.01);
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.panner3d.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.panner3d.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.panner3d;
-    }
-  }]);
-}();
+  /**
+   * Set the Z position of the sound source.
+   * @method positionZ
+   * @for Panner3D
+   * @param {Number} positionZ the z position of the sound source.
+   */
+  positionZ(p) {
+    this.panner3d.positionZ.rampTo(p, 0.01);
+  }
+  connect(destination) {
+    this.panner3d.connect(destination.getNode());
+  }
+  disconnect() {
+    this.panner3d.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.panner3d;
+  }
+}
+var Panner3D$1 = Panner3D;
 
 function loadSound(path) {
-  var player = new SoundFile(path, function () {
+  let player = new SoundFile(path, function () {
     self._decrementPreload();
   });
   return player;
@@ -23372,9 +22591,8 @@ function loadSound(path) {
  * </code>
  * </div>
  */
-var SoundFile = /*#__PURE__*/function () {
-  function SoundFile(buffer, successCallback) {
-    _classCallCheck(this, SoundFile);
+class SoundFile {
+  constructor(buffer, successCallback) {
     this.soundfile = new Player(buffer, successCallback).toDestination();
     this.playing = false;
     this.rate = 1;
@@ -23386,383 +22604,346 @@ var SoundFile = /*#__PURE__*/function () {
    * @method start
    * @for SoundFile 
    */
-  return _createClass(SoundFile, [{
-    key: "start",
-    value: function start() {
-      this.soundfile.playbackRate = this.rate;
-      this.playing = true;
-      if (!this.paused) {
-        this.soundfile.start();
+  start() {
+    this.soundfile.playbackRate = this.rate;
+    this.playing = true;
+    if (!this.paused) {
+      this.soundfile.start();
+    }
+  }
+
+  /**
+   * Start the soundfile.
+   * @method play
+   * @for SoundFile
+   */
+  play() {
+    this.soundfile.playbackRate = this.rate;
+    this.playing = true;
+    if (!this.paused) {
+      this.soundfile.start();
+    }
+  }
+
+  /**
+   * Stop the soundfile.
+   * @method stop
+   * @for SoundFile 
+   */
+  stop() {
+    this.soundfile.stop();
+    this.playing = false;
+  }
+
+  /**
+   * Pause the soundfile.
+   * @method pause
+   * @for SoundFile 
+   * @example
+   * <div>
+   * <code>
+   * let player;
+   *
+   * function preload() {
+   *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+   * }
+   * 
+   * function setup() {
+   *   describe('A sketch that pauses and resumes sound file playback.');
+   *   let cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(playSound);
+   *   background(220);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   background(220);
+   *   text('click to play', 0, 20, 100);
+   *   
+   *   player.loop();
+   * }
+   * 
+   * function playSound() {
+   *   if (!player.isPlaying()) {
+   *     player.play();
+   *     background(220);
+   *     text('click to pause', 0, 20, 100);
+   *   }
+   *   else {
+   *     player.pause();
+   *     background(220);
+   *     text('click to play', 0, 20, 100);
+   *   }
+   * }
+   * </code>
+   * </div>
+   */
+  pause() {
+    //no such pause method in Tone.js need to find workaround
+    this.soundfile.playbackRate = 0;
+    this.playing = false;
+    this.paused = true;
+  }
+
+  /**
+   * Loop the soundfile.
+   * @method loop
+   * @for SoundFile
+   * @param {Boolean} loopState Set to True or False in order to set the loop state.
+   */
+  loop() {
+    let value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+    this.soundfile.loop = value;
+  }
+
+  /**
+   * Set a loop region, and optionally a playback rate, and amplitude for the soundfile.
+   * @method setLoop
+   * @for SoundFile
+   * @param {Number} [startTime] Set to True or False in order to set the loop state.
+   * @param {Number} [rate] Set to True or False in order to set the loop state.
+   * @param {Number} [amp] Set to True or False in order to set the loop state.
+   * @param {Number} [duration] Set to True or False in order to set the loop state.
+   */
+  loopPoints() {
+    let startTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    let duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.soundfile.buffer.duration;
+    this.soundfile.loopStart = startTime;
+    this.soundfile.loopEnd = startTime + duration;
+  }
+
+  /**
+   * Adjust the amplitude of the soundfile.
+   * @method amp
+   * @for SoundFile
+   * @param {Number} amplitude amplitude value between 0 and 1.
+   */
+  amp(value) {
+    let dbValue = gainToDb(value);
+    this.soundfile.volume.value = dbValue;
+  }
+
+  /**
+   * Change the path for the soundfile.
+   * @method setPath
+   * @for SoundFile
+   * @param {String} path Path to the sound file.
+   * @param {Function} [successCallback] Function to call when the sound file is loaded.
+   * @example
+   * <div>
+   * <code>
+   * let soundSource, cnv, btn;
+   *
+   * function preload() {
+   *   soundSource = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+   * }
+   * 
+   * function setup() {
+   *   describe(
+   *     'a sketch that says click to play sound. there is a button that says load sound. when you click the button, the path of the sound file player changes and the new sound plays.');
+   *   cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(playSound);
+   *   background(220);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   text('click to play sound or the button to load a new sound', 0, 20, 100);
+   *   btn = createButton('New Sound');
+   *   btn.mousePressed(setNewPath);
+   *   soundSource.loop();  
+   * }
+   * 
+   * function playSound() {
+   *   soundSource.play();
+   * }
+   * 
+   * function setNewPath() {
+   *   background(220);
+   *   text('a new sound was loaded', 0, 20, 100);
+   *   soundSource.setPath('https://tonejs.github.io/audio/berklee/gong_2.mp3', playSound); 
+   * }
+   * </code>
+   * </div>
+   */
+  setPath(path, successCallback) {
+    this.soundfile.load(path).then(() => {
+      if (successCallback) {
+        successCallback();
+      } else {
+        console.log('Audio loaded successfully!');
       }
-    }
+    }).catch(error => {
+      console.error('Error loading audio:', error);
+    });
+  }
 
-    /**
-     * Start the soundfile.
-     * @method play
-     * @for SoundFile
-     */
-  }, {
-    key: "play",
-    value: function play() {
-      this.soundfile.playbackRate = this.rate;
-      this.playing = true;
-      if (!this.paused) {
-        this.soundfile.start();
-      }
-    }
+  /**
+   * Set the playback rate of the soundfile.
+   * @method rate
+   * @for SoundFile
+   * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
+   */
+  rate(value) {
+    this.soundfile.playbackRate = value;
+    this.rate = value;
+  }
 
-    /**
-     * Stop the soundfile.
-     * @method stop
-     * @for SoundFile 
-     */
-  }, {
-    key: "stop",
-    value: function stop() {
-      this.soundfile.stop();
-      this.playing = false;
-    }
+  /**
+   * Returns the duration of a sound file in seconds.
+   * @method duration
+   * @for SoundFile 
+   * @return {Number} duration
+   */
+  duration() {
+    return this.soundfile.buffer.duration;
+  }
 
-    /**
-     * Pause the soundfile.
-     * @method pause
-     * @for SoundFile 
-     * @example
-     * <div>
-     * <code>
-     * let player;
-     *
-     * function preload() {
-     *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-     * }
-     * 
-     * function setup() {
-     *   describe('A sketch that pauses and resumes sound file playback.');
-     *   let cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(playSound);
-     *   background(220);
-     *   textAlign(CENTER);
-     *   textWrap(WORD);
-     *   textSize(10);
-     *   background(220);
-     *   text('click to play', 0, 20, 100);
-     *   
-     *   player.loop();
-     * }
-     * 
-     * function playSound() {
-     *   if (!player.isPlaying()) {
-     *     player.play();
-     *     background(220);
-     *     text('click to pause', 0, 20, 100);
-     *   }
-     *   else {
-     *     player.pause();
-     *     background(220);
-     *     text('click to play', 0, 20, 100);
-     *   }
-     * }
-     * </code>
-     * </div>
-     */
-  }, {
-    key: "pause",
-    value: function pause() {
-      //no such pause method in Tone.js need to find workaround
-      this.soundfile.playbackRate = 0;
-      this.playing = false;
-      this.paused = true;
-    }
+  /**
+   * Return the sample rate of the sound file.
+   * @method sampleRate
+   * @for SoundFile
+   * @return {Number} sampleRate
+   */
+  sampleRate() {
+    if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
+  }
 
-    /**
-     * Loop the soundfile.
-     * @method loop
-     * @for SoundFile
-     * @param {Boolean} loopState Set to True or False in order to set the loop state.
-     */
-  }, {
-    key: "loop",
-    value: function loop() {
-      var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      this.soundfile.loop = value;
-    }
+  /**
+   * Move the playhead of a soundfile that is currently playing to a new position.
+   * @method jump
+   * @for SoundFile 
+   * @param {Number} timePoint Time to jump to in seconds.
+   */
+  jump(value) {
+    this.soundfile.seek(value);
+  }
 
-    /**
-     * Set a loop region, and optionally a playback rate, and amplitude for the soundfile.
-     * @method setLoop
-     * @for SoundFile
-     * @param {Number} [startTime] Set to True or False in order to set the loop state.
-     * @param {Number} [rate] Set to True or False in order to set the loop state.
-     * @param {Number} [amp] Set to True or False in order to set the loop state.
-     * @param {Number} [duration] Set to True or False in order to set the loop state.
-     */
-  }, {
-    key: "loopPoints",
-    value: function loopPoints() {
-      var startTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.soundfile.buffer.duration;
-      this.soundfile.loopStart = startTime;
-      this.soundfile.loopEnd = startTime + duration;
-    }
+  /**
+   * Return the playback state of the soundfile.
+   * @method isPlaying
+   * @for SoundFile 
+   * @return {Boolean} Playback state, true or false.
+   */
+  isPlaying() {
+    return this.playing;
+  }
 
-    /**
-     * Adjust the amplitude of the soundfile.
-     * @method amp
-     * @for SoundFile
-     * @param {Number} amplitude amplitude value between 0 and 1.
-     */
-  }, {
-    key: "amp",
-    value: function amp(value) {
-      var dbValue = gainToDb(value);
-      this.soundfile.volume.value = dbValue;
-    }
+  /**
+   * Return the playback state of the soundfile.
+   * @method isLooping
+   * @for SoundFile 
+   * @return {Boolean} Looping State, true or false.
+   */
+  isLooping() {
+    return this.soundfile.loop;
+  }
 
-    /**
-     * Change the path for the soundfile.
-     * @method setPath
-     * @for SoundFile
-     * @param {String} path Path to the sound file.
-     * @param {Function} [successCallback] Function to call when the sound file is loaded.
-     * @example
-     * <div>
-     * <code>
-     * let soundSource, cnv, btn;
-     *
-     * function preload() {
-     *   soundSource = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-     * }
-     * 
-     * function setup() {
-     *   describe(
-     *     'a sketch that says click to play sound. there is a button that says load sound. when you click the button, the path of the sound file player changes and the new sound plays.');
-     *   cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(playSound);
-     *   background(220);
-     *   textAlign(CENTER);
-     *   textWrap(WORD);
-     *   textSize(10);
-     *   text('click to play sound or the button to load a new sound', 0, 20, 100);
-     *   btn = createButton('New Sound');
-     *   btn.mousePressed(setNewPath);
-     *   soundSource.loop();  
-     * }
-     * 
-     * function playSound() {
-     *   soundSource.play();
-     * }
-     * 
-     * function setNewPath() {
-     *   background(220);
-     *   text('a new sound was loaded', 0, 20, 100);
-     *   soundSource.setPath('https://tonejs.github.io/audio/berklee/gong_2.mp3', playSound); 
-     * }
-     * </code>
-     * </div>
-     */
-  }, {
-    key: "setPath",
-    value: function setPath(path, successCallback) {
-      this.soundfile.load(path).then(function () {
-        if (successCallback) {
-          successCallback();
-        } else {
-          console.log('Audio loaded successfully!');
-        }
-      })["catch"](function (error) {
-        console.error('Error loading audio:', error);
-      });
-    }
+  /**
+   * Define a function to call when the soundfile is done playing.
+   * @method onended
+   * @for SoundFile
+   * @param {Function} callback Name of a function that will be called when the soundfile is done playing.
+   * @example
+   * <div>
+   * <code>
+   * let player;
+   *
+   * function preload() {
+   *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+   * }
+   * 
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   background(220);
+   *   textAlign(CENTER);
+   *   textSize(10);
+   *   text('click to play', width/2, height/2);
+   *   cnv.mousePressed(playSound);
+   *   player.onended(coolFunction);
+   * }
+   * 
+   * function coolFunction() {
+   *   background(220);
+   *   text('sound is done', width/2, height/2);
+   * }
+   * 
+   * function playSound() {
+   *   background(0, 255, 255);
+   *   text('sound is playing', width/2, height/2);
+   *   if (!player.isPlaying()) {
+   *     player.play();
+   *   }
+   * }
+   * </code>
+   * </div>
+   */
+  onended(callback) {
+    this.soundfile.onstop = callback;
+  }
 
-    /**
-     * Set the playback rate of the soundfile.
-     * @method rate
-     * @for SoundFile
-     * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
-     */
-  }, {
-    key: "rate",
-    value: function rate(value) {
-      this.soundfile.playbackRate = value;
-      this.rate = value;
-    }
+  /**
+   * Return the number of samples in a sound file.
+   * @method frames
+   * @for SoundFile
+   * @return {Number} The number of samples in the sound file.
+   * @example
+   * <div>
+   * <code>
+   * let player;
+   *
+   * function preload() {
+   *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+   * }
+   * 
+   * function setup() {
+   *   describe('A sketch that calculates and displays the length of a sound file using number of samples and sample rate.');
+   *   createCanvas(100, 100);
+   *   background(220);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   frames = player.frames();
+   *   sampleRate = player.sampleRate();
+   *   sampleLength = round((frames / sampleRate), 2);
+   *   info = `sample is ${sampleLength} seconds long`;
+   *   text(info, 0, 20, 100);
+   * }
+   * </code>
+   * </div>
+   */
+  frames() {
+    if (this.soundfile.buffer) return this.soundfile.buffer.length;
+  }
 
-    /**
-     * Returns the duration of a sound file in seconds.
-     * @method duration
-     * @for SoundFile 
-     * @return {Number} duration
-     */
-  }, {
-    key: "duration",
-    value: function duration() {
-      return this.soundfile.buffer.duration;
-    }
+  /**
+   * Gets the number of channels in the sound file.
+   * @method sampleRate
+   * @for SoundFile
+   * @return Returns the sample rate of the sound file.
+   */
+  sampleRate() {
+    if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
+  }
 
-    /**
-     * Return the sample rate of the sound file.
-     * @method sampleRate
-     * @for SoundFile
-     * @return {Number} sampleRate
-     */
-  }, {
-    key: "sampleRate",
-    value:
-    /**
-     * Gets the number of channels in the sound file.
-     * @method sampleRate
-     * @for SoundFile
-     * @return Returns the sample rate of the sound file.
-     */
-    function sampleRate() {
-      if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
-    }
-
-    /**
-     * Gets the number of channels in the sound file.
-     * @method channels
-     * @for SoundFile
-     * @return Returns the number of channels in the sound file.
-     */
-  }, {
-    key: "jump",
-    value:
-    /**
-     * Move the playhead of a soundfile that is currently playing to a new position.
-     * @method jump
-     * @for SoundFile 
-     * @param {Number} timePoint Time to jump to in seconds.
-     */
-    function jump(value) {
-      this.soundfile.seek(value);
-    }
-
-    /**
-     * Return the playback state of the soundfile.
-     * @method isPlaying
-     * @for SoundFile 
-     * @return {Boolean} Playback state, true or false.
-     */
-  }, {
-    key: "isPlaying",
-    value: function isPlaying() {
-      return this.playing;
-    }
-
-    /**
-     * Return the playback state of the soundfile.
-     * @method isLooping
-     * @for SoundFile 
-     * @return {Boolean} Looping State, true or false.
-     */
-  }, {
-    key: "isLooping",
-    value: function isLooping() {
-      return this.soundfile.loop;
-    }
-
-    /**
-     * Define a function to call when the soundfile is done playing.
-     * @method onended
-     * @for SoundFile
-     * @param {Function} callback Name of a function that will be called when the soundfile is done playing.
-     * @example
-     * <div>
-     * <code>
-     * let player;
-     *
-     * function preload() {
-     *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-     * }
-     * 
-     * function setup() {
-     *   let cnv = createCanvas(100, 100);
-     *   background(220);
-     *   textAlign(CENTER);
-     *   textSize(10);
-     *   text('click to play', width/2, height/2);
-     *   cnv.mousePressed(playSound);
-     *   player.onended(coolFunction);
-     * }
-     * 
-     * function coolFunction() {
-     *   background(220);
-     *   text('sound is done', width/2, height/2);
-     * }
-     * 
-     * function playSound() {
-     *   background(0, 255, 255);
-     *   text('sound is playing', width/2, height/2);
-     *   if (!player.isPlaying()) {
-     *     player.play();
-     *   }
-     * }
-     * </code>
-     * </div>
-     */
-  }, {
-    key: "onended",
-    value: function onended(callback) {
-      this.soundfile.onstop = callback;
-    }
-
-    /**
-     * Return the number of samples in a sound file.
-     * @method frames
-     * @for SoundFile
-     * @return {Number} The number of samples in the sound file.
-     * @example
-     * <div>
-     * <code>
-     * let player;
-     *
-     * function preload() {
-     *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-     * }
-     * 
-     * function setup() {
-     *   describe('A sketch that calculates and displays the length of a sound file using number of samples and sample rate.');
-     *   createCanvas(100, 100);
-     *   background(220);
-     *   textAlign(CENTER);
-     *   textWrap(WORD);
-     *   textSize(10);
-     *   frames = player.frames();
-     *   sampleRate = player.sampleRate();
-     *   sampleLength = round((frames / sampleRate), 2);
-     *   info = `sample is ${sampleLength} seconds long`;
-     *   text(info, 0, 20, 100);
-     * }
-     * </code>
-     * </div>
-     */
-  }, {
-    key: "frames",
-    value: function frames() {
-      if (this.soundfile.buffer) return this.soundfile.buffer.length;
-    }
-  }, {
-    key: "channels",
-    value: function channels() {
-      if (this.soundfile.buffer) return this.soundfile.buffer.numberOfChannels;
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.soundfile.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.soundfile.disconnect(Tone.Context.destination);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.soundfile;
-    }
-  }]);
-}();
+  /**
+   * Gets the number of channels in the sound file.
+   * @method channels
+   * @for SoundFile
+   * @return Returns the number of channels in the sound file.
+   */
+  channels() {
+    if (this.soundfile.buffer) return this.soundfile.buffer.numberOfChannels;
+  }
+  connect(destination) {
+    this.soundfile.connect(destination.getNode());
+  }
+  disconnect() {
+    this.soundfile.disconnect(Context.destination);
+  }
+  getNode() {
+    return this.soundfile;
+  }
+}
+var SoundFile$1 = SoundFile;
 
 /**
  * Get sound from an input source, typically a computer microphone.
@@ -23805,9 +22986,8 @@ var SoundFile = /*#__PURE__*/function () {
  * </code>
  * </div>
  */
-var AudioIn = /*#__PURE__*/function () {
-  function AudioIn() {
-    _classCallCheck(this, AudioIn);
+class AudioIn {
+  constructor() {
     this.audioIn = new UserMedia().toDestination();
   }
 
@@ -23816,84 +22996,72 @@ var AudioIn = /*#__PURE__*/function () {
    * @method start
    * @for AudioIn
    */
-  return _createClass(AudioIn, [{
-    key: "start",
-    value: function start() {
-      Tone.start();
-      this.audioIn.open().then(function () {
-        // promise resolves when input is available
-        console.log("mic open");
-        // print the incoming mic levels in decibels
-      })["catch"](function (e) {
-        // promise is rejected when the user doesn't have or allow mic access
-        console.log("mic not open");
-      });
-    }
-    /**
-     * Stop the audio input.
-     * @method stop
-     * @for AudioIn
-     */
-  }, {
-    key: "stop",
-    value: function stop() {
-      this.audioIn.close();
-    }
+  start() {
+    Tone.start();
+    this.audioIn.open().then(() => {
+      // promise resolves when input is available
+      console.log("mic open");
+      // print the incoming mic levels in decibels
+    }).catch(e => {
+      // promise is rejected when the user doesn't have or allow mic access
+      console.log("mic not open");
+    });
+  }
+  /**
+   * Stop the audio input.
+   * @method stop
+   * @for AudioIn
+   */
+  stop() {
+    this.audioIn.close();
+  }
 
-    /**
-     * Set amplitude (volume) of a mic input between 0 and 1.0.
-     * @method amp
-     * @for AudioIn
-     * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
-     */
-  }, {
-    key: "amp",
-    value: function amp(value) {
-      var dbValue = gainToDb(value);
-      this.delay.volume.rampTo(dbValue, 0.1);
-    }
-  }, {
-    key: "getNode",
-    value: function getNode() {
-      return this.audioIn;
-    }
-  }, {
-    key: "connect",
-    value: function connect(destination) {
-      this.audioIn.connect(destination.getNode());
-    }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.audioIn.disconnect(Tone.Context.destination);
-    }
-  }]);
-}();
+  /**
+   * Set amplitude (volume) of a mic input between 0 and 1.0.
+   * @method amp
+   * @for AudioIn
+   * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
+   */
+  amp(value) {
+    let dbValue = gainToDb(value);
+    this.delay.volume.rampTo(dbValue, 0.1);
+  }
+  getNode() {
+    return this.audioIn;
+  }
+  connect(destination) {
+    this.audioIn.connect(destination.getNode());
+  }
+  disconnect() {
+    this.audioIn.disconnect(Context.destination);
+  }
+}
+var AudioIn$1 = AudioIn;
 
 p5.prototype.getAudioContext = getAudioContext;
 p5.prototype.setAudioContext = setAudioContext;
 p5.prototype.userStartAudio = userStartAudio;
 p5.prototype.userStopAudio = userStopAudio;
-p5.prototype.Oscillator = Oscillator;
+p5.prototype.Oscillator = Oscillator$1;
 p5.prototype.SawOsc = SawOsc;
 p5.prototype.SinOsc = SinOsc;
 p5.prototype.TriOsc = TriOsc;
 p5.prototype.SqrOsc = SqrOsc;
-p5.prototype.Envelope = Envelope;
-p5.prototype.Delay = Delay;
-p5.prototype.Reverb = Reverb;
-p5.prototype.Biquad = Biquad;
-p5.prototype.PitchShifter = PitchShifter;
-p5.prototype.Gain = Gain;
-p5.prototype.Amplitude = Amplitude;
-p5.prototype.FFT = FFT;
-p5.prototype.Noise = Noise;
-p5.prototype.Panner = Panner;
-p5.prototype.Panner3D = Panner3D;
-p5.prototype.SoundFile = SoundFile;
+p5.prototype.Envelope = Envelope$1;
+p5.prototype.Delay = Delay$1;
+p5.prototype.Reverb = Reverb$1;
+p5.prototype.Biquad = Biquad$1;
+p5.prototype.PitchShifter = PitchShifter$1;
+p5.prototype.Gain = Gain$1;
+p5.prototype.Amplitude = Amplitude$1;
+p5.prototype.FFT = FFT$1;
+p5.prototype.Noise = Noise$1;
+p5.prototype.Panner = Panner$1;
+p5.prototype.Panner3D = Panner3D$1;
+p5.prototype.SoundFile = SoundFile$1;
 p5.prototype.loadSound = loadSound;
 p5.prototype.registerPreloadMethod('loadSound', p5.prototype);
-p5.prototype.AudioIn = AudioIn;
+p5.prototype.AudioIn = AudioIn$1;
 
 //import Recorder from './Recorder';
 //p5.prototype.Recorder = Recorder;

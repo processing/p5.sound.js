@@ -1,4 +1,4 @@
-import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone";
+import { AmplitudeEnvelope as ToneAmplitudeEnvelope, Context as ToneContext } from "tone";
 
 /**
  * Generate an amplitude envelope.
@@ -183,7 +183,7 @@ class Envelope {
   }
 
   disconnect() {
-    this.envelope.disconnect(Tone.Context.destination);
+    this.envelope.disconnect(ToneContext.destination);
   }
 
   getNode() {

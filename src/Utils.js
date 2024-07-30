@@ -19,7 +19,6 @@ function userStartAudio() {
 
 function userStopAudio() {
     context = ToneGetContext();
-    console.log(context);
     context.suspend();
 }
 

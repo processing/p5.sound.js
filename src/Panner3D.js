@@ -1,4 +1,4 @@
-import { Panner3D as TonePanner3D } from "tone";
+import { Panner3D as TonePanner3D, Context as ToneContext } from "tone";
 
 /**
  * A 3D sound spatializer.
@@ -200,7 +200,7 @@ class Panner3D {
   }
 
   disconnect() {
-    this.panner3d.disconnect(Tone.Context.destination);
+    this.panner3d.disconnect(ToneContext.destination);
   }
 
   getNode() {

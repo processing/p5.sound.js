@@ -1,4 +1,4 @@
-import { UserMedia as ToneUserMedia, gainToDb as ToneGainToDb} from "tone";
+import { UserMedia as ToneUserMedia, gainToDb as ToneGainToDb, Context as ToneContext} from "tone";
 
 /**
  * Get sound from an input source, typically a computer microphone.
@@ -91,7 +91,7 @@ class AudioIn {
     }
     
     disconnect() {
-        this.audioIn.disconnect(Tone.Context.destination);
+        this.audioIn.disconnect(ToneContext.destination);
     }
 }
 

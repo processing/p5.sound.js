@@ -1,4 +1,4 @@
-import { Meter as ToneMeter } from "tone";
+import { Meter as ToneMeter, Context as ToneContext } from "tone";
 
 /**
  * Get the current volume of a sound.
@@ -64,6 +64,10 @@ class Amplitude {
 
   connect(destination) {
     this.amplitude.connect(destination.getNode());
+  }
+
+  disconnect() {
+    this.amplitude.disconnect(ToneContext.destination);
   }
 
   getNode() {

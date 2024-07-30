@@ -1,4 +1,4 @@
-import { Reverb as ToneReverb } from "tone";
+import { Reverb as ToneReverb, Context as ToneContext } from "tone";
 
 /**
  * Add reverb to a sound by specifying duration and decay.
@@ -61,7 +61,7 @@ class Reverb {
   }
   
   disconnect() {
-    this.reverb.disconnect(Tone.Context.destination);
+    this.reverb.disconnect(ToneContext.destination);
   }
 
   getNode() {

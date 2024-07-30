@@ -1,4 +1,4 @@
-import { PitchShift as TonePitchShift } from "tone";
+import { PitchShift as TonePitchShif, Context as ToneContext } from "tone";
 
 /**
  * Change the pitch of a sound.
@@ -62,7 +62,7 @@ class PitchShifter {
     }
 
     disconnect() {
-        this.pitchshifter.disconnect(Tone.Context.destination);
+        this.pitchshifter.disconnect(ToneContext.destination);
     }
 
     getNode() {

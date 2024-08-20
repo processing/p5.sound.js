@@ -1,5 +1,6 @@
-import { FFT as ToneFFT, Waveform as ToneWaveform, Gain as ToneGain } from "tone";
-//import * as Tone from "tone";
+import { FFT as ToneFFT } from "tone/build/esm/component/analysis/FFT.js";
+import { Waveform as ToneWaveform } from "tone/build/esm/component/analysis/Waveform.js";
+import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
 
 /**
  * Analyze the frequency spectrum and waveform of sounds.

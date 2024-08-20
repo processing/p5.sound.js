@@ -1,4 +1,6 @@
-import { PitchShift as TonePitchShif, Context as ToneContext } from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.js";
+
 
 /**
  * Change the pitch of a sound.

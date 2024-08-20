@@ -1,4 +1,5 @@
-import { AmplitudeEnvelope as ToneAmplitudeEnvelope, Context as ToneContext } from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/component/envelope/AmplitudeEnvelope.js";
 
 /**
  * Generate an amplitude envelope.

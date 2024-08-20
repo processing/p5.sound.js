@@ -1,4 +1,5 @@
-import { Noise as ToneNoise, Context as ToneContext } from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { Noise as ToneNoise } from "tone/build/esm/source/Noise.js";
 
 /**
  * Generate a buffer with random values.

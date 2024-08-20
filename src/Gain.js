@@ -1,4 +1,5 @@
-import { Gain as ToneGain, Context as ToneContext } from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
 
 /**
  * Generate a gain node to use for mixing and main volume.

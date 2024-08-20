@@ -1,4 +1,6 @@
-import { Oscillator as ToneOscillator, gainToDb as ToneGainToDb, Context as ToneContext } from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
+import { Oscillator as ToneOscillator } from "tone/build/esm/source/oscillator/Oscillator.js";
 import { clamp } from "./Utils";
 
 /** 

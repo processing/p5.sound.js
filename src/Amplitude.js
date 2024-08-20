@@ -1,4 +1,5 @@
-import { Meter as ToneMeter, Context as ToneContext } from "tone";
+import { Meter as ToneMeter } from "tone/build/esm/component/analysis/Meter.js";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 
 /**
  * Get the current volume of a sound.

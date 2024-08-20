@@ -1,4 +1,5 @@
-import { Panner as TonePanner, Context as ToneContext } from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { Panner as TonePanner} from "tone/build/esm/component/channel/Panner.js";
 import { clamp } from './Utils';
 
 /**

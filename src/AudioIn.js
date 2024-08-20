@@ -1,5 +1,7 @@
-import { UserMedia as ToneUserMedia, gainToDb as ToneGainToDb, Context as ToneContext} from "tone";
-
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
+import { UserMedia as ToneUserMedia} from "tone/build/esm/source/UserMedia.js";
+import { start as ToneStart } from "tone/build/esm/core/Global.js";
 /**
  * Get sound from an input source, typically a computer microphone.
  * @class AudioIn
@@ -52,7 +54,7 @@ class AudioIn {
      * @for AudioIn
      */
     start() {
-        Tone.start();
+        ToneStart();
         this.audioIn.open().then(() => {
             // promise resolves when input is available
             console.log("mic open");

@@ -1,4 +1,5 @@
-import { Panner3D as TonePanner3D, Context as ToneContext } from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { Panner3D as TonePanner3D} from "tone/build/esm/component/channel/Panner3D.js";
 
 /**
  * A 3D sound spatializer.

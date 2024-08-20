@@ -1,4 +1,6 @@
-import { Player as TonePlayer, gainToDb as ToneGainToDb, Context as ToneContext} from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
+import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
 
 function loadSound (path) {
   let player = new SoundFile(

@@ -46,11 +46,11 @@ p5.prototype.Panner = Panner;
 import Panner3D from './Panner3D';
 p5.prototype.Panner3D = Panner3D;
 
-import SoundFile, { loadSound } from './SoundFile';
-p5.prototype.SoundFile = SoundFile;
-
 p5.prototype.loadSound = loadSound;
 p5.prototype.registerPreloadMethod('loadSound', p5.prototype);
+
+import SoundFile, { loadSound } from './SoundFile';
+p5.prototype.SoundFile = SoundFile;
 
 import AudioIn from './AudioIn';
 p5.prototype.AudioIn = AudioIn;

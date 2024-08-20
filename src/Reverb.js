@@ -1,4 +1,5 @@
-import { Reverb as ToneReverb, Context as ToneContext } from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
 
 /**
  * Add reverb to a sound by specifying duration and decay.

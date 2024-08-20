@@ -1,4 +1,4 @@
-import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone";
+import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone/build/esm/core/Global.js";
 
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);

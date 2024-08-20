@@ -1,124 +1,20 @@
 !(function() {
   "use strict";
-  function copyFromChannel(audioBuffer, 
-  // @todo There is currently no way to define something like { [ key: number | string ]: Float32Array }
-  parent, key, channelNumber, bufferOffset) {
-    if ("function" == typeof audioBuffer.copyFromChannel) 
-    // The byteLength will be 0 when the ArrayBuffer was transferred.
-    0 === parent[key].byteLength && (parent[key] = new Float32Array(128)), audioBuffer.copyFromChannel(parent[key], channelNumber, bufferOffset); else {
-      const channelData = audioBuffer.getChannelData(channelNumber);
-      // The byteLength will be 0 when the ArrayBuffer was transferred.
-            if (0 === parent[key].byteLength) parent[key] = channelData.slice(bufferOffset, bufferOffset + 128); else {
-        const slicedInput = new Float32Array(channelData.buffer, bufferOffset * Float32Array.BYTES_PER_ELEMENT, 128);
-        parent[key].set(slicedInput);
-      }
-    }
-  }
-  function divide(a, b) {
-    const denominator = b[0] * b[0] + b[1] * b[1];
-    return [ (a[0] * b[0] + a[1] * b[1]) / denominator, (a[1] * b[0] - a[0] * b[1]) / denominator ];
-  }
-  function evaluatePolynomial(coefficient, z) {
-    let result = [ 0, 0 ];
-    for (let i = coefficient.length - 1; i >= 0; i -= 1) b = z, result = [ (a = result)[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0] ], 
-    result[0] += coefficient[i];
-    var a, b;
-    return result;
-  }
-  /**
-     * Test if the arg is undefined
-     */
-  function isUndef(arg) {
-    return void 0 === arg;
-  }
-  /**
-     * Test if the arg is not undefined
-     */  function isDefined(arg) {
-    return void 0 !== arg;
-  }
-  /**
-     * Test if the arg is a function
-     */  
-  /**
-     * Test if the argument is a number.
-     */
-  function isNumber(arg) {
-    return "number" == typeof arg;
-  }
-  /**
-     * Test if the given argument is an object literal (i.e. `{}`);
-     */  function isObject(arg) {
-    return "[object Object]" === Object.prototype.toString.call(arg) && arg.constructor === Object;
-  }
-  /**
-     * Test if the argument is a boolean.
-     */  
-  /**
-     * Test if the argument is an Array
-     */
-  function isArray(arg) {
-    return Array.isArray(arg);
-  }
-  /**
-     * Test if the argument is a string.
-     */  function isString(arg) {
-    return "string" == typeof arg;
-  }
-  /**
-     * Assert that the statement is true, otherwise invoke the error.
-     * @param statement
-     * @param error The message which is passed into an Error
-     */  function assert(statement, error) {
-    if (!statement) throw new Error(error);
-  }
-  /**
-     * Make sure that the given value is within the range
-     */  function assertRange(value, gte, lte = 1 / 0) {
-    if (!(gte <= value && value <= lte)) throw new RangeError(`Value must be within [${gte}, ${lte}], got: ${value}`);
-  }
-  /**
-     * Warn if the context is not running.
-     */  function assertContextRunning(context) {
-    // add a warning if the context is not started
-    context.isOffline || "running" === context.state || warn('The AudioContext is "suspended". Invoke Tone.start() from a user action to start the audio.');
-  }
-  /**
-     * If it is currently inside a scheduled callback
-     */  
-  /**
-     * Notify that the following block of code is occurring inside a Transport callback.
-     */
-  function enterScheduledCallback(insideCallback) {
-    isInsideScheduledCallback = insideCallback;
-  }
-  /**
-     * Make sure that a time was passed into
-     */  
-  /**
-     * Warn anything
-     */
-  function warn(...args) {
-    defaultLogger.warn(...args);
-  }
-  /**
-     * Create a new AudioContext
-     */  
   /******************************************************************************
-    Copyright (c) Microsoft Corporation.
+  Copyright (c) Microsoft Corporation.
 
-    Permission to use, copy, modify, and/or distribute this software for any
-    purpose with or without fee is hereby granted.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
 
-    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-    PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */
-  /* global Reflect, Promise, SuppressedError, Symbol */
-  function __decorate(decorators, target, key, desc) {
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
+  ***************************************************************************** */
+  /* global Reflect, Promise, SuppressedError, Symbol */  function __decorate(decorators, target, key, desc) {
     var d, c = arguments.length, r = c < 3 ? target : null === desc ? desc = Object.getOwnPropertyDescriptor(target, key) : desc;
     if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) r = Reflect.decorate(decorators, target, key, desc); else for (var i = decorators.length - 1; i >= 0; i--) (d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
     return c > 3 && r && Object.defineProperty(target, key, r), r;
@@ -149,46 +45,108 @@
     }));
   }
   /**
-     * A class which provides a reliable callback using either
-     * a Web Worker, or if that isn't supported, falls back to setTimeout.
-     */  
+   * A class which provides a reliable callback using either
+   * a Web Worker, or if that isn't supported, falls back to setTimeout.
+   */  function copyFromChannel(audioBuffer, 
+  // @todo There is currently no way to define something like { [ key: number | string ]: Float32Array }
+  parent, key, channelNumber, bufferOffset) {
+    if ("function" == typeof audioBuffer.copyFromChannel) 
+    // The byteLength will be 0 when the ArrayBuffer was transferred.
+    0 === parent[key].byteLength && (parent[key] = new Float32Array(128)), audioBuffer.copyFromChannel(parent[key], channelNumber, bufferOffset); else {
+      const channelData = audioBuffer.getChannelData(channelNumber);
+      // The byteLength will be 0 when the ArrayBuffer was transferred.
+            if (0 === parent[key].byteLength) parent[key] = channelData.slice(bufferOffset, bufferOffset + 128); else {
+        const slicedInput = new Float32Array(channelData.buffer, bufferOffset * Float32Array.BYTES_PER_ELEMENT, 128);
+        parent[key].set(slicedInput);
+      }
+    }
+  }
+  function divide(a, b) {
+    const denominator = b[0] * b[0] + b[1] * b[1];
+    return [ (a[0] * b[0] + a[1] * b[1]) / denominator, (a[1] * b[0] - a[0] * b[1]) / denominator ];
+  }
+  function evaluatePolynomial(coefficient, z) {
+    let result = [ 0, 0 ];
+    for (let i = coefficient.length - 1; i >= 0; i -= 1) b = z, result = [ (a = result)[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0] ], 
+    result[0] += coefficient[i];
+    var a, b;
+    return result;
+  }
   /**
-     * Test if the given value is an instanceof AudioParam
-     */
+   * Test if the given value is an instanceof AudioParam
+   */
   function isAudioParam(arg) {
     return isAnyAudioParam(arg);
   }
   /**
-     * Test if the given value is an instanceof AudioNode
-     */  function isAudioNode(arg) {
+   * Test if the given value is an instanceof AudioNode
+   */  function isAudioNode(arg) {
     return isAnyAudioNode(arg);
   }
   /**
-     * Test if the arg is instanceof an OfflineAudioContext
-     */  function isOfflineAudioContext(arg) {
+   * Test if the arg is instanceof an OfflineAudioContext
+   */  function isOfflineAudioContext(arg) {
     return isAnyOfflineAudioContext(arg);
   }
   /**
-     * Test if the arg is an instanceof AudioContext
-     */  function isAudioContext(arg) {
+   * Test if the arg is an instanceof AudioContext
+   */  function isAudioContext(arg) {
     return isAnyAudioContext(arg);
   }
   /**
-     * Test if the arg is instanceof an AudioBuffer
-     */  
+   * Test if the arg is instanceof an AudioBuffer
+   */  
   /**
-     * Some objects should not be merged
-     */
-  function noCopy(key, arg) {
+   * Test if the arg is undefined
+   */
+  function isUndef(arg) {
+    return void 0 === arg;
+  }
+  /**
+   * Test if the arg is not undefined
+   */  function isDefined(arg) {
+    return void 0 !== arg;
+  }
+  /**
+   * Test if the arg is a function
+   */  
+  /**
+   * Test if the argument is a number.
+   */
+  function isNumber(arg) {
+    return "number" == typeof arg;
+  }
+  /**
+   * Test if the given argument is an object literal (i.e. `{}`);
+   */  function isObject(arg) {
+    return "[object Object]" === Object.prototype.toString.call(arg) && arg.constructor === Object;
+  }
+  /**
+   * Test if the argument is a boolean.
+   */  
+  /**
+   * Test if the argument is an Array
+   */
+  function isArray(arg) {
+    return Array.isArray(arg);
+  }
+  /**
+   * Test if the argument is a string.
+   */  function isString(arg) {
+    return "string" == typeof arg;
+  }
+  /**
+   * Some objects should not be merged
+   */  function noCopy(key, arg) {
     return "value" === key || isAudioParam(arg) || isAudioNode(arg) || (function(arg) {
       return arg instanceof audioBufferConstructor;
     })(arg);
   }
   /**
-     * Recursively merge an object
-     * @param target the object to merge into
-     * @param sources the source objects to merge
-     */  function deepMerge(target, ...sources) {
+   * Recursively merge an object
+   * @param target the object to merge into
+   * @param sources the source objects to merge
+   */  function deepMerge(target, ...sources) {
     if (!sources.length) return target;
     const source = sources.shift();
     if (isObject(target) && isObject(source)) for (const key in source) noCopy(key, source[key]) ? target[key] = source[key] : isObject(source[key]) ? (target[key] || Object.assign(target, {
@@ -200,12 +158,12 @@
         return deepMerge(target, ...sources);
   }
   /**
-     * Returns true if the two arrays have the same value for each of the elements
-     */  
+   * Returns true if the two arrays have the same value for each of the elements
+   */  
   /**
-     * Convert an args array into an object.
-     * @internal
-     */
+   * Convert an args array into an object.
+   * @internal
+   */
   function optionsFromArguments(defaults, argsArray, keys = [], objKey) {
     const opts = {};
     const args = Array.from(argsArray);
@@ -225,70 +183,149 @@
     return deepMerge(defaults, opts);
   }
   /**
-     * Return this instances default values by calling Constructor.getDefaults()
-     */  
+   * Return this instances default values by calling Constructor.getDefaults()
+   */  
   /**
-     * Returns the fallback if the given object is undefined.
-     * Take an array of arguments and return a formatted options object.
-     * @internal
-     */
+   * Returns the fallback if the given object is undefined.
+   * Take an array of arguments and return a formatted options object.
+   * @internal
+   */
   function defaultArg(given, fallback) {
     return isUndef(given) ? fallback : given;
   }
   /**
-     * Tone.js
-     * @author Yotam Mann
-     * @license http://opensource.org/licenses/MIT MIT License
-     * @copyright 2014-2024 Yotam Mann
-     */
+   * Assert that the statement is true, otherwise invoke the error.
+   * @param statement
+   * @param error The message which is passed into an Error
+   */
+  function assert(statement, error) {
+    if (!statement) throw new Error(error);
+  }
   /**
-     * Tone is the base class of all other classes.
-     *
-     * @category Core
-     * @constructor
-     */  
+   * Make sure that the given value is within the range
+   */  function assertRange(value, gte, lte = 1 / 0) {
+    if (!(gte <= value && value <= lte)) throw new RangeError(`Value must be within [${gte}, ${lte}], got: ${value}`);
+  }
   /**
-     * Test if A is greater than B
-     */
+   * Warn if the context is not running.
+   */  function assertContextRunning(context) {
+    // add a warning if the context is not started
+    context.isOffline || "running" === context.state || warn('The AudioContext is "suspended". Invoke Tone.start() from a user action to start the audio.');
+  }
+  /**
+   * If it is currently inside a scheduled callback
+   */  
+  /**
+   * Notify that the following block of code is occurring inside a Transport callback.
+   */
+  function enterScheduledCallback(insideCallback) {
+    isInsideScheduledCallback = insideCallback;
+  }
+  /**
+   * Make sure that a time was passed into
+   */  
+  /**
+   * Warn anything
+   */
+  function warn(...args) {
+    defaultLogger.warn(...args);
+  }
+  /**
+   * Create a new AudioContext
+   */  
+  /**
+   * Test if A is greater than B
+   */
   function GT(a, b) {
     return a > b + EPSILON;
   }
   /**
-     * Test if A is greater than or equal to B
-     */  function GTE(a, b) {
+   * Test if A is greater than or equal to B
+   */  function GTE(a, b) {
     return GT(a, b) || EQ(a, b);
   }
   /**
-     * Test if A is less than B
-     */  function LT(a, b) {
+   * Test if A is less than B
+   */  function LT(a, b) {
     return a + EPSILON < b;
   }
   /**
-     * Test if A is less than B
-     */  function EQ(a, b) {
+   * Test if A is less than B
+   */  function EQ(a, b) {
     return Math.abs(a - b) < EPSILON;
   }
   /**
-     * Clamp the value within the given range
-     */  
+   * Clamp the value within the given range
+   */  
   /**
-     * Used internally to setup a new Context
-     */
+   * Used internally to setup a new Context
+   */
   function onContextInit(cb) {
     notifyNewContext.push(cb);
   }
   /**
-     * Invoke any classes which need to also be initialized when a new context is created.
-     */  
+   * Invoke any classes which need to also be initialized when a new context is created.
+   */  
   /**
-     * Used internally to tear down a Context
-     */
+   * Used internally to tear down a Context
+   */
   function onContextClose(cb) {
     notifyCloseContext.push(cb);
   }
   /**
-     * Make the property not writable using `defineProperty`. Internal use only.
-     */
+   * Equal power gain scale. Good for cross-fading.
+   * @param  percent (0-1)
+   */
+  /**
+   * Convert decibels into gain.
+   */
+  function dbToGain(db) {
+    return Math.pow(10, db / 20);
+  }
+  /**
+   * Convert gain to decibels.
+   */  function gainToDb(gain) {
+    return Math.log(gain) / Math.LN10 * 20;
+  }
+  /**
+   * Convert an interval (in semitones) to a frequency ratio.
+   * @param interval the number of semitones above the base note
+   * @example
+   * Tone.intervalToFrequencyRatio(0); // 1
+   * Tone.intervalToFrequencyRatio(12); // 2
+   * Tone.intervalToFrequencyRatio(-12); // 0.5
+   */  function intervalToFrequencyRatio(interval) {
+    return Math.pow(2, interval / 12);
+  }
+  /**
+   * The Global [concert tuning pitch](https://en.wikipedia.org/wiki/Concert_pitch) which is used
+   * to generate all the other pitch values from notes. A4's values in Hertz.
+   */  
+  /**
+   * Convert a frequency value to a MIDI note.
+   * @param frequency The value to frequency value to convert.
+   * @example
+   * Tone.ftom(440); // returns 69
+   */
+  function ftom(frequency) {
+    return Math.round((
+    /**
+   * Convert a frequency to a floating point midi value
+   */
+    function(frequency) {
+      return 69 + 12 * Math.log2(frequency / A4);
+    }
+    /**
+   * Convert a MIDI note to frequency value.
+   * @param  midi The midi number to convert.
+   * @return The corresponding frequency value
+   * @example
+   * Tone.mtof(69); // 440
+   */)(frequency));
+  }
+  /**
+   * Make the property not writable using `defineProperty`. Internal use only.
+   */
   function readOnly(target, property) {
     isArray(property) ? property.forEach((str => readOnly(target, str))) : Object.defineProperty(target, property, {
       enumerable: !0,
@@ -296,114 +333,52 @@
     });
   }
   /**
-     * Make an attribute writeable. Internal use only.
-     */  function writable(target, property) {
+   * Make an attribute writeable. Internal use only.
+   */  function writable(target, property) {
     isArray(property) ? property.forEach((str => writable(target, str))) : Object.defineProperty(target, property, {
       writable: !0
     });
   }
   /**
-     * Returns the default system-wide {@link Context}
-     * @category Core
-     */
+   * Returns the default system-wide {@link Context}
+   * @category Core
+   */
   function getContext() {
-    return globalContext === dummyContext && hasAudioContext && setContext(new Context), 
-    globalContext;
-  }
-  /**
-     * Set the default audio context
-     * @param context
-     * @param disposeOld Pass `true` if you don't need the old context to dispose it.
-     * @category Core
-     */  function setContext(context, disposeOld = !1) {
-    disposeOld && globalContext.dispose(), globalContext = isAudioContext(context) ? new Context(context) : isOfflineAudioContext(context) ? new OfflineContext(context) : context;
-  }
-  /**
-     * Most browsers will not play _any_ audio until a user
-     * clicks something (like a play button). Invoke this method
-     * on a click or keypress event handler to start the audio context.
-     * More about the Autoplay policy
-     * [here](https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio)
-     * @example
-     * document.querySelector("button").addEventListener("click", async () => {
-     * 	await Tone.start();
-     * 	console.log("context started");
-     * });
-     * @category Core
-     */  function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-  }
-  /**
-     * Equal power gain scale. Good for cross-fading.
-     * @param  percent (0-1)
-     */
-  /**
-     * Convert decibels into gain.
-     */
-  function dbToGain(db) {
-    return Math.pow(10, db / 20);
-  }
-  /**
-     * Convert gain to decibels.
-     */  function gainToDb(gain) {
-    return Math.log(gain) / Math.LN10 * 20;
-  }
-  /**
-     * Convert an interval (in semitones) to a frequency ratio.
-     * @param interval the number of semitones above the base note
-     * @example
-     * Tone.intervalToFrequencyRatio(0); // 1
-     * Tone.intervalToFrequencyRatio(12); // 2
-     * Tone.intervalToFrequencyRatio(-12); // 0.5
-     */  function intervalToFrequencyRatio(interval) {
-    return Math.pow(2, interval / 12);
-  }
-  /**
-     * The Global [concert tuning pitch](https://en.wikipedia.org/wiki/Concert_pitch) which is used
-     * to generate all the other pitch values from notes. A4's values in Hertz.
-     */  
-  /**
-     * Convert a frequency value to a MIDI note.
-     * @param frequency The value to frequency value to convert.
-     * @example
-     * Tone.ftom(440); // returns 69
-     */
-  function ftom(frequency) {
-    return Math.round((
+    return globalContext === dummyContext && hasAudioContext && (
     /**
-     * Convert a frequency to a floating point midi value
-     */
-    function(frequency) {
-      return 69 + 12 * Math.log2(frequency / A4);
+   * Set the default audio context
+   * @param context
+   * @param disposeOld Pass `true` if you don't need the old context to dispose it.
+   * @category Core
+   */
+    function(context, disposeOld = !1) {
+      disposeOld && globalContext.dispose();
+      globalContext = isAudioContext(context) ? new Context(context) : isOfflineAudioContext(context) ? new OfflineContext(context) : context;
     }
     /**
-     * Convert a MIDI note to frequency value.
-     * @param  midi The midi number to convert.
-     * @return The corresponding frequency value
-     * @example
-     * Tone.mtof(69); // 440
-     */)(frequency));
+   * Log Tone.js + version in the console.
+   */)(new Context), globalContext;
   }
   //-------------------------------------
   // CONNECTIONS
   //-------------------------------------
   /**
-     * connect together all of the arguments in series
-     * @param nodes
-     */
+   * connect together all of the arguments in series
+   * @param nodes
+   */
   function connectSeries(...nodes) {
     const first = nodes.shift();
     nodes.reduce(((prev, current) => (prev instanceof ToneAudioNode ? prev.connect(current) : isAudioNode(prev) && connect(prev, current), 
     current)), first);
   }
   /**
-     * Connect two nodes together so that signal flows from the
-     * first node to the second. Optionally specify the input and output channels.
-     * @param srcNode The source node
-     * @param dstNode The destination node
-     * @param outputNumber The output channel of the srcNode
-     * @param inputNumber The input channel of the dstNode
-     */  function connect(srcNode, dstNode, outputNumber = 0, inputNumber = 0) {
+   * Connect two nodes together so that signal flows from the
+   * first node to the second. Optionally specify the input and output channels.
+   * @param srcNode The source node
+   * @param dstNode The destination node
+   * @param outputNumber The output channel of the srcNode
+   * @param inputNumber The input channel of the dstNode
+   */  function connect(srcNode, dstNode, outputNumber = 0, inputNumber = 0) {
     // resolve the input of the dstNode
     for (assert(isDefined(srcNode), "Cannot connect from undefined node"), assert(isDefined(dstNode), "Cannot connect to undefined node"), 
     (dstNode instanceof ToneAudioNode || isAudioNode(dstNode)) && assert(dstNode.numberOfInputs > 0, "Cannot connect to node with no inputs"), 
@@ -413,12 +388,12 @@
         isAudioParam(dstNode) ? srcNode.connect(dstNode, outputNumber) : srcNode.connect(dstNode, outputNumber, inputNumber);
   }
   /**
-     * Disconnect a node from all nodes or optionally include a destination node and input/output channels.
-     * @param srcNode The source node
-     * @param dstNode The destination node
-     * @param outputNumber The output channel of the srcNode
-     * @param inputNumber The input channel of the dstNode
-     */  function disconnect(srcNode, dstNode, outputNumber = 0, inputNumber = 0) {
+   * Disconnect a node from all nodes or optionally include a destination node and input/output channels.
+   * @param srcNode The source node
+   * @param dstNode The destination node
+   * @param outputNumber The output channel of the srcNode
+   * @param inputNumber The input channel of the dstNode
+   */  function disconnect(srcNode, dstNode, outputNumber = 0, inputNumber = 0) {
     // resolve the destination node
     if (isDefined(dstNode)) for (;dstNode instanceof ToneAudioNode; ) dstNode = dstNode.input;
     // resolve the src node
@@ -426,28 +401,28 @@
     isAudioParam(dstNode) ? srcNode.disconnect(dstNode, outputNumber) : isAudioNode(dstNode) ? srcNode.disconnect(dstNode, outputNumber, inputNumber) : srcNode.disconnect();
   }
   /**
-     * A thin wrapper around the Native Web Audio GainNode.
-     * The GainNode is a basic building block of the Web Audio
-     * API and is useful for routing audio and adjusting gains.
-     * @category Core
-     * @example
-     * return Tone.Offline(() => {
-     * 	const gainNode = new Tone.Gain(0).toDestination();
-     * 	const osc = new Tone.Oscillator(30).connect(gainNode).start();
-     * 	gainNode.gain.rampTo(1, 0.1);
-     * 	gainNode.gain.rampTo(0, 0.4, 0.2);
-     * }, 0.7, 1);
-     */  
+   * A thin wrapper around the Native Web Audio GainNode.
+   * The GainNode is a basic building block of the Web Audio
+   * API and is useful for routing audio and adjusting gains.
+   * @category Core
+   * @example
+   * return Tone.Offline(() => {
+   * 	const gainNode = new Tone.Gain(0).toDestination();
+   * 	const osc = new Tone.Oscillator(30).connect(gainNode).start();
+   * 	gainNode.gain.rampTo(1, 0.1);
+   * 	gainNode.gain.rampTo(0, 0.4, 0.2);
+   * }, 0.7, 1);
+   */  
   /**
-     * When connecting from a signal, it's necessary to zero out the node destination
-     * node if that node is also a signal. If the destination is not 0, then the values
-     * will be summed. This method insures that the output of the destination signal will
-     * be the same as the source signal, making the destination signal a pass through node.
-     * @param signal The output signal to connect from
-     * @param destination the destination to connect to
-     * @param outputNum the optional output number
-     * @param inputNum the input number
-     */
+   * When connecting from a signal, it's necessary to zero out the node destination
+   * node if that node is also a signal. If the destination is not 0, then the values
+   * will be summed. This method insures that the output of the destination signal will
+   * be the same as the source signal, making the destination signal a pass through node.
+   * @param signal The output signal to connect from
+   * @param destination the destination to connect to
+   * @param outputNum the optional output number
+   * @param inputNum the input number
+   */
   function connectSignal(signal, destination, outputNum, inputNum) {
     (destination instanceof Param || isAudioParam(destination) || destination instanceof Signal && destination.override) && (
     // cancel changes
@@ -458,17 +433,69 @@
     destination instanceof Signal && (destination.overridden = !0)), connect(signal, destination, outputNum, inputNum);
   }
   /**
-     * Volume is a simple volume node, useful for creating a volume fader.
-     *
-     * @example
-     * const vol = new Tone.Volume(-12).toDestination();
-     * const osc = new Tone.Oscillator().connect(vol).start();
-     * @category Component
-     */  
+   * Volume is a simple volume node, useful for creating a volume fader.
+   *
+   * @example
+   * const vol = new Tone.Volume(-12).toDestination();
+   * const osc = new Tone.Oscillator().connect(vol).start();
+   * @category Component
+   */  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+  /** 
+   * Generate Sine, Triangle, Square and Sawtooth waveforms.
+   * @class Oscillator
+   * @constructor
+   * @param {Number} [frequency] frequency defaults to 440Hz
+   * @param {String} [type] type of oscillator. Options:
+   *                        'sine' (default), 'triangle',
+   *                        'sawtooth', 'square'
+   * @example
+   * <div>
+   * <code>
+   * let osc, playing, freq, amp;
+   *
+   * function setup() {
+   *   describe("a sketch that demonstrates the frequency and amplitude parameters of an oscillator.");
+   *   let cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(playOscillator);
+   *   osc = new Oscillator();
+   * }
+   *
+   * function draw() {
+   *   background(220)
+   *   freq = constrain(map(mouseX, 0, width, 100, 500), 100, 500);
+   *   //amp = constrain(map(mouseY, height, 0, 0, 1), 0, 1);
+   *   text('tap to play', 20, 20);
+   *   text('freq: ' + freq, 20, 40);
+   *   //text('amp: ' + amp, 20, 60);
+   *
+   *   if (playing) {
+   *     // smooth the transitions by 0.1 seconds
+   *     osc.freq(freq);
+   *     //osc.amp(amp);
+   *   }
+   * }
+   *
+   * function playOscillator() {
+   *   // starting an oscillator on a user gesture will enable audio
+   *   // in browsers that have a strict autoplay policy.
+   *   osc.start();
+   *   playing = true;
+   * }
+   *
+   * function mouseReleased() {
+   *   // ramp amplitude to 0 over 0.5 seconds
+   *   //osc.amp(0, 0.5);
+   *   playing = false;
+   * }
+   * </code> 
+   * </div>
+   */  
   /**
-     * Convert the time to seconds and assert that the time is in between the two
-     * values when being set.
-     */
+   * Convert the time to seconds and assert that the time is in between the two
+   * values when being set.
+   */
   function timeRange(min, max = 1 / 0) {
     const valueMap = new WeakMap;
     return function(target, propertyKey) {
@@ -485,32 +512,96 @@
     };
   }
   /**
-     * Envelope is an [ADSR](https://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope)
-     * envelope generator. Envelope outputs a signal which
-     * can be connected to an AudioParam or Tone.Signal.
-     * ```
-     *           /\
-     *          /  \
-     *         /    \
-     *        /      \
-     *       /        \___________
-     *      /                     \
-     *     /                       \
-     *    /                         \
-     *   /                           \
-     * ```
-     * @example
-     * return Tone.Offline(() => {
-     * 	const env = new Tone.Envelope({
-     * 		attack: 0.1,
-     * 		decay: 0.2,
-     * 		sustain: 0.5,
-     * 		release: 0.8,
-     * 	}).toDestination();
-     * 	env.triggerAttackRelease(0.5);
-     * }, 1.5, 1);
-     * @category Component
-     */  const createExtendedExponentialRampToValueAutomationEvent = (value, endTime, insertTime) => ({
+   * Envelope is an [ADSR](https://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope)
+   * envelope generator. Envelope outputs a signal which
+   * can be connected to an AudioParam or Tone.Signal.
+   * ```
+   *           /\
+   *          /  \
+   *         /    \
+   *        /      \
+   *       /        \___________
+   *      /                     \
+   *     /                       \
+   *    /                         \
+   *   /                           \
+   * ```
+   * @example
+   * return Tone.Offline(() => {
+   * 	const env = new Tone.Envelope({
+   * 		attack: 0.1,
+   * 		decay: 0.2,
+   * 		sustain: 0.5,
+   * 		release: 0.8,
+   * 	}).toDestination();
+   * 	env.triggerAttackRelease(0.5);
+   * }, 1.5, 1);
+   * @category Component
+   */  class Ticker {
+    constructor(callback, type, updateInterval, contextSampleRate) {
+      this._callback = callback, this._type = type, this._minimumUpdateInterval = Math.max(128 / (contextSampleRate || 44100), .001), 
+      this.updateInterval = updateInterval, 
+      // create the clock source for the first time
+      this._createClock();
+    }
+    /**
+       * Generate a web worker
+       */    _createWorker() {
+      const blob = new Blob([ 
+      /* javascript */ `\n\t\t\t// the initial timeout time\n\t\t\tlet timeoutTime =  ${(1e3 * this._updateInterval).toFixed(1)};\n\t\t\t// onmessage callback\n\t\t\tself.onmessage = function(msg){\n\t\t\t\ttimeoutTime = parseInt(msg.data);\n\t\t\t};\n\t\t\t// the tick function which posts a message\n\t\t\t// and schedules a new tick\n\t\t\tfunction tick(){\n\t\t\t\tsetTimeout(tick, timeoutTime);\n\t\t\t\tself.postMessage('tick');\n\t\t\t}\n\t\t\t// call tick initially\n\t\t\ttick();\n\t\t\t` ], {
+        type: "text/javascript"
+      });
+      const blobUrl = URL.createObjectURL(blob);
+      const worker = new Worker(blobUrl);
+      worker.onmessage = this._callback.bind(this), this._worker = worker;
+    }
+    /**
+       * Create a timeout loop
+       */    _createTimeout() {
+      this._timeout = setTimeout((() => {
+        this._createTimeout(), this._callback();
+      }), 1e3 * this._updateInterval);
+    }
+    /**
+       * Create the clock source.
+       */    _createClock() {
+      if ("worker" === this._type) try {
+        this._createWorker();
+      } catch (e) {
+        // workers not supported, fallback to timeout
+        this._type = "timeout", this._createClock();
+      } else "timeout" === this._type && this._createTimeout();
+    }
+    /**
+       * Clean up the current clock source
+       */    _disposeClock() {
+      this._timeout && clearTimeout(this._timeout), this._worker && (this._worker.terminate(), 
+      this._worker.onmessage = null);
+    }
+    /**
+       * The rate in seconds the ticker will update
+       */    get updateInterval() {
+      return this._updateInterval;
+    }
+    set updateInterval(interval) {
+      var _a;
+      this._updateInterval = Math.max(interval, this._minimumUpdateInterval), "worker" === this._type && (null === (_a = this._worker) || void 0 === _a || _a.postMessage(1e3 * this._updateInterval));
+    }
+    /**
+       * The type of the ticker, either a worker or a timeout
+       */    get type() {
+      return this._type;
+    }
+    set type(type) {
+      this._disposeClock(), this._type = type, this._createClock();
+    }
+    /**
+       * Clean up
+       */    dispose() {
+      this._disposeClock();
+    }
+  }
+  const createExtendedExponentialRampToValueAutomationEvent = (value, endTime, insertTime) => ({
     endTime: endTime,
     insertTime: insertTime,
     type: "exponentialRampToValue",
@@ -649,17 +740,17 @@
     construct: () => handler
   };
   /*
-     * This massive regex tries to cover all the following cases.
-     *
-     * import './path';
-     * import defaultImport from './path';
-     * import { namedImport } from './path';
-     * import { namedImport as renamendImport } from './path';
-     * import * as namespaceImport from './path';
-     * import defaultImport, { namedImport } from './path';
-     * import defaultImport, { namedImport as renamendImport } from './path';
-     * import defaultImport, * as namespaceImport from './path';
-     */
+   * This massive regex tries to cover all the following cases.
+   *
+   * import './path';
+   * import defaultImport from './path';
+   * import { namedImport } from './path';
+   * import { namedImport as renamendImport } from './path';
+   * import * as namespaceImport from './path';
+   * import defaultImport, { namedImport } from './path';
+   * import defaultImport, { namedImport as renamendImport } from './path';
+   * import defaultImport, * as namespaceImport from './path';
+   */
   const IMPORT_STATEMENT_REGEX = /^import(?:(?:[\s]+[\w]+|(?:[\s]+[\w]+[\s]*,)?[\s]*\{[\s]*[\w]+(?:[\s]+as[\s]+[\w]+)?(?:[\s]*,[\s]*[\w]+(?:[\s]+as[\s]+[\w]+)?)*[\s]*}|(?:[\s]+[\w]+[\s]*,)?[\s]*\*[\s]+as[\s]+[\w]+)[\s]+from)?(?:[\s]*)("([^"\\]|\\.)+"|'([^'\\]|\\.)+')(?:[\s]*);?/;
  // tslint:disable-line:max-line-length
     const splitImportStatements = (source, url) => {
@@ -833,9 +924,9 @@
   const isPassiveAudioNode = audioNode => !ACTIVE_AUDIO_NODE_STORE.has(audioNode);
   const testAudioNodeDisconnectMethodSupport = (nativeAudioContext, nativeAudioWorkletNodeConstructor) => new Promise((resolve => {
     /*
-             * This bug existed in Safari up until v14.0.2. Since AudioWorklets were not supported in Safari until v14.1 the presence of the
-             * constructor for an AudioWorkletNode can be used here to skip the test.
-             */
+           * This bug existed in Safari up until v14.0.2. Since AudioWorklets were not supported in Safari until v14.1 the presence of the
+           * constructor for an AudioWorkletNode can be used here to skip the test.
+           */
     if (null !== nativeAudioWorkletNodeConstructor) resolve(!0); else {
       const analyzer = nativeAudioContext.createScriptProcessor(256, 1, 1);
  // tslint:disable-line deprecation
@@ -1148,11 +1239,13 @@
     void 0 !== value && value !== nativeAudioNode[audioParam].value && (nativeAudioNode[audioParam].value = value);
   };
   const wrapAudioScheduledSourceNodeStartMethodNegativeParameters = nativeAudioScheduledSourceNode => {
-    nativeAudioScheduledSourceNode.start = (start => (when = 0, offset = 0, duration) => {
+    var start;
+    nativeAudioScheduledSourceNode.start = (start = nativeAudioScheduledSourceNode.start, 
+    (when = 0, offset = 0, duration) => {
       if ("number" == typeof duration && duration < 0 || offset < 0 || when < 0) throw new RangeError("The parameters can't be negative.");
       // @todo TypeScript cannot infer the overloaded signature with 3 arguments yet.
             start.call(nativeAudioScheduledSourceNode, when, offset, duration);
-    })(nativeAudioScheduledSourceNode.start);
+    });
   };
   const wrapAudioScheduledSourceNodeStopMethodNegativeParameters = nativeAudioScheduledSourceNode => {
     var stop;
@@ -1270,9 +1363,9 @@
   const DEFAULT_OPTIONS$1 = {
     channelCount: 2,
     /*
-         * Bug #105: The channelCountMode should be 'clamped-max' according to the spec but is set to 'explicit' to achieve consistent
-         * behavior.
-         */
+       * Bug #105: The channelCountMode should be 'clamped-max' according to the spec but is set to 'explicit' to achieve consistent
+       * behavior.
+       */
     channelCountMode: "explicit",
     channelInterpretation: "speakers",
     pan: 0
@@ -1580,10 +1673,10 @@
       }
       const nativeAudioParam = getNativeAudioParam(destination);
       /*
-                 * Bug #73, #147 & #153: Safari does not support to connect an input signal to the playbackRate AudioParam of an
-                 * AudioBufferSourceNode. This can't be easily detected and that's why the outdated name property is used here to identify
-                 * Safari. In addition to that the maxValue property is used to only detect the affected versions below v14.0.2.
-                 */      if ("playbackRate" === nativeAudioParam.name && 1024 === nativeAudioParam.maxValue) throw createNotSupportedError();
+               * Bug #73, #147 & #153: Safari does not support to connect an input signal to the playbackRate AudioParam of an
+               * AudioBufferSourceNode. This can't be easily detected and that's why the outdated name property is used here to identify
+               * Safari. In addition to that the maxValue property is used to only detect the affected versions below v14.0.2.
+               */      if ("playbackRate" === nativeAudioParam.name && 1024 === nativeAudioParam.maxValue) throw createNotSupportedError();
       try {
         this._nativeAudioNode.connect(nativeAudioParam, output), (isOffline || isPassiveAudioNode(this)) && this._nativeAudioNode.disconnect(nativeAudioParam, output);
       } catch (err) {
@@ -1817,9 +1910,9 @@
         };
         null === nativeOfflineAudioContext && (nativeOfflineAudioContext = new nativeOfflineAudioContextConstructor(1, 1, 44100))
         /*
-                 * Bug #99: Firefox does not throw a NotSupportedError when the numberOfChannels is zero. But it only does it when using the
-                 * factory function. But since Firefox also supports the constructor everything should be fine.
-                 */;
+               * Bug #99: Firefox does not throw a NotSupportedError when the numberOfChannels is zero. But it only does it when using the
+               * factory function. But since Firefox also supports the constructor everything should be fine.
+               */;
         const audioBuffer = null !== nativeAudioBufferConstructor && cacheTestResult(testNativeAudioBufferConstructorSupport, testNativeAudioBufferConstructorSupport) ? new nativeAudioBufferConstructor({
           length: length,
           numberOfChannels: numberOfChannels,
@@ -1830,9 +1923,9 @@
         // Bug #5: Safari does not support copyFromChannel() and copyToChannel().
         // Bug #100: Safari does throw a wrong error when calling getChannelData() with an out-of-bounds value.
                 /*
-                 * This does violate all good pratices but it is necessary to allow this AudioBuffer to be used with native
-                 * (Offline)AudioContexts.
-                 */
+               * This does violate all good pratices but it is necessary to allow this AudioBuffer to be used with native
+               * (Offline)AudioContexts.
+               */
         return "function" != typeof audioBuffer.copyFromChannel ? (wrapAudioBufferCopyChannelMethods(audioBuffer), 
         wrapAudioBufferGetChannelDataMethod(audioBuffer)) : cacheTestResult(testAudioBufferCopyChannelMethodsOutOfBoundsSupport, (() => testAudioBufferCopyChannelMethodsOutOfBoundsSupport(audioBuffer))) || wrapAudioBufferCopyChannelMethodsOutOfBounds(audioBuffer), 
         audioBufferStore.add(audioBuffer), audioBuffer;
@@ -1935,13 +2028,15 @@
     }
     return !0;
   }), testAudioScheduledSourceNodeStartMethodNegativeParametersSupport, testAudioScheduledSourceNodeStopMethodConsecutiveCallsSupport, testAudioScheduledSourceNodeStopMethodNegativeParametersSupport, (nativeAudioBufferSourceNode => {
-    nativeAudioBufferSourceNode.start = (start => (when = 0, offset = 0, duration) => {
+    var start;
+    nativeAudioBufferSourceNode.start = (start = nativeAudioBufferSourceNode.start, 
+    (when = 0, offset = 0, duration) => {
       const buffer = nativeAudioBufferSourceNode.buffer;
       // Bug #154: Safari does not clamp the offset if it is equal to or greater than the duration of the buffer.
             const clampedOffset = null === buffer ? offset : Math.min(buffer.duration, offset);
       // Bug #155: Safari does not handle the offset correctly if it would cause the buffer to be not be played at all.
             null !== buffer && clampedOffset > buffer.duration - .5 / nativeAudioBufferSourceNode.context.sampleRate ? start.call(nativeAudioBufferSourceNode, when, 0, 0) : start.call(nativeAudioBufferSourceNode, when, clampedOffset, duration);
-    })(nativeAudioBufferSourceNode.start);
+    });
   }), (overwriteAccessors => (nativeAudioBufferSourceNode, nativeContext) => {
     const nullifiedBuffer = nativeContext.createBuffer(1, 1, 44100);
     null === nativeAudioBufferSourceNode.buffer && (nativeAudioBufferSourceNode.buffer = nullifiedBuffer), 
@@ -1972,9 +2067,9 @@
         return void 0 !== renderedNativeAudioBufferSourceNode ? Promise.resolve(renderedNativeAudioBufferSourceNode) : (async (proxy, nativeOfflineAudioContext) => {
           let nativeAudioBufferSourceNode = getNativeAudioNode(proxy);
           /*
-                 * If the initially used nativeAudioBufferSourceNode was not constructed on the same OfflineAudioContext it needs to be created
-                 * again.
-                 */          const nativeAudioBufferSourceNodeIsOwnedByContext = isOwnedByContext(nativeAudioBufferSourceNode, nativeOfflineAudioContext);
+               * If the initially used nativeAudioBufferSourceNode was not constructed on the same OfflineAudioContext it needs to be created
+               * again.
+               */          const nativeAudioBufferSourceNodeIsOwnedByContext = isOwnedByContext(nativeAudioBufferSourceNode, nativeOfflineAudioContext);
           if (!nativeAudioBufferSourceNodeIsOwnedByContext) {
             const options = {
               buffer: nativeAudioBufferSourceNode.buffer,
@@ -2070,10 +2165,10 @@
         // Bug 183: Safari only accepts a Float32Array.
         const convertedValues = values instanceof Float32Array ? values : new Float32Array(values);
         /*
-                     * Bug #152: Safari does not correctly interpolate the values of the curve.
-                     * @todo Unfortunately there is no way to test for this behavior in a synchronous fashion which is why testing for the
-                     * existence of the webkitAudioContext is used as a workaround here.
-                     */        if (null !== nativeAudioContextConstructor && "webkitAudioContext" === nativeAudioContextConstructor.name) {
+                   * Bug #152: Safari does not correctly interpolate the values of the curve.
+                   * @todo Unfortunately there is no way to test for this behavior in a synchronous fashion which is why testing for the
+                   * existence of the webkitAudioContext is used as a workaround here.
+                   */        if (null !== nativeAudioContextConstructor && "webkitAudioContext" === nativeAudioContextConstructor.name) {
           const endTime = startTime + duration;
           const sampleRate = audioNode.context.sampleRate;
           const firstSample = Math.ceil(startTime * sampleRate);
@@ -2311,9 +2406,9 @@
         return void 0 !== renderedNativeBiquadFilterNode ? Promise.resolve(renderedNativeBiquadFilterNode) : (async (proxy, nativeOfflineAudioContext) => {
           let nativeBiquadFilterNode = getNativeAudioNode(proxy);
           /*
-                 * If the initially used nativeBiquadFilterNode was not constructed on the same OfflineAudioContext it needs to be created
-                 * again.
-                 */          const nativeBiquadFilterNodeIsOwnedByContext = isOwnedByContext(nativeBiquadFilterNode, nativeOfflineAudioContext);
+               * If the initially used nativeBiquadFilterNode was not constructed on the same OfflineAudioContext it needs to be created
+               * again.
+               */          const nativeBiquadFilterNodeIsOwnedByContext = isOwnedByContext(nativeBiquadFilterNode, nativeOfflineAudioContext);
           if (!nativeBiquadFilterNodeIsOwnedByContext) {
             const options = {
               Q: nativeBiquadFilterNode.Q.value,
@@ -2447,10 +2542,10 @@
   const createNativeChannelMergerNode = ((nativeAudioContextConstructor, wrapChannelMergerNode) => (nativeContext, options) => {
     const nativeChannelMergerNode = nativeContext.createChannelMerger(options.numberOfInputs);
     /*
-             * Bug #20: Safari requires a connection of any kind to treat the input signal correctly.
-             * @todo Unfortunately there is no way to test for this behavior in a synchronous fashion which is why testing for the existence of
-             * the webkitAudioContext is used as a workaround here.
-             */    return null !== nativeAudioContextConstructor && "webkitAudioContext" === nativeAudioContextConstructor.name && wrapChannelMergerNode(nativeContext, nativeChannelMergerNode), 
+           * Bug #20: Safari requires a connection of any kind to treat the input signal correctly.
+           * @todo Unfortunately there is no way to test for this behavior in a synchronous fashion which is why testing for the existence of
+           * the webkitAudioContext is used as a workaround here.
+           */    return null !== nativeAudioContextConstructor && "webkitAudioContext" === nativeAudioContextConstructor.name && wrapChannelMergerNode(nativeContext, nativeChannelMergerNode), 
     assignNativeAudioNodeOptions(nativeChannelMergerNode, options), nativeChannelMergerNode;
   })(nativeAudioContextConstructor, wrapChannelMergerNode);
   const createChannelMergerNodeRenderer = ((createNativeChannelMergerNode, getNativeAudioNode, renderInputsOfAudioNode) => () => {
@@ -2627,9 +2722,9 @@
         return void 0 !== renderedNativeConstantSourceNode ? Promise.resolve(renderedNativeConstantSourceNode) : (async (proxy, nativeOfflineAudioContext) => {
           let nativeConstantSourceNode = getNativeAudioNode(proxy);
           /*
-                 * If the initially used nativeConstantSourceNode was not constructed on the same OfflineAudioContext it needs to be created
-                 * again.
-                 */          const nativeConstantSourceNodeIsOwnedByContext = isOwnedByContext(nativeConstantSourceNode, nativeOfflineAudioContext);
+               * If the initially used nativeConstantSourceNode was not constructed on the same OfflineAudioContext it needs to be created
+               * again.
+               */          const nativeConstantSourceNodeIsOwnedByContext = isOwnedByContext(nativeConstantSourceNode, nativeOfflineAudioContext);
           if (!nativeConstantSourceNodeIsOwnedByContext) {
             const options = {
               channelCount: nativeConstantSourceNode.channelCount,
@@ -2661,9 +2756,9 @@
       super(context, !1, nativeConstantSourceNode, constantSourceNodeRenderer), this._constantSourceNodeRenderer = constantSourceNodeRenderer, 
       this._nativeConstantSourceNode = nativeConstantSourceNode, 
       /*
-                 * Bug #62 & #74: Safari does not support ConstantSourceNodes and does not export the correct values for maxValue and minValue
-                 * for GainNodes.
-                 */
+               * Bug #62 & #74: Safari does not support ConstantSourceNodes and does not export the correct values for maxValue and minValue
+               * for GainNodes.
+               */
       this._offset = createAudioParam(this, isOffline, nativeConstantSourceNode.offset, MOST_POSITIVE_SINGLE_FLOAT, MOST_NEGATIVE_SINGLE_FLOAT), 
       this._onended = null;
     }
@@ -2830,9 +2925,9 @@
         return void 0 !== renderedNativeDynamicsCompressorNode ? Promise.resolve(renderedNativeDynamicsCompressorNode) : (async (proxy, nativeOfflineAudioContext) => {
           let nativeDynamicsCompressorNode = getNativeAudioNode(proxy);
           /*
-                 * If the initially used nativeDynamicsCompressorNode was not constructed on the same OfflineAudioContext it needs to be
-                 * created again.
-                 */          const nativeDynamicsCompressorNodeIsOwnedByContext = isOwnedByContext(nativeDynamicsCompressorNode, nativeOfflineAudioContext);
+               * If the initially used nativeDynamicsCompressorNode was not constructed on the same OfflineAudioContext it needs to be
+               * created again.
+               */          const nativeDynamicsCompressorNodeIsOwnedByContext = isOwnedByContext(nativeDynamicsCompressorNode, nativeOfflineAudioContext);
           if (!nativeDynamicsCompressorNodeIsOwnedByContext) {
             const options = {
               attack: nativeDynamicsCompressorNode.attack.value,
@@ -2892,9 +2987,9 @@
       createNotSupportedError();
     }
     /*
-             * Bug #109: Only Chrome and Firefox disallow a channelCountMode of 'max' yet which is why the getter and setter needs to be
-             * overwritten here.
-             */    get channelCountMode() {
+           * Bug #109: Only Chrome and Firefox disallow a channelCountMode of 'max' yet which is why the getter and setter needs to be
+           * overwritten here.
+           */    get channelCountMode() {
       return this._nativeDynamicsCompressorNode.channelCountMode;
     }
     set channelCountMode(value) {
@@ -3243,9 +3338,9 @@
           get: () => initialValue
         });
         /*
-                     * Bug #62 & #74: Safari does not support ConstantSourceNodes and does not export the correct values for maxValue and
-                     * minValue for GainNodes.
-                     */
+                   * Bug #62 & #74: Safari does not support ConstantSourceNodes and does not export the correct values for maxValue and
+                   * minValue for GainNodes.
+                   */
         const audioParam = createAudioParam({
           context: context
         }, isOffline, constantSourceNode.offset, MOST_POSITIVE_SINGLE_FLOAT, MOST_NEGATIVE_SINGLE_FLOAT);
@@ -3632,11 +3727,11 @@
   const createNativeWaveShaperNode = ((createConnectedNativeAudioBufferSourceNode, createInvalidStateError, createNativeWaveShaperNodeFaker, isDCCurve, monitorConnections, nativeAudioContextConstructor, overwriteAccessors) => (nativeContext, options) => {
     const nativeWaveShaperNode = nativeContext.createWaveShaper();
     /*
-             * Bug #119: Safari does not correctly map the values.
-             * @todo Unfortunately there is no way to test for this behavior in a synchronous fashion which is why testing for the existence of
-             * the webkitAudioContext is used as a workaround here. Testing for the automationRate property is necessary because this workaround
-             * isn't necessary anymore since v14.0.2 of Safari.
-             */    if (null !== nativeAudioContextConstructor && "webkitAudioContext" === nativeAudioContextConstructor.name && void 0 === nativeContext.createGain().gain.automationRate) return createNativeWaveShaperNodeFaker(nativeContext, options);
+           * Bug #119: Safari does not correctly map the values.
+           * @todo Unfortunately there is no way to test for this behavior in a synchronous fashion which is why testing for the existence of
+           * the webkitAudioContext is used as a workaround here. Testing for the automationRate property is necessary because this workaround
+           * isn't necessary anymore since v14.0.2 of Safari.
+           */    if (null !== nativeAudioContextConstructor && "webkitAudioContext" === nativeAudioContextConstructor.name && void 0 === nativeContext.createGain().gain.automationRate) return createNativeWaveShaperNodeFaker(nativeContext, options);
     assignNativeAudioNodeOptions(nativeWaveShaperNode, options);
     const curve = null === options.curve || options.curve instanceof Float32Array ? options.curve : new Float32Array(options.curve);
     // Bug #104: Chrome and Edge will throw an InvalidAccessError when the curve has less than two samples.
@@ -4403,17 +4498,17 @@
   const createNativeStereoPannerNode = ((createNativeStereoPannerNodeFaker, createNotSupportedError) => (nativeContext, options) => {
     const channelCountMode = options.channelCountMode;
     /*
-             * Bug #105: The channelCountMode of 'clamped-max' should be supported. However it is not possible to write a polyfill for Safari
-             * which supports it and therefore it can't be supported at all.
-             */    if ("clamped-max" === channelCountMode) throw createNotSupportedError();
+           * Bug #105: The channelCountMode of 'clamped-max' should be supported. However it is not possible to write a polyfill for Safari
+           * which supports it and therefore it can't be supported at all.
+           */    if ("clamped-max" === channelCountMode) throw createNotSupportedError();
     // Bug #105: Safari does not support the StereoPannerNode.
         if (void 0 === nativeContext.createStereoPanner) return createNativeStereoPannerNodeFaker(nativeContext, options);
     const nativeStereoPannerNode = nativeContext.createStereoPanner();
     return assignNativeAudioNodeOptions(nativeStereoPannerNode, options), assignNativeAudioNodeAudioParamValue(nativeStereoPannerNode, options, "pan"), 
     /*
-             * Bug #105: The channelCountMode of 'clamped-max' should be supported. However it is not possible to write a polyfill for Safari
-             * which supports it and therefore it can't be supported at all.
-             */
+           * Bug #105: The channelCountMode of 'clamped-max' should be supported. However it is not possible to write a polyfill for Safari
+           * which supports it and therefore it can't be supported at all.
+           */
     Object.defineProperty(nativeStereoPannerNode, "channelCountMode", {
       get: () => channelCountMode,
       set: value => {
@@ -4429,9 +4524,9 @@
         return void 0 !== renderedNativeStereoPannerNode ? Promise.resolve(renderedNativeStereoPannerNode) : (async (proxy, nativeOfflineAudioContext) => {
           let nativeStereoPannerNode = getNativeAudioNode(proxy);
           /*
-                 * If the initially used nativeStereoPannerNode was not constructed on the same OfflineAudioContext it needs to be created
-                 * again.
-                 */          const nativeStereoPannerNodeIsOwnedByContext = isOwnedByContext(nativeStereoPannerNode, nativeOfflineAudioContext);
+               * If the initially used nativeStereoPannerNode was not constructed on the same OfflineAudioContext it needs to be created
+               * again.
+               */          const nativeStereoPannerNodeIsOwnedByContext = isOwnedByContext(nativeStereoPannerNode, nativeOfflineAudioContext);
           if (!nativeStereoPannerNodeIsOwnedByContext) {
             const options = {
               channelCount: nativeStereoPannerNode.channelCount,
@@ -4568,19 +4663,19 @@
             const promise = void 0 === nativeContext.audioWorklet ? fetchSource(moduleURL).then((([source, absoluteUrl]) => {
         const [importStatements, sourceWithoutImportStatements] = splitImportStatements(source, absoluteUrl);
         /*
-                     * This is the unminified version of the code used below:
-                     *
-                     * ```js
-                     * ${ importStatements };
-                     * ((a, b) => {
-                     *     (a[b] = a[b] || [ ]).push(
-                     *         (AudioWorkletProcessor, global, registerProcessor, sampleRate, self, window) => {
-                     *             ${ sourceWithoutImportStatements }
-                     *         }
-                     *     );
-                     * })(window, '_AWGS');
-                     * ```
-                     */
+                   * This is the unminified version of the code used below:
+                   *
+                   * ```js
+                   * ${ importStatements };
+                   * ((a, b) => {
+                   *     (a[b] = a[b] || [ ]).push(
+                   *         (AudioWorkletProcessor, global, registerProcessor, sampleRate, self, window) => {
+                   *             ${ sourceWithoutImportStatements }
+                   *         }
+                   *     );
+                   * })(window, '_AWGS');
+                   * ```
+                   */
         // tslint:disable-next-line:max-line-length
                 // @todo Evaluating the given source code is a possible security problem.
         return evaluateSource(`${importStatements};((a,b)=>{(a[b]=a[b]||[]).push((AudioWorkletProcessor,global,registerProcessor,sampleRate,self,window)=>{${sourceWithoutImportStatements}\n})})(window,'_AWGS')`);
@@ -4604,31 +4699,31 @@
         index = currentIndex;
         const [importStatements, sourceWithoutImportStatements] = splitImportStatements(source, absoluteUrl);
         /*
-                     * Bug #179: Firefox does not allow to transfer any buffer which has been passed to the process() method as an argument.
-                     *
-                     * This is the unminified version of the code used below.
-                     *
-                     * ```js
-                     * class extends AudioWorkletProcessor {
-                     *
-                     *     __buffers = new WeakSet();
-                     *
-                     *     constructor () {
-                     *         super();
-                     *
-                     *         this.port.postMessage = ((postMessage) => {
-                     *             return (message, transferables) => {
-                     *                 const filteredTransferables = (transferables)
-                     *                     ? transferables.filter((transferable) => !this.__buffers.has(transferable))
-                     *                     : transferables;
-                     *
-                     *                 return postMessage.call(this.port, message, filteredTransferables);
-                     *              };
-                     *         })(this.port.postMessage);
-                     *     }
-                     * }
-                     * ```
-                     */        const blob = new Blob([ `${importStatements};((AudioWorkletProcessor,registerProcessor)=>{${sourceWithoutImportStatements}\n})(${isSupportingPostMessage ? "AudioWorkletProcessor" : "class extends AudioWorkletProcessor {__b=new WeakSet();constructor(){super();(p=>p.postMessage=(q=>(m,t)=>q.call(p,m,t?t.filter(u=>!this.__b.has(u)):t))(p.postMessage))(this.port)}}"},(n,p)=>registerProcessor(n,class extends p{${isSupportingPostMessage ? "" : "__c = (a) => a.forEach(e=>this.__b.add(e.buffer));"}process(i,o,p){${isSupportingPostMessage ? "" : "i.forEach(this.__c);o.forEach(this.__c);this.__c(Object.values(p));"}return super.process(i.map(j=>j.some(k=>k.length===0)?[]:j),o,p)}}));registerProcessor('__sac${currentIndex}',class extends AudioWorkletProcessor{process(){return !1}})` ], {
+                   * Bug #179: Firefox does not allow to transfer any buffer which has been passed to the process() method as an argument.
+                   *
+                   * This is the unminified version of the code used below.
+                   *
+                   * ```js
+                   * class extends AudioWorkletProcessor {
+                   *
+                   *     __buffers = new WeakSet();
+                   *
+                   *     constructor () {
+                   *         super();
+                   *
+                   *         this.port.postMessage = ((postMessage) => {
+                   *             return (message, transferables) => {
+                   *                 const filteredTransferables = (transferables)
+                   *                     ? transferables.filter((transferable) => !this.__buffers.has(transferable))
+                   *                     : transferables;
+                   *
+                   *                 return postMessage.call(this.port, message, filteredTransferables);
+                   *              };
+                   *         })(this.port.postMessage);
+                   *     }
+                   * }
+                   * ```
+                   */        const blob = new Blob([ `${importStatements};((AudioWorkletProcessor,registerProcessor)=>{${sourceWithoutImportStatements}\n})(${isSupportingPostMessage ? "AudioWorkletProcessor" : "class extends AudioWorkletProcessor {__b=new WeakSet();constructor(){super();(p=>p.postMessage=(q=>(m,t)=>q.call(p,m,t?t.filter(u=>!this.__b.has(u)):t))(p.postMessage))(this.port)}}"},(n,p)=>registerProcessor(n,class extends p{${isSupportingPostMessage ? "" : "__c = (a) => a.forEach(e=>this.__b.add(e.buffer));"}process(i,o,p){${isSupportingPostMessage ? "" : "i.forEach(this.__c);o.forEach(this.__c);this.__c(Object.values(p));"}return super.process(i.map(j=>j.some(k=>k.length===0)?[]:j),o,p)}}));registerProcessor('__sac${currentIndex}',class extends AudioWorkletProcessor{process(){return !1}})` ], {
           type: "application/javascript; charset=utf-8"
         });
         const url = URL.createObjectURL(blob);
@@ -4913,15 +5008,15 @@
   })(audioNodeConstructor, ((nativeAudioContext, {mediaStream: mediaStream}) => {
     const audioStreamTracks = mediaStream.getAudioTracks();
     /*
-         * Bug #151: Safari does not use the audio track as input anymore if it gets removed from the mediaStream after construction.
-         * Bug #159: Safari picks the first audio track if the MediaStream has more than one audio track.
-         */    audioStreamTracks.sort(((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+       * Bug #151: Safari does not use the audio track as input anymore if it gets removed from the mediaStream after construction.
+       * Bug #159: Safari picks the first audio track if the MediaStream has more than one audio track.
+       */    audioStreamTracks.sort(((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
     const filteredAudioStreamTracks = audioStreamTracks.slice(0, 1);
     const nativeMediaStreamAudioSourceNode = nativeAudioContext.createMediaStreamSource(new MediaStream(filteredAudioStreamTracks));
     /*
-         * Bug #151 & #159: The given mediaStream gets reconstructed before it gets passed to the native node which is why the accessor needs
-         * to be overwritten as it would otherwise expose the reconstructed version.
-         */    return Object.defineProperty(nativeMediaStreamAudioSourceNode, "mediaStream", {
+       * Bug #151 & #159: The given mediaStream gets reconstructed before it gets passed to the native node which is why the accessor needs
+       * to be overwritten as it would otherwise expose the reconstructed version.
+       */    return Object.defineProperty(nativeMediaStreamAudioSourceNode, "mediaStream", {
       value: mediaStream
     }), nativeMediaStreamAudioSourceNode;
   }), getNativeContext, isNativeOfflineAudioContext);
@@ -4964,14 +5059,14 @@
       const {sampleRate: sampleRate} = nativeAudioContext;
       // @todo The values for 'balanced', 'interactive' and 'playback' are just copied from Chrome's implementation.
             /*
-                 * Bug #34: Chrome and Edge pretend to be running right away, but fire an onstatechange event when the state actually changes
-                 * to 'running'.
-                 */
+               * Bug #34: Chrome and Edge pretend to be running right away, but fire an onstatechange event when the state actually changes
+               * to 'running'.
+               */
       if (this._baseLatency = "number" == typeof nativeAudioContext.baseLatency ? nativeAudioContext.baseLatency : "balanced" === latencyHint ? 512 / sampleRate : "interactive" === latencyHint || void 0 === latencyHint ? 256 / sampleRate : "playback" === latencyHint ? 1024 / sampleRate : 
       /*
-                                       * @todo The min (256) and max (16384) values are taken from the allowed bufferSize values of a
-                                       * ScriptProcessorNode.
-                                       */
+                                     * @todo The min (256) and max (16384) values are taken from the allowed bufferSize values of a
+                                     * ScriptProcessorNode.
+                                     */
       128 * Math.max(2, Math.min(128, Math.round(latencyHint * sampleRate / 128))) / sampleRate, 
       this._nativeAudioContext = nativeAudioContext, 
       // Bug #188: Safari will set the context's state to 'interrupted' in case the user switches tabs.
@@ -5346,14 +5441,14 @@
       const patchedEventListeners = new Map;
       let onprocessorerror = null;
       /*
-                     * Bug #86: Chrome and Edge do not invoke the process() function if the corresponding AudioWorkletNode is unconnected but
-                     * has an output.
-                     */
+                   * Bug #86: Chrome and Edge do not invoke the process() function if the corresponding AudioWorkletNode is unconnected but
+                   * has an output.
+                   */
       if (Object.defineProperties(nativeAudioWorkletNode, {
         /*
-                         * Bug #61: Overwriting the property accessors for channelCount and channelCountMode is necessary as long as some
-                         * browsers have no native implementation to achieve a consistent behavior.
-                         */
+                       * Bug #61: Overwriting the property accessors for channelCount and channelCountMode is necessary as long as some
+                       * browsers have no native implementation to achieve a consistent behavior.
+                       */
         channelCount: {
           get: () => options.channelCount,
           set: () => {
@@ -5581,9 +5676,9 @@
             const nativeContextOrBackupOfflineAudioContext = isOffline || "closed" !== nativeContext.state ? nativeContext : null !== (_a = getBackupOfflineAudioContext(nativeContext)) && void 0 !== _a ? _a : nativeContext;
       const nativeAudioWorkletNode = createNativeAudioWorkletNode(nativeContextOrBackupOfflineAudioContext, isOffline ? null : context.baseLatency, nativeAudioWorkletNodeConstructor, name, processorConstructor, mergedOptions);
       /*
-                 * @todo Add a mechanism to switch an AudioWorkletNode to passive once the process() function of the AudioWorkletProcessor
-                 * returns false.
-                 */
+               * @todo Add a mechanism to switch an AudioWorkletNode to passive once the process() function of the AudioWorkletProcessor
+               * returns false.
+               */
       super(context, !0, nativeAudioWorkletNode, isOffline ? createAudioWorkletNodeRenderer(name, mergedOptions, processorConstructor) : null);
       const parameters = [];
       nativeAudioWorkletNode.parameters.forEach(((nativeAudioParam, nm) => {
@@ -5592,9 +5687,9 @@
       })), this._nativeAudioWorkletNode = nativeAudioWorkletNode, this._onprocessorerror = null, 
       this._parameters = new ReadOnlyMap(parameters), 
       /*
-                 * Bug #86 & #87: Invoking the renderer of an AudioWorkletNode might be necessary if it has no direct or indirect connection to
-                 * the destination.
-                 */
+               * Bug #86 & #87: Invoking the renderer of an AudioWorkletNode might be necessary if it has no direct or indirect connection to
+               * the destination.
+               */
       isOffline && addUnrenderedAudioWorkletNode(nativeContext, this);
       const {activeInputs: activeInputs} = getAudioNodeConnections(this);
       setActiveAudioWorkletNodeInputs(nativeAudioWorkletNode, activeInputs);
@@ -5618,10 +5713,10 @@
     ...options,
     outputChannelCount: void 0 !== options.outputChannelCount ? options.outputChannelCount : 1 === options.numberOfInputs && 1 === options.numberOfOutputs ? 
     /*
-                       * Bug #61: This should be the computedNumberOfChannels, but unfortunately that is almost impossible to fake. That's why
-                       * the channelCountMode is required to be 'explicit' as long as there is not a native implementation in every browser. That
-                       * makes sure the computedNumberOfChannels is equivilant to the channelCount which makes it much easier to compute.
-                       */
+                     * Bug #61: This should be the computedNumberOfChannels, but unfortunately that is almost impossible to fake. That's why
+                     * the channelCountMode is required to be 'explicit' as long as there is not a native implementation in every browser. That
+                     * makes sure the computedNumberOfChannels is equivilant to the channelCount which makes it much easier to compute.
+                     */
     [ options.channelCount ] : Array.from({
       length: options.numberOfOutputs
     }, (() => 1))
@@ -5646,9 +5741,9 @@
   })(createNotSupportedError, nativeOfflineAudioContextConstructor);
   const startRendering = ((audioBufferStore, cacheTestResult, getAudioNodeRenderer, getUnrenderedAudioWorkletNodes, renderNativeOfflineAudioContext, testAudioBufferCopyChannelMethodsOutOfBoundsSupport, wrapAudioBufferCopyChannelMethods, wrapAudioBufferCopyChannelMethodsOutOfBounds) => (destination, nativeOfflineAudioContext) => getAudioNodeRenderer(destination).render(destination, nativeOfflineAudioContext)
   /*
-             * Bug #86 & #87: Invoking the renderer of an AudioWorkletNode might be necessary if it has no direct or indirect connection to the
-             * destination.
-             */ .then((() => Promise.all(Array.from(getUnrenderedAudioWorkletNodes(nativeOfflineAudioContext)).map((audioWorkletNode => getAudioNodeRenderer(audioWorkletNode).render(audioWorkletNode, nativeOfflineAudioContext)))))).then((() => renderNativeOfflineAudioContext(nativeOfflineAudioContext))).then((audioBuffer => (
+           * Bug #86 & #87: Invoking the renderer of an AudioWorkletNode might be necessary if it has no direct or indirect connection to the
+           * destination.
+           */ .then((() => Promise.all(Array.from(getUnrenderedAudioWorkletNodes(nativeOfflineAudioContext)).map((audioWorkletNode => getAudioNodeRenderer(audioWorkletNode).render(audioWorkletNode, nativeOfflineAudioContext)))))).then((() => renderNativeOfflineAudioContext(nativeOfflineAudioContext))).then((audioBuffer => (
   // Bug #5: Safari does not support copyFromChannel() and copyToChannel().
   // Bug #100: Safari does throw a wrong error when calling getChannelData() with an out-of-bounds value.
   "function" != typeof audioBuffer.copyFromChannel ? (wrapAudioBufferCopyChannelMethods(audioBuffer), 
@@ -5690,9 +5785,9 @@
     }
     startRendering() {
       /*
-                 * Bug #9 & #59: It is theoretically possible that startRendering() will first render a partialOfflineAudioContext. Therefore
-                 * the state of the nativeOfflineAudioContext might no transition to running immediately.
-                 */
+               * Bug #9 & #59: It is theoretically possible that startRendering() will first render a partialOfflineAudioContext. Therefore
+               * the state of the nativeOfflineAudioContext might no transition to running immediately.
+               */
       return "running" === this._state ? Promise.reject(createInvalidStateError()) : (this._state = "running", 
       startRendering(this.destination, this._nativeOfflineAudioContext).finally((() => {
         this._state = null, deactivateAudioGraph(this);
@@ -5715,119 +5810,67 @@
   let isInsideScheduledCallback = !1;
   let printedScheduledWarning = !1;
   /**
-     * The default logger is the console
-     */
+   * The default logger is the console
+   */
   let defaultLogger = console;
   /**
-     * Log anything
-     */  
+   * Log anything
+   */  
   /**
-     * A reference to the window object
-     * @hidden
-     */
+   * A reference to the window object
+   * @hidden
+   */
   const theWindow = "object" == typeof self ? self : null;
   /**
-     * If the browser has a window object which has an AudioContext
-     * @hidden
-     */  const hasAudioContext = theWindow && (theWindow.hasOwnProperty("AudioContext") || theWindow.hasOwnProperty("webkitAudioContext"));
-  class Ticker {
-    constructor(callback, type, updateInterval, contextSampleRate) {
-      this._callback = callback, this._type = type, this._minimumUpdateInterval = Math.max(128 / (contextSampleRate || 44100), .001), 
-      this.updateInterval = updateInterval, 
-      // create the clock source for the first time
-      this._createClock();
-    }
-    /**
-         * Generate a web worker
-         */    _createWorker() {
-      const blob = new Blob([ 
-      /* javascript */ `\n\t\t\t// the initial timeout time\n\t\t\tlet timeoutTime =  ${(1e3 * this._updateInterval).toFixed(1)};\n\t\t\t// onmessage callback\n\t\t\tself.onmessage = function(msg){\n\t\t\t\ttimeoutTime = parseInt(msg.data);\n\t\t\t};\n\t\t\t// the tick function which posts a message\n\t\t\t// and schedules a new tick\n\t\t\tfunction tick(){\n\t\t\t\tsetTimeout(tick, timeoutTime);\n\t\t\t\tself.postMessage('tick');\n\t\t\t}\n\t\t\t// call tick initially\n\t\t\ttick();\n\t\t\t` ], {
-        type: "text/javascript"
-      });
-      const blobUrl = URL.createObjectURL(blob);
-      const worker = new Worker(blobUrl);
-      worker.onmessage = this._callback.bind(this), this._worker = worker;
-    }
-    /**
-         * Create a timeout loop
-         */    _createTimeout() {
-      this._timeout = setTimeout((() => {
-        this._createTimeout(), this._callback();
-      }), 1e3 * this._updateInterval);
-    }
-    /**
-         * Create the clock source.
-         */    _createClock() {
-      if ("worker" === this._type) try {
-        this._createWorker();
-      } catch (e) {
-        // workers not supported, fallback to timeout
-        this._type = "timeout", this._createClock();
-      } else "timeout" === this._type && this._createTimeout();
-    }
-    /**
-         * Clean up the current clock source
-         */    _disposeClock() {
-      this._timeout && clearTimeout(this._timeout), this._worker && (this._worker.terminate(), 
-      this._worker.onmessage = null);
-    }
-    /**
-         * The rate in seconds the ticker will update
-         */    get updateInterval() {
-      return this._updateInterval;
-    }
-    set updateInterval(interval) {
-      var _a;
-      this._updateInterval = Math.max(interval, this._minimumUpdateInterval), "worker" === this._type && (null === (_a = this._worker) || void 0 === _a || _a.postMessage(1e3 * this._updateInterval));
-    }
-    /**
-         * The type of the ticker, either a worker or a timeout
-         */    get type() {
-      return this._type;
-    }
-    set type(type) {
-      this._disposeClock(), this._type = type, this._createClock();
-    }
-    /**
-         * Clean up
-         */    dispose() {
-      this._disposeClock();
-    }
-  }
+   * If the browser has a window object which has an AudioContext
+   * @hidden
+   */  const hasAudioContext = theWindow && (theWindow.hasOwnProperty("AudioContext") || theWindow.hasOwnProperty("webkitAudioContext"));
+  /**
+   * Tone.js
+   * @author Yotam Mann
+   * @license http://opensource.org/licenses/MIT MIT License
+   * @copyright 2014-2024 Yotam Mann
+   */
+  /**
+   * Tone is the base class of all other classes.
+   *
+   * @category Core
+   * @constructor
+   */
   let Tone$1 = class {
     constructor() {
       //-------------------------------------
       // 	DEBUGGING
       //-------------------------------------
       /**
-             * Set this debug flag to log all events that happen in this class.
-             */
+           * Set this debug flag to log all events that happen in this class.
+           */
       this.debug = !1, 
       //-------------------------------------
       // 	DISPOSING
       //-------------------------------------
       /**
-             * Indicates if the instance was disposed
-             */
+           * Indicates if the instance was disposed
+           */
       this._wasDisposed = !1;
     }
     /**
-         * Returns all of the default options belonging to the class.
-         */    static getDefaults() {
+       * Returns all of the default options belonging to the class.
+       */    static getDefaults() {
       return {};
     }
     /**
-         * Prints the outputs to the console log for debugging purposes.
-         * Prints the contents only if either the object has a property
-         * called `debug` set to true, or a variable called TONE_DEBUG_CLASS
-         * is set to the name of the class.
-         * @example
-         * const osc = new Tone.Oscillator();
-         * // prints all logs originating from this oscillator
-         * osc.debug = true;
-         * // calls to start/stop will print in the console
-         * osc.start();
-         */    log(...args) {
+       * Prints the outputs to the console log for debugging purposes.
+       * Prints the contents only if either the object has a property
+       * called `debug` set to true, or a variable called TONE_DEBUG_CLASS
+       * is set to the name of the class.
+       * @example
+       * const osc = new Tone.Oscillator();
+       * // prints all logs originating from this oscillator
+       * osc.debug = true;
+       * // calls to start/stop will print in the console
+       * osc.start();
+       */    log(...args) {
       // if the object is either set to debug = true
       // or if there is a string on the Tone.global.with the class name
       (this.debug || theWindow && this.toString() === theWindow.TONE_DEBUG_CLASS) && (function(...args) {
@@ -5835,47 +5878,47 @@
       })(this, ...args);
     }
     /**
-         * disconnect and dispose.
-         */    dispose() {
+       * disconnect and dispose.
+       */    dispose() {
       return this._wasDisposed = !0, this;
     }
     /**
-         * Indicates if the instance was disposed. 'Disposing' an
-         * instance means that all of the Web Audio nodes that were
-         * created for the instance are disconnected and freed for garbage collection.
-         */    get disposed() {
+       * Indicates if the instance was disposed. 'Disposing' an
+       * instance means that all of the Web Audio nodes that were
+       * created for the instance are disconnected and freed for garbage collection.
+       */    get disposed() {
       return this._wasDisposed;
     }
     /**
-         * Convert the class to a string
-         * @example
-         * const osc = new Tone.Oscillator();
-         * console.log(osc.toString());
-         */    toString() {
+       * Convert the class to a string
+       * @example
+       * const osc = new Tone.Oscillator();
+       * console.log(osc.toString());
+       */    toString() {
       return this.name;
     }
   };
   /**
-     * The version number semver
-     */  Tone$1.version = "15.0.4";
+   * The version number semver
+   */  Tone$1.version = "15.0.4";
   /**
-     * The threshold for correctness for operators. Less than one sample even
-     * at very high sampling rates (e.g. `1e-6 < 1 / 192000`).
-     */
+   * The threshold for correctness for operators. Less than one sample even
+   * at very high sampling rates (e.g. `1e-6 < 1 / 192000`).
+   */
   const EPSILON = 1e-6;
   /**
-     * A Timeline class for scheduling and maintaining state
-     * along a timeline. All events must have a "time" property.
-     * Internally, events are stored in time order for fast
-     * retrieval.
-     * @internal
-     */
+   * A Timeline class for scheduling and maintaining state
+   * along a timeline. All events must have a "time" property.
+   * Internally, events are stored in time order for fast
+   * retrieval.
+   * @internal
+   */
   class Timeline extends Tone$1 {
     constructor() {
       super(), this.name = "Timeline", 
       /**
-             * The array of scheduled timeline events
-             */
+           * The array of scheduled timeline events
+           */
       this._timeline = [];
       const options = optionsFromArguments(Timeline.getDefaults(), arguments, [ "memory" ]);
       this.memory = options.memory, this.increasing = options.increasing;
@@ -5887,14 +5930,14 @@
       };
     }
     /**
-         * The number of items in the timeline.
-         */    get length() {
+       * The number of items in the timeline.
+       */    get length() {
       return this._timeline.length;
     }
     /**
-         * Insert an event object onto the timeline. Events must have a "time" attribute.
-         * @param event  The event object to insert into the timeline.
-         */    add(event) {
+       * Insert an event object onto the timeline. Events must have a "time" attribute.
+       * @param event  The event object to insert into the timeline.
+       */    add(event) {
       if (
       // the event needs to have a time attribute
       assert(Reflect.has(event, "time"), "Timeline: events must have a time attribute"), 
@@ -5914,42 +5957,42 @@
       return this;
     }
     /**
-         * Remove an event from the timeline.
-         * @param  {Object}  event  The event object to remove from the list.
-         * @returns {Timeline} this
-         */    remove(event) {
+       * Remove an event from the timeline.
+       * @param  {Object}  event  The event object to remove from the list.
+       * @returns {Timeline} this
+       */    remove(event) {
       const index = this._timeline.indexOf(event);
       return -1 !== index && this._timeline.splice(index, 1), this;
     }
     /**
-         * Get the nearest event whose time is less than or equal to the given time.
-         * @param  time  The time to query.
-         */    get(time, param = "time") {
+       * Get the nearest event whose time is less than or equal to the given time.
+       * @param  time  The time to query.
+       */    get(time, param = "time") {
       const index = this._search(time, param);
       return -1 !== index ? this._timeline[index] : null;
     }
     /**
-         * Return the first event in the timeline without removing it
-         * @returns {Object} The first event object
-         */    peek() {
+       * Return the first event in the timeline without removing it
+       * @returns {Object} The first event object
+       */    peek() {
       return this._timeline[0];
     }
     /**
-         * Return the first event in the timeline and remove it
-         */    shift() {
+       * Return the first event in the timeline and remove it
+       */    shift() {
       return this._timeline.shift();
     }
     /**
-         * Get the event which is scheduled after the given time.
-         * @param  time  The time to query.
-         */    getAfter(time, param = "time") {
+       * Get the event which is scheduled after the given time.
+       * @param  time  The time to query.
+       */    getAfter(time, param = "time") {
       const index = this._search(time, param);
       return index + 1 < this._timeline.length ? this._timeline[index + 1] : null;
     }
     /**
-         * Get the event before the event at the given time.
-         * @param  time  The time to query.
-         */    getBefore(time) {
+       * Get the event before the event at the given time.
+       * @param  time  The time to query.
+       */    getBefore(time) {
       const len = this._timeline.length;
       // if it's after the last item, return the last item
             if (len > 0 && this._timeline[len - 1].time < time) return this._timeline[len - 1];
@@ -5957,9 +6000,9 @@
       return index - 1 >= 0 ? this._timeline[index - 1] : null;
     }
     /**
-         * Cancel events at and after the given time
-         * @param  after  The time to query.
-         */    cancel(after) {
+       * Cancel events at and after the given time
+       * @param  after  The time to query.
+       */    cancel(after) {
       if (this._timeline.length > 1) {
         let index = this._search(after);
         if (index >= 0) if (EQ(this._timeline[index].time, after)) {
@@ -5971,26 +6014,26 @@
       return this;
     }
     /**
-         * Cancel events before or equal to the given time.
-         * @param  time  The time to cancel before.
-         */    cancelBefore(time) {
+       * Cancel events before or equal to the given time.
+       * @param  time  The time to cancel before.
+       */    cancelBefore(time) {
       const index = this._search(time);
       return index >= 0 && (this._timeline = this._timeline.slice(index + 1)), this;
     }
     /**
-         * Returns the previous event if there is one. null otherwise
-         * @param  event The event to find the previous one of
-         * @return The event right before the given event
-         */    previousEvent(event) {
+       * Returns the previous event if there is one. null otherwise
+       * @param  event The event to find the previous one of
+       * @return The event right before the given event
+       */    previousEvent(event) {
       const index = this._timeline.indexOf(event);
       return index > 0 ? this._timeline[index - 1] : null;
     }
     /**
-         * Does a binary search on the timeline array and returns the
-         * nearest event index whose time is after or equal to the given time.
-         * If a time is searched before the first index in the timeline, -1 is returned.
-         * If the time is after the end, the index of the last item is returned.
-         */    _search(time, param = "time") {
+       * Does a binary search on the timeline array and returns the
+       * nearest event index whose time is after or equal to the given time.
+       * If a time is searched before the first index in the timeline, -1 is returned.
+       * If the time is after the end, the index of the last item is returned.
+       */    _search(time, param = "time") {
       if (0 === this._timeline.length) return -1;
       let beginning = 0;
       const len = this._timeline.length;
@@ -6019,43 +6062,43 @@
       return -1;
     }
     /**
-         * Internal iterator. Applies extra safety checks for
-         * removing items from the array.
-         */    _iterate(callback, lowerBound = 0, upperBound = this._timeline.length - 1) {
+       * Internal iterator. Applies extra safety checks for
+       * removing items from the array.
+       */    _iterate(callback, lowerBound = 0, upperBound = this._timeline.length - 1) {
       this._timeline.slice(lowerBound, upperBound + 1).forEach(callback);
     }
     /**
-         * Iterate over everything in the array
-         * @param  callback The callback to invoke with every item
-         */    forEach(callback) {
+       * Iterate over everything in the array
+       * @param  callback The callback to invoke with every item
+       */    forEach(callback) {
       return this._iterate(callback), this;
     }
     /**
-         * Iterate over everything in the array at or before the given time.
-         * @param  time The time to check if items are before
-         * @param  callback The callback to invoke with every item
-         */    forEachBefore(time, callback) {
+       * Iterate over everything in the array at or before the given time.
+       * @param  time The time to check if items are before
+       * @param  callback The callback to invoke with every item
+       */    forEachBefore(time, callback) {
       // iterate over the items in reverse so that removing an item doesn't break things
       const upperBound = this._search(time);
       return -1 !== upperBound && this._iterate(callback, 0, upperBound), this;
     }
     /**
-         * Iterate over everything in the array after the given time.
-         * @param  time The time to check if items are before
-         * @param  callback The callback to invoke with every item
-         */    forEachAfter(time, callback) {
+       * Iterate over everything in the array after the given time.
+       * @param  time The time to check if items are before
+       * @param  callback The callback to invoke with every item
+       */    forEachAfter(time, callback) {
       // iterate over the items in reverse so that removing an item doesn't break things
       const lowerBound = this._search(time);
       return this._iterate(callback, lowerBound + 1), this;
     }
     /**
-         * Iterate over everything in the array between the startTime and endTime.
-         * The timerange is inclusive of the startTime, but exclusive of the endTime.
-         * range = [startTime, endTime).
-         * @param  startTime The time to check if items are before
-         * @param  endTime The end of the test interval.
-         * @param  callback The callback to invoke with every item
-         */    forEachBetween(startTime, endTime, callback) {
+       * Iterate over everything in the array between the startTime and endTime.
+       * The timerange is inclusive of the startTime, but exclusive of the endTime.
+       * range = [startTime, endTime).
+       * @param  startTime The time to check if items are before
+       * @param  endTime The end of the test interval.
+       * @param  callback The callback to invoke with every item
+       */    forEachBetween(startTime, endTime, callback) {
       let lowerBound = this._search(startTime);
       let upperBound = this._search(endTime);
       return -1 !== lowerBound && -1 !== upperBound ? (this._timeline[lowerBound].time !== startTime && (lowerBound += 1), 
@@ -6064,11 +6107,11 @@
       this;
     }
     /**
-         * Iterate over everything in the array at or after the given time. Similar to
-         * forEachAfter, but includes the item(s) at the given time.
-         * @param  time The time to check if items are before
-         * @param  callback The callback to invoke with every item
-         */    forEachFrom(time, callback) {
+       * Iterate over everything in the array at or after the given time. Similar to
+       * forEachAfter, but includes the item(s) at the given time.
+       * @param  time The time to check if items are before
+       * @param  callback The callback to invoke with every item
+       */    forEachFrom(time, callback) {
       // iterate over the items in reverse so that removing an item doesn't break things
       let lowerBound = this._search(time);
       // work backwards until the event time is less than time
@@ -6076,10 +6119,10 @@
       return this._iterate(callback, lowerBound + 1), this;
     }
     /**
-         * Iterate over everything in the array at the given time
-         * @param  time The time to check if items are before
-         * @param  callback The callback to invoke with every item
-         */    forEachAtTime(time, callback) {
+       * Iterate over everything in the array at the given time
+       * @param  time The time to check if items are before
+       * @param  callback The callback to invoke with every item
+       */    forEachAtTime(time, callback) {
       // iterate over the items in reverse so that removing an item doesn't break things
       const upperBound = this._search(time);
       if (-1 !== upperBound && EQ(this._timeline[upperBound].time, time)) {
@@ -6092,44 +6135,44 @@
       return this;
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._timeline = [], this;
     }
   }
   /**
-     * Array of callbacks to invoke when a new context is created
-     */  const notifyNewContext = [];
+   * Array of callbacks to invoke when a new context is created
+   */  const notifyNewContext = [];
   /**
-     * Array of callbacks to invoke when a new context is closed
-     */
+   * Array of callbacks to invoke when a new context is closed
+   */
   const notifyCloseContext = [];
   /**
-     * Emitter gives classes which extend it
-     * the ability to listen for and emit events.
-     * Inspiration and reference from Jerome Etienne's [MicroEvent](https://github.com/jeromeetienne/microevent.js).
-     * MIT (c) 2011 Jerome Etienne.
-     * @category Core
-     */
+   * Emitter gives classes which extend it
+   * the ability to listen for and emit events.
+   * Inspiration and reference from Jerome Etienne's [MicroEvent](https://github.com/jeromeetienne/microevent.js).
+   * MIT (c) 2011 Jerome Etienne.
+   * @category Core
+   */
   class Emitter extends Tone$1 {
     constructor() {
       super(...arguments), this.name = "Emitter";
     }
     /**
-         * Bind a callback to a specific event.
-         * @param  event     The name of the event to listen for.
-         * @param  callback  The callback to invoke when the event is emitted
-         */    on(event, callback) {
+       * Bind a callback to a specific event.
+       * @param  event     The name of the event to listen for.
+       * @param  callback  The callback to invoke when the event is emitted
+       */    on(event, callback) {
       return event.split(/\W+/).forEach((eventName => {
         isUndef(this._events) && (this._events = {}), this._events.hasOwnProperty(eventName) || (this._events[eventName] = []), 
         this._events[eventName].push(callback);
       })), this;
     }
     /**
-         * Bind a callback which is only invoked once
-         * @param  event     The name of the event to listen for.
-         * @param  callback  The callback to invoke when the event is emitted
-         */    once(event, callback) {
+       * Bind a callback which is only invoked once
+       * @param  event     The name of the event to listen for.
+       * @param  callback  The callback to invoke when the event is emitted
+       */    once(event, callback) {
       const boundCallback = (...args) => {
         // invoke the callback
         callback(...args), 
@@ -6139,11 +6182,11 @@
       return this.on(event, boundCallback), this;
     }
     /**
-         * Remove the event listener.
-         * @param  event     The event to stop listening to.
-         * @param  callback  The callback which was bound to the event with Emitter.on.
-         *                   If no callback is given, all callbacks events are removed.
-         */    off(event, callback) {
+       * Remove the event listener.
+       * @param  event     The event to stop listening to.
+       * @param  callback  The callback which was bound to the event with Emitter.on.
+       *                   If no callback is given, all callbacks events are removed.
+       */    off(event, callback) {
       return event.split(/\W+/).forEach((eventName => {
         if (isUndef(this._events) && (this._events = {}), this._events.hasOwnProperty(eventName)) if (isUndef(callback)) this._events[eventName] = []; else {
           const eventList = this._events[eventName];
@@ -6152,11 +6195,11 @@
       })), this;
     }
     /**
-         * Invoke all of the callbacks bound to the event
-         * with any arguments passed in.
-         * @param  event  The name of the event.
-         * @param args The arguments to pass to the functions listening.
-         */    emit(event, ...args) {
+       * Invoke all of the callbacks bound to the event
+       * with any arguments passed in.
+       * @param  event  The name of the event.
+       * @param args The arguments to pass to the functions listening.
+       */    emit(event, ...args) {
       if (this._events && this._events.hasOwnProperty(event)) {
         const eventList = this._events[event].slice(0);
         for (let i = 0, len = eventList.length; i < len; i++) eventList[i].apply(this, args);
@@ -6164,8 +6207,8 @@
       return this;
     }
     /**
-         * Add Emitter functions (on/off/emit) to the object
-         */    static mixin(constr) {
+       * Add Emitter functions (on/off/emit) to the object
+       */    static mixin(constr) {
       // instance._events = {};
       [ "on", "once", "off", "emit" ].forEach((name => {
         const property = Object.getOwnPropertyDescriptor(Emitter.prototype, name);
@@ -6173,8 +6216,8 @@
       }));
     }
     /**
-         * Clean up
-         */    dispose() {
+       * Clean up
+       */    dispose() {
       return super.dispose(), this._events = void 0, this;
     }
   }
@@ -6183,50 +6226,50 @@
       super(...arguments), this.isOffline = !1;
     }
     /*
-         * This is a placeholder so that JSON.stringify does not throw an error
-         * This matches what JSON.stringify(audioContext) returns on a native
-         * audioContext instance.
-         */    toJSON() {
+       * This is a placeholder so that JSON.stringify does not throw an error
+       * This matches what JSON.stringify(audioContext) returns on a native
+       * audioContext instance.
+       */    toJSON() {
       return {};
     }
   }
   /**
-     * Wrapper around the native AudioContext.
-     * @category Core
-     */  class Context extends BaseContext {
+   * Wrapper around the native AudioContext.
+   * @category Core
+   */  class Context extends BaseContext {
     constructor() {
       var _a, _b;
       super(), this.name = "Context", 
       /**
-             * An object containing all of the constants AudioBufferSourceNodes
-             */
+           * An object containing all of the constants AudioBufferSourceNodes
+           */
       this._constants = new Map, 
       /**
-             * All of the setTimeout events.
-             */
+           * All of the setTimeout events.
+           */
       this._timeouts = new Timeline, 
       /**
-             * The timeout id counter
-             */
+           * The timeout id counter
+           */
       this._timeoutIds = 0, 
       /**
-             * Private indicator if the context has been initialized
-             */
+           * Private indicator if the context has been initialized
+           */
       this._initialized = !1, 
       /**
-             * Private indicator if a close() has been called on the context, since close is async
-             */
+           * Private indicator if a close() has been called on the context, since close is async
+           */
       this._closeStarted = !1, 
       /**
-             * Indicates if the context is an OfflineAudioContext or an AudioContext
-             */
+           * Indicates if the context is an OfflineAudioContext or an AudioContext
+           */
       this.isOffline = !1, 
       //--------------------------------------------
       // AUDIO WORKLET
       //--------------------------------------------
       /**
-             * Maps a module name to promise of the addModule method
-             */
+           * Maps a module name to promise of the addModule method
+           */
       this._workletPromise = null;
       const options = optionsFromArguments(Context.getDefaults(), arguments, [ "context" ]);
       options.context ? (this._context = options.context, 
@@ -6235,8 +6278,8 @@
         return new audioContextConstructor(options);
       }
       /**
-     * Create a new OfflineAudioContext
-     */)({
+   * Create a new OfflineAudioContext
+   */)({
         latencyHint: options.latencyHint
       }), this._latencyHint = options.latencyHint), this._ticker = new Ticker(this.emit.bind(this, "tick"), options.clockSource, options.updateInterval, this._context.sampleRate), 
       this.on("tick", this._timeoutLoop.bind(this)), 
@@ -6256,8 +6299,8 @@
       };
     }
     /**
-         * Finish setting up the context. **You usually do not need to do this manually.**
-         */    initialize() {
+       * Finish setting up the context. **You usually do not need to do this manually.**
+       */    initialize() {
       var ctx;
       return this._initialized || (
       // add any additional modules
@@ -6336,23 +6379,23 @@
       return this._context.decodeAudioData(audioData);
     }
     /**
-         * The current time in seconds of the AudioContext.
-         */    get currentTime() {
+       * The current time in seconds of the AudioContext.
+       */    get currentTime() {
       return this._context.currentTime;
     }
     /**
-         * The current time in seconds of the AudioContext.
-         */    get state() {
+       * The current time in seconds of the AudioContext.
+       */    get state() {
       return this._context.state;
     }
     /**
-         * The current time in seconds of the AudioContext.
-         */    get sampleRate() {
+       * The current time in seconds of the AudioContext.
+       */    get sampleRate() {
       return this._context.sampleRate;
     }
     /**
-         * The listener
-         */    get listener() {
+       * The listener
+       */    get listener() {
       return this.initialize(), this._listener;
     }
     set listener(l) {
@@ -6360,8 +6403,8 @@
       this._listener = l;
     }
     /**
-         * There is only one Transport per Context. It is created on initialization.
-         */    get transport() {
+       * There is only one Transport per Context. It is created on initialization.
+       */    get transport() {
       return this.initialize(), this._transport;
     }
     set transport(t) {
@@ -6369,16 +6412,16 @@
       this._transport = t;
     }
     /**
-         * This is the Draw object for the context which is useful for synchronizing the draw frame with the Tone.js clock.
-         */    get draw() {
+       * This is the Draw object for the context which is useful for synchronizing the draw frame with the Tone.js clock.
+       */    get draw() {
       return this.initialize(), this._draw;
     }
     set draw(d) {
       assert(!this._initialized, "Draw cannot be set after initialization."), this._draw = d;
     }
     /**
-         * A reference to the Context's destination node.
-         */    get destination() {
+       * A reference to the Context's destination node.
+       */    get destination() {
       return this.initialize(), this._destination;
     }
     set destination(d) {
@@ -6386,18 +6429,18 @@
       this._destination = d;
     }
     /**
-         * Create an audio worklet node from a name and options. The module
-         * must first be loaded using {@link addAudioWorkletModule}.
-         */    createAudioWorkletNode(name, options) {
+       * Create an audio worklet node from a name and options. The module
+       * must first be loaded using {@link addAudioWorkletModule}.
+       */    createAudioWorkletNode(name, options) {
       return (function(context, name, options) {
         return assert(isDefined(audioWorkletNodeConstructor), "AudioWorkletNode only works in a secure context (https or localhost)"), 
         new (context instanceof (null == theWindow ? void 0 : theWindow.BaseAudioContext) ? null == theWindow ? void 0 : theWindow.AudioWorkletNode : audioWorkletNodeConstructor)(context, name, options);
       })(this.rawContext, name, options);
     }
     /**
-         * Add an AudioWorkletProcessor module
-         * @param url The url of the module
-         */    addAudioWorkletModule(url) {
+       * Add an AudioWorkletProcessor module
+       * @param url The url of the module
+       */    addAudioWorkletModule(url) {
       return __awaiter(this, void 0, void 0, (function*() {
         assert(isDefined(this.rawContext.audioWorklet), "AudioWorkletNode is only available in a secure context (https or localhost)"), 
         this._workletPromise || (this._workletPromise = this.rawContext.audioWorklet.addModule(url)), 
@@ -6405,8 +6448,8 @@
       }));
     }
     /**
-         * Returns a promise which resolves when all of the worklets have been loaded on this context
-         */    workletsAreReady() {
+       * Returns a promise which resolves when all of the worklets have been loaded on this context
+       */    workletsAreReady() {
       return __awaiter(this, void 0, void 0, (function*() {
         (yield this._workletPromise) ? this._workletPromise : Promise.resolve();
       }));
@@ -6415,12 +6458,12 @@
     // TICKER
     //---------------------------
     /**
-         * How often the interval callback is invoked.
-         * This number corresponds to how responsive the scheduling
-         * can be. Setting to 0 will result in the lowest practial interval
-         * based on context properties. context.updateInterval + context.lookAhead
-         * gives you the total latency between scheduling an event and hearing it.
-         */
+       * How often the interval callback is invoked.
+       * This number corresponds to how responsive the scheduling
+       * can be. Setting to 0 will result in the lowest practial interval
+       * based on context properties. context.updateInterval + context.lookAhead
+       * gives you the total latency between scheduling an event and hearing it.
+       */
     get updateInterval() {
       return this._ticker.updateInterval;
     }
@@ -6428,20 +6471,20 @@
       this._ticker.updateInterval = interval;
     }
     /**
-         * What the source of the clock is, either "worker" (default),
-         * "timeout", or "offline" (none).
-         */    get clockSource() {
+       * What the source of the clock is, either "worker" (default),
+       * "timeout", or "offline" (none).
+       */    get clockSource() {
       return this._ticker.type;
     }
     set clockSource(type) {
       this._ticker.type = type;
     }
     /**
-         * The amount of time into the future events are scheduled. Giving Web Audio
-         * a short amount of time into the future to schedule events can reduce clicks and
-         * improve performance. This value can be set to 0 to get the lowest latency.
-         * Adjusting this value also affects the {@link updateInterval}.
-         */    get lookAhead() {
+       * The amount of time into the future events are scheduled. Giving Web Audio
+       * a short amount of time into the future to schedule events can reduce clicks and
+       * improve performance. This value can be set to 0 to get the lowest latency.
+       * Adjusting this value also affects the {@link updateInterval}.
+       */    get lookAhead() {
       return this._lookAhead;
     }
     set lookAhead(time) {
@@ -6450,56 +6493,56 @@
       this.updateInterval = time ? time / 2 : .01;
     }
     /**
-         * The type of playback, which affects tradeoffs between audio
-         * output latency and responsiveness.
-         * In addition to setting the value in seconds, the latencyHint also
-         * accepts the strings "interactive" (prioritizes low latency),
-         * "playback" (prioritizes sustained playback), "balanced" (balances
-         * latency and performance).
-         * @example
-         * // prioritize sustained playback
-         * const context = new Tone.Context({ latencyHint: "playback" });
-         * // set this context as the global Context
-         * Tone.setContext(context);
-         * // the global context is gettable with Tone.getContext()
-         * console.log(Tone.getContext().latencyHint);
-         */    get latencyHint() {
+       * The type of playback, which affects tradeoffs between audio
+       * output latency and responsiveness.
+       * In addition to setting the value in seconds, the latencyHint also
+       * accepts the strings "interactive" (prioritizes low latency),
+       * "playback" (prioritizes sustained playback), "balanced" (balances
+       * latency and performance).
+       * @example
+       * // prioritize sustained playback
+       * const context = new Tone.Context({ latencyHint: "playback" });
+       * // set this context as the global Context
+       * Tone.setContext(context);
+       * // the global context is gettable with Tone.getContext()
+       * console.log(Tone.getContext().latencyHint);
+       */    get latencyHint() {
       return this._latencyHint;
     }
     /**
-         * The unwrapped AudioContext or OfflineAudioContext
-         */    get rawContext() {
+       * The unwrapped AudioContext or OfflineAudioContext
+       */    get rawContext() {
       return this._context;
     }
     /**
-         * The current audio context time plus a short {@link lookAhead}.
-         * @example
-         * setInterval(() => {
-         * 	console.log("now", Tone.now());
-         * }, 100);
-         */    now() {
+       * The current audio context time plus a short {@link lookAhead}.
+       * @example
+       * setInterval(() => {
+       * 	console.log("now", Tone.now());
+       * }, 100);
+       */    now() {
       return this._context.currentTime + this._lookAhead;
     }
     /**
-         * The current audio context time without the {@link lookAhead}.
-         * In most cases it is better to use {@link now} instead of {@link immediate} since
-         * with {@link now} the {@link lookAhead} is applied equally to _all_ components including internal components,
-         * to making sure that everything is scheduled in sync. Mixing {@link now} and {@link immediate}
-         * can cause some timing issues. If no lookAhead is desired, you can set the {@link lookAhead} to `0`.
-         */    immediate() {
+       * The current audio context time without the {@link lookAhead}.
+       * In most cases it is better to use {@link now} instead of {@link immediate} since
+       * with {@link now} the {@link lookAhead} is applied equally to _all_ components including internal components,
+       * to making sure that everything is scheduled in sync. Mixing {@link now} and {@link immediate}
+       * can cause some timing issues. If no lookAhead is desired, you can set the {@link lookAhead} to `0`.
+       */    immediate() {
       return this._context.currentTime;
     }
     /**
-         * Starts the audio context from a suspended state. This is required
-         * to initially start the AudioContext.
-         * @see {@link start}
-         */    resume() {
+       * Starts the audio context from a suspended state. This is required
+       * to initially start the AudioContext.
+       * @see {@link start}
+       */    resume() {
       return isAudioContext(this._context) ? this._context.resume() : Promise.resolve();
     }
     /**
-         * Close the context. Once closed, the context can no longer be used and
-         * any AudioNodes created from the context will be silent.
-         */    close() {
+       * Close the context. Once closed, the context can no longer be used and
+       * any AudioNodes created from the context will be silent.
+       */    close() {
       return __awaiter(this, void 0, void 0, (function*() {
         var ctx;
         isAudioContext(this._context) && "closed" !== this.state && !this._closeStarted && (this._closeStarted = !0, 
@@ -6509,8 +6552,8 @@
       }));
     }
     /**
-         * **Internal** Generate a looped buffer at some constant value.
-         */    getConstant(val) {
+       * **Internal** Generate a looped buffer at some constant value.
+       */    getConstant(val) {
       if (this._constants.has(val)) return this._constants.get(val);
       {
         const buffer = this._context.createBuffer(1, 128, this._context.sampleRate);
@@ -6522,8 +6565,8 @@
       }
     }
     /**
-         * Clean up. Also closes the audio context.
-         */    dispose() {
+       * Clean up. Also closes the audio context.
+       */    dispose() {
       return super.dispose(), this._ticker.dispose(), this._timeouts.dispose(), Object.keys(this._constants).map((val => this._constants[val].disconnect())), 
       this.close(), this;
     }
@@ -6531,9 +6574,9 @@
     // TIMEOUTS
     //---------------------------
     /**
-         * The private loop which keeps track of the context scheduled timeouts
-         * Is invoked from the clock source
-         */
+       * The private loop which keeps track of the context scheduled timeouts
+       * Is invoked from the clock source
+       */
     _timeoutLoop() {
       const now = this.now();
       let firstEvent = this._timeouts.peek();
@@ -6546,12 +6589,12 @@
       firstEvent = this._timeouts.peek();
     }
     /**
-         * A setTimeout which is guaranteed by the clock source.
-         * Also runs in the offline context.
-         * @param  fn       The callback to invoke
-         * @param  timeout  The timeout in seconds
-         * @returns ID to use when invoking Context.clearTimeout
-         */    setTimeout(fn, timeout) {
+       * A setTimeout which is guaranteed by the clock source.
+       * Also runs in the offline context.
+       * @param  fn       The callback to invoke
+       * @param  timeout  The timeout in seconds
+       * @returns ID to use when invoking Context.clearTimeout
+       */    setTimeout(fn, timeout) {
       this._timeoutIds++;
       const now = this.now();
       return this._timeouts.add({
@@ -6561,21 +6604,21 @@
       }), this._timeoutIds;
     }
     /**
-         * Clears a previously scheduled timeout with Tone.context.setTimeout
-         * @param  id  The ID returned from setTimeout
-         */    clearTimeout(id) {
+       * Clears a previously scheduled timeout with Tone.context.setTimeout
+       * @param  id  The ID returned from setTimeout
+       */    clearTimeout(id) {
       return this._timeouts.forEach((event => {
         event.id === id && this._timeouts.remove(event);
       })), this;
     }
     /**
-         * Clear the function scheduled by {@link setInterval}
-         */    clearInterval(id) {
+       * Clear the function scheduled by {@link setInterval}
+       */    clearInterval(id) {
       return this.clearTimeout(id);
     }
     /**
-         * Adds a repeating event to the context's callback clock
-         */    setInterval(fn, interval) {
+       * Adds a repeating event to the context's callback clock
+       */    setInterval(fn, interval) {
       const id = ++this._timeoutIds;
       const intervalFn = () => {
         const now = this.now();
@@ -6594,22 +6637,24 @@
             return intervalFn(), id;
     }
   }
+  let A4 = 440;
   const noOp = () => {};
   /**
-     * AudioBuffer loading and storage. ToneAudioBuffer is used internally by all
-     * classes that make requests for audio files such as Tone.Player,
-     * Tone.Sampler and Tone.Convolver.
-     * @example
-     * const buffer = new Tone.ToneAudioBuffer("https://tonejs.github.io/audio/casio/A1.mp3", () => {
-     * 	console.log("loaded");
-     * });
-     * @category Core
-     */  class ToneAudioBuffer extends Tone$1 {
+   * AudioBuffer loading and storage. ToneAudioBuffer is used internally by all
+   * classes that make requests for audio files such as Tone.Player,
+   * Tone.Sampler and Tone.Convolver.
+   * @example
+   * const buffer = new Tone.ToneAudioBuffer("https://tonejs.github.io/audio/casio/A1.mp3", () => {
+   * 	console.log("loaded");
+   * });
+   * @category Core
+   */
+  class ToneAudioBuffer extends Tone$1 {
     constructor() {
       super(), this.name = "ToneAudioBuffer", 
       /**
-             * Callback when the buffer is loaded.
-             */
+           * Callback when the buffer is loaded.
+           */
       this.onload = noOp;
       const options = optionsFromArguments(ToneAudioBuffer.getDefaults(), arguments, [ "url", "onload", "onerror" ]);
       this.reverse = options.reverse, this.onload = options.onload, isString(options.url) ? 
@@ -6624,13 +6669,13 @@
       };
     }
     /**
-         * The sample rate of the AudioBuffer
-         */    get sampleRate() {
+       * The sample rate of the AudioBuffer
+       */    get sampleRate() {
       return this._buffer ? this._buffer.sampleRate : getContext().sampleRate;
     }
     /**
-         * Pass in an AudioBuffer or ToneAudioBuffer to set the value of this buffer.
-         */    set(buffer) {
+       * Pass in an AudioBuffer or ToneAudioBuffer to set the value of this buffer.
+       */    set(buffer) {
       return buffer instanceof ToneAudioBuffer ? 
       // if it's loaded, set it
       buffer.loaded ? this._buffer = buffer.get() : 
@@ -6642,16 +6687,16 @@
       this._reversed && this._reverse(), this;
     }
     /**
-         * The audio buffer stored in the object.
-         */    get() {
+       * The audio buffer stored in the object.
+       */    get() {
       return this._buffer;
     }
     /**
-         * Makes an fetch request for the selected url then decodes the file as an audio buffer.
-         * Invokes the callback once the audio buffer loads.
-         * @param url The url of the buffer to load. filetype support depends on the browser.
-         * @returns A Promise which resolves with this ToneAudioBuffer
-         */    load(url) {
+       * Makes an fetch request for the selected url then decodes the file as an audio buffer.
+       * Invokes the callback once the audio buffer loads.
+       * @param url The url of the buffer to load. filetype support depends on the browser.
+       * @returns A Promise which resolves with this ToneAudioBuffer
+       */    load(url) {
       return __awaiter(this, void 0, void 0, (function*() {
         const doneLoading = ToneAudioBuffer.load(url).then((audioBuffer => {
           this.set(audioBuffer), 
@@ -6670,15 +6715,15 @@
       }));
     }
     /**
-         * clean up
-         */    dispose() {
+       * clean up
+       */    dispose() {
       return super.dispose(), this._buffer = void 0, this;
     }
     /**
-         * Set the audio buffer from the array.
-         * To create a multichannel AudioBuffer, pass in a multidimensional array.
-         * @param array The array to fill the audio buffer
-         */    fromArray(array) {
+       * Set the audio buffer from the array.
+       * To create a multichannel AudioBuffer, pass in a multidimensional array.
+       * @param array The array to fill the audio buffer
+       */    fromArray(array) {
       const isMultidimensional = isArray(array) && array[0].length > 0;
       const channels = isMultidimensional ? array.length : 1;
       const len = isMultidimensional ? array[0].length : array.length;
@@ -6689,9 +6734,9 @@
       return this._buffer = buffer, this;
     }
     /**
-         * Sums multiple channels into 1 channel
-         * @param chanNum Optionally only copy a single channel from the array.
-         */    toMono(chanNum) {
+       * Sums multiple channels into 1 channel
+       * @param chanNum Optionally only copy a single channel from the array.
+       */    toMono(chanNum) {
       if (isNumber(chanNum)) this.fromArray(this.toArray(chanNum)); else {
         let outputArray = new Float32Array(this.length);
         const numChannels = this.numberOfChannels;
@@ -6705,10 +6750,10 @@
       return this;
     }
     /**
-         * Get the buffer as an array. Single channel buffers will return a 1-dimensional
-         * Float32Array, and multichannel buffers will return multidimensional arrays.
-         * @param channel Optionally only copy a single channel from the array.
-         */    toArray(channel) {
+       * Get the buffer as an array. Single channel buffers will return a 1-dimensional
+       * Float32Array, and multichannel buffers will return multidimensional arrays.
+       * @param channel Optionally only copy a single channel from the array.
+       */    toArray(channel) {
       if (isNumber(channel)) return this.getChannelData(channel);
       if (1 === this.numberOfChannels) return this.toArray(0);
       {
@@ -6718,18 +6763,18 @@
       }
     }
     /**
-         * Returns the Float32Array representing the PCM audio data for the specific channel.
-         * @param  channel  The channel number to return
-         * @return The audio as a TypedArray
-         */    getChannelData(channel) {
+       * Returns the Float32Array representing the PCM audio data for the specific channel.
+       * @param  channel  The channel number to return
+       * @return The audio as a TypedArray
+       */    getChannelData(channel) {
       return this._buffer ? this._buffer.getChannelData(channel) : new Float32Array(0);
     }
     /**
-         * Cut a subsection of the array and return a buffer of the
-         * subsection. Does not modify the original buffer
-         * @param start The time to start the slice
-         * @param end The end time to slice. If none is given will default to the end of the buffer
-         */    slice(start, end = this.duration) {
+       * Cut a subsection of the array and return a buffer of the
+       * subsection. Does not modify the original buffer
+       * @param start The time to start the slice
+       * @param end The end time to slice. If none is given will default to the end of the buffer
+       */    slice(start, end = this.duration) {
       assert(this.loaded, "Buffer is not loaded");
       const startSamples = Math.floor(start * this.sampleRate);
       const endSamples = Math.floor(end * this.sampleRate);
@@ -6740,60 +6785,60 @@
       return new ToneAudioBuffer(retBuffer);
     }
     /**
-         * Reverse the buffer.
-         */    _reverse() {
+       * Reverse the buffer.
+       */    _reverse() {
       if (this.loaded) for (let i = 0; i < this.numberOfChannels; i++) this.getChannelData(i).reverse();
       return this;
     }
     /**
-         * If the buffer is loaded or not
-         */    get loaded() {
+       * If the buffer is loaded or not
+       */    get loaded() {
       return this.length > 0;
     }
     /**
-         * The duration of the buffer in seconds.
-         */    get duration() {
+       * The duration of the buffer in seconds.
+       */    get duration() {
       return this._buffer ? this._buffer.duration : 0;
     }
     /**
-         * The length of the buffer in samples
-         */    get length() {
+       * The length of the buffer in samples
+       */    get length() {
       return this._buffer ? this._buffer.length : 0;
     }
     /**
-         * The number of discrete audio channels. Returns 0 if no buffer is loaded.
-         */    get numberOfChannels() {
+       * The number of discrete audio channels. Returns 0 if no buffer is loaded.
+       */    get numberOfChannels() {
       return this._buffer ? this._buffer.numberOfChannels : 0;
     }
     /**
-         * Reverse the buffer.
-         */    get reverse() {
+       * Reverse the buffer.
+       */    get reverse() {
       return this._reversed;
     }
     set reverse(rev) {
       this._reversed !== rev && (this._reversed = rev, this._reverse());
     }
     /**
-         * Create a ToneAudioBuffer from the array. To create a multichannel AudioBuffer,
-         * pass in a multidimensional array.
-         * @param array The array to fill the audio buffer
-         * @return A ToneAudioBuffer created from the array
-         */    static fromArray(array) {
+       * Create a ToneAudioBuffer from the array. To create a multichannel AudioBuffer,
+       * pass in a multidimensional array.
+       * @param array The array to fill the audio buffer
+       * @return A ToneAudioBuffer created from the array
+       */    static fromArray(array) {
       return (new ToneAudioBuffer).fromArray(array);
     }
     /**
-         * Creates a ToneAudioBuffer from a URL, returns a promise which resolves to a ToneAudioBuffer
-         * @param  url The url to load.
-         * @return A promise which resolves to a ToneAudioBuffer
-         */    static fromUrl(url) {
+       * Creates a ToneAudioBuffer from a URL, returns a promise which resolves to a ToneAudioBuffer
+       * @param  url The url to load.
+       * @return A promise which resolves to a ToneAudioBuffer
+       */    static fromUrl(url) {
       return __awaiter(this, void 0, void 0, (function*() {
         const buffer = new ToneAudioBuffer;
         return yield buffer.load(url);
       }));
     }
     /**
-         * Loads a url using fetch and returns the AudioBuffer.
-         */    static load(url) {
+       * Loads a url using fetch and returns the AudioBuffer.
+       */    static load(url) {
       return __awaiter(this, void 0, void 0, (function*() {
         // test if the url contains multiple extensions
         const matches = url.match(/\[([^\]\[]+\|.+)\]$/);
@@ -6818,21 +6863,21 @@
       }));
     }
     /**
-         * Checks a url's extension to see if the current browser can play that file type.
-         * @param url The url/extension to test
-         * @return If the file extension can be played
-         * @static
-         * @example
-         * Tone.ToneAudioBuffer.supportsType("wav"); // returns true
-         * Tone.ToneAudioBuffer.supportsType("path/to/file.wav"); // returns true
-         */    static supportsType(url) {
+       * Checks a url's extension to see if the current browser can play that file type.
+       * @param url The url/extension to test
+       * @return If the file extension can be played
+       * @static
+       * @example
+       * Tone.ToneAudioBuffer.supportsType("wav"); // returns true
+       * Tone.ToneAudioBuffer.supportsType("path/to/file.wav"); // returns true
+       */    static supportsType(url) {
       const extensions = url.split(".");
       const extension = extensions[extensions.length - 1];
       return "" !== document.createElement("audio").canPlayType("audio/" + extension);
     }
     /**
-         * Returns a Promise which resolves when all of the buffers have loaded
-         */    static loaded() {
+       * Returns a Promise which resolves when all of the buffers have loaded
+       */    static loaded() {
       return __awaiter(this, void 0, void 0, (function*() {
         for (yield Promise.resolve(); ToneAudioBuffer.downloads.length; ) yield ToneAudioBuffer.downloads[0];
       }));
@@ -6842,23 +6887,23 @@
   // STATIC METHODS
   //-------------------------------------
   /**
-     * A path which is prefixed before every url.
-     */  ToneAudioBuffer.baseUrl = "", 
+   * A path which is prefixed before every url.
+   */  ToneAudioBuffer.baseUrl = "", 
   /**
-     * All of the downloads
-     */
+   * All of the downloads
+   */
   ToneAudioBuffer.downloads = [];
   /**
-     * Wrapper around the OfflineAudioContext
-     * @category Core
-     * @example
-     * // generate a single channel, 0.5 second buffer
-     * const context = new Tone.OfflineContext(1, 0.5, 44100);
-     * const osc = new Tone.Oscillator({ context });
-     * context.render().then(buffer => {
-     * 	console.log(buffer.numberOfChannels, buffer.duration);
-     * });
-     */
+   * Wrapper around the OfflineAudioContext
+   * @category Core
+   * @example
+   * // generate a single channel, 0.5 second buffer
+   * const context = new Tone.OfflineContext(1, 0.5, 44100);
+   * const osc = new Tone.Oscillator({ context });
+   * context.render().then(buffer => {
+   * 	console.log(buffer.numberOfChannels, buffer.duration);
+   * });
+   */
   class OfflineContext extends Context {
     constructor() {
       var channels, length, sampleRate;
@@ -6870,23 +6915,23 @@
         updateInterval: isOfflineAudioContext(arguments[0]) ? 128 / arguments[0].sampleRate : 128 / arguments[2]
       }), this.name = "OfflineContext", 
       /**
-             * An artificial clock source
-             */
+           * An artificial clock source
+           */
       this._currentTime = 0, this.isOffline = !0, this._duration = isOfflineAudioContext(arguments[0]) ? arguments[0].length / arguments[0].sampleRate : arguments[1];
     }
     /**
-         * Override the now method to point to the internal clock time
-         */    now() {
+       * Override the now method to point to the internal clock time
+       */    now() {
       return this._currentTime;
     }
     /**
-         * Same as this.now()
-         */    get currentTime() {
+       * Same as this.now()
+       */    get currentTime() {
       return this._currentTime;
     }
     /**
-         * Render just the clock portion of the audio context.
-         */    _renderClock(asynchronous) {
+       * Render just the clock portion of the audio context.
+       */    _renderClock(asynchronous) {
       return __awaiter(this, void 0, void 0, (function*() {
         let index = 0;
         for (;this._duration - this._currentTime >= 0; ) {
@@ -6902,9 +6947,9 @@
       }));
     }
     /**
-         * Render the output of the OfflineContext
-         * @param asynchronous If the clock should be rendered asynchronously, which will not block the main thread, but be slightly slower.
-         */    render() {
+       * Render the output of the OfflineContext
+       * @param asynchronous If the clock should be rendered asynchronously, which will not block the main thread, but be slightly slower.
+       */    render() {
       return __awaiter(this, arguments, void 0, (function*(asynchronous = !0) {
         yield this.workletsAreReady(), yield this._renderClock(asynchronous);
         const buffer = yield this._context.startRendering();
@@ -6912,14 +6957,14 @@
       }));
     }
     /**
-         * Close the context
-         */    close() {
+       * Close the context
+       */    close() {
       return Promise.resolve();
     }
   }
   /**
-     * This dummy context is used to avoid throwing immediate errors when importing in Node.js
-     */  const dummyContext = new class extends BaseContext {
+   * This dummy context is used to avoid throwing immediate errors when importing in Node.js
+   */  const dummyContext = new class extends BaseContext {
     constructor() {
       super(...arguments), this.lookAhead = 0, this.latencyHint = 0, this.isOffline = !1;
     }
@@ -7052,39 +7097,34 @@
     }
   };
   /**
-     * The global audio context which is getable and assignable through
-     * getContext and setContext
-     */  let globalContext = dummyContext;
-  /**
-     * Log Tone.js + version in the console.
-     */
+   * The global audio context which is getable and assignable through
+   * getContext and setContext
+   */  let globalContext = dummyContext;
   if (theWindow && !theWindow.TONE_SILENCE_LOGGING) {
     const printString = ` * Tone.js ${"v"}15.0.4 * `;
     // eslint-disable-next-line no-console
         console.log(`%c${printString}`, "background: #000; color: #fff");
   }
-  let A4 = 440;
   /**
-     * TimeBase is a flexible encoding of time which can be evaluated to and from a string.
-     */
-  class TimeBaseClass extends Tone$1 {
+   * TimeBase is a flexible encoding of time which can be evaluated to and from a string.
+   */  class TimeBaseClass extends Tone$1 {
     /**
-         * @param context The context associated with the time value. Used to compute
-         * Transport and context-relative timing.
-         * @param  value  The time value as a number, string or object
-         * @param  units  Unit values
-         */
+       * @param context The context associated with the time value. Used to compute
+       * Transport and context-relative timing.
+       * @param  value  The time value as a number, string or object
+       * @param  units  Unit values
+       */
     constructor(context, value, units) {
       super(), 
       /**
-             * The default units
-             */
+           * The default units
+           */
       this.defaultUnits = "s", this._val = value, this._units = units, this.context = context, 
       this._expressions = this._getExpressions();
     }
     /**
-         * All of the time encoding expressions
-         */    _getExpressions() {
+       * All of the time encoding expressions
+       */    _getExpressions() {
       return {
         hz: {
           method: value => this._frequencyToUnits(parseFloat(value)),
@@ -7140,8 +7180,8 @@
     // 	VALUE OF
     //-------------------------------------
     /**
-         * Evaluate the time value. Returns the time in seconds.
-         */
+       * Evaluate the time value. Returns the time in seconds.
+       */
     valueOf() {
       if (this._val instanceof TimeBaseClass && this.fromType(this._val), isUndef(this._val)) return this._noArg();
       if (isString(this._val) && isUndef(this._units)) {
@@ -7170,57 +7210,57 @@
     // 	UNIT CONVERSIONS
     //-------------------------------------
     /**
-         * Returns the value of a frequency in the current units
-         */
+       * Returns the value of a frequency in the current units
+       */
     _frequencyToUnits(freq) {
       return 1 / freq;
     }
     /**
-         * Return the value of the beats in the current units
-         */    _beatsToUnits(beats) {
+       * Return the value of the beats in the current units
+       */    _beatsToUnits(beats) {
       return 60 / this._getBpm() * beats;
     }
     /**
-         * Returns the value of a second in the current units
-         */    _secondsToUnits(seconds) {
+       * Returns the value of a second in the current units
+       */    _secondsToUnits(seconds) {
       return seconds;
     }
     /**
-         * Returns the value of a tick in the current time units
-         */    _ticksToUnits(ticks) {
+       * Returns the value of a tick in the current time units
+       */    _ticksToUnits(ticks) {
       return ticks * this._beatsToUnits(1) / this._getPPQ();
     }
     /**
-         * With no arguments, return 'now'
-         */    _noArg() {
+       * With no arguments, return 'now'
+       */    _noArg() {
       return this._now();
     }
     //-------------------------------------
     // 	TEMPO CONVERSIONS
     //-------------------------------------
     /**
-         * Return the bpm
-         */
+       * Return the bpm
+       */
     _getBpm() {
       return this.context.transport.bpm.value;
     }
     /**
-         * Return the timeSignature
-         */    _getTimeSignature() {
+       * Return the timeSignature
+       */    _getTimeSignature() {
       return this.context.transport.timeSignature;
     }
     /**
-         * Return the PPQ or 192 if Transport is not available
-         */    _getPPQ() {
+       * Return the PPQ or 192 if Transport is not available
+       */    _getPPQ() {
       return this.context.transport.PPQ;
     }
     //-------------------------------------
     // 	CONVERSION INTERFACE
     //-------------------------------------
     /**
-         * Coerce a time type into this units type.
-         * @param type Any time type units
-         */
+       * Coerce a time type into this units type.
+       * @param type Any time type units
+       */
     fromType(type) {
       switch (this._units = void 0, this.defaultUnits) {
        case "s":
@@ -7241,30 +7281,30 @@
       return this;
     }
     /**
-         * Return the value in hertz
-         */    toFrequency() {
+       * Return the value in hertz
+       */    toFrequency() {
       return 1 / this.toSeconds();
     }
     /**
-         * Return the time in samples
-         */    toSamples() {
+       * Return the time in samples
+       */    toSamples() {
       return this.toSeconds() * this.context.sampleRate;
     }
     /**
-         * Return the time in milliseconds.
-         */    toMilliseconds() {
+       * Return the time in milliseconds.
+       */    toMilliseconds() {
       return 1e3 * this.toSeconds();
     }
   }
   /**
-     * TimeClass is a primitive type for encoding and decoding Time values.
-     * TimeClass can be passed into the parameter of any method which takes time as an argument.
-     * @param  val    The time value.
-     * @param  units  The units of the value.
-     * @example
-     * const time = Tone.Time("4n"); // a quarter note
-     * @category Unit
-     */  class TimeClass extends TimeBaseClass {
+   * TimeClass is a primitive type for encoding and decoding Time values.
+   * TimeClass can be passed into the parameter of any method which takes time as an argument.
+   * @param  val    The time value.
+   * @param  units  The units of the value.
+   * @example
+   * const time = Tone.Time("4n"); // a quarter note
+   * @category Unit
+   */  class TimeClass extends TimeBaseClass {
     constructor() {
       super(...arguments), this.name = "TimeClass";
     }
@@ -7284,15 +7324,15 @@
       });
     }
     /**
-         * Quantize the time by the given subdivision. Optionally add a
-         * percentage which will move the time value towards the ideal
-         * quantized value by that percentage.
-         * @param  subdiv    The subdivision to quantize to
-         * @param  percent  Move the time value towards the quantized value by a percentage.
-         * @example
-         * Tone.Time(21).quantize(2); // returns 22
-         * Tone.Time(0.6).quantize("4n", 0.5); // returns 0.55
-         */    quantize(subdiv, percent = 1) {
+       * Quantize the time by the given subdivision. Optionally add a
+       * percentage which will move the time value towards the ideal
+       * quantized value by that percentage.
+       * @param  subdiv    The subdivision to quantize to
+       * @param  percent  Move the time value towards the quantized value by a percentage.
+       * @example
+       * Tone.Time(21).quantize(2); // returns 22
+       * Tone.Time(0.6).quantize("4n", 0.5); // returns 0.55
+       */    quantize(subdiv, percent = 1) {
       const subdivision = new this.constructor(this.context, subdiv).valueOf();
       const value = this.valueOf();
       return value + (Math.round(value / subdivision) * subdivision - value) * percent;
@@ -7301,13 +7341,13 @@
     // CONVERSIONS
     //-------------------------------------
     /**
-         * Convert a Time to Notation. The notation values are will be the
-         * closest representation between 1m to 128th note.
-         * @return {Notation}
-         * @example
-         * // if the Transport is at 120bpm:
-         * Tone.Time(2).toNotation(); // returns "1m"
-         */
+       * Convert a Time to Notation. The notation values are will be the
+       * closest representation between 1m to 128th note.
+       * @return {Notation}
+       * @example
+       * // if the Transport is at 120bpm:
+       * Tone.Time(2).toNotation(); // returns "1m"
+       */
     toNotation() {
       const time = this.toSeconds();
       const testNotations = [ "1m" ];
@@ -7326,8 +7366,8 @@
       })), closest;
     }
     /**
-         * Return the time encoded as Bars:Beats:Sixteenths.
-         */    toBarsBeatsSixteenths() {
+       * Return the time encoded as Bars:Beats:Sixteenths.
+       */    toBarsBeatsSixteenths() {
       const quarterTime = this._beatsToUnits(1);
       let quarters = this.valueOf() / quarterTime;
       quarters = parseFloat(quarters.toFixed(4));
@@ -7341,19 +7381,19 @@
       return [ measures, quarters, sixteenths ].join(":");
     }
     /**
-         * Return the time in ticks.
-         */    toTicks() {
+       * Return the time in ticks.
+       */    toTicks() {
       const quarterTime = this._beatsToUnits(1);
       return this.valueOf() / quarterTime * this._getPPQ();
     }
     /**
-         * Return the time in seconds.
-         */    toSeconds() {
+       * Return the time in seconds.
+       */    toSeconds() {
       return this.valueOf();
     }
     /**
-         * Return the value as a midi note.
-         */    toMidi() {
+       * Return the value as a midi note.
+       */    toMidi() {
       return ftom(this.toFrequency());
     }
     _now() {
@@ -7362,21 +7402,21 @@
   }
   /* eslint-disable key-spacing */
   /**
-     * Frequency is a primitive type for encoding Frequency values.
-     * Eventually all time values are evaluated to hertz using the `valueOf` method.
-     * @example
-     * Tone.Frequency("C3"); // 261
-     * Tone.Frequency(38, "midi");
-     * Tone.Frequency("C3").transpose(4);
-     * @category Unit
-     */  class FrequencyClass extends TimeClass {
+   * Frequency is a primitive type for encoding Frequency values.
+   * Eventually all time values are evaluated to hertz using the `valueOf` method.
+   * @example
+   * Tone.Frequency("C3"); // 261
+   * Tone.Frequency(38, "midi");
+   * Tone.Frequency("C3").transpose(4);
+   * @category Unit
+   */  class FrequencyClass extends TimeClass {
     constructor() {
       super(...arguments), this.name = "Frequency", this.defaultUnits = "hz";
     }
     /**
-         * The [concert tuning pitch](https://en.wikipedia.org/wiki/Concert_pitch) which is used
-         * to generate all the other pitch values from notes. A4's values in Hertz.
-         */    static get A4() {
+       * The [concert tuning pitch](https://en.wikipedia.org/wiki/Concert_pitch) which is used
+       * to generate all the other pitch values from notes. A4's values in Hertz.
+       */    static get A4() {
       return A4;
     }
     static set A4(freq) {
@@ -7417,39 +7457,39 @@
     // 	EXPRESSIONS
     //-------------------------------------
     /**
-         * Transposes the frequency by the given number of semitones.
-         * @return  A new transposed frequency
-         * @example
-         * Tone.Frequency("A4").transpose(3); // "C5"
-         */
+       * Transposes the frequency by the given number of semitones.
+       * @return  A new transposed frequency
+       * @example
+       * Tone.Frequency("A4").transpose(3); // "C5"
+       */
     transpose(interval) {
       return new FrequencyClass(this.context, this.valueOf() * intervalToFrequencyRatio(interval));
     }
     /**
-         * Takes an array of semitone intervals and returns
-         * an array of frequencies transposed by those intervals.
-         * @return  Returns an array of Frequencies
-         * @example
-         * Tone.Frequency("A4").harmonize([0, 3, 7]); // ["A4", "C5", "E5"]
-         */    harmonize(intervals) {
+       * Takes an array of semitone intervals and returns
+       * an array of frequencies transposed by those intervals.
+       * @return  Returns an array of Frequencies
+       * @example
+       * Tone.Frequency("A4").harmonize([0, 3, 7]); // ["A4", "C5", "E5"]
+       */    harmonize(intervals) {
       return intervals.map((interval => this.transpose(interval)));
     }
     //-------------------------------------
     // 	UNIT CONVERSIONS
     //-------------------------------------
     /**
-         * Return the value of the frequency as a MIDI note
-         * @example
-         * Tone.Frequency("C4").toMidi(); // 60
-         */
+       * Return the value of the frequency as a MIDI note
+       * @example
+       * Tone.Frequency("C4").toMidi(); // 60
+       */
     toMidi() {
       return ftom(this.valueOf());
     }
     /**
-         * Return the value of the frequency in Scientific Pitch Notation
-         * @example
-         * Tone.Frequency(69, "midi").toNote(); // "A4"
-         */    toNote() {
+       * Return the value of the frequency in Scientific Pitch Notation
+       * @example
+       * Tone.Frequency(69, "midi").toNote(); // "A4"
+       */    toNote() {
       const freq = this.toFrequency();
       const log = Math.log2(freq / FrequencyClass.A4);
       let noteNumber = Math.round(12 * log) + 57;
@@ -7458,13 +7498,13 @@
       return scaleIndexToNote[noteNumber % 12] + octave.toString();
     }
     /**
-         * Return the duration of one cycle in seconds.
-         */    toSeconds() {
+       * Return the duration of one cycle in seconds.
+       */    toSeconds() {
       return 1 / super.toSeconds();
     }
     /**
-         * Return the duration of one cycle in ticks
-         */    toTicks() {
+       * Return the duration of one cycle in ticks
+       */    toTicks() {
       const quarterTime = this._beatsToUnits(1);
       const quarters = this.valueOf() / quarterTime;
       return Math.floor(quarters * this._getPPQ());
@@ -7473,44 +7513,44 @@
     // 	UNIT CONVERSIONS HELPERS
     //-------------------------------------
     /**
-         * With no arguments, return 0
-         */
+       * With no arguments, return 0
+       */
     _noArg() {
       return 0;
     }
     /**
-         * Returns the value of a frequency in the current units
-         */    _frequencyToUnits(freq) {
+       * Returns the value of a frequency in the current units
+       */    _frequencyToUnits(freq) {
       return freq;
     }
     /**
-         * Returns the value of a tick in the current time units
-         */    _ticksToUnits(ticks) {
+       * Returns the value of a tick in the current time units
+       */    _ticksToUnits(ticks) {
       return 1 / (60 * ticks / (this._getBpm() * this._getPPQ()));
     }
     /**
-         * Return the value of the beats in the current units
-         */    _beatsToUnits(beats) {
+       * Return the value of the beats in the current units
+       */    _beatsToUnits(beats) {
       return 1 / super._beatsToUnits(beats);
     }
     /**
-         * Returns the value of a second in the current units
-         */    _secondsToUnits(seconds) {
+       * Returns the value of a second in the current units
+       */    _secondsToUnits(seconds) {
       return 1 / seconds;
     }
     /**
-         * Convert a MIDI note to frequency value.
-         * @param  midi The midi number to convert.
-         * @return The corresponding frequency value
-         */    static mtof(midi) {
+       * Convert a MIDI note to frequency value.
+       * @param  midi The midi number to convert.
+       * @return The corresponding frequency value
+       */    static mtof(midi) {
       return (function(midi) {
         return A4 * Math.pow(2, (midi - 69) / 12);
       })(midi);
     }
     /**
-         * Convert a frequency value to a MIDI note.
-         * @param frequency The value to frequency value to convert.
-         */    static ftom(frequency) {
+       * Convert a frequency value to a MIDI note.
+       * @param frequency The value to frequency value to convert.
+       */    static ftom(frequency) {
       return ftom(frequency);
     }
   }
@@ -7518,9 +7558,9 @@
   // 	FREQUENCY CONVERSIONS
   //-------------------------------------
   /**
-     * Note to scale index.
-     * @hidden
-     */  const noteToScaleIndex = {
+   * Note to scale index.
+   * @hidden
+   */  const noteToScaleIndex = {
     cbbb: -3,
     cbb: -2,
     cb: -1,
@@ -7593,28 +7633,28 @@
     "b#x": 14
   };
   /**
-     * scale index to note (sharps)
-     * @hidden
-     */  const scaleIndexToNote = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
+   * scale index to note (sharps)
+   * @hidden
+   */  const scaleIndexToNote = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
   /**
-     * TransportTime is a time along the Transport's
-     * timeline. It is similar to Tone.Time, but instead of evaluating
-     * against the AudioContext's clock, it is evaluated against
-     * the Transport's position. See [TransportTime wiki](https://github.com/Tonejs/Tone.js/wiki/TransportTime).
-     * @category Unit
-     */  class TransportTimeClass extends TimeClass {
+   * TransportTime is a time along the Transport's
+   * timeline. It is similar to Tone.Time, but instead of evaluating
+   * against the AudioContext's clock, it is evaluated against
+   * the Transport's position. See [TransportTime wiki](https://github.com/Tonejs/Tone.js/wiki/TransportTime).
+   * @category Unit
+   */  class TransportTimeClass extends TimeClass {
     constructor() {
       super(...arguments), this.name = "TransportTime";
     }
     /**
-         * Return the current time in whichever context is relevant
-         */    _now() {
+       * Return the current time in whichever context is relevant
+       */    _now() {
       return this.context.transport.seconds;
     }
   }
   /**
-     * The Base class for all nodes that have an AudioContext.
-     */  class ToneWithContext extends Tone$1 {
+   * The Base class for all nodes that have an AudioContext.
+   */  class ToneWithContext extends Tone$1 {
     constructor() {
       super();
       const options = optionsFromArguments(ToneWithContext.getDefaults(), arguments, [ "context" ]);
@@ -7626,71 +7666,71 @@
       };
     }
     /**
-         * Return the current time of the Context clock plus the lookAhead.
-         * @example
-         * setInterval(() => {
-         * 	console.log(Tone.now());
-         * }, 100);
-         */    now() {
+       * Return the current time of the Context clock plus the lookAhead.
+       * @example
+       * setInterval(() => {
+       * 	console.log(Tone.now());
+       * }, 100);
+       */    now() {
       return this.context.currentTime + this.context.lookAhead;
     }
     /**
-         * Return the current time of the Context clock without any lookAhead.
-         * @example
-         * setInterval(() => {
-         * 	console.log(Tone.immediate());
-         * }, 100);
-         */    immediate() {
+       * Return the current time of the Context clock without any lookAhead.
+       * @example
+       * setInterval(() => {
+       * 	console.log(Tone.immediate());
+       * }, 100);
+       */    immediate() {
       return this.context.currentTime;
     }
     /**
-         * The duration in seconds of one sample.
-         */    get sampleTime() {
+       * The duration in seconds of one sample.
+       */    get sampleTime() {
       return 1 / this.context.sampleRate;
     }
     /**
-         * The number of seconds of 1 processing block (128 samples)
-         * @example
-         * console.log(Tone.Destination.blockTime);
-         */    get blockTime() {
+       * The number of seconds of 1 processing block (128 samples)
+       * @example
+       * console.log(Tone.Destination.blockTime);
+       */    get blockTime() {
       return 128 / this.context.sampleRate;
     }
     /**
-         * Convert the incoming time to seconds.
-         * This is calculated against the current {@link TransportClass} bpm
-         * @example
-         * const gain = new Tone.Gain();
-         * setInterval(() => console.log(gain.toSeconds("4n")), 100);
-         * // ramp the tempo to 60 bpm over 30 seconds
-         * Tone.getTransport().bpm.rampTo(60, 30);
-         */    toSeconds(time) {
+       * Convert the incoming time to seconds.
+       * This is calculated against the current {@link TransportClass} bpm
+       * @example
+       * const gain = new Tone.Gain();
+       * setInterval(() => console.log(gain.toSeconds("4n")), 100);
+       * // ramp the tempo to 60 bpm over 30 seconds
+       * Tone.getTransport().bpm.rampTo(60, 30);
+       */    toSeconds(time) {
       return (function(time) {
         isUndef(time) && isInsideScheduledCallback && !printedScheduledWarning && (printedScheduledWarning = !0, 
         warn("Events scheduled inside of scheduled callbacks should use the passed in scheduling time. See https://github.com/Tonejs/Tone.js/wiki/Accurate-Timing"));
       })(time), new TimeClass(this.context, time).toSeconds();
     }
     /**
-         * Convert the input to a frequency number
-         * @example
-         * const gain = new Tone.Gain();
-         * console.log(gain.toFrequency("4n"));
-         */    toFrequency(freq) {
+       * Convert the input to a frequency number
+       * @example
+       * const gain = new Tone.Gain();
+       * console.log(gain.toFrequency("4n"));
+       */    toFrequency(freq) {
       return new FrequencyClass(this.context, freq).toFrequency();
     }
     /**
-         * Convert the input time into ticks
-         * @example
-         * const gain = new Tone.Gain();
-         * console.log(gain.toTicks("4n"));
-         */    toTicks(time) {
+       * Convert the input time into ticks
+       * @example
+       * const gain = new Tone.Gain();
+       * console.log(gain.toTicks("4n"));
+       */    toTicks(time) {
       return new TransportTimeClass(this.context, time).toTicks();
     }
     //-------------------------------------
     // 	GET/SET
     //-------------------------------------
     /**
-         * Get a subset of the properties which are in the partial props
-         */
+       * Get a subset of the properties which are in the partial props
+       */
     _getPartialProperties(props) {
       const options = this.get();
       // remove attributes from the prop that are not in the partial
@@ -7699,11 +7739,11 @@
       })), options;
     }
     /**
-         * Get the object's attributes.
-         * @example
-         * const osc = new Tone.Oscillator();
-         * console.log(osc.get());
-         */    get() {
+       * Get the object's attributes.
+       * @example
+       * const osc = new Tone.Oscillator();
+       * console.log(osc.get());
+       */    get() {
       const defaults = this.constructor.getDefaults();
       return Object.keys(defaults).forEach((attribute => {
         if (Reflect.has(this, attribute)) {
@@ -7715,17 +7755,17 @@
       })), defaults;
     }
     /**
-         * Set multiple properties at once with an object.
-         * @example
-         * const filter = new Tone.Filter().toDestination();
-         * // set values using an object
-         * filter.set({
-         * 	frequency: "C6",
-         * 	type: "highpass"
-         * });
-         * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/Analogsynth_octaves_highmid.mp3").connect(filter);
-         * player.autostart = true;
-         */    set(props) {
+       * Set multiple properties at once with an object.
+       * @example
+       * const filter = new Tone.Filter().toDestination();
+       * // set values using an object
+       * filter.set({
+       * 	frequency: "C6",
+       * 	type: "highpass"
+       * });
+       * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/Analogsynth_octaves_highmid.mp3").connect(filter);
+       * player.autostart = true;
+       */    set(props) {
       return Object.keys(props).forEach((attribute => {
         Reflect.has(this, attribute) && isDefined(this[attribute]) && (this[attribute] && isDefined(this[attribute].value) && isDefined(this[attribute].setValueAtTime) ? 
         // small optimization
@@ -7734,18 +7774,18 @@
     }
   }
   /**
-     * Param wraps the native Web Audio's AudioParam to provide
-     * additional unit conversion functionality. It also
-     * serves as a base-class for classes which have a single,
-     * automatable parameter.
-     * @category Core
-     */  class Param extends ToneWithContext {
+   * Param wraps the native Web Audio's AudioParam to provide
+   * additional unit conversion functionality. It also
+   * serves as a base-class for classes which have a single,
+   * automatable parameter.
+   * @category Core
+   */  class Param extends ToneWithContext {
     constructor() {
       const options = optionsFromArguments(Param.getDefaults(), arguments, [ "param", "units", "convert" ]);
       for (super(options), this.name = "Param", this.overridden = !1, 
       /**
-             * The minimum output value
-             */
+           * The minimum output value
+           */
       this._minOutput = 1e-7, assert(isDefined(options.param) && (isAudioParam(options.param) || options.param instanceof Param), "param must be an AudioParam"); !isAudioParam(options.param); ) options.param = options.param._param;
       this._swappable = !!isDefined(options.swappable) && options.swappable, this._swappable ? (this.input = this.context.createGain(), 
       // initialize
@@ -7777,25 +7817,25 @@
       return isDefined(this._maxValue) ? this._maxValue : "normalRange" === this.units || "audioRange" === this.units ? 1 : this._param.maxValue;
     }
     /**
-         * Type guard based on the unit name
-         */    _is(arg, type) {
+       * Type guard based on the unit name
+       */    _is(arg, type) {
       return this.units === type;
     }
     /**
-         * Make sure the value is always in the defined range
-         */    _assertRange(value) {
+       * Make sure the value is always in the defined range
+       */    _assertRange(value) {
       return isDefined(this.maxValue) && isDefined(this.minValue) && assertRange(value, this._fromType(this.minValue), this._fromType(this.maxValue)), 
       value;
     }
     /**
-         * Convert the given value from the type specified by Param.units
-         * into the destination value (such as Gain or Frequency).
-         */    _fromType(val) {
+       * Convert the given value from the type specified by Param.units
+       * into the destination value (such as Gain or Frequency).
+       */    _fromType(val) {
       return this.convert && !this.overridden ? this._is(val, "time") ? this.toSeconds(val) : this._is(val, "decibels") ? dbToGain(val) : this._is(val, "frequency") ? this.toFrequency(val) : val : this.overridden ? 0 : val;
     }
     /**
-         * Convert the parameters value into the units specified by Param.units.
-         */    _toType(val) {
+       * Convert the parameters value into the units specified by Param.units.
+       */    _toType(val) {
       return this.convert && "decibels" === this.units ? gainToDb(val) : val;
     }
     //-------------------------------------
@@ -7943,10 +7983,10 @@
       this;
     }
     /**
-         * Apply all of the previously scheduled events to the passed in Param or AudioParam.
-         * The applied values will start at the context's current time and schedule
-         * all of the events which are scheduled on this Param onto the passed in param.
-         */    apply(param) {
+       * Apply all of the previously scheduled events to the passed in Param or AudioParam.
+       * The applied values will start at the context's current time and schedule
+       * all of the events which are scheduled on this Param onto the passed in param.
+       */    apply(param) {
       const now = this.context.currentTime;
       // set the param's value at the current time and schedule everything else
             param.setValueAtTime(this.getValueAtTime(now), now);
@@ -7965,9 +8005,9 @@
       })), this;
     }
     /**
-         * Replace the Param's internal AudioParam. Will apply scheduled curves
-         * onto the parameter and replace the connections.
-         */    setParam(param) {
+       * Replace the Param's internal AudioParam. Will apply scheduled curves
+       * onto the parameter and replace the connections.
+       */    setParam(param) {
       assert(this._swappable, "The Param must be assigned as 'swappable' in the constructor");
       const input = this.input;
       return input.disconnect(this._param), this.apply(param), this._param = param, input.connect(this._param), 
@@ -7997,64 +8037,64 @@
     }
   }
   /**
-     * ToneAudioNode is the base class for classes which process audio.
-     * @category Core
-     */  class ToneAudioNode extends ToneWithContext {
+   * ToneAudioNode is the base class for classes which process audio.
+   * @category Core
+   */  class ToneAudioNode extends ToneWithContext {
     constructor() {
       super(...arguments), 
       /**
-             * List all of the node that must be set to match the ChannelProperties
-             */
+           * List all of the node that must be set to match the ChannelProperties
+           */
       this._internalChannels = [];
     }
     /**
-         * The number of inputs feeding into the AudioNode.
-         * For source nodes, this will be 0.
-         * @example
-         * const node = new Tone.Gain();
-         * console.log(node.numberOfInputs);
-         */    get numberOfInputs() {
+       * The number of inputs feeding into the AudioNode.
+       * For source nodes, this will be 0.
+       * @example
+       * const node = new Tone.Gain();
+       * console.log(node.numberOfInputs);
+       */    get numberOfInputs() {
       return isDefined(this.input) ? isAudioParam(this.input) || this.input instanceof Param ? 1 : this.input.numberOfInputs : 0;
     }
     /**
-         * The number of outputs of the AudioNode.
-         * @example
-         * const node = new Tone.Gain();
-         * console.log(node.numberOfOutputs);
-         */    get numberOfOutputs() {
+       * The number of outputs of the AudioNode.
+       * @example
+       * const node = new Tone.Gain();
+       * console.log(node.numberOfOutputs);
+       */    get numberOfOutputs() {
       return isDefined(this.output) ? this.output.numberOfOutputs : 0;
     }
     //-------------------------------------
     // AUDIO PROPERTIES
     //-------------------------------------
     /**
-         * Used to decide which nodes to get/set properties on
-         */
+       * Used to decide which nodes to get/set properties on
+       */
     _isAudioNode(node) {
       return isDefined(node) && (node instanceof ToneAudioNode || isAudioNode(node));
     }
     /**
-         * Get all of the audio nodes (either internal or input/output) which together
-         * make up how the class node responds to channel input/output
-         */    _getInternalNodes() {
+       * Get all of the audio nodes (either internal or input/output) which together
+       * make up how the class node responds to channel input/output
+       */    _getInternalNodes() {
       const nodeList = this._internalChannels.slice(0);
       return this._isAudioNode(this.input) && nodeList.push(this.input), this._isAudioNode(this.output) && this.input !== this.output && nodeList.push(this.output), 
       nodeList;
     }
     /**
-         * Set the audio options for this node such as channelInterpretation
-         * channelCount, etc.
-         * @param options
-         */    _setChannelProperties(options) {
+       * Set the audio options for this node such as channelInterpretation
+       * channelCount, etc.
+       * @param options
+       */    _setChannelProperties(options) {
       this._getInternalNodes().forEach((node => {
         node.channelCount = options.channelCount, node.channelCountMode = options.channelCountMode, 
         node.channelInterpretation = options.channelInterpretation;
       }));
     }
     /**
-         * Get the current audio options for this node such as channelInterpretation
-         * channelCount, etc.
-         */    _getChannelProperties() {
+       * Get the current audio options for this node such as channelInterpretation
+       * channelCount, etc.
+       */    _getChannelProperties() {
       const nodeList = this._getInternalNodes();
       assert(nodeList.length > 0, "ToneAudioNode does not have any internal nodes");
       // use the first node to get properties
@@ -8067,10 +8107,10 @@
       };
     }
     /**
-         * channelCount is the number of channels used when up-mixing and down-mixing
-         * connections to any inputs to the node. The default value is 2 except for
-         * specific nodes where its value is specially determined.
-         */    get channelCount() {
+       * channelCount is the number of channels used when up-mixing and down-mixing
+       * connections to any inputs to the node. The default value is 2 except for
+       * specific nodes where its value is specially determined.
+       */    get channelCount() {
       return this._getChannelProperties().channelCount;
     }
     set channelCount(channelCount) {
@@ -8081,13 +8121,13 @@
       }));
     }
     /**
-         * channelCountMode determines how channels will be counted when up-mixing and
-         * down-mixing connections to any inputs to the node.
-         * The default value is "max". This attribute has no effect for nodes with no inputs.
-         * * "max" - computedNumberOfChannels is the maximum of the number of channels of all connections to an input. In this mode channelCount is ignored.
-         * * "clamped-max" - computedNumberOfChannels is determined as for "max" and then clamped to a maximum value of the given channelCount.
-         * * "explicit" - computedNumberOfChannels is the exact value as specified by the channelCount.
-         */    get channelCountMode() {
+       * channelCountMode determines how channels will be counted when up-mixing and
+       * down-mixing connections to any inputs to the node.
+       * The default value is "max". This attribute has no effect for nodes with no inputs.
+       * * "max" - computedNumberOfChannels is the maximum of the number of channels of all connections to an input. In this mode channelCount is ignored.
+       * * "clamped-max" - computedNumberOfChannels is determined as for "max" and then clamped to a maximum value of the given channelCount.
+       * * "explicit" - computedNumberOfChannels is the exact value as specified by the channelCount.
+       */    get channelCountMode() {
       return this._getChannelProperties().channelCountMode;
     }
     set channelCountMode(channelCountMode) {
@@ -8098,10 +8138,10 @@
       }));
     }
     /**
-         * channelInterpretation determines how individual channels will be treated
-         * when up-mixing and down-mixing connections to any inputs to the node.
-         * The default value is "speakers".
-         */    get channelInterpretation() {
+       * channelInterpretation determines how individual channels will be treated
+       * when up-mixing and down-mixing connections to any inputs to the node.
+       * The default value is "speakers".
+       */    get channelInterpretation() {
       return this._getChannelProperties().channelInterpretation;
     }
     set channelInterpretation(channelInterpretation) {
@@ -8115,61 +8155,61 @@
     // CONNECTIONS
     //-------------------------------------
     /**
-         * connect the output of a ToneAudioNode to an AudioParam, AudioNode, or ToneAudioNode
-         * @param destination The output to connect to
-         * @param outputNum The output to connect from
-         * @param inputNum The input to connect to
-         */
+       * connect the output of a ToneAudioNode to an AudioParam, AudioNode, or ToneAudioNode
+       * @param destination The output to connect to
+       * @param outputNum The output to connect from
+       * @param inputNum The input to connect to
+       */
     connect(destination, outputNum = 0, inputNum = 0) {
       return connect(this, destination, outputNum, inputNum), this;
     }
     /**
-         * Connect the output to the context's destination node.
-         * @example
-         * const osc = new Tone.Oscillator("C2").start();
-         * osc.toDestination();
-         */    toDestination() {
+       * Connect the output to the context's destination node.
+       * @example
+       * const osc = new Tone.Oscillator("C2").start();
+       * osc.toDestination();
+       */    toDestination() {
       return this.connect(this.context.destination), this;
     }
     /**
-         * Connect the output to the context's destination node.
-         * @see {@link toDestination}
-         * @deprecated
-         */    toMaster() {
+       * Connect the output to the context's destination node.
+       * @see {@link toDestination}
+       * @deprecated
+       */    toMaster() {
       return warn("toMaster() has been renamed toDestination()"), this.toDestination();
     }
     /**
-         * disconnect the output
-         */    disconnect(destination, outputNum = 0, inputNum = 0) {
+       * disconnect the output
+       */    disconnect(destination, outputNum = 0, inputNum = 0) {
       return disconnect(this, destination, outputNum, inputNum), this;
     }
     /**
-         * Connect the output of this node to the rest of the nodes in series.
-         * @example
-         * const player = new Tone.Player("https://tonejs.github.io/audio/drum-samples/handdrum-loop.mp3");
-         * player.autostart = true;
-         * const filter = new Tone.AutoFilter(4).start();
-         * const distortion = new Tone.Distortion(0.5);
-         * // connect the player to the filter, distortion and then to the master output
-         * player.chain(filter, distortion, Tone.Destination);
-         */    chain(...nodes) {
+       * Connect the output of this node to the rest of the nodes in series.
+       * @example
+       * const player = new Tone.Player("https://tonejs.github.io/audio/drum-samples/handdrum-loop.mp3");
+       * player.autostart = true;
+       * const filter = new Tone.AutoFilter(4).start();
+       * const distortion = new Tone.Distortion(0.5);
+       * // connect the player to the filter, distortion and then to the master output
+       * player.chain(filter, distortion, Tone.Destination);
+       */    chain(...nodes) {
       return connectSeries(this, ...nodes), this;
     }
     /**
-         * connect the output of this node to the rest of the nodes in parallel.
-         * @example
-         * const player = new Tone.Player("https://tonejs.github.io/audio/drum-samples/conga-rhythm.mp3");
-         * player.autostart = true;
-         * const pitchShift = new Tone.PitchShift(4).toDestination();
-         * const filter = new Tone.Filter("G5").toDestination();
-         * // connect a node to the pitch shift and filter in parallel
-         * player.fan(pitchShift, filter);
-         */    fan(...nodes) {
+       * connect the output of this node to the rest of the nodes in parallel.
+       * @example
+       * const player = new Tone.Player("https://tonejs.github.io/audio/drum-samples/conga-rhythm.mp3");
+       * player.autostart = true;
+       * const pitchShift = new Tone.PitchShift(4).toDestination();
+       * const filter = new Tone.Filter("G5").toDestination();
+       * // connect a node to the pitch shift and filter in parallel
+       * player.fan(pitchShift, filter);
+       */    fan(...nodes) {
       return nodes.forEach((node => this.connect(node))), this;
     }
     /**
-         * Dispose and disconnect
-         */    dispose() {
+       * Dispose and disconnect
+       */    dispose() {
       return super.dispose(), isDefined(this.input) && (this.input instanceof ToneAudioNode ? this.input.dispose() : isAudioNode(this.input) && this.input.disconnect()), 
       isDefined(this.output) && (this.output instanceof ToneAudioNode ? this.output.dispose() : isAudioNode(this.output) && this.output.disconnect()), 
       this._internalChannels = [], this;
@@ -8180,8 +8220,8 @@
       const options = optionsFromArguments(Gain.getDefaults(), arguments, [ "gain", "units" ]);
       super(options), this.name = "Gain", 
       /**
-             * The wrapped GainNode.
-             */
+           * The wrapped GainNode.
+           */
       this._gainNode = this.context.createGain(), 
       // input = output
       this.input = this._gainNode, this.output = this._gainNode, this.gain = new Param({
@@ -8202,47 +8242,47 @@
       });
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._gainNode.disconnect(), this.gain.dispose(), this;
     }
   };
   /**
-     * Base class for fire-and-forget nodes
-     */  class OneShotSource extends ToneAudioNode {
+   * Base class for fire-and-forget nodes
+   */  class OneShotSource extends ToneAudioNode {
     constructor(options) {
       super(options), 
       /**
-             * The callback to invoke after the
-             * source is done playing.
-             */
+           * The callback to invoke after the
+           * source is done playing.
+           */
       this.onended = noOp, 
       /**
-             * The start time
-             */
+           * The start time
+           */
       this._startTime = -1, 
       /**
-             * The stop time
-             */
+           * The stop time
+           */
       this._stopTime = -1, 
       /**
-             * The id of the timeout
-             */
+           * The id of the timeout
+           */
       this._timeout = -1, 
       /**
-             * The public output node
-             */
+           * The public output node
+           */
       this.output = new Gain$1({
         context: this.context,
         gain: 0
       }), 
       /**
-             * The output gain node.
-             */
+           * The output gain node.
+           */
       this._gainNode = this.output, 
       /**
-             * Get the playback state at the given time
-             */
+           * Get the playback state at the given time
+           */
       this.getStateAtTime = function(time) {
         const computedTime = this.toSeconds(time);
         return -1 !== this._startTime && computedTime >= this._startTime && (-1 === this._stopTime || computedTime <= this._stopTime) ? "started" : "stopped";
@@ -8258,9 +8298,9 @@
       });
     }
     /**
-         * Start the source at the given time
-         * @param  time When to start the source
-         */    _startGain(time, gain = 1) {
+       * Start the source at the given time
+       * @param  time When to start the source
+       */    _startGain(time, gain = 1) {
       assert(-1 === this._startTime, "Source cannot be started more than once");
       // apply a fade in envelope
       const fadeInTime = this.toSeconds(this._fadeIn);
@@ -8271,15 +8311,15 @@
       this;
     }
     /**
-         * Stop the source node at the given time.
-         * @param time When to stop the source
-         */    stop(time) {
+       * Stop the source node at the given time.
+       * @param time When to stop the source
+       */    stop(time) {
       return this.log("stop", time), this._stopGain(this.toSeconds(time)), this;
     }
     /**
-         * Stop the source at the given time
-         * @param  time When to stop the source
-         */    _stopGain(time) {
+       * Stop the source at the given time
+       * @param  time When to stop the source
+       */    _stopGain(time) {
       assert(-1 !== this._startTime, "'start' must be called before 'stop'"), 
       // cancel the previous stop
       this.cancelStop();
@@ -8299,8 +8339,8 @@
       }), this._stopTime - this.context.currentTime), this;
     }
     /**
-         * Invoke the onended callback
-         */    _onended() {
+       * Invoke the onended callback
+       */    _onended() {
       if (this.onended !== noOp && (this.onended(this), 
       // overwrite onended to make sure it only is called once
       this.onended = noOp, !this.context.isOffline)) {
@@ -8313,13 +8353,13 @@
       }
     }
     /**
-         * Get the playback state at the current time
-         */    get state() {
+       * Get the playback state at the current time
+       */    get state() {
       return this.getStateAtTime(this.now());
     }
     /**
-         * Cancel a scheduled stop event
-         */    cancelStop() {
+       * Cancel a scheduled stop event
+       */    cancelStop() {
       return this.log("cancelStop"), assert(-1 !== this._startTime, "Source is not started"), 
       // cancel the stop envelope
       this._gainNode.gain.cancelScheduledValues(this._startTime + this.sampleTime), this.context.clearTimeout(this._timeout), 
@@ -8330,16 +8370,16 @@
     }
   }
   /**
-     * Wrapper around the native fire-and-forget ConstantSource.
-     * Adds the ability to reschedule the stop method.
-     * @category Signal
-     */  class ToneConstantSource extends OneShotSource {
+   * Wrapper around the native fire-and-forget ConstantSource.
+   * Adds the ability to reschedule the stop method.
+   * @category Signal
+   */  class ToneConstantSource extends OneShotSource {
     constructor() {
       const options = optionsFromArguments(ToneConstantSource.getDefaults(), arguments, [ "offset" ]);
       super(options), this.name = "ToneConstantSource", 
       /**
-             * The signal generator
-             */
+           * The signal generator
+           */
       this._source = this.context.createConstantSource(), connect(this._source, this._gainNode), 
       this.offset = new Param({
         context: this.context,
@@ -8359,9 +8399,9 @@
       });
     }
     /**
-         * Start the source node at the given time
-         * @param  time When to start the source
-         */    start(time) {
+       * Start the source node at the given time
+       * @param  time When to start the source
+       */    start(time) {
       const computedTime = this.toSeconds(time);
       return this.log("start", computedTime), this._startGain(computedTime), this._source.start(computedTime), 
       this;
@@ -8375,30 +8415,30 @@
     }
   }
   /**
-     * A signal is an audio-rate value. Tone.Signal is a core component of the library.
-     * Unlike a number, Signals can be scheduled with sample-level accuracy. Tone.Signal
-     * has all of the methods available to native Web Audio
-     * [AudioParam](http://webaudio.github.io/web-audio-api/#the-audioparam-interface)
-     * as well as additional conveniences. Read more about working with signals
-     * [here](https://github.com/Tonejs/Tone.js/wiki/Signals).
-     *
-     * @example
-     * const osc = new Tone.Oscillator().toDestination().start();
-     * // a scheduleable signal which can be connected to control an AudioParam or another Signal
-     * const signal = new Tone.Signal({
-     * 	value: "C4",
-     * 	units: "frequency"
-     * }).connect(osc.frequency);
-     * // the scheduled ramp controls the connected signal
-     * signal.rampTo("C2", 4, "+0.5");
-     * @category Signal
-     */  class Signal extends ToneAudioNode {
+   * A signal is an audio-rate value. Tone.Signal is a core component of the library.
+   * Unlike a number, Signals can be scheduled with sample-level accuracy. Tone.Signal
+   * has all of the methods available to native Web Audio
+   * [AudioParam](http://webaudio.github.io/web-audio-api/#the-audioparam-interface)
+   * as well as additional conveniences. Read more about working with signals
+   * [here](https://github.com/Tonejs/Tone.js/wiki/Signals).
+   *
+   * @example
+   * const osc = new Tone.Oscillator().toDestination().start();
+   * // a scheduleable signal which can be connected to control an AudioParam or another Signal
+   * const signal = new Tone.Signal({
+   * 	value: "C4",
+   * 	units: "frequency"
+   * }).connect(osc.frequency);
+   * // the scheduled ramp controls the connected signal
+   * signal.rampTo("C2", 4, "+0.5");
+   * @category Signal
+   */  class Signal extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(Signal.getDefaults(), arguments, [ "value", "units" ]);
       super(options), this.name = "Signal", 
       /**
-             * Indicates if the value should be overridden on connection.
-             */
+           * Indicates if the value should be overridden on connection.
+           */
       this.override = !0, this.output = this._constantSource = new ToneConstantSource({
         context: this.context,
         convert: options.convert,
@@ -8497,8 +8537,8 @@
       return this._param.minValue;
     }
     /**
-         * @see {@link Param.apply}.
-         */    apply(param) {
+       * @see {@link Param.apply}.
+       */    apply(param) {
       return this._param.apply(param), this;
     }
   }
@@ -8520,13 +8560,13 @@
       });
     }
     /**
-         * Mute the output.
-         * @example
-         * const vol = new Tone.Volume(-12).toDestination();
-         * const osc = new Tone.Oscillator().connect(vol).start();
-         * // mute the output
-         * vol.mute = true;
-         */    get mute() {
+       * Mute the output.
+       * @example
+       * const vol = new Tone.Volume(-12).toDestination();
+       * const osc = new Tone.Oscillator().connect(vol).start();
+       * // mute the output
+       * vol.mute = true;
+       */    get mute() {
       return this.volume.value === -1 / 0;
     }
     set mute(mute) {
@@ -8535,26 +8575,26 @@
       this.volume.value = -1 / 0) : this.mute && !mute && (this.volume.value = this._unmutedVolume);
     }
     /**
-         * clean up
-         */    dispose() {
+       * clean up
+       */    dispose() {
       return super.dispose(), this.input.dispose(), this.volume.dispose(), this;
     }
   }
   /**
-     * A single master output which is connected to the
-     * AudioDestinationNode (aka your speakers).
-     * It provides useful conveniences such as the ability
-     * to set the volume and mute the entire application.
-     * It also gives you the ability to apply master effects to your application.
-     *
-     * @example
-     * const oscillator = new Tone.Oscillator().start();
-     * // the audio will go from the oscillator to the speakers
-     * oscillator.connect(Tone.getDestination());
-     * // a convenience for connecting to the master output is also provided:
-     * oscillator.toDestination();
-     * @category Core
-     */  class DestinationClass extends ToneAudioNode {
+   * A single master output which is connected to the
+   * AudioDestinationNode (aka your speakers).
+   * It provides useful conveniences such as the ability
+   * to set the volume and mute the entire application.
+   * It also gives you the ability to apply master effects to your application.
+   *
+   * @example
+   * const oscillator = new Tone.Oscillator().start();
+   * // the audio will go from the oscillator to the speakers
+   * oscillator.connect(Tone.getDestination());
+   * // a convenience for connecting to the master output is also provided:
+   * oscillator.toDestination();
+   * @category Core
+   */  class DestinationClass extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(DestinationClass.getDefaults(), arguments);
       super(options), this.name = "Destination", this.input = new Volume({
@@ -8563,13 +8603,13 @@
         context: this.context
       }), 
       /**
-             * The volume of the master output in decibels. -Infinity is silent, and 0 is no change.
-             * @example
-             * const osc = new Tone.Oscillator().toDestination();
-             * osc.start();
-             * // ramp the volume down to silent over 10 seconds
-             * Tone.getDestination().volume.rampTo(-Infinity, 10);
-             */
+           * The volume of the master output in decibels. -Infinity is silent, and 0 is no change.
+           * @example
+           * const osc = new Tone.Oscillator().toDestination();
+           * osc.start();
+           * // ramp the volume down to silent over 10 seconds
+           * Tone.getDestination().volume.rampTo(-Infinity, 10);
+           */
       this.volume = this.input.volume, connectSeries(this.input, this.output, this.context.rawContext.destination), 
       this.mute = options.mute, this._internalChannels = [ this.input, this.context.rawContext.destination, this.output ];
     }
@@ -8580,42 +8620,42 @@
       });
     }
     /**
-         * Mute the output.
-         * @example
-         * const oscillator = new Tone.Oscillator().start().toDestination();
-         * setTimeout(() => {
-         * 	// mute the output
-         * 	Tone.Destination.mute = true;
-         * }, 1000);
-         */    get mute() {
+       * Mute the output.
+       * @example
+       * const oscillator = new Tone.Oscillator().start().toDestination();
+       * setTimeout(() => {
+       * 	// mute the output
+       * 	Tone.Destination.mute = true;
+       * }, 1000);
+       */    get mute() {
       return this.input.mute;
     }
     set mute(mute) {
       this.input.mute = mute;
     }
     /**
-         * Add a master effects chain. NOTE: this will disconnect any nodes which were previously
-         * chained in the master effects chain.
-         * @param args All arguments will be connected in a row and the Master will be routed through it.
-         * @example
-         * // route all audio through a filter and compressor
-         * const lowpass = new Tone.Filter(800, "lowpass");
-         * const compressor = new Tone.Compressor(-18);
-         * Tone.Destination.chain(lowpass, compressor);
-         */    chain(...args) {
+       * Add a master effects chain. NOTE: this will disconnect any nodes which were previously
+       * chained in the master effects chain.
+       * @param args All arguments will be connected in a row and the Master will be routed through it.
+       * @example
+       * // route all audio through a filter and compressor
+       * const lowpass = new Tone.Filter(800, "lowpass");
+       * const compressor = new Tone.Compressor(-18);
+       * Tone.Destination.chain(lowpass, compressor);
+       */    chain(...args) {
       return this.input.disconnect(), args.unshift(this.input), args.push(this.output), 
       connectSeries(...args), this;
     }
     /**
-         * The maximum number of channels the system can output
-         * @example
-         * console.log(Tone.Destination.maxChannelCount);
-         */    get maxChannelCount() {
+       * The maximum number of channels the system can output
+       * @example
+       * console.log(Tone.Destination.maxChannelCount);
+       */    get maxChannelCount() {
       return this.context.rawContext.destination.maxChannelCount;
     }
     /**
-         * Clean up
-         */    dispose() {
+       * Clean up
+       */    dispose() {
       return super.dispose(), this.volume.dispose(), this;
     }
   }
@@ -8630,39 +8670,39 @@
     context.destination.dispose();
   }));
   /**
-     * Represents a single value which is gettable and settable in a timed way
-     */
+   * Represents a single value which is gettable and settable in a timed way
+   */
   class TimelineValue extends Tone$1 {
     /**
-         * @param initialValue The value to return if there is no scheduled values
-         */
+       * @param initialValue The value to return if there is no scheduled values
+       */
     constructor(initialValue) {
       super(), this.name = "TimelineValue", 
       /**
-             * The timeline which stores the values
-             */
+           * The timeline which stores the values
+           */
       this._timeline = new Timeline({
         memory: 10
       }), this._initialValue = initialValue;
     }
     /**
-         * Set the value at the given time
-         */    set(value, time) {
+       * Set the value at the given time
+       */    set(value, time) {
       return this._timeline.add({
         value: value,
         time: time
       }), this;
     }
     /**
-         * Get the value at the given time
-         */    get(time) {
+       * Get the value at the given time
+       */    get(time) {
       const event = this._timeline.get(time);
       return event ? event.value : this._initialValue;
     }
   }
   /**
-     * A signal operator has an input and output and modifies the signal.
-     */  class SignalOperator extends ToneAudioNode {
+   * A signal operator has an input and output and modifies the signal.
+   */  class SignalOperator extends ToneAudioNode {
     constructor() {
       super(optionsFromArguments(SignalOperator.getDefaults(), arguments, [ "context" ]));
     }
@@ -8671,30 +8711,30 @@
     }
   }
   /**
-     * Wraps the native Web Audio API
-     * [WaveShaperNode](http://webaudio.github.io/web-audio-api/#the-waveshapernode-interface).
-     *
-     * @example
-     * const osc = new Tone.Oscillator().toDestination().start();
-     * // multiply the output of the signal by 2 using the waveshaper's function
-     * const timesTwo = new Tone.WaveShaper((val) => val * 2, 2048).connect(osc.frequency);
-     * const signal = new Tone.Signal(440).connect(timesTwo);
-     * @category Signal
-     */  class WaveShaper extends SignalOperator {
+   * Wraps the native Web Audio API
+   * [WaveShaperNode](http://webaudio.github.io/web-audio-api/#the-waveshapernode-interface).
+   *
+   * @example
+   * const osc = new Tone.Oscillator().toDestination().start();
+   * // multiply the output of the signal by 2 using the waveshaper's function
+   * const timesTwo = new Tone.WaveShaper((val) => val * 2, 2048).connect(osc.frequency);
+   * const signal = new Tone.Signal(440).connect(timesTwo);
+   * @category Signal
+   */  class WaveShaper extends SignalOperator {
     constructor() {
       const options = optionsFromArguments(WaveShaper.getDefaults(), arguments, [ "mapping", "length" ]);
       super(options), this.name = "WaveShaper", 
       /**
-             * the waveshaper node
-             */
+           * the waveshaper node
+           */
       this._shaper = this.context.createWaveShaper(), 
       /**
-             * The input to the waveshaper node.
-             */
+           * The input to the waveshaper node.
+           */
       this.input = this._shaper, 
       /**
-             * The output from the waveshaper node
-             */
+           * The output from the waveshaper node
+           */
       this.output = this._shaper, isArray(options.mapping) || options.mapping instanceof Float32Array ? this.curve = Float32Array.from(options.mapping) : "function" == typeof options.mapping && this.setMap(options.mapping, options.length);
     }
     static getDefaults() {
@@ -8703,17 +8743,17 @@
       });
     }
     /**
-         * Uses a mapping function to set the value of the curve.
-         * @param mapping The function used to define the values.
-         *                The mapping function take two arguments:
-         *                the first is the value at the current position
-         *                which goes from -1 to 1 over the number of elements
-         *                in the curve array. The second argument is the array position.
-         * @example
-         * const shaper = new Tone.WaveShaper();
-         * // map the input signal from [-1, 1] to [0, 10]
-         * shaper.setMap((val, index) => (val + 1) * 5);
-         */    setMap(mapping, length = 1024) {
+       * Uses a mapping function to set the value of the curve.
+       * @param mapping The function used to define the values.
+       *                The mapping function take two arguments:
+       *                the first is the value at the current position
+       *                which goes from -1 to 1 over the number of elements
+       *                in the curve array. The second argument is the array position.
+       * @example
+       * const shaper = new Tone.WaveShaper();
+       * // map the input signal from [-1, 1] to [0, 10]
+       * shaper.setMap((val, index) => (val + 1) * 5);
+       */    setMap(mapping, length = 1024) {
       const array = new Float32Array(length);
       for (let i = 0, len = length; i < len; i++) {
         const normalized = i / (len - 1) * 2 - 1;
@@ -8722,19 +8762,19 @@
       return this.curve = array, this;
     }
     /**
-         * The array to set as the waveshaper curve. For linear curves
-         * array length does not make much difference, but for complex curves
-         * longer arrays will provide smoother interpolation.
-         */    get curve() {
+       * The array to set as the waveshaper curve. For linear curves
+       * array length does not make much difference, but for complex curves
+       * longer arrays will provide smoother interpolation.
+       */    get curve() {
       return this._shaper.curve;
     }
     set curve(mapping) {
       this._shaper.curve = mapping;
     }
     /**
-         * Specifies what type of oversampling (if any) should be used when
-         * applying the shaping curve. Can either be "none", "2x" or "4x".
-         */    get oversample() {
+       * Specifies what type of oversampling (if any) should be used when
+       * applying the shaping curve. Can either be "none", "2x" or "4x".
+       */    get oversample() {
       return this._shaper.oversample;
     }
     set oversample(oversampling) {
@@ -8742,20 +8782,20 @@
       this._shaper.oversample = oversampling;
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._shaper.disconnect(), this;
     }
   }
   /**
-     * Pow applies an exponent to the incoming signal. The incoming signal must be AudioRange [-1, 1]
-     *
-     * @example
-     * const pow = new Tone.Pow(2);
-     * const sig = new Tone.Signal(0.5).connect(pow);
-     * // output of pow is 0.25.
-     * @category Signal
-     */  class Pow extends SignalOperator {
+   * Pow applies an exponent to the incoming signal. The incoming signal must be AudioRange [-1, 1]
+   *
+   * @example
+   * const pow = new Tone.Pow(2);
+   * const sig = new Tone.Signal(0.5).connect(pow);
+   * // output of pow is 0.25.
+   * @category Signal
+   */  class Pow extends SignalOperator {
     constructor() {
       const options = optionsFromArguments(Pow.getDefaults(), arguments, [ "value" ]);
       super(options), this.name = "Pow", this._exponentScaler = this.input = this.output = new WaveShaper({
@@ -8770,92 +8810,92 @@
       });
     }
     /**
-         * the function which maps the waveshaper
-         * @param exponent exponent value
-         */    _expFunc(exponent) {
+       * the function which maps the waveshaper
+       * @param exponent exponent value
+       */    _expFunc(exponent) {
       return val => Math.pow(Math.abs(val), exponent);
     }
     /**
-         * The value of the exponent.
-         */    get value() {
+       * The value of the exponent.
+       */    get value() {
       return this._exponent;
     }
     set value(exponent) {
       this._exponent = exponent, this._exponentScaler.setMap(this._expFunc(this._exponent));
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._exponentScaler.dispose(), this;
     }
   }
   /**
-     * Ticks is a primitive type for encoding Time values.
-     * Ticks can be constructed with or without the `new` keyword. Ticks can be passed
-     * into the parameter of any method which takes time as an argument.
-     * @example
-     * const t = Tone.Ticks("4n"); // a quarter note as ticks
-     * @category Unit
-     */  class TicksClass extends TransportTimeClass {
+   * Ticks is a primitive type for encoding Time values.
+   * Ticks can be constructed with or without the `new` keyword. Ticks can be passed
+   * into the parameter of any method which takes time as an argument.
+   * @example
+   * const t = Tone.Ticks("4n"); // a quarter note as ticks
+   * @category Unit
+   */  class TicksClass extends TransportTimeClass {
     constructor() {
       super(...arguments), this.name = "Ticks", this.defaultUnits = "i";
     }
     /**
-         * Get the current time in the given units
-         */    _now() {
+       * Get the current time in the given units
+       */    _now() {
       return this.context.transport.ticks;
     }
     /**
-         * Return the value of the beats in the current units
-         */    _beatsToUnits(beats) {
+       * Return the value of the beats in the current units
+       */    _beatsToUnits(beats) {
       return this._getPPQ() * beats;
     }
     /**
-         * Returns the value of a second in the current units
-         */    _secondsToUnits(seconds) {
+       * Returns the value of a second in the current units
+       */    _secondsToUnits(seconds) {
       return Math.floor(seconds / (60 / this._getBpm()) * this._getPPQ());
     }
     /**
-         * Returns the value of a tick in the current time units
-         */    _ticksToUnits(ticks) {
+       * Returns the value of a tick in the current time units
+       */    _ticksToUnits(ticks) {
       return ticks;
     }
     /**
-         * Return the time in ticks
-         */    toTicks() {
+       * Return the time in ticks
+       */    toTicks() {
       return this.valueOf();
     }
     /**
-         * Return the time in seconds
-         */    toSeconds() {
+       * Return the time in seconds
+       */    toSeconds() {
       return this.valueOf() / this._getPPQ() * (60 / this._getBpm());
     }
   }
   /**
-     * Similar to Tone.Timeline, but all events represent
-     * intervals with both "time" and "duration" times. The
-     * events are placed in a tree structure optimized
-     * for querying an intersection point with the timeline
-     * events. Internally uses an [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree)
-     * to represent the data.
-     * @internal
-     */  class IntervalTimeline extends Tone$1 {
+   * Similar to Tone.Timeline, but all events represent
+   * intervals with both "time" and "duration" times. The
+   * events are placed in a tree structure optimized
+   * for querying an intersection point with the timeline
+   * events. Internally uses an [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree)
+   * to represent the data.
+   * @internal
+   */  class IntervalTimeline extends Tone$1 {
     constructor() {
       super(...arguments), this.name = "IntervalTimeline", 
       /**
-             * The root node of the inteval tree
-             */
+           * The root node of the inteval tree
+           */
       this._root = null, 
       /**
-             * Keep track of the length of the timeline.
-             */
+           * Keep track of the length of the timeline.
+           */
       this._length = 0;
     }
     /**
-         * The event to add to the timeline. All events must
-         * have a time and duration value
-         * @param  event  The event to add to the timeline
-         */    add(event) {
+       * The event to add to the timeline. All events must
+       * have a time and duration value
+       * @param  event  The event to add to the timeline
+       */    add(event) {
       assert(isDefined(event.time), "Events must have a time property"), assert(isDefined(event.duration), "Events must have a duration parameter"), 
       event.time = event.time.valueOf();
       let node = new IntervalNode(event.time, event.time + event.duration, event);
@@ -8865,9 +8905,9 @@
       return this;
     }
     /**
-         * Remove an event from the timeline.
-         * @param  event  The event to remove from the timeline
-         */    remove(event) {
+       * Remove an event from the timeline.
+       * @param  event  The event to remove from the timeline
+       */    remove(event) {
       if (null !== this._root) {
         const results = [];
         this._root.search(event.time, results);
@@ -8879,33 +8919,33 @@
       return this;
     }
     /**
-         * The number of items in the timeline.
-         * @readOnly
-         */    get length() {
+       * The number of items in the timeline.
+       * @readOnly
+       */    get length() {
       return this._length;
     }
     /**
-         * Remove events whose time time is after the given time
-         * @param  after  The time to query.
-         */    cancel(after) {
+       * Remove events whose time time is after the given time
+       * @param  after  The time to query.
+       */    cancel(after) {
       return this.forEachFrom(after, (event => this.remove(event))), this;
     }
     /**
-         * Set the root node as the given node
-         */    _setRoot(node) {
+       * Set the root node as the given node
+       */    _setRoot(node) {
       this._root = node, null !== this._root && (this._root.parent = null);
     }
     /**
-         * Replace the references to the node in the node's parent
-         * with the replacement node.
-         */    _replaceNodeInParent(node, replacement) {
+       * Replace the references to the node in the node's parent
+       * with the replacement node.
+       */    _replaceNodeInParent(node, replacement) {
       null !== node.parent ? (node.isLeftChild() ? node.parent.left = replacement : node.parent.right = replacement, 
       this._rebalance(node.parent)) : this._setRoot(replacement);
     }
     /**
-         * Remove the node from the tree and replace it with
-         * a successor which follows the schema.
-         */    _removeNode(node) {
+       * Remove the node from the tree and replace it with
+       * a successor which follows the schema.
+       */    _removeNode(node) {
       if (null === node.left && null === node.right) this._replaceNodeInParent(node, null); else if (null === node.right) this._replaceNodeInParent(node, node.left); else if (null === node.left) this._replaceNodeInParent(node, node.right); else {
         let replacement;
         let temp = null;
@@ -8926,8 +8966,8 @@
       node.dispose();
     }
     /**
-         * Rotate the tree to the left
-         */    _rotateLeft(node) {
+       * Rotate the tree to the left
+       */    _rotateLeft(node) {
       const parent = node.parent;
       const isLeftChild = node.isLeftChild();
       // Make node.right the new root of this sub tree (instead of node)
@@ -8935,8 +8975,8 @@
       pivotNode && (node.right = pivotNode.left, pivotNode.left = node), null !== parent ? isLeftChild ? parent.left = pivotNode : parent.right = pivotNode : this._setRoot(pivotNode);
     }
     /**
-         * Rotate the tree to the right
-         */    _rotateRight(node) {
+       * Rotate the tree to the right
+       */    _rotateRight(node) {
       const parent = node.parent;
       const isLeftChild = node.isLeftChild();
       // Make node.left the new root of this sub tree (instead of node)
@@ -8944,16 +8984,16 @@
       pivotNode && (node.left = pivotNode.right, pivotNode.right = node), null !== parent ? isLeftChild ? parent.left = pivotNode : parent.right = pivotNode : this._setRoot(pivotNode);
     }
     /**
-         * Balance the BST
-         */    _rebalance(node) {
+       * Balance the BST
+       */    _rebalance(node) {
       const balance = node.getBalance();
       balance > 1 && node.left ? node.left.getBalance() < 0 ? this._rotateLeft(node.left) : this._rotateRight(node) : balance < -1 && node.right && (node.right.getBalance() > 0 ? this._rotateRight(node.right) : this._rotateLeft(node));
     }
     /**
-         * Get an event whose time and duration span the give time. Will
-         * return the match whose "time" value is closest to the given time.
-         * @return  The event which spans the desired time
-         */    get(time) {
+       * Get an event whose time and duration span the give time. Will
+       * return the match whose "time" value is closest to the given time.
+       * @return  The event which spans the desired time
+       */    get(time) {
       if (null !== this._root) {
         const results = [];
         if (this._root.search(time, results), results.length > 0) {
@@ -8965,9 +9005,9 @@
       return null;
     }
     /**
-         * Iterate over everything in the timeline.
-         * @param  callback The callback to invoke with every item
-         */    forEach(callback) {
+       * Iterate over everything in the timeline.
+       * @param  callback The callback to invoke with every item
+       */    forEach(callback) {
       if (null !== this._root) {
         const allNodes = [];
         this._root.traverse((node => allNodes.push(node))), allNodes.forEach((node => {
@@ -8977,11 +9017,11 @@
       return this;
     }
     /**
-         * Iterate over everything in the array in which the given time
-         * overlaps with the time and duration time of the event.
-         * @param  time The time to check if items are overlapping
-         * @param  callback The callback to invoke with every item
-         */    forEachAtTime(time, callback) {
+       * Iterate over everything in the array in which the given time
+       * overlaps with the time and duration time of the event.
+       * @param  time The time to check if items are overlapping
+       * @param  callback The callback to invoke with every item
+       */    forEachAtTime(time, callback) {
       if (null !== this._root) {
         const results = [];
         this._root.search(time, results), results.forEach((node => {
@@ -8991,11 +9031,11 @@
       return this;
     }
     /**
-         * Iterate over everything in the array in which the time is greater
-         * than or equal to the given time.
-         * @param  time The time to check if items are before
-         * @param  callback The callback to invoke with every item
-         */    forEachFrom(time, callback) {
+       * Iterate over everything in the array in which the time is greater
+       * than or equal to the given time.
+       * @param  time The time to check if items are before
+       * @param  callback The callback to invoke with every item
+       */    forEachFrom(time, callback) {
       if (null !== this._root) {
         const results = [];
         this._root.searchAfter(time, results), results.forEach((node => {
@@ -9005,8 +9045,8 @@
       return this;
     }
     /**
-         * Clean up
-         */    dispose() {
+       * Clean up
+       */    dispose() {
       return super.dispose(), null !== this._root && this._root.traverse((node => node.dispose())), 
       this._root = null, this;
     }
@@ -9015,15 +9055,15 @@
   // 	INTERVAL NODE HELPER
   //-------------------------------------
   /**
-     * Represents a node in the binary search tree, with the addition
-     * of a "high" value which keeps track of the highest value of
-     * its children.
-     * References:
-     * https://brooknovak.wordpress.com/2013/12/07/augmented-interval-tree-in-c/
-     * http://www.mif.vu.lt/~valdas/ALGORITMAI/LITERATURA/Cormen/Cormen.pdf
-     * @param low
-     * @param high
-     */  class IntervalNode {
+   * Represents a node in the binary search tree, with the addition
+   * of a "high" value which keeps track of the highest value of
+   * its children.
+   * References:
+   * https://brooknovak.wordpress.com/2013/12/07/augmented-interval-tree-in-c/
+   * http://www.mif.vu.lt/~valdas/ALGORITMAI/LITERATURA/Cormen/Cormen.pdf
+   * @param low
+   * @param high
+   */  class IntervalNode {
     constructor(low, high, event) {
       // the nodes to the left
       this._left = null, 
@@ -9041,16 +9081,16 @@
       this.max = this.high;
     }
     /**
-         * Insert a node into the correct spot in the tree
-         */    insert(node) {
+       * Insert a node into the correct spot in the tree
+       */    insert(node) {
       node.low <= this.low ? null === this.left ? this.left = node : this.left.insert(node) : null === this.right ? this.right = node : this.right.insert(node);
     }
     /**
-         * Search the tree for nodes which overlap
-         * with the given point
-         * @param  point  The point to query
-         * @param  results  The array to put the results
-         */    search(point, results) {
+       * Search the tree for nodes which overlap
+       * with the given point
+       * @param  point  The point to query
+       * @param  results  The array to put the results
+       */    search(point, results) {
       // If p is to the right of the rightmost point of any interval
       // in this node and all children, there won't be any matches.
       point > this.max || (
@@ -9065,57 +9105,57 @@
       null !== this.right && this.right.search(point, results));
     }
     /**
-         * Search the tree for nodes which are less
-         * than the given point
-         * @param  point  The point to query
-         * @param  results  The array to put the results
-         */    searchAfter(point, results) {
+       * Search the tree for nodes which are less
+       * than the given point
+       * @param  point  The point to query
+       * @param  results  The array to put the results
+       */    searchAfter(point, results) {
       // Check this node
       this.low >= point && (results.push(this), null !== this.left && this.left.searchAfter(point, results)), 
       // search the right side
       null !== this.right && this.right.searchAfter(point, results);
     }
     /**
-         * Invoke the callback on this element and both it's branches
-         * @param  {Function}  callback
-         */    traverse(callback) {
+       * Invoke the callback on this element and both it's branches
+       * @param  {Function}  callback
+       */    traverse(callback) {
       callback(this), null !== this.left && this.left.traverse(callback), null !== this.right && this.right.traverse(callback);
     }
     /**
-         * Update the height of the node
-         */    updateHeight() {
+       * Update the height of the node
+       */    updateHeight() {
       null !== this.left && null !== this.right ? this.height = Math.max(this.left.height, this.right.height) + 1 : null !== this.right ? this.height = this.right.height + 1 : null !== this.left ? this.height = this.left.height + 1 : this.height = 0;
     }
     /**
-         * Update the height of the node
-         */    updateMax() {
+       * Update the height of the node
+       */    updateMax() {
       this.max = this.high, null !== this.left && (this.max = Math.max(this.max, this.left.max)), 
       null !== this.right && (this.max = Math.max(this.max, this.right.max));
     }
     /**
-         * The balance is how the leafs are distributed on the node
-         * @return  Negative numbers are balanced to the right
-         */    getBalance() {
+       * The balance is how the leafs are distributed on the node
+       * @return  Negative numbers are balanced to the right
+       */    getBalance() {
       let balance = 0;
       return null !== this.left && null !== this.right ? balance = this.left.height - this.right.height : null !== this.left ? balance = this.left.height + 1 : null !== this.right && (balance = -(this.right.height + 1)), 
       balance;
     }
     /**
-         * @returns true if this node is the left child of its parent
-         */    isLeftChild() {
+       * @returns true if this node is the left child of its parent
+       */    isLeftChild() {
       return null !== this.parent && this.parent.left === this;
     }
     /**
-         * get/set the left node
-         */    get left() {
+       * get/set the left node
+       */    get left() {
       return this._left;
     }
     set left(node) {
       this._left = node, null !== node && (node.parent = this), this.updateHeight(), this.updateMax();
     }
     /**
-         * get/set the right node
-         */    get right() {
+       * get/set the right node
+       */    get right() {
       return this._right;
     }
     set right(node) {
@@ -9123,56 +9163,56 @@
       this.updateMax();
     }
     /**
-         * null out references.
-         */    dispose() {
+       * null out references.
+       */    dispose() {
       this.parent = null, this._left = null, this._right = null, this.event = null;
     }
   }
   /**
-     * A Timeline State. Provides the methods: `setStateAtTime("state", time)` and `getValueAtTime(time)`
-     * @param initial The initial state of the StateTimeline.  Defaults to `undefined`
-     * @internal
-     */  class StateTimeline extends Timeline {
+   * A Timeline State. Provides the methods: `setStateAtTime("state", time)` and `getValueAtTime(time)`
+   * @param initial The initial state of the StateTimeline.  Defaults to `undefined`
+   * @internal
+   */  class StateTimeline extends Timeline {
     constructor(initial = "stopped") {
       super(), this.name = "StateTimeline", this._initial = initial, this.setStateAtTime(this._initial, 0);
     }
     /**
-         * Returns the scheduled state scheduled before or at
-         * the given time.
-         * @param  time  The time to query.
-         * @return  The name of the state input in setStateAtTime.
-         */    getValueAtTime(time) {
+       * Returns the scheduled state scheduled before or at
+       * the given time.
+       * @param  time  The time to query.
+       * @return  The name of the state input in setStateAtTime.
+       */    getValueAtTime(time) {
       const event = this.get(time);
       return null !== event ? event.state : this._initial;
     }
     /**
-         * Add a state to the timeline.
-         * @param  state The name of the state to set.
-         * @param  time  The time to query.
-         * @param options Any additional options that are needed in the timeline.
-         */    setStateAtTime(state, time, options) {
+       * Add a state to the timeline.
+       * @param  state The name of the state to set.
+       * @param  time  The time to query.
+       * @param options Any additional options that are needed in the timeline.
+       */    setStateAtTime(state, time, options) {
       return assertRange(time, 0), this.add(Object.assign({}, options, {
         state: state,
         time: time
       })), this;
     }
     /**
-         * Return the event before the time with the given state
-         * @param  state The state to look for
-         * @param  time  When to check before
-         * @return  The event with the given state before the time
-         */    getLastState(state, time) {
+       * Return the event before the time with the given state
+       * @param  state The state to look for
+       * @param  time  When to check before
+       * @return  The event with the given state before the time
+       */    getLastState(state, time) {
       for (let i = this._search(time); i >= 0; i--) {
         const event = this._timeline[i];
         if (event.state === state) return event;
       }
     }
     /**
-         * Return the event after the time with the given state
-         * @param  state The state to look for
-         * @param  time  When to check from
-         * @return  The event with the given state after the time
-         */    getNextState(state, time) {
+       * Return the event after the time with the given state
+       * @param  state The state to look for
+       * @param  time  When to check from
+       * @return  The event with the given state after the time
+       */    getNextState(state, time) {
       // time = this.toSeconds(time);
       const index = this._search(time);
       if (-1 !== index) for (let i = index; i < this._timeline.length; i++) {
@@ -9182,20 +9222,20 @@
     }
   }
   /**
-     * A Param class just for computing ticks. Similar to the {@link Param} class,
-     * but offers conversion to BPM values as well as ability to compute tick
-     * duration and elapsed ticks
-     */  class TickParam extends Param {
+   * A Param class just for computing ticks. Similar to the {@link Param} class,
+   * but offers conversion to BPM values as well as ability to compute tick
+   * duration and elapsed ticks
+   */  class TickParam extends Param {
     constructor() {
       const options = optionsFromArguments(TickParam.getDefaults(), arguments, [ "value" ]);
       super(options), this.name = "TickParam", 
       /**
-             * The timeline which tracks all of the automations.
-             */
+           * The timeline which tracks all of the automations.
+           */
       this._events = new Timeline(1 / 0), 
       /**
-             * The internal holder for the multiplier value
-             */
+           * The internal holder for the multiplier value
+           */
       this._multiplier = 1, 
       // set the multiplier
       this._multiplier = options.multiplier, 
@@ -9263,11 +9303,11 @@
       return this;
     }
     /**
-         * Returns the tick value at the time. Takes into account
-         * any automation curves scheduled on the signal.
-         * @param  event The time to get the tick count at
-         * @return The number of ticks which have elapsed at the time given any automations.
-         */    _getTicksUntilEvent(event, time) {
+       * Returns the tick value at the time. Takes into account
+       * any automation curves scheduled on the signal.
+       * @param  event The time to get the tick count at
+       * @return The number of ticks which have elapsed at the time given any automations.
+       */    _getTicksUntilEvent(event, time) {
       if (null === event) event = {
         ticks: 0,
         time: 0,
@@ -9285,29 +9325,29 @@
       .5 * (time - event.time) * (val0 + val1) + event.ticks;
     }
     /**
-         * Returns the tick value at the time. Takes into account
-         * any automation curves scheduled on the signal.
-         * @param  time The time to get the tick count at
-         * @return The number of ticks which have elapsed at the time given any automations.
-         */    getTicksAtTime(time) {
+       * Returns the tick value at the time. Takes into account
+       * any automation curves scheduled on the signal.
+       * @param  time The time to get the tick count at
+       * @return The number of ticks which have elapsed at the time given any automations.
+       */    getTicksAtTime(time) {
       const computedTime = this.toSeconds(time);
       const event = this._events.get(computedTime);
       return Math.max(this._getTicksUntilEvent(event, computedTime), 0);
     }
     /**
-         * Return the elapsed time of the number of ticks from the given time
-         * @param ticks The number of ticks to calculate
-         * @param  time The time to get the next tick from
-         * @return The duration of the number of ticks from the given time in seconds
-         */    getDurationOfTicks(ticks, time) {
+       * Return the elapsed time of the number of ticks from the given time
+       * @param ticks The number of ticks to calculate
+       * @param  time The time to get the next tick from
+       * @return The duration of the number of ticks from the given time in seconds
+       */    getDurationOfTicks(ticks, time) {
       const computedTime = this.toSeconds(time);
       const currentTick = this.getTicksAtTime(time);
       return this.getTimeOfTick(currentTick + ticks) - computedTime;
     }
     /**
-         * Given a tick, returns the time that tick occurs at.
-         * @return The time that the tick occurs.
-         */    getTimeOfTick(tick) {
+       * Given a tick, returns the time that tick occurs at.
+       * @return The time that the tick occurs.
+       */    getTimeOfTick(tick) {
       const before = this._events.get(tick, "ticks");
       const after = this._events.getAfter(tick, "ticks");
       if (before && before.ticks === tick) return before.time;
@@ -9321,40 +9361,40 @@
       return before ? 0 === before.value ? 1 / 0 : before.time + (tick - before.ticks) / before.value : tick / this._initialValue;
     }
     /**
-         * Convert some number of ticks their the duration in seconds accounting
-         * for any automation curves starting at the given time.
-         * @param  ticks The number of ticks to convert to seconds.
-         * @param  when  When along the automation timeline to convert the ticks.
-         * @return The duration in seconds of the ticks.
-         */    ticksToTime(ticks, when) {
+       * Convert some number of ticks their the duration in seconds accounting
+       * for any automation curves starting at the given time.
+       * @param  ticks The number of ticks to convert to seconds.
+       * @param  when  When along the automation timeline to convert the ticks.
+       * @return The duration in seconds of the ticks.
+       */    ticksToTime(ticks, when) {
       return this.getDurationOfTicks(ticks, when);
     }
     /**
-         * The inverse of {@link ticksToTime}. Convert a duration in
-         * seconds to the corresponding number of ticks accounting for any
-         * automation curves starting at the given time.
-         * @param  duration The time interval to convert to ticks.
-         * @param  when When along the automation timeline to convert the ticks.
-         * @return The duration in ticks.
-         */    timeToTicks(duration, when) {
+       * The inverse of {@link ticksToTime}. Convert a duration in
+       * seconds to the corresponding number of ticks accounting for any
+       * automation curves starting at the given time.
+       * @param  duration The time interval to convert to ticks.
+       * @param  when When along the automation timeline to convert the ticks.
+       * @return The duration in ticks.
+       */    timeToTicks(duration, when) {
       const computedTime = this.toSeconds(when);
       const computedDuration = this.toSeconds(duration);
       const startTicks = this.getTicksAtTime(computedTime);
       return this.getTicksAtTime(computedTime + computedDuration) - startTicks;
     }
     /**
-         * Convert from the type when the unit value is BPM
-         */    _fromType(val) {
+       * Convert from the type when the unit value is BPM
+       */    _fromType(val) {
       return "bpm" === this.units && this.multiplier ? 1 / (60 / val / this.multiplier) : super._fromType(val);
     }
     /**
-         * Special case of type conversion where the units === "bpm"
-         */    _toType(val) {
+       * Special case of type conversion where the units === "bpm"
+       */    _toType(val) {
       return "bpm" === this.units && this.multiplier ? val / this.multiplier * 60 : super._toType(val);
     }
     /**
-         * A multiplier on the bpm value. Useful for setting a PPQ relative to the base frequency value.
-         */    get multiplier() {
+       * A multiplier on the bpm value. Useful for setting a PPQ relative to the base frequency value.
+       */    get multiplier() {
       return this._multiplier;
     }
     set multiplier(m) {
@@ -9365,14 +9405,14 @@
     }
   }
   /**
-     * TickSignal extends Tone.Signal, but adds the capability
-     * to calculate the number of elapsed ticks. exponential and target curves
-     * are approximated with multiple linear ramps.
-     *
-     * Thank you Bruno Dias, H. Sofia Pinto, and David M. Matos,
-     * for your [WAC paper](https://smartech.gatech.edu/bitstream/handle/1853/54588/WAC2016-49.pdf)
-     * describing integrating timing functions for tempo calculations.
-     */  class TickSignal extends Signal {
+   * TickSignal extends Tone.Signal, but adds the capability
+   * to calculate the number of elapsed ticks. exponential and target curves
+   * are approximated with multiple linear ramps.
+   *
+   * Thank you Bruno Dias, H. Sofia Pinto, and David M. Matos,
+   * for your [WAC paper](https://smartech.gatech.edu/bitstream/handle/1853/54588/WAC2016-49.pdf)
+   * describing integrating timing functions for tempo calculations.
+   */  class TickSignal extends Signal {
     constructor() {
       const options = optionsFromArguments(TickSignal.getDefaults(), arguments, [ "value" ]);
       super(options), this.name = "TickSignal", this.input = this._param = new TickParam({
@@ -9407,8 +9447,8 @@
       return this._param.getTicksAtTime(time);
     }
     /**
-         * A multiplier on the bpm value. Useful for setting a PPQ relative to the base frequency value.
-         */    get multiplier() {
+       * A multiplier on the bpm value. Useful for setting a PPQ relative to the base frequency value.
+       */    get multiplier() {
       return this._param.multiplier;
     }
     set multiplier(m) {
@@ -9419,26 +9459,26 @@
     }
   }
   /**
-     * Uses [TickSignal](TickSignal) to track elapsed ticks with complex automation curves.
-     */  class TickSource extends ToneWithContext {
+   * Uses [TickSignal](TickSignal) to track elapsed ticks with complex automation curves.
+   */  class TickSource extends ToneWithContext {
     constructor() {
       const options = optionsFromArguments(TickSource.getDefaults(), arguments, [ "frequency" ]);
       super(options), this.name = "TickSource", 
       /**
-             * The state timeline
-             */
+           * The state timeline
+           */
       this._state = new StateTimeline, 
       /**
-             * The offset values of the ticks
-             */
+           * The offset values of the ticks
+           */
       this._tickOffset = new Timeline, 
       /**
-             * Memoized values of getTicksAtTime at events with state other than "started"
-             */
+           * Memoized values of getTicksAtTime at events with state other than "started"
+           */
       this._ticksAtTime = new Timeline, 
       /**
-             * Memoized values of getSecondsAtTime at events with state other than "started"
-             */
+           * Memoized values of getSecondsAtTime at events with state other than "started"
+           */
       this._secondsAtTime = new Timeline, this.frequency = new TickSignal({
         context: this.context,
         units: options.units,
@@ -9456,25 +9496,25 @@
       }, ToneWithContext.getDefaults());
     }
     /**
-         * Returns the playback state of the source, either "started", "stopped" or "paused".
-         */    get state() {
+       * Returns the playback state of the source, either "started", "stopped" or "paused".
+       */    get state() {
       return this.getStateAtTime(this.now());
     }
     /**
-         * Start the clock at the given time. Optionally pass in an offset
-         * of where to start the tick counter from.
-         * @param  time    The time the clock should start
-         * @param offset The number of ticks to start the source at
-         */    start(time, offset) {
+       * Start the clock at the given time. Optionally pass in an offset
+       * of where to start the tick counter from.
+       * @param  time    The time the clock should start
+       * @param offset The number of ticks to start the source at
+       */    start(time, offset) {
       const computedTime = this.toSeconds(time);
       return "started" !== this._state.getValueAtTime(computedTime) && (this._state.setStateAtTime("started", computedTime), 
       isDefined(offset) && this.setTicksAtTime(offset, computedTime), this._ticksAtTime.cancel(computedTime), 
       this._secondsAtTime.cancel(computedTime)), this;
     }
     /**
-         * Stop the clock. Stopping the clock resets the tick counter to 0.
-         * @param time The time when the clock should stop.
-         */    stop(time) {
+       * Stop the clock. Stopping the clock resets the tick counter to 0.
+       * @param time The time when the clock should stop.
+       */    stop(time) {
       const computedTime = this.toSeconds(time);
       // cancel the previous stop
             if ("stopped" === this._state.getValueAtTime(computedTime)) {
@@ -9486,26 +9526,26 @@
       this;
     }
     /**
-         * Pause the clock. Pausing does not reset the tick counter.
-         * @param time The time when the clock should stop.
-         */    pause(time) {
+       * Pause the clock. Pausing does not reset the tick counter.
+       * @param time The time when the clock should stop.
+       */    pause(time) {
       const computedTime = this.toSeconds(time);
       return "started" === this._state.getValueAtTime(computedTime) && (this._state.setStateAtTime("paused", computedTime), 
       this._ticksAtTime.cancel(computedTime), this._secondsAtTime.cancel(computedTime)), 
       this;
     }
     /**
-         * Cancel start/stop/pause and setTickAtTime events scheduled after the given time.
-         * @param time When to clear the events after
-         */    cancel(time) {
+       * Cancel start/stop/pause and setTickAtTime events scheduled after the given time.
+       * @param time When to clear the events after
+       */    cancel(time) {
       return time = this.toSeconds(time), this._state.cancel(time), this._tickOffset.cancel(time), 
       this._ticksAtTime.cancel(time), this._secondsAtTime.cancel(time), this;
     }
     /**
-         * Get the elapsed ticks at the given time
-         * @param  time  When to get the tick value
-         * @return The number of ticks
-         */    getTicksAtTime(time) {
+       * Get the elapsed ticks at the given time
+       * @param  time  When to get the tick value
+       * @return The number of ticks
+       */    getTicksAtTime(time) {
       const computedTime = this.toSeconds(time);
       const stopEvent = this._state.getLastState("stopped", computedTime);
       // get previously memoized ticks if available
@@ -9541,18 +9581,18 @@
       eventToMemoize && this._ticksAtTime.add(eventToMemoize), elapsedTicks;
     }
     /**
-         * The number of times the callback was invoked. Starts counting at 0
-         * and increments after the callback was invoked. Returns -1 when stopped.
-         */    get ticks() {
+       * The number of times the callback was invoked. Starts counting at 0
+       * and increments after the callback was invoked. Returns -1 when stopped.
+       */    get ticks() {
       return this.getTicksAtTime(this.now());
     }
     set ticks(t) {
       this.setTicksAtTime(t, this.now());
     }
     /**
-         * The time since ticks=0 that the TickSource has been running. Accounts
-         * for tempo curves
-         */    get seconds() {
+       * The time since ticks=0 that the TickSource has been running. Accounts
+       * for tempo curves
+       */    get seconds() {
       return this.getSecondsAtTime(this.now());
     }
     set seconds(s) {
@@ -9561,10 +9601,10 @@
       this.setTicksAtTime(ticks, now);
     }
     /**
-         * Return the elapsed seconds at the given time.
-         * @param  time  When to get the elapsed seconds
-         * @return  The number of elapsed seconds
-         */    getSecondsAtTime(time) {
+       * Return the elapsed seconds at the given time.
+       * @param  time  When to get the elapsed seconds
+       * @return  The number of elapsed seconds
+       */    getSecondsAtTime(time) {
       time = this.toSeconds(time);
       const stopEvent = this._state.getLastState("stopped", time);
       // this event allows forEachBetween to iterate until the current time
@@ -9600,10 +9640,10 @@
       eventToMemoize && this._secondsAtTime.add(eventToMemoize), elapsedSeconds;
     }
     /**
-         * Set the clock's ticks at the given time.
-         * @param  ticks The tick value to set
-         * @param  time  When to set the tick value
-         */    setTicksAtTime(ticks, time) {
+       * Set the clock's ticks at the given time.
+       * @param  ticks The tick value to set
+       * @param  time  When to set the tick value
+       */    setTicksAtTime(ticks, time) {
       return time = this.toSeconds(time), this._tickOffset.cancel(time), this._tickOffset.add({
         seconds: this.frequency.getDurationOfTicks(ticks, time),
         ticks: ticks,
@@ -9611,19 +9651,19 @@
       }), this._ticksAtTime.cancel(time), this._secondsAtTime.cancel(time), this;
     }
     /**
-         * Returns the scheduled state at the given time.
-         * @param  time  The time to query.
-         */    getStateAtTime(time) {
+       * Returns the scheduled state at the given time.
+       * @param  time  The time to query.
+       */    getStateAtTime(time) {
       return time = this.toSeconds(time), this._state.getValueAtTime(time);
     }
     /**
-         * Get the time of the given tick. The second argument
-         * is when to test before. Since ticks can be set (with setTicksAtTime)
-         * there may be multiple times for a given tick value.
-         * @param  tick The tick number.
-         * @param  before When to measure the tick value from.
-         * @return The time of the tick
-         */    getTimeOfTick(tick, before = this.now()) {
+       * Get the time of the given tick. The second argument
+       * is when to test before. Since ticks can be set (with setTicksAtTime)
+       * there may be multiple times for a given tick value.
+       * @param  tick The tick number.
+       * @param  before When to measure the tick value from.
+       * @return The time of the tick
+       */    getTimeOfTick(tick, before = this.now()) {
       const offset = this._tickOffset.get(before);
       const event = this._state.get(before);
       const startTime = Math.max(offset.time, event.time);
@@ -9631,12 +9671,12 @@
       return this.frequency.getTimeOfTick(absoluteTicks);
     }
     /**
-         * Invoke the callback event at all scheduled ticks between the
-         * start time and the end time
-         * @param  startTime  The beginning of the search range
-         * @param  endTime    The end of the search range
-         * @param  callback   The callback to invoke with each tick
-         */    forEachTickBetween(startTime, endTime, callback) {
+       * Invoke the callback event at all scheduled ticks between the
+       * start time and the end time
+       * @param  startTime  The beginning of the search range
+       * @param  endTime    The end of the search range
+       * @param  callback   The callback to invoke with each tick
+       */    forEachTickBetween(startTime, endTime, callback) {
       // only iterate through the sections where it is "started"
       let lastStateEvent = this._state.get(startTime);
       this._state.forEachBetween(startTime, endTime, (event => {
@@ -9667,46 +9707,46 @@
       return this;
     }
     /**
-         * Clean up
-         */    dispose() {
+       * Clean up
+       */    dispose() {
       return super.dispose(), this._state.dispose(), this._tickOffset.dispose(), this._ticksAtTime.dispose(), 
       this._secondsAtTime.dispose(), this.frequency.dispose(), this;
     }
   }
   /**
-     * A sample accurate clock which provides a callback at the given rate.
-     * While the callback is not sample-accurate (it is still susceptible to
-     * loose JS timing), the time passed in as the argument to the callback
-     * is precise. For most applications, it is better to use Tone.Transport
-     * instead of the Clock by itself since you can synchronize multiple callbacks.
-     * @example
-     * // the callback will be invoked approximately once a second
-     * // and will print the time exactly once a second apart.
-     * const clock = new Tone.Clock(time => {
-     * 	console.log(time);
-     * }, 1);
-     * clock.start();
-     * @category Core
-     */  class Clock extends ToneWithContext {
+   * A sample accurate clock which provides a callback at the given rate.
+   * While the callback is not sample-accurate (it is still susceptible to
+   * loose JS timing), the time passed in as the argument to the callback
+   * is precise. For most applications, it is better to use Tone.Transport
+   * instead of the Clock by itself since you can synchronize multiple callbacks.
+   * @example
+   * // the callback will be invoked approximately once a second
+   * // and will print the time exactly once a second apart.
+   * const clock = new Tone.Clock(time => {
+   * 	console.log(time);
+   * }, 1);
+   * clock.start();
+   * @category Core
+   */  class Clock extends ToneWithContext {
     constructor() {
       const options = optionsFromArguments(Clock.getDefaults(), arguments, [ "callback", "frequency" ]);
       super(options), this.name = "Clock", 
       /**
-             * The callback function to invoke at the scheduled tick.
-             */
+           * The callback function to invoke at the scheduled tick.
+           */
       this.callback = noOp, 
       /**
-             * The last time the loop callback was invoked
-             */
+           * The last time the loop callback was invoked
+           */
       this._lastUpdate = 0, 
       /**
-             * Keep track of the playback state
-             */
+           * Keep track of the playback state
+           */
       this._state = new StateTimeline("stopped"), 
       /**
-             * Context bound reference to the _loop method
-             * This is necessary to remove the event in the end.
-             */
+           * Context bound reference to the _loop method
+           * This is necessary to remove the event in the end.
+           */
       this._boundLoop = this._loop.bind(this), this.callback = options.callback, this._tickSource = new TickSource({
         context: this.context,
         frequency: options.frequency,
@@ -9725,16 +9765,16 @@
       });
     }
     /**
-         * Returns the playback state of the source, either "started", "stopped" or "paused".
-         */    get state() {
+       * Returns the playback state of the source, either "started", "stopped" or "paused".
+       */    get state() {
       return this._state.getValueAtTime(this.now());
     }
     /**
-         * Start the clock at the given time. Optionally pass in an offset
-         * of where to start the tick counter from.
-         * @param  time    The time the clock should start
-         * @param offset  Where the tick counter starts counting from.
-         */    start(time, offset) {
+       * Start the clock at the given time. Optionally pass in an offset
+       * of where to start the tick counter from.
+       * @param  time    The time the clock should start
+       * @param offset  Where the tick counter starts counting from.
+       */    start(time, offset) {
       // make sure the context is running
       assertContextRunning(this.context);
       // start the loop
@@ -9744,89 +9784,89 @@
       this;
     }
     /**
-         * Stop the clock. Stopping the clock resets the tick counter to 0.
-         * @param time The time when the clock should stop.
-         * @example
-         * const clock = new Tone.Clock(time => {
-         * 	console.log(time);
-         * }, 1);
-         * clock.start();
-         * // stop the clock after 10 seconds
-         * clock.stop("+10");
-         */    stop(time) {
+       * Stop the clock. Stopping the clock resets the tick counter to 0.
+       * @param time The time when the clock should stop.
+       * @example
+       * const clock = new Tone.Clock(time => {
+       * 	console.log(time);
+       * }, 1);
+       * clock.start();
+       * // stop the clock after 10 seconds
+       * clock.stop("+10");
+       */    stop(time) {
       const computedTime = this.toSeconds(time);
       return this.log("stop", computedTime), this._state.cancel(computedTime), this._state.setStateAtTime("stopped", computedTime), 
       this._tickSource.stop(computedTime), computedTime < this._lastUpdate && this.emit("stop", computedTime), 
       this;
     }
     /**
-         * Pause the clock. Pausing does not reset the tick counter.
-         * @param time The time when the clock should stop.
-         */    pause(time) {
+       * Pause the clock. Pausing does not reset the tick counter.
+       * @param time The time when the clock should stop.
+       */    pause(time) {
       const computedTime = this.toSeconds(time);
       return "started" === this._state.getValueAtTime(computedTime) && (this._state.setStateAtTime("paused", computedTime), 
       this._tickSource.pause(computedTime), computedTime < this._lastUpdate && this.emit("pause", computedTime)), 
       this;
     }
     /**
-         * The number of times the callback was invoked. Starts counting at 0
-         * and increments after the callback was invoked.
-         */    get ticks() {
+       * The number of times the callback was invoked. Starts counting at 0
+       * and increments after the callback was invoked.
+       */    get ticks() {
       return Math.ceil(this.getTicksAtTime(this.now()));
     }
     set ticks(t) {
       this._tickSource.ticks = t;
     }
     /**
-         * The time since ticks=0 that the Clock has been running. Accounts for tempo curves
-         */    get seconds() {
+       * The time since ticks=0 that the Clock has been running. Accounts for tempo curves
+       */    get seconds() {
       return this._tickSource.seconds;
     }
     set seconds(s) {
       this._tickSource.seconds = s;
     }
     /**
-         * Return the elapsed seconds at the given time.
-         * @param  time  When to get the elapsed seconds
-         * @return  The number of elapsed seconds
-         */    getSecondsAtTime(time) {
+       * Return the elapsed seconds at the given time.
+       * @param  time  When to get the elapsed seconds
+       * @return  The number of elapsed seconds
+       */    getSecondsAtTime(time) {
       return this._tickSource.getSecondsAtTime(time);
     }
     /**
-         * Set the clock's ticks at the given time.
-         * @param  ticks The tick value to set
-         * @param  time  When to set the tick value
-         */    setTicksAtTime(ticks, time) {
+       * Set the clock's ticks at the given time.
+       * @param  ticks The tick value to set
+       * @param  time  When to set the tick value
+       */    setTicksAtTime(ticks, time) {
       return this._tickSource.setTicksAtTime(ticks, time), this;
     }
     /**
-         * Get the time of the given tick. The second argument
-         * is when to test before. Since ticks can be set (with setTicksAtTime)
-         * there may be multiple times for a given tick value.
-         * @param  tick The tick number.
-         * @param  before When to measure the tick value from.
-         * @return The time of the tick
-         */    getTimeOfTick(tick, before = this.now()) {
+       * Get the time of the given tick. The second argument
+       * is when to test before. Since ticks can be set (with setTicksAtTime)
+       * there may be multiple times for a given tick value.
+       * @param  tick The tick number.
+       * @param  before When to measure the tick value from.
+       * @return The time of the tick
+       */    getTimeOfTick(tick, before = this.now()) {
       return this._tickSource.getTimeOfTick(tick, before);
     }
     /**
-         * Get the clock's ticks at the given time.
-         * @param  time  When to get the tick value
-         * @return The tick value at the given time.
-         */    getTicksAtTime(time) {
+       * Get the clock's ticks at the given time.
+       * @param  time  When to get the tick value
+       * @return The tick value at the given time.
+       */    getTicksAtTime(time) {
       return this._tickSource.getTicksAtTime(time);
     }
     /**
-         * Get the time of the next tick
-         * @param  offset The tick number.
-         */    nextTickTime(offset, when) {
+       * Get the time of the next tick
+       * @param  offset The tick number.
+       */    nextTickTime(offset, when) {
       const computedTime = this.toSeconds(when);
       const currentTick = this.getTicksAtTime(computedTime);
       return this._tickSource.getTimeOfTick(currentTick + offset, computedTime);
     }
     /**
-         * The scheduling loop.
-         */    _loop() {
+       * The scheduling loop.
+       */    _loop() {
       const startTime = this._lastUpdate;
       const endTime = this.now();
       this._lastUpdate = endTime, this.log("loop", startTime, endTime), startTime !== endTime && (
@@ -9852,43 +9892,43 @@
       })));
     }
     /**
-         * Returns the scheduled state at the given time.
-         * @param  time  The time to query.
-         * @return  The name of the state input in setStateAtTime.
-         * @example
-         * const clock = new Tone.Clock();
-         * clock.start("+0.1");
-         * clock.getStateAtTime("+0.1"); // returns "started"
-         */    getStateAtTime(time) {
+       * Returns the scheduled state at the given time.
+       * @param  time  The time to query.
+       * @return  The name of the state input in setStateAtTime.
+       * @example
+       * const clock = new Tone.Clock();
+       * clock.start("+0.1");
+       * clock.getStateAtTime("+0.1"); // returns "started"
+       */    getStateAtTime(time) {
       const computedTime = this.toSeconds(time);
       return this._state.getValueAtTime(computedTime);
     }
     /**
-         * Clean up
-         */    dispose() {
+       * Clean up
+       */    dispose() {
       return super.dispose(), this.context.off("tick", this._boundLoop), this._tickSource.dispose(), 
       this._state.dispose(), this;
     }
   }
   Emitter.mixin(Clock);
   /**
-     * TransportEvent is an internal class used by {@link TransportClass}
-     * to schedule events. Do no invoke this class directly, it is
-     * handled from within Tone.Transport.
-     */
+   * TransportEvent is an internal class used by {@link TransportClass}
+   * to schedule events. Do no invoke this class directly, it is
+   * handled from within Tone.Transport.
+   */
   class TransportEvent {
     /**
-         * @param transport The transport object which the event belongs to
-         */
+       * @param transport The transport object which the event belongs to
+       */
     constructor(transport, opts) {
       /**
-             * The unique id of the event
-             */
+           * The unique id of the event
+           */
       this.id = TransportEvent._eventId++, 
       /**
-             * The remaining value between the passed in time, and Math.floor(time).
-             * This value is later added back when scheduling to get sub-tick precision.
-             */
+           * The remaining value between the passed in time, and Math.floor(time).
+           * This value is later added back when scheduling to get sub-tick precision.
+           */
       this._remainderTime = 0;
       const options = Object.assign(TransportEvent.getDefaults(), opts);
       this.transport = transport, this.callback = options.callback, this._once = options.once, 
@@ -9902,53 +9942,53 @@
       };
     }
     /**
-         * Get the time and remainder time.
-         */    get floatTime() {
+       * Get the time and remainder time.
+       */    get floatTime() {
       return this.time + this._remainderTime;
     }
     /**
-         * Invoke the event callback.
-         * @param  time  The AudioContext time in seconds of the event
-         */    invoke(time) {
+       * Invoke the event callback.
+       * @param  time  The AudioContext time in seconds of the event
+       */    invoke(time) {
       if (this.callback) {
         const tickDuration = this.transport.bpm.getDurationOfTicks(1, time);
         this.callback(time + this._remainderTime * tickDuration), this._once && this.transport.clear(this.id);
       }
     }
     /**
-         * Clean up
-         */    dispose() {
+       * Clean up
+       */    dispose() {
       return this.callback = void 0, this;
     }
   }
   /**
-     * Current ID counter
-     */  TransportEvent._eventId = 0;
+   * Current ID counter
+   */  TransportEvent._eventId = 0;
   /**
-     * TransportRepeatEvent is an internal class used by Tone.Transport
-     * to schedule repeat events. This class should not be instantiated directly.
-     */
+   * TransportRepeatEvent is an internal class used by Tone.Transport
+   * to schedule repeat events. This class should not be instantiated directly.
+   */
   class TransportRepeatEvent extends TransportEvent {
     /**
-         * @param transport The transport object which the event belongs to
-         */
+       * @param transport The transport object which the event belongs to
+       */
     constructor(transport, opts) {
       super(transport, opts), 
       /**
-             * The ID of the current timeline event
-             */
+           * The ID of the current timeline event
+           */
       this._currentId = -1, 
       /**
-             * The ID of the next timeline event
-             */
+           * The ID of the next timeline event
+           */
       this._nextId = -1, 
       /**
-             * The time of the next event
-             */
+           * The time of the next event
+           */
       this._nextTick = this.time, 
       /**
-             * a reference to the bound start method
-             */
+           * a reference to the bound start method
+           */
       this._boundRestart = this._restart.bind(this);
       const options = Object.assign(TransportRepeatEvent.getDefaults(), opts);
       this.duration = options.duration, this._interval = options.interval, this._nextTick = options.time, 
@@ -9964,23 +10004,23 @@
       });
     }
     /**
-         * Invoke the callback. Returns the tick time which
-         * the next event should be scheduled at.
-         * @param  time  The AudioContext time in seconds of the event
-         */    invoke(time) {
+       * Invoke the callback. Returns the tick time which
+       * the next event should be scheduled at.
+       * @param  time  The AudioContext time in seconds of the event
+       */    invoke(time) {
       // create more events if necessary
       this._createEvents(time), 
       // call the super class
       super.invoke(time);
     }
     /**
-         * Create an event on the transport on the nextTick
-         */    _createEvent() {
+       * Create an event on the transport on the nextTick
+       */    _createEvent() {
       return LT(this._nextTick, this.floatTime + this.duration) ? this.transport.scheduleOnce(this.invoke.bind(this), new TicksClass(this.context, this._nextTick).toSeconds()) : -1;
     }
     /**
-         * Push more events onto the timeline to keep up with the position of the timeline
-         */    _createEvents(time) {
+       * Push more events onto the timeline to keep up with the position of the timeline
+       */    _createEvents(time) {
       // schedule the next event
       // const ticks = this.transport.getTicksAtTime(time);
       // if the next tick is within the bounds set by "duration"
@@ -9988,8 +10028,8 @@
       this._currentId = this._nextId, this._nextId = this.transport.scheduleOnce(this.invoke.bind(this), new TicksClass(this.context, this._nextTick).toSeconds()));
     }
     /**
-         * Re-compute the events when the transport time has changed from a start/ticks/loopStart event
-         */    _restart(time) {
+       * Re-compute the events when the transport time has changed from a start/ticks/loopStart event
+       */    _restart(time) {
       this.transport.clear(this._currentId), this.transport.clear(this._nextId), 
       // start at the first event
       this._nextTick = this.floatTime;
@@ -10000,35 +10040,35 @@
       this._currentId = this._createEvent(), this._nextTick += this._interval, this._nextId = this._createEvent();
     }
     /**
-         * Clean up
-         */    dispose() {
+       * Clean up
+       */    dispose() {
       return super.dispose(), this.transport.clear(this._currentId), this.transport.clear(this._nextId), 
       this.transport.off("start", this._boundRestart), this.transport.off("loopStart", this._boundRestart), 
       this.transport.off("ticks", this._boundRestart), this;
     }
   }
   /**
-     * Transport for timing musical events.
-     * Supports tempo curves and time changes. Unlike browser-based timing (setInterval, requestAnimationFrame)
-     * Transport timing events pass in the exact time of the scheduled event
-     * in the argument of the callback function. Pass that time value to the object
-     * you're scheduling. <br><br>
-     * A single transport is created for you when the library is initialized.
-     * <br><br>
-     * The transport emits the events: "start", "stop", "pause", and "loop" which are
-     * called with the time of that event as the argument.
-     *
-     * @example
-     * const osc = new Tone.Oscillator().toDestination();
-     * // repeated event every 8th note
-     * Tone.getTransport().scheduleRepeat((time) => {
-     * 	// use the callback time to schedule events
-     * 	osc.start(time).stop(time + 0.1);
-     * }, "8n");
-     * // transport must be started before it starts invoking events
-     * Tone.getTransport().start();
-     * @category Core
-     */  class TransportClass extends ToneWithContext {
+   * Transport for timing musical events.
+   * Supports tempo curves and time changes. Unlike browser-based timing (setInterval, requestAnimationFrame)
+   * Transport timing events pass in the exact time of the scheduled event
+   * in the argument of the callback function. Pass that time value to the object
+   * you're scheduling. <br><br>
+   * A single transport is created for you when the library is initialized.
+   * <br><br>
+   * The transport emits the events: "start", "stop", "pause", and "loop" which are
+   * called with the time of that event as the argument.
+   *
+   * @example
+   * const osc = new Tone.Oscillator().toDestination();
+   * // repeated event every 8th note
+   * Tone.getTransport().scheduleRepeat((time) => {
+   * 	// use the callback time to schedule events
+   * 	osc.start(time).stop(time + 0.1);
+   * }, "8n");
+   * // transport must be started before it starts invoking events
+   * Tone.getTransport().start();
+   * @category Core
+   */  class TransportClass extends ToneWithContext {
     constructor() {
       const options = optionsFromArguments(TransportClass.getDefaults(), arguments);
       super(options), this.name = "Transport", 
@@ -10036,39 +10076,39 @@
       // 	LOOPING
       //-------------------------------------
       /**
-             * If the transport loops or not.
-             */
+           * If the transport loops or not.
+           */
       this._loop = new TimelineValue(!1), 
       /**
-             * The loop start position in ticks
-             */
+           * The loop start position in ticks
+           */
       this._loopStart = 0, 
       /**
-             * The loop end position in ticks
-             */
+           * The loop end position in ticks
+           */
       this._loopEnd = 0, 
       //-------------------------------------
       // 	TIMELINE EVENTS
       //-------------------------------------
       /**
-             * All the events in an object to keep track by ID
-             */
+           * All the events in an object to keep track by ID
+           */
       this._scheduledEvents = {}, 
       /**
-             * The scheduled events.
-             */
+           * The scheduled events.
+           */
       this._timeline = new Timeline, 
       /**
-             * Repeated events
-             */
+           * Repeated events
+           */
       this._repeatedEvents = new IntervalTimeline, 
       /**
-             * All of the synced Signals
-             */
+           * All of the synced Signals
+           */
       this._syncedSignals = [], 
       /**
-             * The swing amount
-             */
+           * The swing amount
+           */
       this._swingAmount = 0, 
       // CLOCK/TEMPO
       this._ppq = options.ppq, this._clock = new Clock({
@@ -10096,9 +10136,9 @@
     // 	TICKS
     //-------------------------------------
     /**
-         * called on every tick
-         * @param  tickTime clock relative tick time
-         */
+       * called on every tick
+       * @param  tickTime clock relative tick time
+       */
     _processTick(tickTime, ticks) {
       // handle swing
       if (
@@ -10121,17 +10161,17 @@
     // 	SCHEDULABLE EVENTS
     //-------------------------------------
     /**
-         * Schedule an event along the timeline.
-         * @param callback The callback to be invoked at the time.
-         * @param time The time to invoke the callback at.
-         * @return The id of the event which can be used for canceling the event.
-         * @example
-         * // schedule an event on the 16th measure
-         * Tone.getTransport().schedule((time) => {
-         * 	// invoked on measure 16
-         * 	console.log("measure 16!");
-         * }, "16:0:0");
-         */
+       * Schedule an event along the timeline.
+       * @param callback The callback to be invoked at the time.
+       * @param time The time to invoke the callback at.
+       * @return The id of the event which can be used for canceling the event.
+       * @example
+       * // schedule an event on the 16th measure
+       * Tone.getTransport().schedule((time) => {
+       * 	// invoked on measure 16
+       * 	console.log("measure 16!");
+       * }, "16:0:0");
+       */
     schedule(callback, time) {
       const event = new TransportEvent(this, {
         callback: callback,
@@ -10140,21 +10180,21 @@
       return this._addEvent(event, this._timeline);
     }
     /**
-         * Schedule a repeated event along the timeline. The event will fire
-         * at the `interval` starting at the `startTime` and for the specified
-         * `duration`.
-         * @param  callback   The callback to invoke.
-         * @param  interval   The duration between successive callbacks. Must be a positive number.
-         * @param  startTime  When along the timeline the events should start being invoked.
-         * @param  duration How long the event should repeat.
-         * @return  The ID of the scheduled event. Use this to cancel the event.
-         * @example
-         * const osc = new Tone.Oscillator().toDestination().start();
-         * // a callback invoked every eighth note after the first measure
-         * Tone.getTransport().scheduleRepeat((time) => {
-         * 	osc.start(time).stop(time + 0.1);
-         * }, "8n", "1m");
-         */    scheduleRepeat(callback, interval, startTime, duration = 1 / 0) {
+       * Schedule a repeated event along the timeline. The event will fire
+       * at the `interval` starting at the `startTime` and for the specified
+       * `duration`.
+       * @param  callback   The callback to invoke.
+       * @param  interval   The duration between successive callbacks. Must be a positive number.
+       * @param  startTime  When along the timeline the events should start being invoked.
+       * @param  duration How long the event should repeat.
+       * @return  The ID of the scheduled event. Use this to cancel the event.
+       * @example
+       * const osc = new Tone.Oscillator().toDestination().start();
+       * // a callback invoked every eighth note after the first measure
+       * Tone.getTransport().scheduleRepeat((time) => {
+       * 	osc.start(time).stop(time + 0.1);
+       * }, "8n", "1m");
+       */    scheduleRepeat(callback, interval, startTime, duration = 1 / 0) {
       const event = new TransportRepeatEvent(this, {
         callback: callback,
         duration: new TimeClass(this.context, duration).toTicks(),
@@ -10166,11 +10206,11 @@
             return this._addEvent(event, this._repeatedEvents);
     }
     /**
-         * Schedule an event that will be removed after it is invoked.
-         * @param callback The callback to invoke once.
-         * @param time The time the callback should be invoked.
-         * @returns The ID of the scheduled event.
-         */    scheduleOnce(callback, time) {
+       * Schedule an event that will be removed after it is invoked.
+       * @param callback The callback to invoke once.
+       * @param time The time the callback should be invoked.
+       * @returns The ID of the scheduled event.
+       */    scheduleOnce(callback, time) {
       const event = new TransportEvent(this, {
         callback: callback,
         once: !0,
@@ -10179,9 +10219,9 @@
       return this._addEvent(event, this._timeline);
     }
     /**
-         * Clear the passed in event id from the timeline
-         * @param eventId The id of the event.
-         */    clear(eventId) {
+       * Clear the passed in event id from the timeline
+       * @param eventId The id of the event.
+       */    clear(eventId) {
       if (this._scheduledEvents.hasOwnProperty(eventId)) {
         const item = this._scheduledEvents[eventId.toString()];
         item.timeline.remove(item.event), item.event.dispose(), delete this._scheduledEvents[eventId.toString()];
@@ -10189,21 +10229,21 @@
       return this;
     }
     /**
-         * Add an event to the correct timeline. Keep track of the
-         * timeline it was added to.
-         * @returns the event id which was just added
-         */    _addEvent(event, timeline) {
+       * Add an event to the correct timeline. Keep track of the
+       * timeline it was added to.
+       * @returns the event id which was just added
+       */    _addEvent(event, timeline) {
       return this._scheduledEvents[event.id.toString()] = {
         event: event,
         timeline: timeline
       }, timeline.add(event), event.id;
     }
     /**
-         * Remove scheduled events from the timeline after
-         * the given time. Repeated events will be removed
-         * if their startTime is after the given time
-         * @param after Clear all events after this time.
-         */    cancel(after = 0) {
+       * Remove scheduled events from the timeline after
+       * the given time. Repeated events will be removed
+       * if their startTime is after the given time
+       * @param after Clear all events after this time.
+       */    cancel(after = 0) {
       const computedAfter = this.toTicks(after);
       return this._timeline.forEachFrom(computedAfter, (event => this.clear(event.id))), 
       this._repeatedEvents.forEachFrom(computedAfter, (event => this.clear(event.id))), 
@@ -10213,8 +10253,8 @@
     // 	START/STOP/PAUSE
     //-------------------------------------
     /**
-         * Bind start/stop/pause events from the clock and emit them.
-         */
+       * Bind start/stop/pause events from the clock and emit them.
+       */
     _bindClockEvents() {
       this._clock.on("start", ((time, offset) => {
         offset = new TicksClass(this.context, offset).toSeconds(), this.emit("start", time, offset);
@@ -10225,18 +10265,18 @@
       }));
     }
     /**
-         * Returns the playback state of the source, either "started", "stopped", or "paused"
-         */    get state() {
+       * Returns the playback state of the source, either "started", "stopped", or "paused"
+       */    get state() {
       return this._clock.getStateAtTime(this.now());
     }
     /**
-         * Start the transport and all sources synced to the transport.
-         * @param  time The time when the transport should start.
-         * @param  offset The timeline offset to start the transport.
-         * @example
-         * // start the transport in one second starting at beginning of the 5th measure.
-         * Tone.getTransport().start("+1", "4:0:0");
-         */    start(time, offset) {
+       * Start the transport and all sources synced to the transport.
+       * @param  time The time when the transport should start.
+       * @param  offset The timeline offset to start the transport.
+       * @example
+       * // start the transport in one second starting at beginning of the 5th measure.
+       * Tone.getTransport().start("+1", "4:0:0");
+       */    start(time, offset) {
       let offsetTicks;
       // start the context
       return this.context.resume(), isDefined(offset) && (offsetTicks = this.toTicks(offset)), 
@@ -10244,23 +10284,23 @@
       this._clock.start(time, offsetTicks), this;
     }
     /**
-         * Stop the transport and all sources synced to the transport.
-         * @param time The time when the transport should stop.
-         * @example
-         * Tone.getTransport().stop();
-         */    stop(time) {
+       * Stop the transport and all sources synced to the transport.
+       * @param time The time when the transport should stop.
+       * @example
+       * Tone.getTransport().stop();
+       */    stop(time) {
       return this._clock.stop(time), this;
     }
     /**
-         * Pause the transport and all sources synced to the transport.
-         */    pause(time) {
+       * Pause the transport and all sources synced to the transport.
+       */    pause(time) {
       return this._clock.pause(time), this;
     }
     /**
-         * Toggle the current state of the transport. If it is
-         * started, it will stop it, otherwise it will start the Transport.
-         * @param  time The time of the event
-         */    toggle(time) {
+       * Toggle the current state of the transport. If it is
+       * started, it will stop it, otherwise it will start the Transport.
+       * @param  time The time of the event
+       */    toggle(time) {
       return time = this.toSeconds(time), "started" !== this._clock.getStateAtTime(time) ? this.start(time) : this.stop(time), 
       this;
     }
@@ -10268,16 +10308,16 @@
     // 	SETTERS/GETTERS
     //-------------------------------------
     /**
-         * The time signature as just the numerator over 4.
-         * For example 4/4 would be just 4 and 6/8 would be 3.
-         * @example
-         * // common time
-         * Tone.getTransport().timeSignature = 4;
-         * // 7/8
-         * Tone.getTransport().timeSignature = [7, 8];
-         * // this will be reduced to a single number
-         * Tone.getTransport().timeSignature; // returns 3.5
-         */
+       * The time signature as just the numerator over 4.
+       * For example 4/4 would be just 4 and 6/8 would be 3.
+       * @example
+       * // common time
+       * Tone.getTransport().timeSignature = 4;
+       * // 7/8
+       * Tone.getTransport().timeSignature = [7, 8];
+       * // this will be reduced to a single number
+       * Tone.getTransport().timeSignature; // returns 3.5
+       */
     get timeSignature() {
       return this._timeSignature;
     }
@@ -10285,41 +10325,41 @@
       isArray(timeSig) && (timeSig = timeSig[0] / timeSig[1] * 4), this._timeSignature = timeSig;
     }
     /**
-         * When the Transport.loop = true, this is the starting position of the loop.
-         */    get loopStart() {
+       * When the Transport.loop = true, this is the starting position of the loop.
+       */    get loopStart() {
       return new TimeClass(this.context, this._loopStart, "i").toSeconds();
     }
     set loopStart(startPosition) {
       this._loopStart = this.toTicks(startPosition);
     }
     /**
-         * When the Transport.loop = true, this is the ending position of the loop.
-         */    get loopEnd() {
+       * When the Transport.loop = true, this is the ending position of the loop.
+       */    get loopEnd() {
       return new TimeClass(this.context, this._loopEnd, "i").toSeconds();
     }
     set loopEnd(endPosition) {
       this._loopEnd = this.toTicks(endPosition);
     }
     /**
-         * If the transport loops or not.
-         */    get loop() {
+       * If the transport loops or not.
+       */    get loop() {
       return this._loop.get(this.now());
     }
     set loop(loop) {
       this._loop.set(loop, this.now());
     }
     /**
-         * Set the loop start and stop at the same time.
-         * @example
-         * // loop over the first measure
-         * Tone.getTransport().setLoopPoints(0, "1m");
-         * Tone.getTransport().loop = true;
-         */    setLoopPoints(startPosition, endPosition) {
+       * Set the loop start and stop at the same time.
+       * @example
+       * // loop over the first measure
+       * Tone.getTransport().setLoopPoints(0, "1m");
+       * Tone.getTransport().loop = true;
+       */    setLoopPoints(startPosition, endPosition) {
       return this.loopStart = startPosition, this.loopEnd = endPosition, this;
     }
     /**
-         * The swing value. Between 0-1 where 1 equal to the note + half the subdivision.
-         */    get swing() {
+       * The swing value. Between 0-1 where 1 equal to the note + half the subdivision.
+       */    get swing() {
       return this._swingAmount;
     }
     set swing(amount) {
@@ -10327,19 +10367,19 @@
       this._swingAmount = amount;
     }
     /**
-         * Set the subdivision which the swing will be applied to.
-         * The default value is an 8th note. Value must be less
-         * than a quarter note.
-         */    get swingSubdivision() {
+       * Set the subdivision which the swing will be applied to.
+       * The default value is an 8th note. Value must be less
+       * than a quarter note.
+       */    get swingSubdivision() {
       return new TicksClass(this.context, this._swingTicks).toNotation();
     }
     set swingSubdivision(subdivision) {
       this._swingTicks = this.toTicks(subdivision);
     }
     /**
-         * The Transport's position in Bars:Beats:Sixteenths.
-         * Setting the value will jump to that position right away.
-         */    get position() {
+       * The Transport's position in Bars:Beats:Sixteenths.
+       * Setting the value will jump to that position right away.
+       */    get position() {
       const now = this.now();
       const ticks = this._clock.getTicksAtTime(now);
       return new TicksClass(this.context, ticks).toBarsBeatsSixteenths();
@@ -10349,9 +10389,9 @@
       this.ticks = ticks;
     }
     /**
-         * The Transport's position in seconds.
-         * Setting the value will jump to that position right away.
-         */    get seconds() {
+       * The Transport's position in seconds.
+       * Setting the value will jump to that position right away.
+       */    get seconds() {
       return this._clock.seconds;
     }
     set seconds(s) {
@@ -10360,9 +10400,9 @@
       this.ticks = ticks;
     }
     /**
-         * The Transport's loop position as a normalized value. Always
-         * returns 0 if the Transport.loop = false.
-         */    get progress() {
+       * The Transport's loop position as a normalized value. Always
+       * returns 0 if the Transport.loop = false.
+       */    get progress() {
       if (this.loop) {
         const now = this.now();
         return (this._clock.getTicksAtTime(now) - this._loopStart) / (this._loopEnd - this._loopStart);
@@ -10370,8 +10410,8 @@
       return 0;
     }
     /**
-         * The Transport's current tick position.
-         */    get ticks() {
+       * The Transport's current tick position.
+       */    get ticks() {
       return this._clock.ticks;
     }
     set ticks(t) {
@@ -10389,25 +10429,25 @@
       }
     }
     /**
-         * Get the clock's ticks at the given time.
-         * @param  time  When to get the tick value
-         * @return The tick value at the given time.
-         */    getTicksAtTime(time) {
+       * Get the clock's ticks at the given time.
+       * @param  time  When to get the tick value
+       * @return The tick value at the given time.
+       */    getTicksAtTime(time) {
       return this._clock.getTicksAtTime(time);
     }
     /**
-         * Return the elapsed seconds at the given time.
-         * @param  time  When to get the elapsed seconds
-         * @return  The number of elapsed seconds
-         */    getSecondsAtTime(time) {
+       * Return the elapsed seconds at the given time.
+       * @param  time  When to get the elapsed seconds
+       * @return  The number of elapsed seconds
+       */    getSecondsAtTime(time) {
       return this._clock.getSecondsAtTime(time);
     }
     /**
-         * Pulses Per Quarter note. This is the smallest resolution
-         * the Transport timing supports. This should be set once
-         * on initialization and not set again. Changing this value
-         * after other objects have been created can cause problems.
-         */    get PPQ() {
+       * Pulses Per Quarter note. This is the smallest resolution
+       * the Transport timing supports. This should be set once
+       * on initialization and not set again. Changing this value
+       * after other objects have been created can cause problems.
+       */    get PPQ() {
       return this._clock.frequency.multiplier;
     }
     set PPQ(ppq) {
@@ -10417,17 +10457,17 @@
     // 	SYNCING
     //-------------------------------------
     /**
-         * Returns the time aligned to the next subdivision
-         * of the Transport. If the Transport is not started,
-         * it will return 0.
-         * Note: this will not work precisely during tempo ramps.
-         * @param  subdivision  The subdivision to quantize to
-         * @return  The context time of the next subdivision.
-         * @example
-         * // the transport must be started, otherwise returns 0
-         * Tone.getTransport().start();
-         * Tone.getTransport().nextSubdivision("4n");
-         */
+       * Returns the time aligned to the next subdivision
+       * of the Transport. If the Transport is not started,
+       * it will return 0.
+       * Note: this will not work precisely during tempo ramps.
+       * @param  subdivision  The subdivision to quantize to
+       * @return  The context time of the next subdivision.
+       * @example
+       * // the transport must be started, otherwise returns 0
+       * Tone.getTransport().start();
+       * Tone.getTransport().nextSubdivision("4n");
+       */
     nextSubdivision(subdivision) {
       if (subdivision = this.toTicks(subdivision), "started" !== this.state) 
       // if the transport's not started, return 0
@@ -10440,14 +10480,14 @@
       }
     }
     /**
-         * Attaches the signal to the tempo control signal so that
-         * any changes in the tempo will change the signal in the same
-         * ratio.
-         *
-         * @param signal
-         * @param ratio Optionally pass in the ratio between the two signals.
-         * 			Otherwise it will be computed based on their current values.
-         */    syncSignal(signal, ratio) {
+       * Attaches the signal to the tempo control signal so that
+       * any changes in the tempo will change the signal in the same
+       * ratio.
+       *
+       * @param signal
+       * @param ratio Optionally pass in the ratio between the two signals.
+       * 			Otherwise it will be computed based on their current values.
+       */    syncSignal(signal, ratio) {
       const now = this.now();
       let source = this.bpm;
       let sourceValue = 1 / (60 / source.getValueAtTime(now) / this.PPQ);
@@ -10482,9 +10522,9 @@
       }), signal.value = 0, this;
     }
     /**
-         * Unsyncs a previously synced signal from the transport's control.
-         * @see {@link syncSignal}.
-         */    unsyncSignal(signal) {
+       * Unsyncs a previously synced signal from the transport's control.
+       * @see {@link syncSignal}.
+       */    unsyncSignal(signal) {
       for (let i = this._syncedSignals.length - 1; i >= 0; i--) {
         const syncedSignal = this._syncedSignals[i];
         syncedSignal.signal === signal && (syncedSignal.nodes.forEach((node => node.dispose())), 
@@ -10493,8 +10533,8 @@
       return this;
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._clock.dispose(), writable(this, "bpm"), this._timeline.dispose(), 
       this._repeatedEvents.dispose(), this;
     }
@@ -10511,44 +10551,44 @@
     context.transport.dispose();
   }));
   /**
-     * Base class for sources.
-     * start/stop of this.context.transport.
-     *
-     * ```
-     * // Multiple state change events can be chained together,
-     * // but must be set in the correct order and with ascending times
-     * // OK
-     * state.start().stop("+0.2");
-     * // OK
-     * state.start().stop("+0.2").start("+0.4").stop("+0.7")
-     * // BAD
-     * state.stop("+0.2").start();
-     * // BAD
-     * state.start("+0.3").stop("+0.2");
-     * ```
-     */
+   * Base class for sources.
+   * start/stop of this.context.transport.
+   *
+   * ```
+   * // Multiple state change events can be chained together,
+   * // but must be set in the correct order and with ascending times
+   * // OK
+   * state.start().stop("+0.2");
+   * // OK
+   * state.start().stop("+0.2").start("+0.4").stop("+0.7")
+   * // BAD
+   * state.stop("+0.2").start();
+   * // BAD
+   * state.start("+0.3").stop("+0.2");
+   * ```
+   */
   class Source extends ToneAudioNode {
     constructor(options) {
       super(options), 
       /**
-             * Sources have no inputs
-             */
+           * Sources have no inputs
+           */
       this.input = void 0, 
       /**
-             * Keep track of the scheduled state.
-             */
+           * Keep track of the scheduled state.
+           */
       this._state = new StateTimeline("stopped"), 
       /**
-             * The synced `start` callback function from the transport
-             */
+           * The synced `start` callback function from the transport
+           */
       this._synced = !1, 
       /**
-             * Keep track of all of the scheduled event ids
-             */
+           * Keep track of all of the scheduled event ids
+           */
       this._scheduled = [], 
       /**
-             * Placeholder functions for syncing/unsyncing to transport
-             */
+           * Placeholder functions for syncing/unsyncing to transport
+           */
       this._syncedStart = noOp, this._syncedStop = noOp, this._state.memory = 100, this._state.increasing = !0, 
       this._volume = this.output = new Volume({
         context: this.context,
@@ -10564,41 +10604,41 @@
       });
     }
     /**
-         * Returns the playback state of the source, either "started" or "stopped".
-         * @example
-         * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/ahntone_c3.mp3", () => {
-         * 	player.start();
-         * 	console.log(player.state);
-         * }).toDestination();
-         */    get state() {
+       * Returns the playback state of the source, either "started" or "stopped".
+       * @example
+       * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/ahntone_c3.mp3", () => {
+       * 	player.start();
+       * 	console.log(player.state);
+       * }).toDestination();
+       */    get state() {
       return this._synced ? "started" === this.context.transport.state ? this._state.getValueAtTime(this.context.transport.seconds) : "stopped" : this._state.getValueAtTime(this.now());
     }
     /**
-         * Mute the output.
-         * @example
-         * const osc = new Tone.Oscillator().toDestination().start();
-         * // mute the output
-         * osc.mute = true;
-         */    get mute() {
+       * Mute the output.
+       * @example
+       * const osc = new Tone.Oscillator().toDestination().start();
+       * // mute the output
+       * osc.mute = true;
+       */    get mute() {
       return this._volume.mute;
     }
     set mute(mute) {
       this._volume.mute = mute;
     }
     /**
-         * Ensure that the scheduled time is not before the current time.
-         * Should only be used when scheduled unsynced.
-         */    _clampToCurrentTime(time) {
+       * Ensure that the scheduled time is not before the current time.
+       * Should only be used when scheduled unsynced.
+       */    _clampToCurrentTime(time) {
       return this._synced ? time : Math.max(time, this.context.currentTime);
     }
     /**
-         * Start the source at the specified time. If no time is given,
-         * start the source now.
-         * @param  time When the source should be started.
-         * @example
-         * const source = new Tone.Oscillator().toDestination();
-         * source.start("+0.5"); // starts the source 0.5 seconds from now
-         */    start(time, offset, duration) {
+       * Start the source at the specified time. If no time is given,
+       * start the source now.
+       * @param  time When the source should be started.
+       * @example
+       * const source = new Tone.Oscillator().toDestination();
+       * source.start("+0.5"); // starts the source 0.5 seconds from now
+       */    start(time, offset, duration) {
       let computedTime = isUndef(time) && this._synced ? this.context.transport.seconds : this.toSeconds(time);
       // if it's started, stop it and restart it
       if (computedTime = this._clampToCurrentTime(computedTime), this._synced || "started" !== this._state.getValueAtTime(computedTime)) if (this.log("start", computedTime), 
@@ -10621,14 +10661,14 @@
       return this;
     }
     /**
-         * Stop the source at the specified time. If no time is given,
-         * stop the source now.
-         * @param  time When the source should be stopped.
-         * @example
-         * const source = new Tone.Oscillator().toDestination();
-         * source.start();
-         * source.stop("+0.5"); // stops the source 0.5 seconds from now
-         */    stop(time) {
+       * Stop the source at the specified time. If no time is given,
+       * stop the source now.
+       * @param  time When the source should be stopped.
+       * @example
+       * const source = new Tone.Oscillator().toDestination();
+       * source.start();
+       * source.stop("+0.5"); // stops the source 0.5 seconds from now
+       */    stop(time) {
       let computedTime = isUndef(time) && this._synced ? this.context.transport.seconds : this.toSeconds(time);
       if (computedTime = this._clampToCurrentTime(computedTime), "started" === this._state.getValueAtTime(computedTime) || isDefined(this._state.getNextState("started", computedTime))) {
         if (this.log("stop", computedTime), this._synced) {
@@ -10640,26 +10680,26 @@
       return this;
     }
     /**
-         * Restart the source.
-         */    restart(time, offset, duration) {
+       * Restart the source.
+       */    restart(time, offset, duration) {
       return time = this.toSeconds(time), "started" === this._state.getValueAtTime(time) && (this._state.cancel(time), 
       this._restart(time, offset, duration)), this;
     }
     /**
-         * Sync the source to the Transport so that all subsequent
-         * calls to `start` and `stop` are synced to the TransportTime
-         * instead of the AudioContext time.
-         *
-         * @example
-         * const osc = new Tone.Oscillator().toDestination();
-         * // sync the source so that it plays between 0 and 0.3 on the Transport's timeline
-         * osc.sync().start(0).stop(0.3);
-         * // start the transport.
-         * Tone.Transport.start();
-         * // set it to loop once a second
-         * Tone.Transport.loop = true;
-         * Tone.Transport.loopEnd = 1;
-         */    sync() {
+       * Sync the source to the Transport so that all subsequent
+       * calls to `start` and `stop` are synced to the TransportTime
+       * instead of the AudioContext time.
+       *
+       * @example
+       * const osc = new Tone.Oscillator().toDestination();
+       * // sync the source so that it plays between 0 and 0.3 on the Transport's timeline
+       * osc.sync().start(0).stop(0.3);
+       * // start the transport.
+       * Tone.Transport.start();
+       * // set it to loop once a second
+       * Tone.Transport.loop = true;
+       * Tone.Transport.loopEnd = 1;
+       */    sync() {
       return this._synced || (this._synced = !0, this._syncedStart = (time, offset) => {
         if (GT(offset, 0)) {
           // get the playback state at that time
@@ -10681,9 +10721,9 @@
       this.context.transport.on("loopEnd", this._syncedStop)), this;
     }
     /**
-         * Unsync the source to the Transport.
-         * @see {@link sync}
-         */    unsync() {
+       * Unsync the source to the Transport.
+       * @see {@link sync}
+       */    unsync() {
       return this._synced && (this.context.transport.off("stop", this._syncedStop), this.context.transport.off("pause", this._syncedStop), 
       this.context.transport.off("loopEnd", this._syncedStop), this.context.transport.off("start", this._syncedStart), 
       this.context.transport.off("loopStart", this._syncedStart)), this._synced = !1, 
@@ -10694,28 +10734,28 @@
       this._stop(0), this;
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this.onstop = noOp, this.unsync(), this._volume.dispose(), 
       this._state.dispose(), this;
     }
   }
   /**
-     * Render a segment of the oscillator to an offline context and return the results as an array
-     */  
+   * Render a segment of the oscillator to an offline context and return the results as an array
+   */  
   /**
-     * Wrapper around the native fire-and-forget OscillatorNode.
-     * Adds the ability to reschedule the stop method.
-     * ***{@link Oscillator} is better for most use-cases***
-     * @category Source
-     */
+   * Wrapper around the native fire-and-forget OscillatorNode.
+   * Adds the ability to reschedule the stop method.
+   * ***{@link Oscillator} is better for most use-cases***
+   * @category Source
+   */
   class ToneOscillatorNode extends OneShotSource {
     constructor() {
       const options = optionsFromArguments(ToneOscillatorNode.getDefaults(), arguments, [ "frequency", "type" ]);
       super(options), this.name = "ToneOscillatorNode", 
       /**
-             * The oscillator
-             */
+           * The oscillator
+           */
       this._oscillator = this.context.createOscillator(), this._internalChannels = [ this._oscillator ], 
       connect(this._oscillator, this._gainNode), this.type = options.type, this.frequency = new Param({
         context: this.context,
@@ -10737,9 +10777,9 @@
       });
     }
     /**
-         * Start the oscillator node at the given time
-         * @param  time When to start the oscillator
-         */    start(time) {
+       * Start the oscillator node at the given time
+       * @param  time When to start the oscillator
+       */    start(time) {
       const computedTime = this.toSeconds(time);
       return this.log("start", computedTime), this._startGain(computedTime), this._oscillator.start(computedTime), 
       this;
@@ -10748,42 +10788,42 @@
       this._oscillator.stop(time);
     }
     /**
-         * Sets an arbitrary custom periodic waveform given a PeriodicWave.
-         * @param  periodicWave PeriodicWave should be created with context.createPeriodicWave
-         */    setPeriodicWave(periodicWave) {
+       * Sets an arbitrary custom periodic waveform given a PeriodicWave.
+       * @param  periodicWave PeriodicWave should be created with context.createPeriodicWave
+       */    setPeriodicWave(periodicWave) {
       return this._oscillator.setPeriodicWave(periodicWave), this;
     }
     /**
-         * The oscillator type. Either 'sine', 'sawtooth', 'square', or 'triangle'
-         */    get type() {
+       * The oscillator type. Either 'sine', 'sawtooth', 'square', or 'triangle'
+       */    get type() {
       return this._oscillator.type;
     }
     set type(type) {
       this._oscillator.type = type;
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), "started" === this.state && this.stop(), this._oscillator.disconnect(), 
       this.frequency.dispose(), this.detune.dispose(), this;
     }
   }
   /**
-     * Oscillator supports a number of features including
-     * phase rotation, multiple oscillator types (see Oscillator.type),
-     * and Transport syncing (see Oscillator.syncFrequency).
-     *
-     * @example
-     * // make and start a 440hz sine tone
-     * const osc = new Tone.Oscillator(440, "sine").toDestination().start();
-     * @category Source
-     */  let Oscillator$1 = class Oscillator extends Source {
+   * Oscillator supports a number of features including
+   * phase rotation, multiple oscillator types (see Oscillator.type),
+   * and Transport syncing (see Oscillator.syncFrequency).
+   *
+   * @example
+   * // make and start a 440hz sine tone
+   * const osc = new Tone.Oscillator(440, "sine").toDestination().start();
+   * @category Source
+   */  let Oscillator$1 = class Oscillator extends Source {
     constructor() {
       const options = optionsFromArguments(Oscillator.getDefaults(), arguments, [ "frequency", "type" ]);
       super(options), this.name = "Oscillator", 
       /**
-             * the main oscillator
-             */
+           * the main oscillator
+           */
       this._oscillator = null, this.frequency = new Signal({
         context: this.context,
         units: "frequency",
@@ -10807,8 +10847,8 @@
       });
     }
     /**
-         * start the oscillator
-         */    _start(time) {
+       * start the oscillator
+       */    _start(time) {
       const computedTime = this.toSeconds(time);
       // new oscillator with previous values
             const oscillator = new ToneOscillatorNode({
@@ -10823,44 +10863,44 @@
       this._oscillator.start(computedTime);
     }
     /**
-         * stop the oscillator
-         */    _stop(time) {
+       * stop the oscillator
+       */    _stop(time) {
       const computedTime = this.toSeconds(time);
       this._oscillator && this._oscillator.stop(computedTime);
     }
     /**
-         * Restart the oscillator. Does not stop the oscillator, but instead
-         * just cancels any scheduled 'stop' from being invoked.
-         */    _restart(time) {
+       * Restart the oscillator. Does not stop the oscillator, but instead
+       * just cancels any scheduled 'stop' from being invoked.
+       */    _restart(time) {
       const computedTime = this.toSeconds(time);
       return this.log("restart", computedTime), this._oscillator && this._oscillator.cancelStop(), 
       this._state.cancel(computedTime), this;
     }
     /**
-         * Sync the signal to the Transport's bpm. Any changes to the transports bpm,
-         * will also affect the oscillators frequency.
-         * @example
-         * const osc = new Tone.Oscillator().toDestination().start();
-         * osc.frequency.value = 440;
-         * // the ratio between the bpm and the frequency will be maintained
-         * osc.syncFrequency();
-         * // double the tempo
-         * Tone.Transport.bpm.value *= 2;
-         * // the frequency of the oscillator is doubled to 880
-         */    syncFrequency() {
+       * Sync the signal to the Transport's bpm. Any changes to the transports bpm,
+       * will also affect the oscillators frequency.
+       * @example
+       * const osc = new Tone.Oscillator().toDestination().start();
+       * osc.frequency.value = 440;
+       * // the ratio between the bpm and the frequency will be maintained
+       * osc.syncFrequency();
+       * // double the tempo
+       * Tone.Transport.bpm.value *= 2;
+       * // the frequency of the oscillator is doubled to 880
+       */    syncFrequency() {
       return this.context.transport.syncSignal(this.frequency), this;
     }
     /**
-         * Unsync the oscillator's frequency from the Transport.
-         * @see {@link syncFrequency}
-         */    unsyncFrequency() {
+       * Unsync the oscillator's frequency from the Transport.
+       * @see {@link syncFrequency}
+       */    unsyncFrequency() {
       return this.context.transport.unsyncSignal(this.frequency), this;
     }
     /**
-         * Get a cached periodic wave. Avoids having to recompute
-         * the oscillator values when they have already been computed
-         * with the same values.
-         */    _getCachedPeriodicWave() {
+       * Get a cached periodic wave. Avoids having to recompute
+       * the oscillator values when they have already been computed
+       * with the same values.
+       */    _getCachedPeriodicWave() {
       if ("custom" === this._type) {
         return Oscillator._periodicWaveCache.find((description => {
           return description.phase === this._phase && (arrayA = description.partials, arrayB = this._partials, 
@@ -10929,10 +10969,10 @@
       }
     }
     /**
-         * Returns the real and imaginary components based
-         * on the oscillator type.
-         * @returns [real: Float32Array, imaginary: Float32Array]
-         */    _getRealImaginary(type, phase) {
+       * Returns the real and imaginary components based
+       * on the oscillator type.
+       * @returns [real: Float32Array, imaginary: Float32Array]
+       */    _getRealImaginary(type, phase) {
       let periodicWaveSize = 2048;
       const real = new Float32Array(periodicWaveSize);
       const imag = new Float32Array(periodicWaveSize);
@@ -10980,17 +11020,17 @@
       return [ real, imag ];
     }
     /**
-         * Compute the inverse FFT for a given phase.
-         */    _inverseFFT(real, imag, phase) {
+       * Compute the inverse FFT for a given phase.
+       */    _inverseFFT(real, imag, phase) {
       let sum = 0;
       const len = real.length;
       for (let i = 0; i < len; i++) sum += real[i] * Math.cos(i * phase) + imag[i] * Math.sin(i * phase);
       return sum;
     }
     /**
-         * Returns the initial value of the oscillator when stopped.
-         * E.g. a "sine" oscillator with phase = 90 would return an initial value of -1.
-         */    getInitialValue() {
+       * Returns the initial value of the oscillator when stopped.
+       * E.g. a "sine" oscillator with phase = 90 would return an initial value of -1.
+       */    getInitialValue() {
       const [real, imag] = this._getRealImaginary(this._type, 0);
       let maxValue = 0;
       const twoPi = 2 * Math.PI;
@@ -11037,58 +11077,8 @@
     }
   };
   /**
-     * Cache the periodic waves to avoid having to redo computations
-     */  Oscillator$1._periodicWaveCache = [];
-  /** 
-     * Generate Sine, Triangle, Square and Sawtooth waveforms.
-     * @class Oscillator
-     * @constructor
-     * @param {Number} [frequency] frequency defaults to 440Hz
-     * @param {String} [type] type of oscillator. Options:
-     *                        'sine' (default), 'triangle',
-     *                        'sawtooth', 'square'
-     * @example
-     * <div>
-     * <code>
-     * let osc, playing, freq, amp;
-     *
-     * function setup() {
-     *   describe("a sketch that demonstrates the frequency and amplitude parameters of an oscillator.");
-     *   let cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(playOscillator);
-     *   osc = new Oscillator();
-     * }
-     *
-     * function draw() {
-     *   background(220)
-     *   freq = constrain(map(mouseX, 0, width, 100, 500), 100, 500);
-     *   //amp = constrain(map(mouseY, height, 0, 0, 1), 0, 1);
-     *   text('tap to play', 20, 20);
-     *   text('freq: ' + freq, 20, 40);
-     *   //text('amp: ' + amp, 20, 60);
-     *
-     *   if (playing) {
-     *     // smooth the transitions by 0.1 seconds
-     *     osc.freq(freq);
-     *     //osc.amp(amp);
-     *   }
-     * }
-     *
-     * function playOscillator() {
-     *   // starting an oscillator on a user gesture will enable audio
-     *   // in browsers that have a strict autoplay policy.
-     *   osc.start();
-     *   playing = true;
-     * }
-     *
-     * function mouseReleased() {
-     *   // ramp amplitude to 0 over 0.5 seconds
-     *   //osc.amp(0, 0.5);
-     *   playing = false;
-     * }
-     * </code> 
-     * </div>
-     */
+   * Cache the periodic waves to avoid having to redo computations
+   */  Oscillator$1._periodicWaveCache = [];
   class Oscillator {
     constructor(frequency = 440, type = "sine") {
       if ("string" == typeof frequency && "string" == typeof type) {
@@ -11103,105 +11093,105 @@
       this.osc.frequency.value = this.frequency, this.osc.type = this.type, this.osc.volume.value = -6;
     }
     /**
-       * Adjusts the frequency of the oscillator.
-       * @method freq
-       * @for Oscillator
-       * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). 
-       */    freq(f, p = .1) {
+     * Adjusts the frequency of the oscillator.
+     * @method freq
+     * @for Oscillator
+     * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). 
+     */    freq(f, p = .1) {
       this.osc.frequency.rampTo(clamp(f, 0, 24e3), p);
     }
     /**
-       * Adjusts the phase of the oscillator.
-       * @method phase
-       * @for Oscillator
-       * @param {Number} phase phase of the oscillator in degrees (0-360). 
-       */    phase(p) {
+     * Adjusts the phase of the oscillator.
+     * @method phase
+     * @for Oscillator
+     * @param {Number} phase phase of the oscillator in degrees (0-360). 
+     */    phase(p) {
       this.osc.phase = p;
     }
     /**
-       * Sets the type of the oscillator. 
-       * @method setType
-       * @for Oscillator
-       * @param {String} type type of the oscillator. Options:
-       *                 'sine' (default), 'triangle',
-       *                 'sawtooth', 'square'
-       */    setType(t) {
+     * Sets the type of the oscillator. 
+     * @method setType
+     * @for Oscillator
+     * @param {String} type type of the oscillator. Options:
+     *                 'sine' (default), 'triangle',
+     *                 'sawtooth', 'square'
+     */    setType(t) {
       this.osc.type = t;
     }
     /**
-       * Adjust the amplitude of the Oscillator.
-       * @method amp
-       * @for Oscillator
-       * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal.
-       * @example
-       * <div>
-       * <code>
-       * let osc, lfo;
-       * let cnv;
-       * 
-       * function setup() {
-       *   describe("a sketch that demonstrates amplitude modulation with an LFO and sine tone");
-       *   cnv = createCanvas(100, 100);
-       *   cnv.mousePressed(startSound);
-       *   textAlign(CENTER);
-       *   textWrap(WORD);
-       *   textSize(10);
-       *   
-       *   osc = new Oscillator('sine');
-       *   lfo = new Oscillator(1);
-       *   lfo.disconnect();
-       *   osc.amp(lfo);
-       * }
-       * 
-       * function startSound() {
-       *   lfo.start();
-       *   osc.start();
-       * }
-       * 
-       * function draw(){
-       *   background(220);
-       *   text('click to play sound', 0, height/2 - 20, 100);
-       *   text('control lfo with mouseX position', 0, height/2, 100);
-       * 
-       *   let freq = map(mouseX, 0, width, 0, 10);
-       *   lfo.freq(freq);
-       * }
-       * </code>
-       * </div>
-       */    amp(value, p = .1) {
+     * Adjust the amplitude of the Oscillator.
+     * @method amp
+     * @for Oscillator
+     * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal.
+     * @example
+     * <div>
+     * <code>
+     * let osc, lfo;
+     * let cnv;
+     * 
+     * function setup() {
+     *   describe("a sketch that demonstrates amplitude modulation with an LFO and sine tone");
+     *   cnv = createCanvas(100, 100);
+     *   cnv.mousePressed(startSound);
+     *   textAlign(CENTER);
+     *   textWrap(WORD);
+     *   textSize(10);
+     *   
+     *   osc = new Oscillator('sine');
+     *   lfo = new Oscillator(1);
+     *   lfo.disconnect();
+     *   osc.amp(lfo);
+     * }
+     * 
+     * function startSound() {
+     *   lfo.start();
+     *   osc.start();
+     * }
+     * 
+     * function draw(){
+     *   background(220);
+     *   text('click to play sound', 0, height/2 - 20, 100);
+     *   text('control lfo with mouseX position', 0, height/2, 100);
+     * 
+     *   let freq = map(mouseX, 0, width, 0, 10);
+     *   lfo.freq(freq);
+     * }
+     * </code>
+     * </div>
+     */    amp(value, p = .1) {
       //if value is an object (i.e. audio signal such as an LFO), connect it to the oscillator's volume
       if ("object" == typeof value) return void value.getNode().connect(this.osc.volume);
       let dbValue = gainToDb(value);
       this.osc.volume.rampTo(dbValue, p);
     }
     /**
-       * Starts the oscillator. Usually from user gesture.
-       * @method start
-       * @for Oscillator
-       * @example
-       * <div>
-       * <code>
-       * let osc;
-       * 
-       * function setup() {
-       *   let cnv = createCanvas(100, 100);
-       *   cnv.mousePressed(startOscillator);
-       *   osc = new Oscillator();
-       * }
-       * 
-       * function startOscillator() {
-       *   osc.start();
-       * }
-       * </code>
-       * </div>
-       */    start() {
+     * Starts the oscillator. Usually from user gesture.
+     * @method start
+     * @for Oscillator
+     * @example
+     * <div>
+     * <code>
+     * let osc;
+     * 
+     * function setup() {
+     *   let cnv = createCanvas(100, 100);
+     *   cnv.mousePressed(startOscillator);
+     *   osc = new Oscillator();
+     * }
+     * 
+     * function startOscillator() {
+     *   osc.start();
+     * }
+     * </code>
+     * </div>
+     */    start() {
       this.osc.start();
     }
     /**
-       * Stops the oscillator.
-       * @method stop
-       * @for Oscillator
-       */    stop() {
+     * Stops the oscillator.
+     * @method stop
+     * @for Oscillator
+     */    stop() {
       this.osc.stop();
     }
     connect(destination) {
@@ -11215,29 +11205,29 @@
     }
   }
   /**
-     * Creates a sawtooth oscillator.
-     * @class SawOsc
-     * @constructor
-     * @extends Oscillator
-     * @param {Number} [freq] Set the frequency
-     */  let Envelope$1 = class Envelope extends ToneAudioNode {
+   * Creates a sawtooth oscillator.
+   * @class SawOsc
+   * @constructor
+   * @extends Oscillator
+   * @param {Number} [freq] Set the frequency
+   */  let Envelope$1 = class Envelope extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(Envelope.getDefaults(), arguments, [ "attack", "decay", "sustain", "release" ]);
       super(options), this.name = "Envelope", 
       /**
-             * the signal which is output.
-             */
+           * the signal which is output.
+           */
       this._sig = new Signal({
         context: this.context,
         value: 0
       }), 
       /**
-             * The output signal of the envelope
-             */
+           * The output signal of the envelope
+           */
       this.output = this._sig, 
       /**
-             * Envelope has no input
-             */
+           * Envelope has no input
+           */
       this.input = void 0, this.attack = options.attack, this.decay = options.decay, this.sustain = options.sustain, 
       this.release = options.release, this.attackCurve = options.attackCurve, this.releaseCurve = options.releaseCurve, 
       this.decayCurve = options.decayCurve;
@@ -11254,17 +11244,17 @@
       });
     }
     /**
-         * Read the current value of the envelope. Useful for
-         * synchronizing visual output to the envelope.
-         */    get value() {
+       * Read the current value of the envelope. Useful for
+       * synchronizing visual output to the envelope.
+       */    get value() {
       return this.getValueAtTime(this.now());
     }
     /**
-         * Get the curve
-         * @param  curve
-         * @param  direction  In/Out
-         * @return The curve name
-         */    _getCurve(curve, direction) {
+       * Get the curve
+       * @param  curve
+       * @param  direction  In/Out
+       * @return The curve name
+       */    _getCurve(curve, direction) {
       if (isString(curve)) return curve;
       {
         // look up the name in the curves array
@@ -11275,11 +11265,11 @@
       }
     }
     /**
-         * Assign a the curve to the given name using the direction
-         * @param  name
-         * @param  direction In/Out
-         * @param  curve
-         */    _setCurve(name, direction, curve) {
+       * Assign a the curve to the given name using the direction
+       * @param  name
+       * @param  direction In/Out
+       * @param  curve
+       */    _setCurve(name, direction, curve) {
       // check if it's a valid type
       if (isString(curve) && Reflect.has(EnvelopeCurves, curve)) {
         const curveDef = EnvelopeCurves[curve];
@@ -11290,77 +11280,77 @@
       }
     }
     /**
-         * The shape of the attack.
-         * Can be any of these strings:
-         * * "linear"
-         * * "exponential"
-         * * "sine"
-         * * "cosine"
-         * * "bounce"
-         * * "ripple"
-         * * "step"
-         *
-         * Can also be an array which describes the curve. Values
-         * in the array are evenly subdivided and linearly
-         * interpolated over the duration of the attack.
-         * @example
-         * return Tone.Offline(() => {
-         * 	const env = new Tone.Envelope(0.4).toDestination();
-         * 	env.attackCurve = "linear";
-         * 	env.triggerAttack();
-         * }, 1, 1);
-         */    get attackCurve() {
+       * The shape of the attack.
+       * Can be any of these strings:
+       * * "linear"
+       * * "exponential"
+       * * "sine"
+       * * "cosine"
+       * * "bounce"
+       * * "ripple"
+       * * "step"
+       *
+       * Can also be an array which describes the curve. Values
+       * in the array are evenly subdivided and linearly
+       * interpolated over the duration of the attack.
+       * @example
+       * return Tone.Offline(() => {
+       * 	const env = new Tone.Envelope(0.4).toDestination();
+       * 	env.attackCurve = "linear";
+       * 	env.triggerAttack();
+       * }, 1, 1);
+       */    get attackCurve() {
       return this._getCurve(this._attackCurve, "In");
     }
     set attackCurve(curve) {
       this._setCurve("_attackCurve", "In", curve);
     }
     /**
-         * The shape of the release. See the attack curve types.
-         * @example
-         * return Tone.Offline(() => {
-         * 	const env = new Tone.Envelope({
-         * 		release: 0.8
-         * 	}).toDestination();
-         * 	env.triggerAttack();
-         * 	// release curve could also be defined by an array
-         * 	env.releaseCurve = [1, 0.3, 0.4, 0.2, 0.7, 0];
-         * 	env.triggerRelease(0.2);
-         * }, 1, 1);
-         */    get releaseCurve() {
+       * The shape of the release. See the attack curve types.
+       * @example
+       * return Tone.Offline(() => {
+       * 	const env = new Tone.Envelope({
+       * 		release: 0.8
+       * 	}).toDestination();
+       * 	env.triggerAttack();
+       * 	// release curve could also be defined by an array
+       * 	env.releaseCurve = [1, 0.3, 0.4, 0.2, 0.7, 0];
+       * 	env.triggerRelease(0.2);
+       * }, 1, 1);
+       */    get releaseCurve() {
       return this._getCurve(this._releaseCurve, "Out");
     }
     set releaseCurve(curve) {
       this._setCurve("_releaseCurve", "Out", curve);
     }
     /**
-         * The shape of the decay either "linear" or "exponential"
-         * @example
-         * return Tone.Offline(() => {
-         * 	const env = new Tone.Envelope({
-         * 		sustain: 0.1,
-         * 		decay: 0.5
-         * 	}).toDestination();
-         * 	env.decayCurve = "linear";
-         * 	env.triggerAttack();
-         * }, 1, 1);
-         */    get decayCurve() {
+       * The shape of the decay either "linear" or "exponential"
+       * @example
+       * return Tone.Offline(() => {
+       * 	const env = new Tone.Envelope({
+       * 		sustain: 0.1,
+       * 		decay: 0.5
+       * 	}).toDestination();
+       * 	env.decayCurve = "linear";
+       * 	env.triggerAttack();
+       * }, 1, 1);
+       */    get decayCurve() {
       return this._getCurve(this._decayCurve, "Out");
     }
     set decayCurve(curve) {
       this._setCurve("_decayCurve", "Out", curve);
     }
     /**
-         * Trigger the attack/decay portion of the ADSR envelope.
-         * @param  time When the attack should start.
-         * @param velocity The velocity of the envelope scales the vales.
-         *                             number between 0-1
-         * @example
-         * const env = new Tone.AmplitudeEnvelope().toDestination();
-         * const osc = new Tone.Oscillator().connect(env).start();
-         * // trigger the attack 0.5 seconds from now with a velocity of 0.2
-         * env.triggerAttack("+0.5", 0.2);
-         */    triggerAttack(time, velocity = 1) {
+       * Trigger the attack/decay portion of the ADSR envelope.
+       * @param  time When the attack should start.
+       * @param velocity The velocity of the envelope scales the vales.
+       *                             number between 0-1
+       * @example
+       * const env = new Tone.AmplitudeEnvelope().toDestination();
+       * const osc = new Tone.Oscillator().connect(env).start();
+       * // trigger the attack 0.5 seconds from now with a velocity of 0.2
+       * env.triggerAttack("+0.5", 0.2);
+       */    triggerAttack(time, velocity = 1) {
       this.log("triggerAttack", time, velocity), time = this.toSeconds(time);
       let attack = this.toSeconds(this.attack);
       const decay = this.toSeconds(this.decay);
@@ -11396,17 +11386,17 @@
       return this;
     }
     /**
-         * Triggers the release of the envelope.
-         * @param  time When the release portion of the envelope should start.
-         * @example
-         * const env = new Tone.AmplitudeEnvelope().toDestination();
-         * const osc = new Tone.Oscillator({
-         * 	type: "sawtooth"
-         * }).connect(env).start();
-         * env.triggerAttack();
-         * // trigger the release half a second after the attack
-         * env.triggerRelease("+0.5");
-         */    triggerRelease(time) {
+       * Triggers the release of the envelope.
+       * @param  time When the release portion of the envelope should start.
+       * @example
+       * const env = new Tone.AmplitudeEnvelope().toDestination();
+       * const osc = new Tone.Oscillator({
+       * 	type: "sawtooth"
+       * }).connect(env).start();
+       * env.triggerAttack();
+       * // trigger the release half a second after the attack
+       * env.triggerRelease("+0.5");
+       */    triggerRelease(time) {
       this.log("triggerRelease", time), time = this.toSeconds(time);
       const currentValue = this.getValueAtTime(time);
       if (currentValue > 0) {
@@ -11417,45 +11407,45 @@
       return this;
     }
     /**
-         * Get the scheduled value at the given time. This will
-         * return the unconverted (raw) value.
-         * @example
-         * const env = new Tone.Envelope(0.5, 1, 0.4, 2);
-         * env.triggerAttackRelease(2);
-         * setInterval(() => console.log(env.getValueAtTime(Tone.now())), 100);
-         */    getValueAtTime(time) {
+       * Get the scheduled value at the given time. This will
+       * return the unconverted (raw) value.
+       * @example
+       * const env = new Tone.Envelope(0.5, 1, 0.4, 2);
+       * env.triggerAttackRelease(2);
+       * setInterval(() => console.log(env.getValueAtTime(Tone.now())), 100);
+       */    getValueAtTime(time) {
       return this._sig.getValueAtTime(time);
     }
     /**
-         * triggerAttackRelease is shorthand for triggerAttack, then waiting
-         * some duration, then triggerRelease.
-         * @param duration The duration of the sustain.
-         * @param time When the attack should be triggered.
-         * @param velocity The velocity of the envelope.
-         * @example
-         * const env = new Tone.AmplitudeEnvelope().toDestination();
-         * const osc = new Tone.Oscillator().connect(env).start();
-         * // trigger the release 0.5 seconds after the attack
-         * env.triggerAttackRelease(0.5);
-         */    triggerAttackRelease(duration, time, velocity = 1) {
+       * triggerAttackRelease is shorthand for triggerAttack, then waiting
+       * some duration, then triggerRelease.
+       * @param duration The duration of the sustain.
+       * @param time When the attack should be triggered.
+       * @param velocity The velocity of the envelope.
+       * @example
+       * const env = new Tone.AmplitudeEnvelope().toDestination();
+       * const osc = new Tone.Oscillator().connect(env).start();
+       * // trigger the release 0.5 seconds after the attack
+       * env.triggerAttackRelease(0.5);
+       */    triggerAttackRelease(duration, time, velocity = 1) {
       return time = this.toSeconds(time), this.triggerAttack(time, velocity), this.triggerRelease(time + this.toSeconds(duration)), 
       this;
     }
     /**
-         * Cancels all scheduled envelope changes after the given time.
-         */    cancel(after) {
+       * Cancels all scheduled envelope changes after the given time.
+       */    cancel(after) {
       return this._sig.cancelScheduledValues(this.toSeconds(after)), this;
     }
     /**
-         * Connect the envelope to a destination node.
-         */    connect(destination, outputNumber = 0, inputNumber = 0) {
+       * Connect the envelope to a destination node.
+       */    connect(destination, outputNumber = 0, inputNumber = 0) {
       return connectSignal(this, destination, outputNumber, inputNumber), this;
     }
     /**
-         * Render the envelope curve to an array of the given length.
-         * Good for visualizing the envelope curve. Rescales the duration of the
-         * envelope to fit the length.
-         */    asArray() {
+       * Render the envelope curve to an array of the given length.
+       * Good for visualizing the envelope curve. Rescales the duration of the
+       * envelope to fit the length.
+       */    asArray() {
       return __awaiter(this, arguments, void 0, (function*(length = 1024) {
         const duration = length / this.context.sampleRate;
         const context = new OfflineContext(1, duration, this.context.sampleRate);
@@ -11482,8 +11472,8 @@
   __decorate([ timeRange(0) ], Envelope$1.prototype, "attack", void 0), __decorate([ timeRange(0) ], Envelope$1.prototype, "decay", void 0), 
   __decorate([ (
   /**
-     * Assert that the number is in the given range.
-     */
+   * Assert that the number is in the given range.
+   */
   function(min, max = 1 / 0) {
     const valueMap = new WeakMap;
     return function(target, propertyKey) {
@@ -11500,20 +11490,20 @@
     };
   })(0, 1) ], Envelope$1.prototype, "sustain", void 0), __decorate([ timeRange(0) ], Envelope$1.prototype, "release", void 0);
   /**
-     * Generate some complex envelope curves.
-     */
+   * Generate some complex envelope curves.
+   */
   const EnvelopeCurves = (() => {
     /**
-         * Invert a value curve to make it work for the release
-         */
+       * Invert a value curve to make it work for the release
+       */
     function invertCurve(curve) {
       const out = new Array(curve.length);
       for (let j = 0; j < curve.length; j++) out[j] = 1 - curve[j];
       return out;
     }
     /**
-         * reverse the curve
-         */    let i;
+       * reverse the curve
+       */    let i;
     let k;
     // cosine curve
         const cosineCurve = [];
@@ -11541,8 +11531,8 @@
       bounceCurve[i] = Math.abs(val * (1 - k));
     }
     /**
-         * attack and release curve arrays
-         */
+       * attack and release curve arrays
+       */
     return {
       bounce: {
         In: invertCurve(bounceCurve),
@@ -11570,27 +11560,27 @@
     var curve;
   })();
   /**
-     * AmplitudeEnvelope is a Tone.Envelope connected to a gain node.
-     * Unlike Tone.Envelope, which outputs the envelope's value, AmplitudeEnvelope accepts
-     * an audio signal as the input and will apply the envelope to the amplitude
-     * of the signal.
-     * Read more about ADSR Envelopes on [Wikipedia](https://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope).
-     *
-     * @example
-     * return Tone.Offline(() => {
-     * 	const ampEnv = new Tone.AmplitudeEnvelope({
-     * 		attack: 0.1,
-     * 		decay: 0.2,
-     * 		sustain: 1.0,
-     * 		release: 0.8
-     * 	}).toDestination();
-     * 	// create an oscillator and connect it
-     * 	const osc = new Tone.Oscillator().connect(ampEnv).start();
-     * 	// trigger the envelopes attack and release "8t" apart
-     * 	ampEnv.triggerAttackRelease("8t");
-     * }, 1.5, 1);
-     * @category Component
-     */  class AmplitudeEnvelope extends Envelope$1 {
+   * AmplitudeEnvelope is a Tone.Envelope connected to a gain node.
+   * Unlike Tone.Envelope, which outputs the envelope's value, AmplitudeEnvelope accepts
+   * an audio signal as the input and will apply the envelope to the amplitude
+   * of the signal.
+   * Read more about ADSR Envelopes on [Wikipedia](https://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope).
+   *
+   * @example
+   * return Tone.Offline(() => {
+   * 	const ampEnv = new Tone.AmplitudeEnvelope({
+   * 		attack: 0.1,
+   * 		decay: 0.2,
+   * 		sustain: 1.0,
+   * 		release: 0.8
+   * 	}).toDestination();
+   * 	// create an oscillator and connect it
+   * 	const osc = new Tone.Oscillator().connect(ampEnv).start();
+   * 	// trigger the envelopes attack and release "8t" apart
+   * 	ampEnv.triggerAttackRelease("8t");
+   * }, 1.5, 1);
+   * @category Component
+   */  class AmplitudeEnvelope extends Envelope$1 {
     constructor() {
       super(optionsFromArguments(AmplitudeEnvelope.getDefaults(), arguments, [ "attack", "decay", "sustain", "release" ])), 
       this.name = "AmplitudeEnvelope", this._gainNode = new Gain$1({
@@ -11600,38 +11590,38 @@
       this.output = this._gainNode, this.input = this._gainNode;
     }
     /**
-         * Clean up
-         */    dispose() {
+       * Clean up
+       */    dispose() {
       return super.dispose(), this._gainNode.dispose(), this;
     }
   }
   /**
-     * Generate an amplitude envelope.
-     * @class Envelope
-     * @constructor
-     * @param {Number} [attack] how quickly the envelope reaches the maximum level
-     * @param {Number} [decay] how quickly the envelope reaches the sustain level
-     * @param {Number} [sustain] how long the envelope stays at the decay level
-     * @param {Number} [release] how quickly the envelope fades out after the sustain level
-     * @example
-     * <div>
-     * <code>
-     * consoe.log('do an example here');
-     * </code>
-     * </div>
-     */  
+   * Generate an amplitude envelope.
+   * @class Envelope
+   * @constructor
+   * @param {Number} [attack] how quickly the envelope reaches the maximum level
+   * @param {Number} [decay] how quickly the envelope reaches the sustain level
+   * @param {Number} [sustain] how long the envelope stays at the decay level
+   * @param {Number} [release] how quickly the envelope fades out after the sustain level
+   * @example
+   * <div>
+   * <code>
+   * consoe.log('do an example here');
+   * </code>
+   * </div>
+   */  
   /**
-     * Wrapper around Web Audio's native [DelayNode](http://webaudio.github.io/web-audio-api/#the-delaynode-interface).
-     * @category Core
-     * @example
-     * return Tone.Offline(() => {
-     * 	const delay = new Tone.Delay(0.1).toDestination();
-     * 	// connect the signal to both the delay and the destination
-     * 	const pulse = new Tone.PulseOscillator().connect(delay).toDestination();
-     * 	// start and stop the pulse
-     * 	pulse.start(0).stop(0.01);
-     * }, 0.5, 1);
-     */
+   * Wrapper around Web Audio's native [DelayNode](http://webaudio.github.io/web-audio-api/#the-delaynode-interface).
+   * @category Core
+   * @example
+   * return Tone.Offline(() => {
+   * 	const delay = new Tone.Delay(0.1).toDestination();
+   * 	// connect the signal to both the delay and the destination
+   * 	const pulse = new Tone.PulseOscillator().connect(delay).toDestination();
+   * 	// start and stop the pulse
+   * 	pulse.start(0).stop(0.01);
+   * }, 0.5, 1);
+   */
   let Delay$1 = class Delay extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(Delay.getDefaults(), arguments, [ "delayTime", "maxDelay" ]);
@@ -11655,108 +11645,108 @@
       });
     }
     /**
-         * The maximum delay time. This cannot be changed after
-         * the value is passed into the constructor.
-         */    get maxDelay() {
+       * The maximum delay time. This cannot be changed after
+       * the value is passed into the constructor.
+       */    get maxDelay() {
       return this._maxDelay;
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._delayNode.disconnect(), this.delayTime.dispose(), 
       this;
     }
   };
   /**
-     * GainToAudio converts an input in NormalRange [0,1] to AudioRange [-1,1].
-     * @see {@link AudioToGain}.
-     * @category Signal
-     */  class GainToAudio extends SignalOperator {
+   * GainToAudio converts an input in NormalRange [0,1] to AudioRange [-1,1].
+   * @see {@link AudioToGain}.
+   * @category Signal
+   */  class GainToAudio extends SignalOperator {
     constructor() {
       super(...arguments), this.name = "GainToAudio", 
       /**
-             * The node which converts the audio ranges
-             */
+           * The node which converts the audio ranges
+           */
       this._norm = new WaveShaper({
         context: this.context,
         mapping: x => 2 * Math.abs(x) - 1
       }), 
       /**
-             * The NormalRange input [0, 1]
-             */
+           * The NormalRange input [0, 1]
+           */
       this.input = this._norm, 
       /**
-             * The AudioRange output [-1, 1]
-             */
+           * The AudioRange output [-1, 1]
+           */
       this.output = this._norm;
     }
     /**
-         * clean up
-         */    dispose() {
+       * clean up
+       */    dispose() {
       return super.dispose(), this._norm.dispose(), this;
     }
   }
   /**
-     * Tone.Crossfade provides equal power fading between two inputs.
-     * More on crossfading technique [here](https://en.wikipedia.org/wiki/Fade_(audio_engineering)#Crossfading).
-     * ```
-     *                                             +---------+
-     *                                            +> input a +>--+
-     * +-----------+   +---------------------+     |         |   |
-     * | 1s signal +>--> stereoPannerNode  L +>----> gain    |   |
-     * +-----------+   |                     |     +---------+   |
-     *               +-> pan               R +>-+                |   +--------+
-     *               | +---------------------+  |                +---> output +>
-     *  +------+     |                          |  +---------+   |   +--------+
-     *  | fade +>----+                          | +> input b +>--+
-     *  +------+                                |  |         |
-     *                                          +--> gain    |
-     *                                             +---------+
-     * ```
-     * @example
-     * const crossFade = new Tone.CrossFade().toDestination();
-     * // connect two inputs Tone.to a/b
-     * const inputA = new Tone.Oscillator(440, "square").connect(crossFade.a).start();
-     * const inputB = new Tone.Oscillator(440, "sine").connect(crossFade.b).start();
-     * // use the fade to control the mix between the two
-     * crossFade.fade.value = 0.5;
-     * @category Component
-     */  class CrossFade extends ToneAudioNode {
+   * Tone.Crossfade provides equal power fading between two inputs.
+   * More on crossfading technique [here](https://en.wikipedia.org/wiki/Fade_(audio_engineering)#Crossfading).
+   * ```
+   *                                             +---------+
+   *                                            +> input a +>--+
+   * +-----------+   +---------------------+     |         |   |
+   * | 1s signal +>--> stereoPannerNode  L +>----> gain    |   |
+   * +-----------+   |                     |     +---------+   |
+   *               +-> pan               R +>-+                |   +--------+
+   *               | +---------------------+  |                +---> output +>
+   *  +------+     |                          |  +---------+   |   +--------+
+   *  | fade +>----+                          | +> input b +>--+
+   *  +------+                                |  |         |
+   *                                          +--> gain    |
+   *                                             +---------+
+   * ```
+   * @example
+   * const crossFade = new Tone.CrossFade().toDestination();
+   * // connect two inputs Tone.to a/b
+   * const inputA = new Tone.Oscillator(440, "square").connect(crossFade.a).start();
+   * const inputB = new Tone.Oscillator(440, "sine").connect(crossFade.b).start();
+   * // use the fade to control the mix between the two
+   * crossFade.fade.value = 0.5;
+   * @category Component
+   */  class CrossFade extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(CrossFade.getDefaults(), arguments, [ "fade" ]);
       super(options), this.name = "CrossFade", 
       /**
-             * The crossfading is done by a StereoPannerNode
-             */
+           * The crossfading is done by a StereoPannerNode
+           */
       this._panner = this.context.createStereoPanner(), 
       /**
-             * Split the output of the panner node into two values used to control the gains.
-             */
+           * Split the output of the panner node into two values used to control the gains.
+           */
       this._split = this.context.createChannelSplitter(2), 
       /**
-             * Convert the fade value into an audio range value so it can be connected
-             * to the panner.pan AudioParam
-             */
+           * Convert the fade value into an audio range value so it can be connected
+           * to the panner.pan AudioParam
+           */
       this._g2a = new GainToAudio({
         context: this.context
       }), 
       /**
-             * The input which is at full level when fade = 0
-             */
+           * The input which is at full level when fade = 0
+           */
       this.a = new Gain$1({
         context: this.context,
         gain: 0
       }), 
       /**
-             * The input which is at full level when fade = 1
-             */
+           * The input which is at full level when fade = 1
+           */
       this.b = new Gain$1({
         context: this.context,
         gain: 0
       }), 
       /**
-             * The output is a mix between `a` and `b` at the ratio of `fade`
-             */
+           * The output is a mix between `a` and `b` at the ratio of `fade`
+           */
       this.output = new Gain$1({
         context: this.context
       }), this._internalChannels = [ this.a, this.b ], this.fade = new Signal({
@@ -11783,45 +11773,45 @@
     }
   }
   /**
-     * Effect is the base class for effects. Connect the effect between
-     * the effectSend and effectReturn GainNodes, then control the amount of
-     * effect which goes to the output using the wet control.
-     */  class Effect extends ToneAudioNode {
+   * Effect is the base class for effects. Connect the effect between
+   * the effectSend and effectReturn GainNodes, then control the amount of
+   * effect which goes to the output using the wet control.
+   */  class Effect extends ToneAudioNode {
     constructor(options) {
       super(options), this.name = "Effect", 
       /**
-             * the drywet knob to control the amount of effect
-             */
+           * the drywet knob to control the amount of effect
+           */
       this._dryWet = new CrossFade({
         context: this.context
       }), 
       /**
-             * The wet control is how much of the effected
-             * will pass through to the output. 1 = 100% effected
-             * signal, 0 = 100% dry signal.
-             */
+           * The wet control is how much of the effected
+           * will pass through to the output. 1 = 100% effected
+           * signal, 0 = 100% dry signal.
+           */
       this.wet = this._dryWet.fade, 
       /**
-             * connect the effectSend to the input of hte effect
-             */
+           * connect the effectSend to the input of hte effect
+           */
       this.effectSend = new Gain$1({
         context: this.context
       }), 
       /**
-             * connect the output of the effect to the effectReturn
-             */
+           * connect the output of the effect to the effectReturn
+           */
       this.effectReturn = new Gain$1({
         context: this.context
       }), 
       /**
-             * The effect input node
-             */
+           * The effect input node
+           */
       this.input = new Gain$1({
         context: this.context
       }), 
       /**
-             * The effect output
-             */
+           * The effect output
+           */
       this.output = this._dryWet, 
       // connections
       this.input.fan(this._dryWet.a, this.effectSend), this.effectReturn.connect(this._dryWet.b), 
@@ -11834,8 +11824,8 @@
       });
     }
     /**
-         * chains the effect in between the effectSend and effectReturn
-         */    connectEffect(effect) {
+       * chains the effect in between the effectSend and effectReturn
+       */    connectEffect(effect) {
       // add it to the internal channels
       return this._internalChannels.push(effect), this.effectSend.chain(effect, this.effectReturn), 
       this;
@@ -11846,9 +11836,9 @@
     }
   }
   /**
-     * FeedbackEffect provides a loop between an audio source and its own output.
-     * This is a base-class for feedback effects.
-     */  class FeedbackEffect extends Effect {
+   * FeedbackEffect provides a loop between an audio source and its own output.
+   * This is a base-class for feedback effects.
+   */  class FeedbackEffect extends Effect {
     constructor(options) {
       super(options), this.name = "FeedbackEffect", this._feedbackGain = new Gain$1({
         context: this.context,
@@ -11868,19 +11858,19 @@
     }
   }
   /**
-     * FeedbackDelay is a DelayNode in which part of output signal is fed back into the delay.
-     *
-     * @param delayTime The delay applied to the incoming signal.
-     * @param feedback The amount of the effected signal which is fed back through the delay.
-     * @example
-     * const feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
-     * const tom = new Tone.MembraneSynth({
-     * 	octaves: 4,
-     * 	pitchDecay: 0.1
-     * }).connect(feedbackDelay);
-     * tom.triggerAttackRelease("A2", "32n");
-     * @category Effect
-     */  class FeedbackDelay extends FeedbackEffect {
+   * FeedbackDelay is a DelayNode in which part of output signal is fed back into the delay.
+   *
+   * @param delayTime The delay applied to the incoming signal.
+   * @param feedback The amount of the effected signal which is fed back through the delay.
+   * @example
+   * const feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
+   * const tom = new Tone.MembraneSynth({
+   * 	octaves: 4,
+   * 	pitchDecay: 0.1
+   * }).connect(feedbackDelay);
+   * tom.triggerAttackRelease("A2", "32n");
+   * @category Effect
+   */  class FeedbackDelay extends FeedbackEffect {
     constructor() {
       const options = optionsFromArguments(FeedbackDelay.getDefaults(), arguments, [ "delayTime", "feedback" ]);
       super(options), this.name = "FeedbackDelay", this._delayNode = new Delay$1({
@@ -11902,54 +11892,54 @@
     }
   }
   /**
-     * A delay effect with parameters for feedback, and delay time.
-     * @class Delay
-     * @constructor
-     * @param {Number} [delayTime] The delay time in seconds between 0 and 1. Defaults to 0.250.
-     * @param {Number} [feedback] The amount of feedback in the delay line between 0 and 1. Defaults to 0.2.
-     * @example
-     * <div>
-     * <code>
-     * let osc;
-     * 
-     * function setup() {
-     *   let cnv = createCanvas(100, 100);
-     *   background(220);
-     *   textAlign(CENTER);
-     *   text('tap to play', width/2, height/2);
-     * 
-     *   osc = new Oscillator('square');
-     *   osc.amp(0.5);
-     *   delay = new Delay(0.12, 0.7);
-     *   
-     *   osc.disconnect();
-     *   osc.connect(delay);
-     * 
-     *   cnv.mousePressed(oscStart);
-     *   describe('Tap to play a square wave with delay effect.');
-     * }
-     * 
-     * function oscStart() {
-     *   osc.start();
-     * }
-     * 
-     * </code>
-     * </div>
-     * function mouseReleased() {
-     *   osc.stop();
-     * }
-     */  
+   * A delay effect with parameters for feedback, and delay time.
+   * @class Delay
+   * @constructor
+   * @param {Number} [delayTime] The delay time in seconds between 0 and 1. Defaults to 0.250.
+   * @param {Number} [feedback] The amount of feedback in the delay line between 0 and 1. Defaults to 0.2.
+   * @example
+   * <div>
+   * <code>
+   * let osc;
+   * 
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   background(220);
+   *   textAlign(CENTER);
+   *   text('tap to play', width/2, height/2);
+   * 
+   *   osc = new Oscillator('square');
+   *   osc.amp(0.5);
+   *   delay = new Delay(0.12, 0.7);
+   *   
+   *   osc.disconnect();
+   *   osc.connect(delay);
+   * 
+   *   cnv.mousePressed(oscStart);
+   *   describe('Tap to play a square wave with delay effect.');
+   * }
+   * 
+   * function oscStart() {
+   *   osc.start();
+   * }
+   * 
+   * </code>
+   * </div>
+   * function mouseReleased() {
+   *   osc.stop();
+   * }
+   */  
   /**
-     * Merge brings multiple mono input channels into a single multichannel output channel.
-     *
-     * @example
-     * const merge = new Tone.Merge().toDestination();
-     * // routing a sine tone in the left channel
-     * const osc = new Tone.Oscillator().connect(merge, 0, 0).start();
-     * // and noise in the right channel
-     * const noise = new Tone.Noise().connect(merge, 0, 1).start();;
-     * @category Component
-     */
+   * Merge brings multiple mono input channels into a single multichannel output channel.
+   *
+   * @example
+   * const merge = new Tone.Merge().toDestination();
+   * // routing a sine tone in the left channel
+   * const osc = new Tone.Oscillator().connect(merge, 0, 0).start();
+   * // and noise in the right channel
+   * const noise = new Tone.Noise().connect(merge, 0, 1).start();;
+   * @category Component
+   */
   class Merge extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(Merge.getDefaults(), arguments, [ "channels" ]);
@@ -11965,24 +11955,24 @@
     }
   }
   /**
-     * Wrapper around the native BufferSourceNode.
-     * @category Source
-     */  class ToneBufferSource extends OneShotSource {
+   * Wrapper around the native BufferSourceNode.
+   * @category Source
+   */  class ToneBufferSource extends OneShotSource {
     constructor() {
       const options = optionsFromArguments(ToneBufferSource.getDefaults(), arguments, [ "url", "onload" ]);
       super(options), this.name = "ToneBufferSource", 
       /**
-             * The oscillator
-             */
+           * The oscillator
+           */
       this._source = this.context.createBufferSource(), this._internalChannels = [ this._source ], 
       /**
-             * indicators if the source has started/stopped
-             */
+           * indicators if the source has started/stopped
+           */
       this._sourceStarted = !1, this._sourceStopped = !1, connect(this._source, this._gainNode), 
       this._source.onended = () => this._stopSource()
       /**
-             * The playbackRate of the buffer
-             */ , this.playbackRate = new Param({
+           * The playbackRate of the buffer
+           */ , this.playbackRate = new Param({
         context: this.context,
         param: this._source.playbackRate,
         units: "positive",
@@ -12005,36 +11995,36 @@
       });
     }
     /**
-         * The fadeIn time of the amplitude envelope.
-         */    get fadeIn() {
+       * The fadeIn time of the amplitude envelope.
+       */    get fadeIn() {
       return this._fadeIn;
     }
     set fadeIn(t) {
       this._fadeIn = t;
     }
     /**
-         * The fadeOut time of the amplitude envelope.
-         */    get fadeOut() {
+       * The fadeOut time of the amplitude envelope.
+       */    get fadeOut() {
       return this._fadeOut;
     }
     set fadeOut(t) {
       this._fadeOut = t;
     }
     /**
-         * The curve applied to the fades, either "linear" or "exponential"
-         */    get curve() {
+       * The curve applied to the fades, either "linear" or "exponential"
+       */    get curve() {
       return this._curve;
     }
     set curve(t) {
       this._curve = t;
     }
     /**
-         * Start the buffer
-         * @param  time When the player should start.
-         * @param  offset The offset from the beginning of the sample to start at.
-         * @param  duration How long the sample should play. If no duration is given, it will default to the full length of the sample (minus any offset)
-         * @param  gain  The gain to play the buffer back at.
-         */    start(time, offset, duration, gain = 1) {
+       * Start the buffer
+       * @param  time When the player should start.
+       * @param  offset The offset from the beginning of the sample to start at.
+       * @param  duration How long the sample should play. If no duration is given, it will default to the full length of the sample (minus any offset)
+       * @param  gain  The gain to play the buffer back at.
+       */    start(time, offset, duration, gain = 1) {
       assert(this.buffer.loaded, "buffer is either not set or not loaded");
       const computedTime = this.toSeconds(time);
       // apply the gain envelope
@@ -12070,70 +12060,70 @@
       this._onended());
     }
     /**
-         * If loop is true, the loop will start at this position.
-         */    get loopStart() {
+       * If loop is true, the loop will start at this position.
+       */    get loopStart() {
       return this._source.loopStart;
     }
     set loopStart(loopStart) {
       this._source.loopStart = this.toSeconds(loopStart);
     }
     /**
-         * If loop is true, the loop will end at this position.
-         */    get loopEnd() {
+       * If loop is true, the loop will end at this position.
+       */    get loopEnd() {
       return this._source.loopEnd;
     }
     set loopEnd(loopEnd) {
       this._source.loopEnd = this.toSeconds(loopEnd);
     }
     /**
-         * The audio buffer belonging to the player.
-         */    get buffer() {
+       * The audio buffer belonging to the player.
+       */    get buffer() {
       return this._buffer;
     }
     set buffer(buffer) {
       this._buffer.set(buffer);
     }
     /**
-         * If the buffer should loop once it's over.
-         */    get loop() {
+       * If the buffer should loop once it's over.
+       */    get loop() {
       return this._source.loop;
     }
     set loop(loop) {
       this._source.loop = loop, this._sourceStarted && this.cancelStop();
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._source.onended = null, this._source.disconnect(), 
       this._buffer.dispose(), this.playbackRate.dispose(), this;
     }
   }
   /**
-     * Noise is a noise generator. It uses looped noise buffers to save on performance.
-     * Noise supports the noise types: "pink", "white", and "brown". Read more about
-     * colors of noise on [Wikipedia](https://en.wikipedia.org/wiki/Colors_of_noise).
-     *
-     * @example
-     * // initialize the noise and start
-     * const noise = new Tone.Noise("pink").start();
-     * // make an autofilter to shape the noise
-     * const autoFilter = new Tone.AutoFilter({
-     * 	frequency: "8n",
-     * 	baseFrequency: 200,
-     * 	octaves: 8
-     * }).toDestination().start();
-     * // connect the noise
-     * noise.connect(autoFilter);
-     * // start the autofilter LFO
-     * autoFilter.start();
-     * @category Source
-     */  let Noise$1 = class Noise extends Source {
+   * Noise is a noise generator. It uses looped noise buffers to save on performance.
+   * Noise supports the noise types: "pink", "white", and "brown". Read more about
+   * colors of noise on [Wikipedia](https://en.wikipedia.org/wiki/Colors_of_noise).
+   *
+   * @example
+   * // initialize the noise and start
+   * const noise = new Tone.Noise("pink").start();
+   * // make an autofilter to shape the noise
+   * const autoFilter = new Tone.AutoFilter({
+   * 	frequency: "8n",
+   * 	baseFrequency: 200,
+   * 	octaves: 8
+   * }).toDestination().start();
+   * // connect the noise
+   * noise.connect(autoFilter);
+   * // start the autofilter LFO
+   * autoFilter.start();
+   * @category Source
+   */  let Noise$1 = class Noise extends Source {
     constructor() {
       const options = optionsFromArguments(Noise.getDefaults(), arguments, [ "type" ]);
       super(options), this.name = "Noise", 
       /**
-             * Private reference to the source
-             */
+           * Private reference to the source
+           */
       this._source = null, this._playbackRate = options.playbackRate, this.type = options.type, 
       this._fadeIn = options.fadeIn, this._fadeOut = options.fadeOut;
     }
@@ -12146,11 +12136,11 @@
       });
     }
     /**
-         * The type of the noise. Can be "white", "brown", or "pink".
-         * @example
-         * const noise = new Tone.Noise().toDestination().start();
-         * noise.type = "brown";
-         */    get type() {
+       * The type of the noise. Can be "white", "brown", or "pink".
+       * @example
+       * const noise = new Tone.Noise().toDestination().start();
+       * noise.type = "brown";
+       */    get type() {
       return this._type;
     }
     set type(type) {
@@ -12161,17 +12151,17 @@
       }
     }
     /**
-         * The playback rate of the noise. Affects
-         * the "frequency" of the noise.
-         */    get playbackRate() {
+       * The playback rate of the noise. Affects
+       * the "frequency" of the noise.
+       */    get playbackRate() {
       return this._playbackRate;
     }
     set playbackRate(rate) {
       this._playbackRate = rate, this._source && (this._source.playbackRate.value = rate);
     }
     /**
-         * internal start method
-         */    _start(time) {
+       * internal start method
+       */    _start(time) {
       const buffer = _noiseBuffers[this._type];
       this._source = new ToneBufferSource({
         url: buffer,
@@ -12184,21 +12174,21 @@
       }).connect(this.output), this._source.start(this.toSeconds(time), Math.random() * (buffer.duration - .001));
     }
     /**
-         * internal stop method
-         */    _stop(time) {
+       * internal stop method
+       */    _stop(time) {
       this._source && (this._source.stop(this.toSeconds(time)), this._source = null);
     }
     /**
-         * The fadeIn time of the amplitude envelope.
-         */    get fadeIn() {
+       * The fadeIn time of the amplitude envelope.
+       */    get fadeIn() {
       return this._fadeIn;
     }
     set fadeIn(time) {
       this._fadeIn = time, this._source && (this._source.fadeIn = this._fadeIn);
     }
     /**
-         * The fadeOut time of the amplitude envelope.
-         */    get fadeOut() {
+       * The fadeOut time of the amplitude envelope.
+       */    get fadeOut() {
       return this._fadeOut;
     }
     set fadeOut(time) {
@@ -12209,8 +12199,8 @@
       this._stop(time), this._start(time);
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._source && this._source.disconnect(), this;
     }
   };
@@ -12219,18 +12209,18 @@
   //--------------------
   // Noise buffer stats
     /**
-     * Cache the noise buffers
-     */
+   * Cache the noise buffers
+   */
   const _noiseCache = {
     brown: null,
     pink: null,
     white: null
   };
   /**
-     * The noise arrays. Generated on initialization.
-     * borrowed heavily from https://github.com/zacharydenton/noise.js
-     * (c) 2013 Zach Denton (MIT)
-     */  const _noiseBuffers = {
+   * The noise arrays. Generated on initialization.
+   * borrowed heavily from https://github.com/zacharydenton/noise.js
+   * (c) 2013 Zach Denton (MIT)
+   */  const _noiseBuffers = {
     get brown() {
       if (!_noiseCache.brown) {
         const buffer = [];
@@ -12281,29 +12271,29 @@
     }
   };
   /**
-     * Simple convolution created with decaying noise.
-     * Generates an Impulse Response Buffer
-     * with Tone.Offline then feeds the IR into ConvolverNode.
-     * The impulse response generation is async, so you have
-     * to wait until {@link ready} resolves before it will make a sound.
-     *
-     * Inspiration from [ReverbGen](https://github.com/adelespinasse/reverbGen).
-     * Copyright (c) 2014 Alan deLespinasse Apache 2.0 License.
-     *
-     * @category Effect
-     */  let Reverb$1 = class Reverb extends Effect {
+   * Simple convolution created with decaying noise.
+   * Generates an Impulse Response Buffer
+   * with Tone.Offline then feeds the IR into ConvolverNode.
+   * The impulse response generation is async, so you have
+   * to wait until {@link ready} resolves before it will make a sound.
+   *
+   * Inspiration from [ReverbGen](https://github.com/adelespinasse/reverbGen).
+   * Copyright (c) 2014 Alan deLespinasse Apache 2.0 License.
+   *
+   * @category Effect
+   */  let Reverb$1 = class Reverb extends Effect {
     constructor() {
       const options = optionsFromArguments(Reverb.getDefaults(), arguments, [ "decay" ]);
       super(options), this.name = "Reverb", 
       /**
-             * Convolver node
-             */
+           * Convolver node
+           */
       this._convolver = this.context.createConvolver(), 
       /**
-             * Resolves when the reverb buffer is generated. Whenever either {@link decay}
-             * or {@link preDelay} are set, you have to wait until {@link ready} resolves
-             * before the IR is generated with the latest values.
-             */
+           * Resolves when the reverb buffer is generated. Whenever either {@link decay}
+           * or {@link preDelay} are set, you have to wait until {@link ready} resolves
+           * before the IR is generated with the latest values.
+           */
       this.ready = Promise.resolve(), this._decay = options.decay, this._preDelay = options.preDelay, 
       this.generate(), this.connectEffect(this._convolver);
     }
@@ -12314,25 +12304,25 @@
       });
     }
     /**
-         * The duration of the reverb.
-         */    get decay() {
+       * The duration of the reverb.
+       */    get decay() {
       return this._decay;
     }
     set decay(time) {
       assertRange(time = this.toSeconds(time), .001), this._decay = time, this.generate();
     }
     /**
-         * The amount of time before the reverb is fully ramped in.
-         */    get preDelay() {
+       * The amount of time before the reverb is fully ramped in.
+       */    get preDelay() {
       return this._preDelay;
     }
     set preDelay(time) {
       assertRange(time = this.toSeconds(time), 0), this._preDelay = time, this.generate();
     }
     /**
-         * Generate the Impulse Response. Returns a promise while the IR is being generated.
-         * @return Promise which returns this object.
-         */    generate() {
+       * Generate the Impulse Response. Returns a promise while the IR is being generated.
+       * @return Promise which returns this object.
+       */    generate() {
       return __awaiter(this, void 0, void 0, (function*() {
         const previousReady = this.ready;
         // create a noise burst which decays over the duration in each channel
@@ -12367,50 +12357,50 @@
     }
   };
   /**
-     * Add reverb to a sound by specifying duration and decay.
-     * @class Reverb
-     * @constructor
-     * @param {Number} [decayTime] Set the decay time of the reverb
-     * @example
-     * <div>
-     * <code>
-     * let noise, osc, env, reverb;
-     * let randomTime = 0;
-     * 
-     * function setup() {
-     *   let cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(playSound);
-     *   noise = new Noise();
-     *   env = new Envelope();
-     *   reverb = new Reverb();
-     *   noise.disconnect();
-     *   noise.connect(env);
-     *   env.disconnect();
-     *   env.connect(reverb);
-     *   noise.start();
-     *   textAlign(CENTER);
-     * }
-     * 
-     * function playSound() {
-     *  randomTime = random(0.1, 3);
-     *  reverb.set(randomTime); 
-     *  env.play();
-     * }
-     * 
-     * function draw() {
-     *   background(220);
-     *   text('click to play', width/2, 20);
-     *   text('decay ' + round(randomTime, 2), width/2, 40);
-     *   describe('Click to play a sound with a random decay time.');
-     * }
-     * </code>
-     * </div>
-     */  
+   * Add reverb to a sound by specifying duration and decay.
+   * @class Reverb
+   * @constructor
+   * @param {Number} [decayTime] Set the decay time of the reverb
+   * @example
+   * <div>
+   * <code>
+   * let noise, osc, env, reverb;
+   * let randomTime = 0;
+   * 
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(playSound);
+   *   noise = new Noise();
+   *   env = new Envelope();
+   *   reverb = new Reverb();
+   *   noise.disconnect();
+   *   noise.connect(env);
+   *   env.disconnect();
+   *   env.connect(reverb);
+   *   noise.start();
+   *   textAlign(CENTER);
+   * }
+   * 
+   * function playSound() {
+   *  randomTime = random(0.1, 3);
+   *  reverb.set(randomTime); 
+   *  env.play();
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   *   text('click to play', width/2, 20);
+   *   text('decay ' + round(randomTime, 2), width/2, 40);
+   *   describe('Click to play a sound with a random decay time.');
+   * }
+   * </code>
+   * </div>
+   */  
   /**
-     * Thin wrapper around the native Web Audio [BiquadFilterNode](https://webaudio.github.io/web-audio-api/#biquadfilternode).
-     * BiquadFilter is similar to {@link Filter} but doesn't have the option to set the "rolloff" value.
-     * @category Component
-     */
+   * Thin wrapper around the native Web Audio [BiquadFilterNode](https://webaudio.github.io/web-audio-api/#biquadfilternode).
+   * BiquadFilter is similar to {@link Filter} but doesn't have the option to set the "rolloff" value.
+   * @category Component
+   */
   class BiquadFilter extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(BiquadFilter.getDefaults(), arguments, [ "frequency", "type" ]);
@@ -12448,9 +12438,9 @@
       });
     }
     /**
-         * The type of this BiquadFilterNode. For a complete list of types and their attributes, see the
-         * [Web Audio API](https://webaudio.github.io/web-audio-api/#dom-biquadfiltertype-lowpass)
-         */    get type() {
+       * The type of this BiquadFilterNode. For a complete list of types and their attributes, see the
+       * [Web Audio API](https://webaudio.github.io/web-audio-api/#dom-biquadfiltertype-lowpass)
+       */    get type() {
       return this._filter.type;
     }
     set type(type) {
@@ -12458,11 +12448,11 @@
       this._filter.type = type;
     }
     /**
-         * Get the frequency response curve. This curve represents how the filter
-         * responses to frequencies between 20hz-20khz.
-         * @param  len The number of values to return
-         * @return The frequency response curve between 20-20kHz
-         */    getFrequencyResponse(len = 128) {
+       * Get the frequency response curve. This curve represents how the filter
+       * responses to frequencies between 20hz-20khz.
+       * @param  len The number of values to return
+       * @return The frequency response curve between 20-20kHz
+       */    getFrequencyResponse(len = 128) {
       // start with all 1s
       const freqValues = new Float32Array(len);
       for (let i = 0; i < len; i++) {
@@ -12483,73 +12473,73 @@
     }
   }
   /**
-     * Filter the frequency range of a sound.
-     * @class Biquad
-     * @constructor
-     * @param {Number} [cutoff] cutoff frequency of the filter, a value between 0 and 24000.
-     * @param {String} [type] filter type. Options: "lowpass", 
-     *                        "highpass", "bandpass", "lowshelf",
-     *                        "highshelf", "notch", "allpass", 
-     *                        "peaking"
-     */  
+   * Filter the frequency range of a sound.
+   * @class Biquad
+   * @constructor
+   * @param {Number} [cutoff] cutoff frequency of the filter, a value between 0 and 24000.
+   * @param {String} [type] filter type. Options: "lowpass", 
+   *                        "highpass", "bandpass", "lowshelf",
+   *                        "highshelf", "notch", "allpass", 
+   *                        "peaking"
+   */  
   /**
-     * AudioToGain converts an input in AudioRange [-1,1] to NormalRange [0,1].
-     * @see {@link GainToAudio}.
-     * @category Signal
-     */
+   * AudioToGain converts an input in AudioRange [-1,1] to NormalRange [0,1].
+   * @see {@link GainToAudio}.
+   * @category Signal
+   */
   class AudioToGain extends SignalOperator {
     constructor() {
       super(...arguments), this.name = "AudioToGain", 
       /**
-             * The node which converts the audio ranges
-             */
+           * The node which converts the audio ranges
+           */
       this._norm = new WaveShaper({
         context: this.context,
         mapping: x => (x + 1) / 2
       }), 
       /**
-             * The AudioRange input [-1, 1]
-             */
+           * The AudioRange input [-1, 1]
+           */
       this.input = this._norm, 
       /**
-             * The GainRange output [0, 1]
-             */
+           * The GainRange output [0, 1]
+           */
       this.output = this._norm;
     }
     /**
-         * clean up
-         */    dispose() {
+       * clean up
+       */    dispose() {
       return super.dispose(), this._norm.dispose(), this;
     }
   }
   /**
-     * Add a signal and a number or two signals. When no value is
-     * passed into the constructor, Tone.Add will sum input and `addend`
-     * If a value is passed into the constructor, the it will be added to the input.
-     *
-     * @example
-     * return Tone.Offline(() => {
-     * 	const add = new Tone.Add(2).toDestination();
-     * 	add.addend.setValueAtTime(1, 0.2);
-     * 	const signal = new Tone.Signal(2);
-     * 	// add a signal and a scalar
-     * 	signal.connect(add);
-     * 	signal.setValueAtTime(1, 0.1);
-     * }, 0.5, 1);
-     * @category Signal
-     */  class Add extends Signal {
+   * Add a signal and a number or two signals. When no value is
+   * passed into the constructor, Tone.Add will sum input and `addend`
+   * If a value is passed into the constructor, the it will be added to the input.
+   *
+   * @example
+   * return Tone.Offline(() => {
+   * 	const add = new Tone.Add(2).toDestination();
+   * 	add.addend.setValueAtTime(1, 0.2);
+   * 	const signal = new Tone.Signal(2);
+   * 	// add a signal and a scalar
+   * 	signal.connect(add);
+   * 	signal.setValueAtTime(1, 0.1);
+   * }, 0.5, 1);
+   * @category Signal
+   */  class Add extends Signal {
     constructor() {
       super(optionsFromArguments(Add.getDefaults(), arguments, [ "value" ])), this.override = !1, 
       this.name = "Add", 
       /**
-             * the summing node
-             */
+           * the summing node
+           */
       this._sum = new Gain$1({
         context: this.context
       }), this.input = this._sum, this.output = this._sum, 
       /**
-             * The value which is added to the input signal
-             */
+           * The value which is added to the input signal
+           */
       this.addend = this._param, connectSeries(this._constantSource, this._sum);
     }
     static getDefaults() {
@@ -12562,30 +12552,30 @@
     }
   }
   /**
-     * Multiply two incoming signals. Or, if a number is given in the constructor,
-     * multiplies the incoming signal by that value.
-     *
-     * @example
-     * // multiply two signals
-     * const mult = new Tone.Multiply();
-     * const sigA = new Tone.Signal(3);
-     * const sigB = new Tone.Signal(4);
-     * sigA.connect(mult);
-     * sigB.connect(mult.factor);
-     * // output of mult is 12.
-     * @example
-     * // multiply a signal and a number
-     * const mult = new Tone.Multiply(10);
-     * const sig = new Tone.Signal(2).connect(mult);
-     * // the output of mult is 20.
-     * @category Signal
-     */  class Multiply extends Signal {
+   * Multiply two incoming signals. Or, if a number is given in the constructor,
+   * multiplies the incoming signal by that value.
+   *
+   * @example
+   * // multiply two signals
+   * const mult = new Tone.Multiply();
+   * const sigA = new Tone.Signal(3);
+   * const sigB = new Tone.Signal(4);
+   * sigA.connect(mult);
+   * sigB.connect(mult.factor);
+   * // output of mult is 12.
+   * @example
+   * // multiply a signal and a number
+   * const mult = new Tone.Multiply(10);
+   * const sig = new Tone.Signal(2).connect(mult);
+   * // the output of mult is 20.
+   * @category Signal
+   */  class Multiply extends Signal {
     constructor() {
       const options = optionsFromArguments(Multiply.getDefaults(), arguments, [ "value" ]);
       super(options), this.name = "Multiply", 
       /**
-             * Indicates if the value should be overridden on connection
-             */
+           * Indicates if the value should be overridden on connection
+           */
       this.override = !1, this._mult = this.input = this.output = new Gain$1({
         context: this.context,
         minValue: options.minValue,
@@ -12602,16 +12592,16 @@
     }
   }
   /**
-     * Performs a linear scaling on an input signal.
-     * Scales a NormalRange input to between
-     * outputMin and outputMax.
-     *
-     * @example
-     * const scale = new Tone.Scale(50, 100);
-     * const signal = new Tone.Signal(0.5).connect(scale);
-     * // the output of scale equals 75
-     * @category Signal
-     */  class Scale extends SignalOperator {
+   * Performs a linear scaling on an input signal.
+   * Scales a NormalRange input to between
+   * outputMin and outputMax.
+   *
+   * @example
+   * const scale = new Tone.Scale(50, 100);
+   * const signal = new Tone.Signal(0.5).connect(scale);
+   * // the output of scale equals 75
+   * @category Signal
+   */  class Scale extends SignalOperator {
     constructor() {
       const options = optionsFromArguments(Scale.getDefaults(), arguments, [ "min", "max" ]);
       super(options), this.name = "Scale", this._mult = this.input = new Multiply({
@@ -12629,24 +12619,24 @@
       });
     }
     /**
-         * The minimum output value. This number is output when the value input value is 0.
-         */    get min() {
+       * The minimum output value. This number is output when the value input value is 0.
+       */    get min() {
       return this._min;
     }
     set min(min) {
       this._min = min, this._setRange();
     }
     /**
-         * The maximum output value. This number is output when the value input value is 1.
-         */    get max() {
+       * The maximum output value. This number is output when the value input value is 1.
+       */    get max() {
       return this._max;
     }
     set max(max) {
       this._max = max, this._setRange();
     }
     /**
-         * set the values
-         */    _setRange() {
+       * set the values
+       */    _setRange() {
       this._add.value = this._min, this._mult.value = this._max - this._min;
     }
     dispose() {
@@ -12654,63 +12644,63 @@
     }
   }
   /**
-     * Tone.Zero outputs 0's at audio-rate. The reason this has to be
-     * it's own class is that many browsers optimize out Tone.Signal
-     * with a value of 0 and will not process nodes further down the graph.
-     * @category Signal
-     */  class Zero extends SignalOperator {
+   * Tone.Zero outputs 0's at audio-rate. The reason this has to be
+   * it's own class is that many browsers optimize out Tone.Signal
+   * with a value of 0 and will not process nodes further down the graph.
+   * @category Signal
+   */  class Zero extends SignalOperator {
     constructor() {
       super(optionsFromArguments(Zero.getDefaults(), arguments)), this.name = "Zero", 
       /**
-             * The gain node which connects the constant source to the output
-             */
+           * The gain node which connects the constant source to the output
+           */
       this._gain = new Gain$1({
         context: this.context
       }), 
       /**
-             * Only outputs 0
-             */
+           * Only outputs 0
+           */
       this.output = this._gain, 
       /**
-             * no input node
-             */
+           * no input node
+           */
       this.input = void 0, connect(this.context.getConstant(0), this._gain);
     }
     /**
-         * clean up
-         */    dispose() {
+       * clean up
+       */    dispose() {
       return super.dispose(), disconnect(this.context.getConstant(0), this._gain), this;
     }
   }
   /**
-     * LFO stands for low frequency oscillator. LFO produces an output signal
-     * which can be attached to an AudioParam or Tone.Signal
-     * in order to modulate that parameter with an oscillator. The LFO can
-     * also be synced to the transport to start/stop and change when the tempo changes.
-     * @example
-     * return Tone.Offline(() => {
-     * 	const lfo = new Tone.LFO("4n", 400, 4000).start().toDestination();
-     * }, 0.5, 1);
-     * @category Source
-     */  class LFO extends ToneAudioNode {
+   * LFO stands for low frequency oscillator. LFO produces an output signal
+   * which can be attached to an AudioParam or Tone.Signal
+   * in order to modulate that parameter with an oscillator. The LFO can
+   * also be synced to the transport to start/stop and change when the tempo changes.
+   * @example
+   * return Tone.Offline(() => {
+   * 	const lfo = new Tone.LFO("4n", 400, 4000).start().toDestination();
+   * }, 0.5, 1);
+   * @category Source
+   */  class LFO extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(LFO.getDefaults(), arguments, [ "frequency", "min", "max" ]);
       super(options), this.name = "LFO", 
       /**
-             * The value that the LFO outputs when it's stopped
-             */
+           * The value that the LFO outputs when it's stopped
+           */
       this._stoppedValue = 0, 
       /**
-             * A private placeholder for the units
-             */
+           * A private placeholder for the units
+           */
       this._units = "number", 
       /**
-             * If the input value is converted using the {@link units}
-             */
+           * If the input value is converted using the {@link units}
+           */
       this.convert = !0, 
       /**
-             * Private methods borrowed from Param
-             */
+           * Private methods borrowed from Param
+           */
       // @ts-ignore
       this._fromType = Param.prototype._fromType, 
       // @ts-ignore
@@ -12752,84 +12742,84 @@
       });
     }
     /**
-         * Start the LFO.
-         * @param time The time the LFO will start
-         */    start(time) {
+       * Start the LFO.
+       * @param time The time the LFO will start
+       */    start(time) {
       return time = this.toSeconds(time), this._stoppedSignal.setValueAtTime(0, time), 
       this._oscillator.start(time), this;
     }
     /**
-         * Stop the LFO.
-         * @param  time The time the LFO will stop
-         */    stop(time) {
+       * Stop the LFO.
+       * @param  time The time the LFO will stop
+       */    stop(time) {
       return time = this.toSeconds(time), this._stoppedSignal.setValueAtTime(this._stoppedValue, time), 
       this._oscillator.stop(time), this;
     }
     /**
-         * Sync the start/stop/pause to the transport
-         * and the frequency to the bpm of the transport
-         * @example
-         * const lfo = new Tone.LFO("8n");
-         * lfo.sync().start(0);
-         * // the rate of the LFO will always be an eighth note, even as the tempo changes
-         */    sync() {
+       * Sync the start/stop/pause to the transport
+       * and the frequency to the bpm of the transport
+       * @example
+       * const lfo = new Tone.LFO("8n");
+       * lfo.sync().start(0);
+       * // the rate of the LFO will always be an eighth note, even as the tempo changes
+       */    sync() {
       return this._oscillator.sync(), this._oscillator.syncFrequency(), this;
     }
     /**
-         * unsync the LFO from transport control
-         */    unsync() {
+       * unsync the LFO from transport control
+       */    unsync() {
       return this._oscillator.unsync(), this._oscillator.unsyncFrequency(), this;
     }
     /**
-         * After the oscillator waveform is updated, reset the `_stoppedSignal` value to match the updated waveform
-         */    _setStoppedValue() {
+       * After the oscillator waveform is updated, reset the `_stoppedSignal` value to match the updated waveform
+       */    _setStoppedValue() {
       this._stoppedValue = this._oscillator.getInitialValue(), this._stoppedSignal.value = this._stoppedValue;
     }
     /**
-         * The minimum output of the LFO.
-         */    get min() {
+       * The minimum output of the LFO.
+       */    get min() {
       return this._toType(this._scaler.min);
     }
     set min(min) {
       min = this._fromType(min), this._scaler.min = min;
     }
     /**
-         * The maximum output of the LFO.
-         */    get max() {
+       * The maximum output of the LFO.
+       */    get max() {
       return this._toType(this._scaler.max);
     }
     set max(max) {
       max = this._fromType(max), this._scaler.max = max;
     }
     /**
-         * The type of the oscillator.
-         * @see {@link Oscillator.type}
-         */    get type() {
+       * The type of the oscillator.
+       * @see {@link Oscillator.type}
+       */    get type() {
       return this._oscillator.type;
     }
     set type(type) {
       this._oscillator.type = type, this._setStoppedValue();
     }
     /**
-         * The oscillator's partials array.
-         * @see {@link Oscillator.partials}
-         */    get partials() {
+       * The oscillator's partials array.
+       * @see {@link Oscillator.partials}
+       */    get partials() {
       return this._oscillator.partials;
     }
     set partials(partials) {
       this._oscillator.partials = partials, this._setStoppedValue();
     }
     /**
-         * The phase of the LFO.
-         */    get phase() {
+       * The phase of the LFO.
+       */    get phase() {
       return this._oscillator.phase;
     }
     set phase(phase) {
       this._oscillator.phase = phase, this._setStoppedValue();
     }
     /**
-         * The output units of the LFO.
-         */    get units() {
+       * The output units of the LFO.
+       */    get units() {
       return this._units;
     }
     set units(val) {
@@ -12839,15 +12829,15 @@
             this._units = val, this.min = currentMin, this.max = currentMax;
     }
     /**
-         * Returns the playback state of the source, either "started" or "stopped".
-         */    get state() {
+       * Returns the playback state of the source, either "started" or "stopped".
+       */    get state() {
       return this._oscillator.state;
     }
     /**
-         * @param node the destination to connect to
-         * @param outputNum the optional output number
-         * @param inputNum the input number
-         */    connect(node, outputNum, inputNum) {
+       * @param node the destination to connect to
+       * @param outputNum the optional output number
+       * @param inputNum the input number
+       */    connect(node, outputNum, inputNum) {
       return (node instanceof Param || node instanceof Signal) && (this.convert = node.convert, 
       this.units = node.units), connectSignal(this, node, outputNum, inputNum), this;
     }
@@ -12858,13 +12848,13 @@
     }
   }
   /**
-     * PitchShift does near-realtime pitch shifting to the incoming signal.
-     * The effect is achieved by speeding up or slowing down the delayTime
-     * of a DelayNode using a sawtooth wave.
-     * Algorithm found in [this pdf](http://dsp-book.narod.ru/soundproc.pdf).
-     * Additional reference by [Miller Pucket](http://msp.ucsd.edu/techniques/v0.11/book-html/node115.html).
-     * @category Effect
-     */  class PitchShift extends FeedbackEffect {
+   * PitchShift does near-realtime pitch shifting to the incoming signal.
+   * The effect is achieved by speeding up or slowing down the delayTime
+   * of a DelayNode using a sawtooth wave.
+   * Algorithm found in [this pdf](http://dsp-book.narod.ru/soundproc.pdf).
+   * Additional reference by [Miller Pucket](http://msp.ucsd.edu/techniques/v0.11/book-html/node115.html).
+   * @category Effect
+   */  class PitchShift extends FeedbackEffect {
     constructor() {
       const options = optionsFromArguments(PitchShift.getDefaults(), arguments, [ "pitch" ]);
       super(options), this.name = "PitchShift", this._frequency = new Signal({
@@ -12920,13 +12910,13 @@
       });
     }
     /**
-         * Repitch the incoming signal by some interval (measured in semi-tones).
-         * @example
-         * const pitchShift = new Tone.PitchShift().toDestination();
-         * const osc = new Tone.Oscillator().connect(pitchShift).start().toDestination();
-         * pitchShift.pitch = -12; // down one octave
-         * pitchShift.pitch = 7; // up a fifth
-         */    get pitch() {
+       * Repitch the incoming signal by some interval (measured in semi-tones).
+       * @example
+       * const pitchShift = new Tone.PitchShift().toDestination();
+       * const osc = new Tone.Oscillator().connect(pitchShift).start().toDestination();
+       * pitchShift.pitch = -12; // down one octave
+       * pitchShift.pitch = 7; // up a fifth
+       */    get pitch() {
       return this._pitch;
     }
     set pitch(interval) {
@@ -12938,11 +12928,11 @@
       this._frequency.value = factor * (1.2 / this._windowSize);
     }
     /**
-         * The window size corresponds roughly to the sample length in a looping sampler.
-         * Smaller values are desirable for a less noticeable delay time of the pitch shifted
-         * signal, but larger values will result in smoother pitch shifting for larger intervals.
-         * A nominal range of 0.03 to 0.1 is recommended.
-         */    get windowSize() {
+       * The window size corresponds roughly to the sample length in a looping sampler.
+       * Smaller values are desirable for a less noticeable delay time of the pitch shifted
+       * signal, but larger values will result in smoother pitch shifting for larger intervals.
+       * A nominal range of 0.03 to 0.1 is recommended.
+       */    get windowSize() {
       return this._windowSize;
     }
     set windowSize(size) {
@@ -12955,53 +12945,53 @@
     }
   }
   /**
-     * Change the pitch of a sound.
-     * @class PitchShifter
-     * @constructor
-     * @example
-     * <div>
-     * <code>
-     *  let cnv, soundFile, pitchShifter;
-     *  
-     * function preload() {
-     *   soundFile = loadSound('assets/gtrSample.mp3');
-     * }
-     *  
-     * function setup() {
-     *   cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(startSound);
-     *   background(220);
-     *   textAlign(CENTER);
-     *   textSize(9);
-     *   text('click to play sound', width/2, height/2);
-     *   pitchShifter = new PitchShifter();
-     *   
-     *   soundFile.disconnect();
-     *   soundFile.connect(pitchShifter);
-     *   //change the pitch and retrigger sample when done playing
-     *   soundFile.onended(changePitch);
-     * }
-     * 
-     * function startSound () {
-     *   soundFile.play();
-     * }
-     *  
-     * function changePitch () {
-     *   let pitchValue = random(-12, 12);
-     *   pitchShifter.shift(pitchValue);
-     *   soundFile.play();
-     * }
-     * </code>
-     * </div>
-     */  
+   * Change the pitch of a sound.
+   * @class PitchShifter
+   * @constructor
+   * @example
+   * <div>
+   * <code>
+   *  let cnv, soundFile, pitchShifter;
+   *  
+   * function preload() {
+   *   soundFile = loadSound('assets/gtrSample.mp3');
+   * }
+   *  
+   * function setup() {
+   *   cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(startSound);
+   *   background(220);
+   *   textAlign(CENTER);
+   *   textSize(9);
+   *   text('click to play sound', width/2, height/2);
+   *   pitchShifter = new PitchShifter();
+   *   
+   *   soundFile.disconnect();
+   *   soundFile.connect(pitchShifter);
+   *   //change the pitch and retrigger sample when done playing
+   *   soundFile.onended(changePitch);
+   * }
+   * 
+   * function startSound () {
+   *   soundFile.play();
+   * }
+   *  
+   * function changePitch () {
+   *   let pitchValue = random(-12, 12);
+   *   pitchShifter.shift(pitchValue);
+   *   soundFile.play();
+   * }
+   * </code>
+   * </div>
+   */  
   /**
-     * Split splits an incoming signal into the number of given channels.
-     *
-     * @example
-     * const split = new Tone.Split();
-     * // stereoSignal.connect(split);
-     * @category Component
-     */
+   * Split splits an incoming signal into the number of given channels.
+   *
+   * @example
+   * const split = new Tone.Split();
+   * // stereoSignal.connect(split);
+   * @category Component
+   */
   class Split extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(Split.getDefaults(), arguments, [ "channels" ]);
@@ -13018,20 +13008,20 @@
     }
   }
   /**
-     * Wrapper around the native Web Audio's [AnalyserNode](http://webaudio.github.io/web-audio-api/#idl-def-AnalyserNode).
-     * Extracts FFT or Waveform data from the incoming signal.
-     * @category Component
-     */  class Analyser extends ToneAudioNode {
+   * Wrapper around the native Web Audio's [AnalyserNode](http://webaudio.github.io/web-audio-api/#idl-def-AnalyserNode).
+   * Extracts FFT or Waveform data from the incoming signal.
+   * @category Component
+   */  class Analyser extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(Analyser.getDefaults(), arguments, [ "type", "size" ]);
       super(options), this.name = "Analyser", 
       /**
-             * The analyser node.
-             */
+           * The analyser node.
+           */
       this._analysers = [], 
       /**
-             * The buffer that the FFT data is written to
-             */
+           * The buffer that the FFT data is written to
+           */
       this._buffers = [], this.input = this.output = this._gain = new Gain$1({
         context: this.context
       }), this._split = new Split({
@@ -13053,19 +13043,19 @@
       });
     }
     /**
-         * Run the analysis given the current settings. If {@link channels} = 1,
-         * it will return a Float32Array. If {@link channels} > 1, it will
-         * return an array of Float32Arrays where each index in the array
-         * represents the analysis done on a channel.
-         */    getValue() {
+       * Run the analysis given the current settings. If {@link channels} = 1,
+       * it will return a Float32Array. If {@link channels} > 1, it will
+       * return an array of Float32Arrays where each index in the array
+       * represents the analysis done on a channel.
+       */    getValue() {
       return this._analysers.forEach(((analyser, index) => {
         const buffer = this._buffers[index];
         "fft" === this._type ? analyser.getFloatFrequencyData(buffer) : "waveform" === this._type && analyser.getFloatTimeDomainData(buffer);
       })), 1 === this.channels ? this._buffers[0] : this._buffers;
     }
     /**
-         * The size of analysis. This must be a power of two in the range 16 to 16384.
-         */    get size() {
+       * The size of analysis. This must be a power of two in the range 16 to 16384.
+       */    get size() {
       return this._analysers[0].frequencyBinCount;
     }
     set size(size) {
@@ -13074,14 +13064,14 @@
       }));
     }
     /**
-         * The number of channels the analyser does the analysis on. Channel
-         * separation is done using {@link Split}
-         */    get channels() {
+       * The number of channels the analyser does the analysis on. Channel
+       * separation is done using {@link Split}
+       */    get channels() {
       return this._analysers.length;
     }
     /**
-         * The analysis function returned by analyser.getValue(), either "fft" or "waveform".
-         */    get type() {
+       * The analysis function returned by analyser.getValue(), either "fft" or "waveform".
+       */    get type() {
       return this._type;
     }
     set type(type) {
@@ -13089,23 +13079,23 @@
       this._type = type;
     }
     /**
-         * 0 represents no time averaging with the last analysis frame.
-         */    get smoothing() {
+       * 0 represents no time averaging with the last analysis frame.
+       */    get smoothing() {
       return this._analysers[0].smoothingTimeConstant;
     }
     set smoothing(val) {
       this._analysers.forEach((a => a.smoothingTimeConstant = val));
     }
     /**
-         * Clean up.
-         */    dispose() {
+       * Clean up.
+       */    dispose() {
       return super.dispose(), this._analysers.forEach((a => a.disconnect())), this._split.dispose(), 
       this._gain.dispose(), this;
     }
   }
   /**
-     * The base class for Metering classes.
-     */  class MeterBase extends ToneAudioNode {
+   * The base class for Metering classes.
+   */  class MeterBase extends ToneAudioNode {
     constructor() {
       super(optionsFromArguments(MeterBase.getDefaults(), arguments)), this.name = "MeterBase", 
       this.input = this.output = this._analyser = new Analyser({
@@ -13119,23 +13109,23 @@
     }
   }
   /**
-     * Meter gets the [RMS](https://en.wikipedia.org/wiki/Root_mean_square)
-     * of an input signal. It can also get the raw value of the input signal.
-     * Setting `normalRange` to `true` will covert the output to a range of
-     * 0-1. See an example using a graphical display
-     * [here](https://tonejs.github.io/examples/meter).
-     * @see {@link DCMeter}.
-     *
-     * @example
-     * const meter = new Tone.Meter();
-     * const mic = new Tone.UserMedia();
-     * mic.open();
-     * // connect mic to the meter
-     * mic.connect(meter);
-     * // the current level of the mic
-     * setInterval(() => console.log(meter.getValue()), 100);
-     * @category Component
-     */  class Meter extends MeterBase {
+   * Meter gets the [RMS](https://en.wikipedia.org/wiki/Root_mean_square)
+   * of an input signal. It can also get the raw value of the input signal.
+   * Setting `normalRange` to `true` will covert the output to a range of
+   * 0-1. See an example using a graphical display
+   * [here](https://tonejs.github.io/examples/meter).
+   * @see {@link DCMeter}.
+   *
+   * @example
+   * const meter = new Tone.Meter();
+   * const mic = new Tone.UserMedia();
+   * mic.open();
+   * // connect mic to the meter
+   * mic.connect(meter);
+   * // the current level of the mic
+   * setInterval(() => console.log(meter.getValue()), 100);
+   * @category Component
+   */  class Meter extends MeterBase {
     constructor() {
       const options = optionsFromArguments(Meter.getDefaults(), arguments, [ "smoothing" ]);
       super(options), this.name = "Meter", this.input = this.output = this._analyser = new Analyser({
@@ -13154,18 +13144,18 @@
       });
     }
     /**
-         * Use {@link getValue} instead. For the previous getValue behavior, use DCMeter.
-         * @deprecated
-         */    getLevel() {
+       * Use {@link getValue} instead. For the previous getValue behavior, use DCMeter.
+       * @deprecated
+       */    getLevel() {
       return warn("'getLevel' has been changed to 'getValue'"), this.getValue();
     }
     /**
-         * Get the current value of the incoming signal.
-         * Output is in decibels when {@link normalRange} is `false`.
-         * If {@link channels} = 1, then the output is a single number
-         * representing the value of the input signal. When {@link channels} > 1,
-         * then each channel is returned as a value in a number array.
-         */    getValue() {
+       * Get the current value of the incoming signal.
+       * Output is in decibels when {@link normalRange} is `false`.
+       * If {@link channels} = 1, then the output is a single number
+       * representing the value of the input signal. When {@link channels} > 1,
+       * then each channel is returned as a value in a number array.
+       */    getValue() {
       const aValues = this._analyser.getValue();
       const vals = (1 === this.channels ? [ aValues ] : aValues).map(((values, index) => {
         const totalSquared = values.reduce(((total, current) => total + current * current), 0);
@@ -13178,8 +13168,8 @@
       return 1 === this.channels ? vals[0] : vals;
     }
     /**
-         * The number of channels of analysis.
-         */    get channels() {
+       * The number of channels of analysis.
+       */    get channels() {
       return this._analyser.channels;
     }
     dispose() {
@@ -13187,47 +13177,47 @@
     }
   }
   /**
-     * Get the current volume of a sound.
-     * @class Amplitude
-     * @constructor
-     * @example
-     * <div>
-     * <code>
-     * let sound, amp, cnv;
-     *   
-     * function preload() {
-     *   //replace this sound with something local with rights to distribute
-     *   sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-     * }
-     * 
-     * function setup() {
-     *   cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(playSound);
-     *   textAlign(CENTER);
-     *   fill(255);
-     *   amp = new Amplitude();
-     *   sound.connect(amp);
-     * }
-     * 
-     * function playSound() {
-     *   sound.play();
-     * }
-     * 
-     * function draw() {
-     *   let level = amp.getLevel();
-     *   level = map(level, 0, 0.2, 0, 255);
-     *   background(level, 0, 0);
-     *   text('tap to play', width/2, 20);
-     *   describe('The color of the background changes based on the amplitude of the sound.');
-     * }
-     * </code>
-     * </div>
-     */  
+   * Get the current volume of a sound.
+   * @class Amplitude
+   * @constructor
+   * @example
+   * <div>
+   * <code>
+   * let sound, amp, cnv;
+   *   
+   * function preload() {
+   *   //replace this sound with something local with rights to distribute
+   *   sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+   * }
+   * 
+   * function setup() {
+   *   cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(playSound);
+   *   textAlign(CENTER);
+   *   fill(255);
+   *   amp = new Amplitude();
+   *   sound.connect(amp);
+   * }
+   * 
+   * function playSound() {
+   *   sound.play();
+   * }
+   * 
+   * function draw() {
+   *   let level = amp.getLevel();
+   *   level = map(level, 0, 0.2, 0, 255);
+   *   background(level, 0, 0);
+   *   text('tap to play', width/2, 20);
+   *   describe('The color of the background changes based on the amplitude of the sound.');
+   * }
+   * </code>
+   * </div>
+   */  
   /**
-     * Get the current frequency data of the connected audio source using a fast Fourier transform.
-     * Read more about FFT algorithms on [Wikipedia] (https://en.wikipedia.org/wiki/Fast_Fourier_transform).
-     * @category Component
-     */
+   * Get the current frequency data of the connected audio source using a fast Fourier transform.
+   * Read more about FFT algorithms on [Wikipedia] (https://en.wikipedia.org/wiki/Fast_Fourier_transform).
+   * @category Component
+   */
   let FFT$1 = class FFT extends MeterBase {
     constructor() {
       const options = optionsFromArguments(FFT.getDefaults(), arguments, [ "size" ]);
@@ -13242,43 +13232,43 @@
       });
     }
     /**
-         * Gets the current frequency data from the connected audio source.
-         * Returns the frequency data of length {@link size} as a Float32Array of decibel values.
-         */    getValue() {
+       * Gets the current frequency data from the connected audio source.
+       * Returns the frequency data of length {@link size} as a Float32Array of decibel values.
+       */    getValue() {
       return this._analyser.getValue().map((v => this.normalRange ? dbToGain(v) : v));
     }
     /**
-         * The size of analysis. This must be a power of two in the range 16 to 16384.
-         * Determines the size of the array returned by {@link getValue} (i.e. the number of
-         * frequency bins). Large FFT sizes may be costly to compute.
-         */    get size() {
+       * The size of analysis. This must be a power of two in the range 16 to 16384.
+       * Determines the size of the array returned by {@link getValue} (i.e. the number of
+       * frequency bins). Large FFT sizes may be costly to compute.
+       */    get size() {
       return this._analyser.size;
     }
     set size(size) {
       this._analyser.size = size;
     }
     /**
-         * 0 represents no time averaging with the last analysis frame.
-         */    get smoothing() {
+       * 0 represents no time averaging with the last analysis frame.
+       */    get smoothing() {
       return this._analyser.smoothing;
     }
     set smoothing(val) {
       this._analyser.smoothing = val;
     }
     /**
-         * Returns the frequency value in hertz of each of the indices of the FFT's {@link getValue} response.
-         * @example
-         * const fft = new Tone.FFT(32);
-         * console.log([0, 1, 2, 3, 4].map(index => fft.getFrequencyOfIndex(index)));
-         */    getFrequencyOfIndex(index) {
+       * Returns the frequency value in hertz of each of the indices of the FFT's {@link getValue} response.
+       * @example
+       * const fft = new Tone.FFT(32);
+       * console.log([0, 1, 2, 3, 4].map(index => fft.getFrequencyOfIndex(index)));
+       */    getFrequencyOfIndex(index) {
       return assert(0 <= index && index < this.size, `index must be greater than or equal to 0 and less than ${this.size}`), 
       index * this.context.sampleRate / (2 * this.size);
     }
   };
   /**
-     * Get the current waveform data of the connected audio source.
-     * @category Component
-     */  class Waveform extends MeterBase {
+   * Get the current waveform data of the connected audio source.
+   * @category Component
+   */  class Waveform extends MeterBase {
     constructor() {
       const options = optionsFromArguments(Waveform.getDefaults(), arguments, [ "size" ]);
       super(options), this.name = "Waveform", this._analyser.type = "waveform", this.size = options.size;
@@ -13289,15 +13279,15 @@
       });
     }
     /**
-         * Return the waveform for the current time as a Float32Array where each value in the array
-         * represents a sample in the waveform.
-         */    getValue() {
+       * Return the waveform for the current time as a Float32Array where each value in the array
+       * represents a sample in the waveform.
+       */    getValue() {
       return this._analyser.getValue();
     }
     /**
-         * The size of analysis. This must be a power of two in the range 16 to 16384.
-         * Determines the size of the array returned by {@link getValue}.
-         */    get size() {
+       * The size of analysis. This must be a power of two in the range 16 to 16384.
+       * Determines the size of the array returned by {@link getValue}.
+       */    get size() {
       return this._analyser.size;
     }
     set size(size) {
@@ -13305,77 +13295,77 @@
     }
   }
   /**
-     * Analyze the frequency spectrum and waveform of sounds.
-     * @class FFT
-     * @constructor
-     * @param {Number} [fftSize] FFT anaylsis size. Must be a power of two between 16 and 1024. Defaults to 32.
-     * @example
-     * <div>
-     * <code>
-     * let osc;
-     *
-     * function setup(){
-     *   let cnv = createCanvas(100,100);
-     *   cnv.mouseClicked(togglePlay);
-     *   fft = new FFT(32);
-     *   osc = new TriOsc(440);
-     *   osc.connect(fft);
-     * }
-     * 
-     * function draw(){
-     *   background(220);
-     *   let spectrum = fft.analyze();
-     *   noStroke();
-     *   fill(255, 0, 0);
-     * 
-     *   for (let i = 0; i < spectrum.length; i++) {
-     *     let x = map(i, 0, spectrum.length, 0, width);     
-     *     let h = -height + map(spectrum[i], 0, 0.1, height, 0);
-     *     rect(x, height, width / spectrum.length, h )
-     *   }
-     * 
-     *   let waveform = fft.waveform();
-     *   noFill();
-     *   beginShape();
-     *   stroke(20);
-     *   
-     *   for (let i = 0; i < waveform.length; i++){
-     *     let x = map(i, 0, waveform.length, 0, width);
-     *     let y = map( waveform[i], -1, 1, 0, height);
-     *     vertex(x,y);
-     *   }
-     *   endShape();
-     *   
-     *   textAlign(CENTER);
-     *   text('tap to play', width/2, 20);
-     *   osc.freq(map(mouseX, 0, width, 100, 2000));
-     *   describe('The sketch displays the frequency spectrum and waveform of the sound that plays.');
-     * }
-     * 
-     * function togglePlay() {
-     *   osc.start();
-     * }
-     * </code>
-     * </div>
-     */  
+   * Analyze the frequency spectrum and waveform of sounds.
+   * @class FFT
+   * @constructor
+   * @param {Number} [fftSize] FFT anaylsis size. Must be a power of two between 16 and 1024. Defaults to 32.
+   * @example
+   * <div>
+   * <code>
+   * let osc;
+   *
+   * function setup(){
+   *   let cnv = createCanvas(100,100);
+   *   cnv.mouseClicked(togglePlay);
+   *   fft = new FFT(32);
+   *   osc = new TriOsc(440);
+   *   osc.connect(fft);
+   * }
+   * 
+   * function draw(){
+   *   background(220);
+   *   let spectrum = fft.analyze();
+   *   noStroke();
+   *   fill(255, 0, 0);
+   * 
+   *   for (let i = 0; i < spectrum.length; i++) {
+   *     let x = map(i, 0, spectrum.length, 0, width);     
+   *     let h = -height + map(spectrum[i], 0, 0.1, height, 0);
+   *     rect(x, height, width / spectrum.length, h )
+   *   }
+   * 
+   *   let waveform = fft.waveform();
+   *   noFill();
+   *   beginShape();
+   *   stroke(20);
+   *   
+   *   for (let i = 0; i < waveform.length; i++){
+   *     let x = map(i, 0, waveform.length, 0, width);
+   *     let y = map( waveform[i], -1, 1, 0, height);
+   *     vertex(x,y);
+   *   }
+   *   endShape();
+   *   
+   *   textAlign(CENTER);
+   *   text('tap to play', width/2, 20);
+   *   osc.freq(map(mouseX, 0, width, 100, 2000));
+   *   describe('The sketch displays the frequency spectrum and waveform of the sound that plays.');
+   * }
+   * 
+   * function togglePlay() {
+   *   osc.start();
+   * }
+   * </code>
+   * </div>
+   */  
   /**
-     * Panner is an equal power Left/Right Panner. It is a wrapper around the StereoPannerNode.
-     * @example
-     * return Tone.Offline(() => {
-     * // move the input signal from right to left
-     * 	const panner = new Tone.Panner(1).toDestination();
-     * 	panner.pan.rampTo(-1, 0.5);
-     * 	const osc = new Tone.Oscillator(100).connect(panner).start();
-     * }, 0.5, 2);
-     * @category Component
-     */
+   * Panner is an equal power Left/Right Panner. It is a wrapper around the StereoPannerNode.
+   * @example
+   * return Tone.Offline(() => {
+   * // move the input signal from right to left
+   * 	const panner = new Tone.Panner(1).toDestination();
+   * 	panner.pan.rampTo(-1, 0.5);
+   * 	const osc = new Tone.Oscillator(100).connect(panner).start();
+   * }, 0.5, 2);
+   * @category Component
+   */
   let Panner$1 = class Panner extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(Panner.getDefaults(), arguments, [ "pan" ]);
       super(options), this.name = "Panner", 
       /**
-             * the panner node
-             */
+           * the panner node
+           */
       this._panner = this.context.createStereoPanner(), this.input = this._panner, this.output = this._panner, 
       this.pan = new Param({
         context: this.context,
@@ -13402,48 +13392,48 @@
     }
   };
   /**
-     * A panning effect.
-     * @class Panner
-     * @constructor
-     * @example
-     * <div>
-     * <code>
-     * let panner, lfo, soundfile, cnv;
-     * 
-     * function preload() {
-     *   soundfile = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-     * }
-     * 
-     * function setup() {
-     *   cnv = createCanvas(100, 100);
-     *   background(220);
-     *   cnv.mousePressed(startSound);
-     *   
-     *   panner = new Panner();
-     *   lfo = new Oscillator(1);
-     *   //disconnect lfo from speakers because we don't want to hear it!
-     *   lfo.disconnect();
-     *   panner.pan(lfo);
-     * 
-     *   soundfile.loop();
-     *   soundfile.disconnect();
-     *   soundfile.connect(panner);
-     *   
-     * }
-     * 
-     * function startSound() {
-     *   lfo.start();
-     *   soundfile.start();
-     * }
-     * </code>
-     * </div>
-     */  
+   * A panning effect.
+   * @class Panner
+   * @constructor
+   * @example
+   * <div>
+   * <code>
+   * let panner, lfo, soundfile, cnv;
+   * 
+   * function preload() {
+   *   soundfile = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+   * }
+   * 
+   * function setup() {
+   *   cnv = createCanvas(100, 100);
+   *   background(220);
+   *   cnv.mousePressed(startSound);
+   *   
+   *   panner = new Panner();
+   *   lfo = new Oscillator(1);
+   *   //disconnect lfo from speakers because we don't want to hear it!
+   *   lfo.disconnect();
+   *   panner.pan(lfo);
+   * 
+   *   soundfile.loop();
+   *   soundfile.disconnect();
+   *   soundfile.connect(panner);
+   *   
+   * }
+   * 
+   * function startSound() {
+   *   lfo.start();
+   *   soundfile.start();
+   * }
+   * </code>
+   * </div>
+   */  
   /**
-     * Tone.Listener is a thin wrapper around the AudioListener. Listener combined
-     * with {@link Panner3D} makes up the Web Audio API's 3D panning system. Panner3D allows you
-     * to place sounds in 3D and Listener allows you to navigate the 3D sound environment from
-     * a first-person perspective. There is only one listener per audio context.
-     */
+   * Tone.Listener is a thin wrapper around the AudioListener. Listener combined
+   * with {@link Panner3D} makes up the Web Audio API's 3D panning system. Panner3D allows you
+   * to place sounds in 3D and Listener allows you to navigate the 3D sound environment from
+   * a first-person perspective. There is only one listener per audio context.
+   */
   class ListenerClass extends ToneAudioNode {
     constructor() {
       super(...arguments), this.name = "Listener", this.positionX = new Param({
@@ -13505,9 +13495,9 @@
     context.listener.dispose();
   }));
   /**
-     * A spatialized panner node which supports equalpower or HRTF panning.
-     * @category Component
-     */
+   * A spatialized panner node which supports equalpower or HRTF panning.
+   * @category Component
+   */
   let Panner3D$1 = class Panner3D extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(Panner3D.getDefaults(), arguments, [ "positionX", "positionY", "positionZ" ]);
@@ -13562,78 +13552,78 @@
       });
     }
     /**
-         * Sets the position of the source in 3d space.
-         */    setPosition(x, y, z) {
+       * Sets the position of the source in 3d space.
+       */    setPosition(x, y, z) {
       return this.positionX.value = x, this.positionY.value = y, this.positionZ.value = z, 
       this;
     }
     /**
-         * Sets the orientation of the source in 3d space.
-         */    setOrientation(x, y, z) {
+       * Sets the orientation of the source in 3d space.
+       */    setOrientation(x, y, z) {
       return this.orientationX.value = x, this.orientationY.value = y, this.orientationZ.value = z, 
       this;
     }
     /**
-         * The panning model. Either "equalpower" or "HRTF".
-         */    get panningModel() {
+       * The panning model. Either "equalpower" or "HRTF".
+       */    get panningModel() {
       return this._panner.panningModel;
     }
     set panningModel(val) {
       this._panner.panningModel = val;
     }
     /**
-         * A reference distance for reducing volume as source move further from the listener
-         */    get refDistance() {
+       * A reference distance for reducing volume as source move further from the listener
+       */    get refDistance() {
       return this._panner.refDistance;
     }
     set refDistance(val) {
       this._panner.refDistance = val;
     }
     /**
-         * Describes how quickly the volume is reduced as source moves away from listener.
-         */    get rolloffFactor() {
+       * Describes how quickly the volume is reduced as source moves away from listener.
+       */    get rolloffFactor() {
       return this._panner.rolloffFactor;
     }
     set rolloffFactor(val) {
       this._panner.rolloffFactor = val;
     }
     /**
-         * The distance model used by,  "linear", "inverse", or "exponential".
-         */    get distanceModel() {
+       * The distance model used by,  "linear", "inverse", or "exponential".
+       */    get distanceModel() {
       return this._panner.distanceModel;
     }
     set distanceModel(val) {
       this._panner.distanceModel = val;
     }
     /**
-         * The angle, in degrees, inside of which there will be no volume reduction
-         */    get coneInnerAngle() {
+       * The angle, in degrees, inside of which there will be no volume reduction
+       */    get coneInnerAngle() {
       return this._panner.coneInnerAngle;
     }
     set coneInnerAngle(val) {
       this._panner.coneInnerAngle = val;
     }
     /**
-         * The angle, in degrees, outside of which the volume will be reduced
-         * to a constant value of coneOuterGain
-         */    get coneOuterAngle() {
+       * The angle, in degrees, outside of which the volume will be reduced
+       * to a constant value of coneOuterGain
+       */    get coneOuterAngle() {
       return this._panner.coneOuterAngle;
     }
     set coneOuterAngle(val) {
       this._panner.coneOuterAngle = val;
     }
     /**
-         * The gain outside of the coneOuterAngle
-         */    get coneOuterGain() {
+       * The gain outside of the coneOuterAngle
+       */    get coneOuterGain() {
       return this._panner.coneOuterGain;
     }
     set coneOuterGain(val) {
       this._panner.coneOuterGain = val;
     }
     /**
-         * The maximum distance between source and listener,
-         * after which the volume will not be reduced any further.
-         */    get maxDistance() {
+       * The maximum distance between source and listener,
+       * after which the volume will not be reduced any further.
+       */    get maxDistance() {
       return this._panner.maxDistance;
     }
     set maxDistance(val) {
@@ -13646,117 +13636,117 @@
     }
   };
   /**
-     * A 3D sound spatializer.
-     * @class Panner3D
-     * @constructor
-     * @example
-     * <div>
-     * <code>
-     * let radius = 10 ; 
-     * let soundSource, spatializer;
-     * let font;
-     * let cnv;
-     * 
-     * let x = 0;
-     * let y = 0;
-     * let z = 100;
-     * 
-     * let vX;
-     * let vY;
-     * let vZ;
-     * 
-     * function preload() {
-     *   soundSource = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-     *   font = loadFont('https://cdn.glitch.global/3db712b6-c53c-49eb-a8ea-83c7a363871d/Canterbury.ttf?v=1715211442728');
-     * }
-     * 
-     * function setup() {
-     *   describe(
-     *     'A 3D shape with a sound source attached to it. The sound source is spatialized using the Panner3D class. Click to play the sound.'
-     *   );
-     *   cnv = createCanvas(100, 100, WEBGL);
-     *   cnv.mousePressed(playSound);
-     * 
-     *   camera(0, 0, 0, 0, 0, 1);
-     *   
-     * 
-     *   textFont(font);
-     *   textAlign(CENTER,CENTER);
-     *   
-     *   angleMode(DEGREES);
-     * 
-     *   vX = random(-0.5, 0.5);
-     *   vY = random(-0.5, 0.5);
-     *   vZ = random(-0.5, 0.5) * 1.5;
-     * 
-     *   spatializer = new Panner3D();
-     *   spatializer.maxDist(100);
-     *   soundSource.loop();
-     *   soundSource.disconnect();
-     *   soundSource.connect(spatializer);
-     *   
-     *   
-     * }
-     * 
-     * function playSound() {
-     *   soundSource.play();
-     * }
-     * 
-     * function draw() {
-     *   background(220);
-     *   push();
-     *   textSize(5);
-     *   fill(0);
-     *   translate(0,0,100);
-     *   //text('click to play', 0, 0);
-     *   pop();
-     *   // Update Box and Sound Source Position
-     *   push();
-     *   moveSoundBox();
-     *   box(5, 5, 5);
-     *   pop();
-     * }
-     * 
-     * // Rotate 1 degree per frame along all three axes
-     * function moveSoundBox() {
-     *   x = x + vX;
-     *   y = y + vY;
-     *   z = z + vZ;
-     * 
-     *   if (x > radius || x < -radius) {
-     *     vX = -vX;
-     *   }
-     *   if (y > radius || y < -radius) {
-     *     vY = -vY;
-     *   }
-     *   if (z > 250 || z < 80) {
-     *     vZ = -vZ;
-     *   }
-     *   //set the position of the 3D panner
-     *   spatializer.set(x, y, z);
-     *   //set the postion of the box
-     *   translate(x, y, z);
-     *   rotateX(45 + frameCount);
-     *   rotateZ(45);
-     * }
-     * </code>
-     * </div>
-     */  
+   * A 3D sound spatializer.
+   * @class Panner3D
+   * @constructor
+   * @example
+   * <div>
+   * <code>
+   * let radius = 10 ; 
+   * let soundSource, spatializer;
+   * let font;
+   * let cnv;
+   * 
+   * let x = 0;
+   * let y = 0;
+   * let z = 100;
+   * 
+   * let vX;
+   * let vY;
+   * let vZ;
+   * 
+   * function preload() {
+   *   soundSource = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+   *   font = loadFont('https://cdn.glitch.global/3db712b6-c53c-49eb-a8ea-83c7a363871d/Canterbury.ttf?v=1715211442728');
+   * }
+   * 
+   * function setup() {
+   *   describe(
+   *     'A 3D shape with a sound source attached to it. The sound source is spatialized using the Panner3D class. Click to play the sound.'
+   *   );
+   *   cnv = createCanvas(100, 100, WEBGL);
+   *   cnv.mousePressed(playSound);
+   * 
+   *   camera(0, 0, 0, 0, 0, 1);
+   *   
+   * 
+   *   textFont(font);
+   *   textAlign(CENTER,CENTER);
+   *   
+   *   angleMode(DEGREES);
+   * 
+   *   vX = random(-0.5, 0.5);
+   *   vY = random(-0.5, 0.5);
+   *   vZ = random(-0.5, 0.5) * 1.5;
+   * 
+   *   spatializer = new Panner3D();
+   *   spatializer.maxDist(100);
+   *   soundSource.loop();
+   *   soundSource.disconnect();
+   *   soundSource.connect(spatializer);
+   *   
+   *   
+   * }
+   * 
+   * function playSound() {
+   *   soundSource.play();
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   *   push();
+   *   textSize(5);
+   *   fill(0);
+   *   translate(0,0,100);
+   *   //text('click to play', 0, 0);
+   *   pop();
+   *   // Update Box and Sound Source Position
+   *   push();
+   *   moveSoundBox();
+   *   box(5, 5, 5);
+   *   pop();
+   * }
+   * 
+   * // Rotate 1 degree per frame along all three axes
+   * function moveSoundBox() {
+   *   x = x + vX;
+   *   y = y + vY;
+   *   z = z + vZ;
+   * 
+   *   if (x > radius || x < -radius) {
+   *     vX = -vX;
+   *   }
+   *   if (y > radius || y < -radius) {
+   *     vY = -vY;
+   *   }
+   *   if (z > 250 || z < 80) {
+   *     vZ = -vZ;
+   *   }
+   *   //set the position of the 3D panner
+   *   spatializer.set(x, y, z);
+   *   //set the postion of the box
+   *   translate(x, y, z);
+   *   rotateX(45 + frameCount);
+   *   rotateZ(45);
+   * }
+   * </code>
+   * </div>
+   */  
   /**
-     * Player is an audio file player with start, loop, and stop functions.
-     * @example
-     * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/gong_1.mp3").toDestination();
-     * // play as soon as the buffer is loaded
-     * player.autostart = true;
-     * @category Source
-     */
+   * Player is an audio file player with start, loop, and stop functions.
+   * @example
+   * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/gong_1.mp3").toDestination();
+   * // play as soon as the buffer is loaded
+   * player.autostart = true;
+   * @category Source
+   */
   class Player extends Source {
     constructor() {
       const options = optionsFromArguments(Player.getDefaults(), arguments, [ "url", "onload" ]);
       super(options), this.name = "Player", 
       /**
-             * All of the active buffer source nodes
-             */
+           * All of the active buffer source nodes
+           */
       this._activeSources = new Set, this._buffer = new ToneAudioBuffer({
         onload: this._onload.bind(this, options.onload),
         onerror: options.onerror,
@@ -13781,26 +13771,26 @@
       });
     }
     /**
-         * Load the audio file as an audio buffer.
-         * Decodes the audio asynchronously and invokes
-         * the callback once the audio buffer loads.
-         * Note: this does not need to be called if a url
-         * was passed in to the constructor. Only use this
-         * if you want to manually load a new url.
-         * @param url The url of the buffer to load. Filetype support depends on the browser.
-         */    load(url) {
+       * Load the audio file as an audio buffer.
+       * Decodes the audio asynchronously and invokes
+       * the callback once the audio buffer loads.
+       * Note: this does not need to be called if a url
+       * was passed in to the constructor. Only use this
+       * if you want to manually load a new url.
+       * @param url The url of the buffer to load. Filetype support depends on the browser.
+       */    load(url) {
       return __awaiter(this, void 0, void 0, (function*() {
         return yield this._buffer.load(url), this._onload(), this;
       }));
     }
     /**
-         * Internal callback when the buffer is loaded.
-         */    _onload(callback = noOp) {
+       * Internal callback when the buffer is loaded.
+       */    _onload(callback = noOp) {
       callback(), this.autostart && this.start();
     }
     /**
-         * Internal callback when the buffer is done playing.
-         */    _onSourceEnd(source) {
+       * Internal callback when the buffer is done playing.
+       */    _onSourceEnd(source) {
       // invoke the onstop function
       this.onstop(this), 
       // delete the source from the active sources
@@ -13809,19 +13799,19 @@
       this._state.cancel(this.now()), this._state.setStateAtTime("stopped", this.now()));
     }
     /**
-         * Play the buffer at the given startTime. Optionally add an offset
-         * and/or duration which will play the buffer from a position
-         * within the buffer for the given duration.
-         *
-         * @param  time When the player should start.
-         * @param  offset The offset from the beginning of the sample to start at.
-         * @param  duration How long the sample should play. If no duration is given, it will default to the full length of the sample (minus any offset)
-         */    start(time, offset, duration) {
+       * Play the buffer at the given startTime. Optionally add an offset
+       * and/or duration which will play the buffer from a position
+       * within the buffer for the given duration.
+       *
+       * @param  time When the player should start.
+       * @param  offset The offset from the beginning of the sample to start at.
+       * @param  duration How long the sample should play. If no duration is given, it will default to the full length of the sample (minus any offset)
+       */    start(time, offset, duration) {
       return super.start(time, offset, duration), this;
     }
     /**
-         * Internal start method
-         */    _start(startTime, offset, duration) {
+       * Internal start method
+       */    _start(startTime, offset, duration) {
       // if it's a loop the default offset is the loopStart point
       offset = this._loop ? defaultArg(offset, this._loopStart) : defaultArg(offset, 0);
       // compute the values in seconds
@@ -13862,18 +13852,18 @@
       source.start(startTime, computedOffset, computedDuration - this.toSeconds(this.fadeOut));
     }
     /**
-         * Stop playback.
-         */    _stop(time) {
+       * Stop playback.
+       */    _stop(time) {
       const computedTime = this.toSeconds(time);
       this._activeSources.forEach((source => source.stop(computedTime)));
     }
     /**
-         * Stop and then restart the player from the beginning (or offset)
-         * @param  time When the player should start.
-         * @param  offset The offset from the beginning of the sample to start at.
-         * @param  duration How long the sample should play. If no duration is given,
-         * 					it will default to the full length of the sample (minus any offset)
-         */    restart(time, offset, duration) {
+       * Stop and then restart the player from the beginning (or offset)
+       * @param  time When the player should start.
+       * @param  offset The offset from the beginning of the sample to start at.
+       * @param  duration How long the sample should play. If no duration is given,
+       * 					it will default to the full length of the sample (minus any offset)
+       */    restart(time, offset, duration) {
       return super.restart(time, offset, duration), this;
     }
     _restart(time, offset, duration) {
@@ -13883,17 +13873,17 @@
       this._start(time, offset, duration);
     }
     /**
-         * Seek to a specific time in the player's buffer. If the
-         * source is no longer playing at that time, it will stop.
-         * @param offset The time to seek to.
-         * @param when The time for the seek event to occur.
-         * @example
-         * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3", () => {
-         * 	player.start();
-         * 	// seek to the offset in 1 second from now
-         * 	player.seek(0.4, "+1");
-         * }).toDestination();
-         */    seek(offset, when) {
+       * Seek to a specific time in the player's buffer. If the
+       * source is no longer playing at that time, it will stop.
+       * @param offset The time to seek to.
+       * @param when The time for the seek event to occur.
+       * @example
+       * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3", () => {
+       * 	player.start();
+       * 	// seek to the offset in 1 second from now
+       * 	player.seek(0.4, "+1");
+       * }).toDestination();
+       */    seek(offset, when) {
       const computedTime = this.toSeconds(when);
       if ("started" === this._state.getValueAtTime(computedTime)) {
         const computedOffset = this.toSeconds(offset);
@@ -13905,21 +13895,21 @@
       return this;
     }
     /**
-         * Set the loop start and end. Will only loop if loop is set to true.
-         * @param loopStart The loop start time
-         * @param loopEnd The loop end time
-         * @example
-         * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/malevoices_aa2_F3.mp3").toDestination();
-         * // loop between the given points
-         * player.setLoopPoints(0.2, 0.3);
-         * player.loop = true;
-         * player.autostart = true;
-         */    setLoopPoints(loopStart, loopEnd) {
+       * Set the loop start and end. Will only loop if loop is set to true.
+       * @param loopStart The loop start time
+       * @param loopEnd The loop end time
+       * @example
+       * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/malevoices_aa2_F3.mp3").toDestination();
+       * // loop between the given points
+       * player.setLoopPoints(0.2, 0.3);
+       * player.loop = true;
+       * player.autostart = true;
+       */    setLoopPoints(loopStart, loopEnd) {
       return this.loopStart = loopStart, this.loopEnd = loopEnd, this;
     }
     /**
-         * If loop is true, the loop will start at this position.
-         */    get loopStart() {
+       * If loop is true, the loop will start at this position.
+       */    get loopStart() {
       return this._loopStart;
     }
     set loopStart(loopStart) {
@@ -13930,8 +13920,8 @@
       }));
     }
     /**
-         * If loop is true, the loop will end at this position.
-         */    get loopEnd() {
+       * If loop is true, the loop will end at this position.
+       */    get loopEnd() {
       return this._loopEnd;
     }
     set loopEnd(loopEnd) {
@@ -13942,20 +13932,20 @@
       }));
     }
     /**
-         * The audio buffer belonging to the player.
-         */    get buffer() {
+       * The audio buffer belonging to the player.
+       */    get buffer() {
       return this._buffer;
     }
     set buffer(buffer) {
       this._buffer.set(buffer);
     }
     /**
-         * If the buffer should loop once it's over.
-         * @example
-         * const player = new Tone.Player("https://tonejs.github.io/audio/drum-samples/breakbeat.mp3").toDestination();
-         * player.loop = true;
-         * player.autostart = true;
-         */    get loop() {
+       * If the buffer should loop once it's over.
+       * @example
+       * const player = new Tone.Player("https://tonejs.github.io/audio/drum-samples/breakbeat.mp3").toDestination();
+       * player.loop = true;
+       * player.autostart = true;
+       */    get loop() {
       return this._loop;
     }
     set loop(loop) {
@@ -13971,14 +13961,14 @@
       }
     }
     /**
-         * Normal speed is 1. The pitch will change with the playback rate.
-         * @example
-         * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/femalevoices_aa2_A5.mp3").toDestination();
-         * // play at 1/4 speed
-         * player.playbackRate = 0.25;
-         * // play as soon as the buffer is loaded
-         * player.autostart = true;
-         */    get playbackRate() {
+       * Normal speed is 1. The pitch will change with the playback rate.
+       * @example
+       * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/femalevoices_aa2_A5.mp3").toDestination();
+       * // play at 1/4 speed
+       * player.playbackRate = 0.25;
+       * // play as soon as the buffer is loaded
+       * player.autostart = true;
+       */    get playbackRate() {
       return this._playbackRate;
     }
     set playbackRate(rate) {
@@ -13993,21 +13983,21 @@
       }));
     }
     /**
-         * If the buffer should be reversed. Note that this sets the underlying {@link ToneAudioBuffer.reverse}, so
-         * if multiple players are pointing at the same ToneAudioBuffer, they will all be reversed.
-         * @example
-         * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/chime_1.mp3").toDestination();
-         * player.autostart = true;
-         * player.reverse = true;
-         */    get reverse() {
+       * If the buffer should be reversed. Note that this sets the underlying {@link ToneAudioBuffer.reverse}, so
+       * if multiple players are pointing at the same ToneAudioBuffer, they will all be reversed.
+       * @example
+       * const player = new Tone.Player("https://tonejs.github.io/audio/berklee/chime_1.mp3").toDestination();
+       * player.autostart = true;
+       * player.reverse = true;
+       */    get reverse() {
       return this._buffer.reverse;
     }
     set reverse(rev) {
       this._buffer.reverse = rev;
     }
     /**
-         * If the buffer is loaded
-         */    get loaded() {
+       * If the buffer is loaded
+       */    get loaded() {
       return this._buffer.loaded;
     }
     dispose() {
@@ -14019,189 +14009,189 @@
   }
   __decorate([ timeRange(0) ], Player.prototype, "fadeIn", void 0), __decorate([ timeRange(0) ], Player.prototype, "fadeOut", void 0);
   /**
-     * Load and play sound files.
-     * @class SoundFile
-     * @constructor
-     * @example
-     * <div>
-     * <code>
-     * let sound, amp, delay, cnv;
-     * 
-     * function preload() {
-     *   //replace this sound with something local with rights to distribute
-     *   //need to fix local asset loading first though :) 
-     *   sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-     * }
-     * 
-     * function setup() {
-     *   cnv = createCanvas(100, 100);
-     *   textAlign(CENTER);
-     *   cnv.mousePressed(playSound);
-     *   amp = new Amplitude();
-     *   delay = new Delay();
-     *   sound.disconnect();
-     *   sound.connect(delay);
-     *   delay.connect(amp);
-     * }
-     * 
-     * function playSound() {
-     *   sound.play();
-     * }
-     * 
-     * function draw() {
-     *   let dtime = map(mouseX, 0, width, 0, 1);
-     *   delay.delayTime(dtime);
-     *   let f = map(mouseY, 0, height, 0, .75);
-     *   delay.feedback(f);
-     *   let level = map(amp.getLevel(), 0, 0.5, 0, 255);
-     *   background(level, 0, 0);
-     *   fill(255);
-     *   text('click to play', width/2, 20);
-     *  }
-     * </code>
-     * </div>
-     */
+   * Load and play sound files.
+   * @class SoundFile
+   * @constructor
+   * @example
+   * <div>
+   * <code>
+   * let sound, amp, delay, cnv;
+   * 
+   * function preload() {
+   *   //replace this sound with something local with rights to distribute
+   *   //need to fix local asset loading first though :) 
+   *   sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+   * }
+   * 
+   * function setup() {
+   *   cnv = createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   cnv.mousePressed(playSound);
+   *   amp = new Amplitude();
+   *   delay = new Delay();
+   *   sound.disconnect();
+   *   sound.connect(delay);
+   *   delay.connect(amp);
+   * }
+   * 
+   * function playSound() {
+   *   sound.play();
+   * }
+   * 
+   * function draw() {
+   *   let dtime = map(mouseX, 0, width, 0, 1);
+   *   delay.delayTime(dtime);
+   *   let f = map(mouseY, 0, height, 0, .75);
+   *   delay.feedback(f);
+   *   let level = map(amp.getLevel(), 0, 0.5, 0, 255);
+   *   background(level, 0, 0);
+   *   fill(255);
+   *   text('click to play', width/2, 20);
+   *  }
+   * </code>
+   * </div>
+   */
   class SoundFile {
     constructor(buffer, successCallback) {
       this.soundfile = new Player(buffer, successCallback).toDestination(), this.playing = !1, 
       this.rate = 1, this.paused = !1;
     }
     /**
-       * Start the soundfile.
-       * @method start
-       * @for SoundFile 
-       */    start() {
+     * Start the soundfile.
+     * @method start
+     * @for SoundFile 
+     */    start() {
       this.soundfile.playbackRate = this.rate, this.playing = !0, this.paused || this.soundfile.start();
     }
     /**
-       * Start the soundfile.
-       * @method play
-       * @for SoundFile
-       */    play() {
+     * Start the soundfile.
+     * @method play
+     * @for SoundFile
+     */    play() {
       this.soundfile.playbackRate = this.rate, this.playing = !0, this.paused || this.soundfile.start();
     }
     /**
-       * Stop the soundfile.
-       * @method stop
-       * @for SoundFile 
-       */    stop() {
+     * Stop the soundfile.
+     * @method stop
+     * @for SoundFile 
+     */    stop() {
       this.soundfile.stop(), this.playing = !1;
     }
     /**
-       * Pause the soundfile.
-       * @method pause
-       * @for SoundFile 
-       * @example
-       * <div>
-       * <code>
-       * let player;
-       *
-       * function preload() {
-       *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-       * }
-       * 
-       * function setup() {
-       *   describe('A sketch that pauses and resumes sound file playback.');
-       *   let cnv = createCanvas(100, 100);
-       *   cnv.mousePressed(playSound);
-       *   background(220);
-       *   textAlign(CENTER);
-       *   textWrap(WORD);
-       *   textSize(10);
-       *   background(220);
-       *   text('click to play', 0, 20, 100);
-       *   
-       *   player.loop();
-       * }
-       * 
-       * function playSound() {
-       *   if (!player.isPlaying()) {
-       *     player.play();
-       *     background(220);
-       *     text('click to pause', 0, 20, 100);
-       *   }
-       *   else {
-       *     player.pause();
-       *     background(220);
-       *     text('click to play', 0, 20, 100);
-       *   }
-       * }
-       * </code>
-       * </div>
-       */    pause() {
+     * Pause the soundfile.
+     * @method pause
+     * @for SoundFile 
+     * @example
+     * <div>
+     * <code>
+     * let player;
+     *
+     * function preload() {
+     *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+     * }
+     * 
+     * function setup() {
+     *   describe('A sketch that pauses and resumes sound file playback.');
+     *   let cnv = createCanvas(100, 100);
+     *   cnv.mousePressed(playSound);
+     *   background(220);
+     *   textAlign(CENTER);
+     *   textWrap(WORD);
+     *   textSize(10);
+     *   background(220);
+     *   text('click to play', 0, 20, 100);
+     *   
+     *   player.loop();
+     * }
+     * 
+     * function playSound() {
+     *   if (!player.isPlaying()) {
+     *     player.play();
+     *     background(220);
+     *     text('click to pause', 0, 20, 100);
+     *   }
+     *   else {
+     *     player.pause();
+     *     background(220);
+     *     text('click to play', 0, 20, 100);
+     *   }
+     * }
+     * </code>
+     * </div>
+     */    pause() {
       //no such pause method in Tone.js need to find workaround
       this.soundfile.playbackRate = 0, this.playing = !1, this.paused = !0;
     }
     /**
-       * Loop the soundfile.
-       * @method loop
-       * @for SoundFile
-       * @param {Boolean} loopState Set to True or False in order to set the loop state.
-       */    loop(value = !0) {
+     * Loop the soundfile.
+     * @method loop
+     * @for SoundFile
+     * @param {Boolean} loopState Set to True or False in order to set the loop state.
+     */    loop(value = !0) {
       this.soundfile.loop = value;
     }
     /**
-       * Set a loop region, and optionally a playback rate, and amplitude for the soundfile.
-       * @method setLoop
-       * @for SoundFile
-       * @param {Number} [startTime] Set to True or False in order to set the loop state.
-       * @param {Number} [rate] Set to True or False in order to set the loop state.
-       * @param {Number} [amp] Set to True or False in order to set the loop state.
-       * @param {Number} [duration] Set to True or False in order to set the loop state.
-       */    loopPoints(startTime = 0, duration = this.soundfile.buffer.duration, schedule = 0) {
+     * Set a loop region, and optionally a playback rate, and amplitude for the soundfile.
+     * @method setLoop
+     * @for SoundFile
+     * @param {Number} [startTime] Set to True or False in order to set the loop state.
+     * @param {Number} [rate] Set to True or False in order to set the loop state.
+     * @param {Number} [amp] Set to True or False in order to set the loop state.
+     * @param {Number} [duration] Set to True or False in order to set the loop state.
+     */    loopPoints(startTime = 0, duration = this.soundfile.buffer.duration, schedule = 0) {
       this.soundfile.loopStart = startTime, this.soundfile.loopEnd = startTime + duration;
     }
     /**
-       * Adjust the amplitude of the soundfile.
-       * @method amp
-       * @for SoundFile
-       * @param {Number} amplitude amplitude value between 0 and 1.
-       */    amp(value) {
+     * Adjust the amplitude of the soundfile.
+     * @method amp
+     * @for SoundFile
+     * @param {Number} amplitude amplitude value between 0 and 1.
+     */    amp(value) {
       let dbValue = gainToDb(value);
       this.soundfile.volume.value = dbValue;
     }
     /**
-       * Change the path for the soundfile.
-       * @method setPath
-       * @for SoundFile
-       * @param {String} path Path to the sound file.
-       * @param {Function} [successCallback] Function to call when the sound file is loaded.
-       * @example
-       * <div>
-       * <code>
-       * let soundSource, cnv, btn;
-       *
-       * function preload() {
-       *   soundSource = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-       * }
-       * 
-       * function setup() {
-       *   describe(
-       *     'a sketch that says click to play sound. there is a button that says load sound. when you click the button, the path of the sound file player changes and the new sound plays.');
-       *   cnv = createCanvas(100, 100);
-       *   cnv.mousePressed(playSound);
-       *   background(220);
-       *   textAlign(CENTER);
-       *   textWrap(WORD);
-       *   textSize(10);
-       *   text('click to play sound or the button to load a new sound', 0, 20, 100);
-       *   btn = createButton('New Sound');
-       *   btn.mousePressed(setNewPath);
-       *   soundSource.loop();  
-       * }
-       * 
-       * function playSound() {
-       *   soundSource.play();
-       * }
-       * 
-       * function setNewPath() {
-       *   background(220);
-       *   text('a new sound was loaded', 0, 20, 100);
-       *   soundSource.setPath('https://tonejs.github.io/audio/berklee/gong_2.mp3', playSound); 
-       * }
-       * </code>
-       * </div>
-       */    setPath(path, successCallback) {
+     * Change the path for the soundfile.
+     * @method setPath
+     * @for SoundFile
+     * @param {String} path Path to the sound file.
+     * @param {Function} [successCallback] Function to call when the sound file is loaded.
+     * @example
+     * <div>
+     * <code>
+     * let soundSource, cnv, btn;
+     *
+     * function preload() {
+     *   soundSource = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+     * }
+     * 
+     * function setup() {
+     *   describe(
+     *     'a sketch that says click to play sound. there is a button that says load sound. when you click the button, the path of the sound file player changes and the new sound plays.');
+     *   cnv = createCanvas(100, 100);
+     *   cnv.mousePressed(playSound);
+     *   background(220);
+     *   textAlign(CENTER);
+     *   textWrap(WORD);
+     *   textSize(10);
+     *   text('click to play sound or the button to load a new sound', 0, 20, 100);
+     *   btn = createButton('New Sound');
+     *   btn.mousePressed(setNewPath);
+     *   soundSource.loop();  
+     * }
+     * 
+     * function playSound() {
+     *   soundSource.play();
+     * }
+     * 
+     * function setNewPath() {
+     *   background(220);
+     *   text('a new sound was loaded', 0, 20, 100);
+     *   soundSource.setPath('https://tonejs.github.io/audio/berklee/gong_2.mp3', playSound); 
+     * }
+     * </code>
+     * </div>
+     */    setPath(path, successCallback) {
       this.soundfile.load(path).then((() => {
         successCallback ? successCallback() : console.log("Audio loaded successfully!");
       })).catch((error => {
@@ -14209,140 +14199,140 @@
       }));
     }
     /**
-       * Set the playback rate of the soundfile.
-       * @method rate
-       * @for SoundFile
-       * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
-       */    rate(value) {
+     * Set the playback rate of the soundfile.
+     * @method rate
+     * @for SoundFile
+     * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
+     */    rate(value) {
       this.soundfile.playbackRate = value, this.rate = value;
     }
     /**
-       * Returns the duration of a sound file in seconds.
-       * @method duration
-       * @for SoundFile 
-       * @return {Number} duration
-       */    duration() {
+     * Returns the duration of a sound file in seconds.
+     * @method duration
+     * @for SoundFile 
+     * @return {Number} duration
+     */    duration() {
       return this.soundfile.buffer.duration;
     }
     /**
-       * Return the sample rate of the sound file.
-       * @method sampleRate
-       * @for SoundFile
-       * @return {Number} sampleRate
-       */    sampleRate() {
+     * Return the sample rate of the sound file.
+     * @method sampleRate
+     * @for SoundFile
+     * @return {Number} sampleRate
+     */    sampleRate() {
       if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
     }
     /**
-       * Move the playhead of a soundfile that is currently playing to a new position.
-       * @method jump
-       * @for SoundFile 
-       * @param {Number} timePoint Time to jump to in seconds.
-       */    jump(value) {
+     * Move the playhead of a soundfile that is currently playing to a new position.
+     * @method jump
+     * @for SoundFile 
+     * @param {Number} timePoint Time to jump to in seconds.
+     */    jump(value) {
       this.soundfile.seek(value);
     }
     /**
-       * Return the playback state of the soundfile.
-       * @method isPlaying
-       * @for SoundFile 
-       * @return {Boolean} Playback state, true or false.
-       */    isPlaying() {
+     * Return the playback state of the soundfile.
+     * @method isPlaying
+     * @for SoundFile 
+     * @return {Boolean} Playback state, true or false.
+     */    isPlaying() {
       return this.playing;
     }
     /**
-       * Return the playback state of the soundfile.
-       * @method isLooping
-       * @for SoundFile 
-       * @return {Boolean} Looping State, true or false.
-       */    isLooping() {
+     * Return the playback state of the soundfile.
+     * @method isLooping
+     * @for SoundFile 
+     * @return {Boolean} Looping State, true or false.
+     */    isLooping() {
       return this.soundfile.loop;
     }
     /**
-       * Define a function to call when the soundfile is done playing.
-       * @method onended
-       * @for SoundFile
-       * @param {Function} callback Name of a function that will be called when the soundfile is done playing.
-       * @example
-       * <div>
-       * <code>
-       * let player;
-       *
-       * function preload() {
-       *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-       * }
-       * 
-       * function setup() {
-       *   let cnv = createCanvas(100, 100);
-       *   background(220);
-       *   textAlign(CENTER);
-       *   textSize(10);
-       *   text('click to play', width/2, height/2);
-       *   cnv.mousePressed(playSound);
-       *   player.onended(coolFunction);
-       * }
-       * 
-       * function coolFunction() {
-       *   background(220);
-       *   text('sound is done', width/2, height/2);
-       * }
-       * 
-       * function playSound() {
-       *   background(0, 255, 255);
-       *   text('sound is playing', width/2, height/2);
-       *   if (!player.isPlaying()) {
-       *     player.play();
-       *   }
-       * }
-       * </code>
-       * </div>
-       */    onended(callback) {
+     * Define a function to call when the soundfile is done playing.
+     * @method onended
+     * @for SoundFile
+     * @param {Function} callback Name of a function that will be called when the soundfile is done playing.
+     * @example
+     * <div>
+     * <code>
+     * let player;
+     *
+     * function preload() {
+     *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+     * }
+     * 
+     * function setup() {
+     *   let cnv = createCanvas(100, 100);
+     *   background(220);
+     *   textAlign(CENTER);
+     *   textSize(10);
+     *   text('click to play', width/2, height/2);
+     *   cnv.mousePressed(playSound);
+     *   player.onended(coolFunction);
+     * }
+     * 
+     * function coolFunction() {
+     *   background(220);
+     *   text('sound is done', width/2, height/2);
+     * }
+     * 
+     * function playSound() {
+     *   background(0, 255, 255);
+     *   text('sound is playing', width/2, height/2);
+     *   if (!player.isPlaying()) {
+     *     player.play();
+     *   }
+     * }
+     * </code>
+     * </div>
+     */    onended(callback) {
       this.soundfile.onstop = callback;
     }
     /**
-       * Return the number of samples in a sound file.
-       * @method frames
-       * @for SoundFile
-       * @return {Number} The number of samples in the sound file.
-       * @example
-       * <div>
-       * <code>
-       * let player;
-       *
-       * function preload() {
-       *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
-       * }
-       * 
-       * function setup() {
-       *   describe('A sketch that calculates and displays the length of a sound file using number of samples and sample rate.');
-       *   createCanvas(100, 100);
-       *   background(220);
-       *   textAlign(CENTER);
-       *   textWrap(WORD);
-       *   textSize(10);
-       *   frames = player.frames();
-       *   sampleRate = player.sampleRate();
-       *   sampleLength = round((frames / sampleRate), 2);
-       *   info = `sample is ${sampleLength} seconds long`;
-       *   text(info, 0, 20, 100);
-       * }
-       * </code>
-       * </div>
-       */    frames() {
+     * Return the number of samples in a sound file.
+     * @method frames
+     * @for SoundFile
+     * @return {Number} The number of samples in the sound file.
+     * @example
+     * <div>
+     * <code>
+     * let player;
+     *
+     * function preload() {
+     *   player = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+     * }
+     * 
+     * function setup() {
+     *   describe('A sketch that calculates and displays the length of a sound file using number of samples and sample rate.');
+     *   createCanvas(100, 100);
+     *   background(220);
+     *   textAlign(CENTER);
+     *   textWrap(WORD);
+     *   textSize(10);
+     *   frames = player.frames();
+     *   sampleRate = player.sampleRate();
+     *   sampleLength = round((frames / sampleRate), 2);
+     *   info = `sample is ${sampleLength} seconds long`;
+     *   text(info, 0, 20, 100);
+     * }
+     * </code>
+     * </div>
+     */    frames() {
       if (this.soundfile.buffer) return this.soundfile.buffer.length;
     }
     /**
-       * Gets the number of channels in the sound file.
-       * @method sampleRate
-       * @for SoundFile
-       * @return Returns the sample rate of the sound file.
-       */    sampleRate() {
+     * Gets the number of channels in the sound file.
+     * @method sampleRate
+     * @for SoundFile
+     * @return Returns the sample rate of the sound file.
+     */    sampleRate() {
       if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
     }
     /**
-       * Gets the number of channels in the sound file.
-       * @method channels
-       * @for SoundFile
-       * @return Returns the number of channels in the sound file.
-       */    channels() {
+     * Gets the number of channels in the sound file.
+     * @method channels
+     * @for SoundFile
+     * @return Returns the number of channels in the sound file.
+     */    channels() {
       if (this.soundfile.buffer) return this.soundfile.buffer.numberOfChannels;
     }
     connect(destination) {
@@ -14357,24 +14347,24 @@
   }
   var SoundFile$1 = SoundFile;
   /**
-     * UserMedia uses MediaDevices.getUserMedia to open up and external microphone or audio input.
-     * Check [MediaDevices API Support](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)
-     * to see which browsers are supported. Access to an external input
-     * is limited to secure (HTTPS) connections.
-     * @example
-     * const meter = new Tone.Meter();
-     * const mic = new Tone.UserMedia().connect(meter);
-     * mic.open().then(() => {
-     * 	// promise resolves when input is available
-     * 	console.log("mic open");
-     * 	// print the incoming mic levels in decibels
-     * 	setInterval(() => console.log(meter.getValue()), 100);
-     * }).catch(e => {
-     * 	// promise is rejected when the user doesn't have or allow mic access
-     * 	console.log("mic not open");
-     * });
-     * @category Source
-     */  class UserMedia extends ToneAudioNode {
+   * UserMedia uses MediaDevices.getUserMedia to open up and external microphone or audio input.
+   * Check [MediaDevices API Support](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)
+   * to see which browsers are supported. Access to an external input
+   * is limited to secure (HTTPS) connections.
+   * @example
+   * const meter = new Tone.Meter();
+   * const mic = new Tone.UserMedia().connect(meter);
+   * mic.open().then(() => {
+   * 	// promise resolves when input is available
+   * 	console.log("mic open");
+   * 	// print the incoming mic levels in decibels
+   * 	setInterval(() => console.log(meter.getValue()), 100);
+   * }).catch(e => {
+   * 	// promise is rejected when the user doesn't have or allow mic access
+   * 	console.log("mic not open");
+   * });
+   * @category Source
+   */  class UserMedia extends ToneAudioNode {
     constructor() {
       const options = optionsFromArguments(UserMedia.getDefaults(), arguments, [ "volume" ]);
       super(options), this.name = "UserMedia", this._volume = this.output = new Volume({
@@ -14389,13 +14379,13 @@
       });
     }
     /**
-         * Open the media stream. If a string is passed in, it is assumed
-         * to be the label or id of the stream, if a number is passed in,
-         * it is the input number of the stream.
-         * @param  labelOrId The label or id of the audio input media device.
-         *                   With no argument, the default stream is opened.
-         * @return The promise is resolved when the stream is open.
-         */    open(labelOrId) {
+       * Open the media stream. If a string is passed in, it is assumed
+       * to be the label or id of the stream, if a number is passed in,
+       * it is the input number of the stream.
+       * @param  labelOrId The label or id of the audio input media device.
+       *                   With no argument, the default stream is opened.
+       * @return The promise is resolved when the stream is open.
+       */    open(labelOrId) {
       return __awaiter(this, void 0, void 0, (function*() {
         assert(UserMedia.supported, "UserMedia is not supported"), 
         // close the previous stream
@@ -14429,8 +14419,8 @@
       }));
     }
     /**
-         * Close the media stream
-         */    close() {
+       * Close the media stream
+       */    close() {
       return this._stream && this._mediaStream && (this._stream.getAudioTracks().forEach((track => {
         track.stop();
       })), this._stream = void 0, 
@@ -14439,58 +14429,58 @@
       this;
     }
     /**
-         * Returns a promise which resolves with the list of audio input devices available.
-         * @return The promise that is resolved with the devices
-         * @example
-         * Tone.UserMedia.enumerateDevices().then((devices) => {
-         * 	// print the device labels
-         * 	console.log(devices.map(device => device.label));
-         * });
-         */    static enumerateDevices() {
+       * Returns a promise which resolves with the list of audio input devices available.
+       * @return The promise that is resolved with the devices
+       * @example
+       * Tone.UserMedia.enumerateDevices().then((devices) => {
+       * 	// print the device labels
+       * 	console.log(devices.map(device => device.label));
+       * });
+       */    static enumerateDevices() {
       return __awaiter(this, void 0, void 0, (function*() {
         return (yield navigator.mediaDevices.enumerateDevices()).filter((device => "audioinput" === device.kind));
       }));
     }
     /**
-         * Returns the playback state of the source, "started" when the microphone is open
-         * and "stopped" when the mic is closed.
-         */    get state() {
+       * Returns the playback state of the source, "started" when the microphone is open
+       * and "stopped" when the mic is closed.
+       */    get state() {
       return this._stream && this._stream.active ? "started" : "stopped";
     }
     /**
-         * Returns an identifier for the represented device that is
-         * persisted across sessions. It is un-guessable by other applications and
-         * unique to the origin of the calling application. It is reset when the
-         * user clears cookies (for Private Browsing, a different identifier is
-         * used that is not persisted across sessions). Returns undefined when the
-         * device is not open.
-         */    get deviceId() {
+       * Returns an identifier for the represented device that is
+       * persisted across sessions. It is un-guessable by other applications and
+       * unique to the origin of the calling application. It is reset when the
+       * user clears cookies (for Private Browsing, a different identifier is
+       * used that is not persisted across sessions). Returns undefined when the
+       * device is not open.
+       */    get deviceId() {
       return this._device ? this._device.deviceId : void 0;
     }
     /**
-         * Returns a group identifier. Two devices have the
-         * same group identifier if they belong to the same physical device.
-         * Returns null  when the device is not open.
-         */    get groupId() {
+       * Returns a group identifier. Two devices have the
+       * same group identifier if they belong to the same physical device.
+       * Returns null  when the device is not open.
+       */    get groupId() {
       return this._device ? this._device.groupId : void 0;
     }
     /**
-         * Returns a label describing this device (for example "Built-in Microphone").
-         * Returns undefined when the device is not open or label is not available
-         * because of permissions.
-         */    get label() {
+       * Returns a label describing this device (for example "Built-in Microphone").
+       * Returns undefined when the device is not open or label is not available
+       * because of permissions.
+       */    get label() {
       return this._device ? this._device.label : void 0;
     }
     /**
-         * Mute the output.
-         * @example
-         * const mic = new Tone.UserMedia();
-         * mic.open().then(() => {
-         * 	// promise resolves when input is available
-         * });
-         * // mute the output
-         * mic.mute = true;
-         */    get mute() {
+       * Mute the output.
+       * @example
+       * const mic = new Tone.UserMedia();
+       * mic.open().then(() => {
+       * 	// promise resolves when input is available
+       * });
+       * // mute the output
+       * mic.mute = true;
+       */    get mute() {
       return this._volume.mute;
     }
     set mute(mute) {
@@ -14501,90 +14491,89 @@
       this;
     }
     /**
-         * If getUserMedia is supported by the browser.
-         */    static get supported() {
+       * If getUserMedia is supported by the browser.
+       */    static get supported() {
       return isDefined(navigator.mediaDevices) && isDefined(navigator.mediaDevices.getUserMedia);
     }
   }
   /**
-     * Get sound from an input source, typically a computer microphone.
-     * @class AudioIn
-     * @constructor
-     * @example
-     * <div>
-     * <code>
-     * let mic, delay, filter;
-     * 
-     * function setup() {
-     *   let cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(startMic);
-     *   background(220);
-     *   
-     *   mic = new AudioIn();
-     *   delay = new Delay(0.74, 0.1);
-     *   filter = new Biquad(600, "bandpass");
-     *   
-     *   mic.disconnect();
-     *   mic.connect(delay);
-     *   delay.disconnect();
-     *   delay.connect(filter);
-     *   
-     *   textAlign(CENTER);
-     *   textWrap(WORD);
-     *   textSize(10);
-     *   text('click to open mic, watch out for feedback', 0, 20, 100);
-     *   describe('a sketch that accesses the user\'s microphone and connects it to a delay line.')
-     * }
-     * 
-     * function startMic() {
-     *   mic.start();
-     * }
-     * 
-     * function draw() {
-     *   d = map(mouseX, 0, width, 0.0, 0.5);
-     *   delay.delayTime(d);
-     * }
-     * </code>
-     * </div>
-     */  p5.prototype.getAudioContext = function() {
-    return context = getContext(), context;
-  }, p5.prototype.setAudioContext = function(context) {
-    setContext(context);
-  }, p5.prototype.userStartAudio = function() {
-    Tone.start();
-  }, p5.prototype.userStopAudio = function() {
-    context = getContext(), context.suspend();
-  }, p5.prototype.Oscillator = Oscillator, p5.prototype.SawOsc = class extends Oscillator {
+   * Get sound from an input source, typically a computer microphone.
+   * @class AudioIn
+   * @constructor
+   * @example
+   * <div>
+   * <code>
+   * let mic, delay, filter;
+   * 
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(startMic);
+   *   background(220);
+   *   
+   *   mic = new AudioIn();
+   *   delay = new Delay(0.74, 0.1);
+   *   filter = new Biquad(600, "bandpass");
+   *   
+   *   mic.disconnect();
+   *   mic.connect(delay);
+   *   delay.disconnect();
+   *   delay.connect(filter);
+   *   
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   text('click to open mic, watch out for feedback', 0, 20, 100);
+   *   describe('a sketch that accesses the user\'s microphone and connects it to a delay line.')
+   * }
+   * 
+   * function startMic() {
+   *   mic.start();
+   * }
+   * 
+   * function draw() {
+   *   d = map(mouseX, 0, width, 0.0, 0.5);
+   *   delay.delayTime(d);
+   * }
+   * </code>
+   * </div>
+   */  
+  /*import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './Utils';
+  p5.prototype.getAudioContext = getAudioContext;
+  p5.prototype.setAudioContext = setAudioContext;
+  p5.prototype.userStartAudio = userStartAudio;
+  p5.prototype.userStopAudio = userStopAudio;
+  */
+  p5.prototype.Oscillator = Oscillator, p5.prototype.SawOsc = class extends Oscillator {
     constructor(frequency) {
       super(frequency), this.osc.type = "sawtooth";
     }
   }
   /**
-     * Creates a square oscillator.
-     * @class SqrOsc
-     * @constructor
-     * @extends Oscillator
-     * @param {Number} [freq] Set the frequency
-     */ , p5.prototype.SinOsc = 
+   * Creates a square oscillator.
+   * @class SqrOsc
+   * @constructor
+   * @extends Oscillator
+   * @param {Number} [freq] Set the frequency
+   */ , p5.prototype.SinOsc = 
   /**
-     * Creates a sine oscillator.
-     * @class SinOsc
-     * @constructor
-     * @extends Oscillator
-     * @param {Number} [freq] Set the frequency
-     */
+   * Creates a sine oscillator.
+   * @class SinOsc
+   * @constructor
+   * @extends Oscillator
+   * @param {Number} [freq] Set the frequency
+   */
   class extends Oscillator {
     constructor(frequency) {
       super(frequency), this.osc.type = "sine";
     }
   }, p5.prototype.TriOsc = 
   /**
-     * Creates a triangle oscillator.
-     * @class TriOsc
-     * @constructor
-     * @extends Oscillator
-     * @param {Number} [freq] Set the frequency
-     */
+   * Creates a triangle oscillator.
+   * @class TriOsc
+   * @constructor
+   * @extends Oscillator
+   * @param {Number} [freq] Set the frequency
+   */
   class extends Oscillator {
     constructor(frequency) {
       super(frequency), this.osc.type = "triangle";
@@ -14604,133 +14593,133 @@
       }).toDestination();
     }
     /**
-       * Trigger the envelope and release it after the sustain time.
-       * @method play
-       * @for Envelope
-       */    play() {
+     * Trigger the envelope and release it after the sustain time.
+     * @method play
+     * @for Envelope
+     */    play() {
       this.envelope.triggerAttackRelease(this.sustain);
     }
     /**
-       * Trigger the Attack, and Decay portion of the Envelope. Similar to holding
-       * down a key on a piano, but it will hold the sustain level until you let go.
-       * @method triggerAttack
-       * @for Envelope
-       * @example
-       * <div>
-       * <code>
-       * let osc, env;
-       * 
-       * function setup() {
-       *   let cnv = createCanvas(100, 100);
-       *   background(220);
-       *   cnv.mousePressed(playSound);
-       *   cnv.mouseReleased(stopSound);
-       *   textAlign(CENTER);
-       *   textSize(10);
-       *   text('tap to triggerAttack', width/2, height/2);
-       * 
-       *   osc = new Oscillator();
-       *   osc.disconnect();
-       *   env = new Envelope();
-       *   osc.connect(env);
-       * }
-       * 
-       * function playSound() {
-       *   background(0, 255, 255);
-       *   text('release to release', width/2, height/2);
-       *   osc.start();
-       *   env.attackTime(random(0.00, 0.25));
-       *   env.triggerAttack(0.5);
-       * }
-       * 
-       * function stopSound() {
-       *   background(220);
-       *   text('tap to triggerAttack', width/2, height/2);
-       *   env.releaseTime(random(0.1, 0.3));
-       *   env.triggerRelease();
-       * }
-       * </code>
-       * </div>
-       */    triggerAttack() {
+     * Trigger the Attack, and Decay portion of the Envelope. Similar to holding
+     * down a key on a piano, but it will hold the sustain level until you let go.
+     * @method triggerAttack
+     * @for Envelope
+     * @example
+     * <div>
+     * <code>
+     * let osc, env;
+     * 
+     * function setup() {
+     *   let cnv = createCanvas(100, 100);
+     *   background(220);
+     *   cnv.mousePressed(playSound);
+     *   cnv.mouseReleased(stopSound);
+     *   textAlign(CENTER);
+     *   textSize(10);
+     *   text('tap to triggerAttack', width/2, height/2);
+     * 
+     *   osc = new Oscillator();
+     *   osc.disconnect();
+     *   env = new Envelope();
+     *   osc.connect(env);
+     * }
+     * 
+     * function playSound() {
+     *   background(0, 255, 255);
+     *   text('release to release', width/2, height/2);
+     *   osc.start();
+     *   env.attackTime(random(0.00, 0.25));
+     *   env.triggerAttack(0.5);
+     * }
+     * 
+     * function stopSound() {
+     *   background(220);
+     *   text('tap to triggerAttack', width/2, height/2);
+     *   env.releaseTime(random(0.1, 0.3));
+     *   env.triggerRelease();
+     * }
+     * </code>
+     * </div>
+     */    triggerAttack() {
       this.envelope.triggerAttack();
     }
     /**
-       * Trigger the Release of the envelope. Similar to releasing the key on 
-       * a piano and letting the sound fade according to the release level and 
-       * release time. 
-       * @method triggerRelease
-       * @for Envelope
-       * @example
-       * <div>
-       * <code>
-       * let osc, env;
-       * 
-       * function setup() {
-       *   let cnv = createCanvas(100, 100);
-       *   background(220);
-       *   cnv.mousePressed(playSound);
-       *   cnv.mouseReleased(stopSound);
-       *   textAlign(CENTER);
-       *   textSize(10);
-       *   text('tap to triggerAttack', width/2, height/2);
-       * 
-       *   osc = new Oscillator();
-       *   osc.disconnect();
-       *   env = new Envelope();
-       *   osc.connect(env);
-       * }
-       * 
-       * function playSound() {
-       *   background(0, 255, 255);
-       *   text('release to release', width/2, height/2);
-       *   osc.start();
-       *   env.attackTime(random(0.00, 0.25));
-       *   env.triggerAttack(0.5);
-       * }
-       * 
-       * function stopSound() {
-       *   background(220);
-       *   text('tap to triggerAttack', width/2, height/2);
-       *   env.releaseTime(random(0.1, 0.3));
-       *   env.triggerRelease();
-       * }
-       * </code>
-       * </div>
-       */    triggerRelease() {
+     * Trigger the Release of the envelope. Similar to releasing the key on 
+     * a piano and letting the sound fade according to the release level and 
+     * release time. 
+     * @method triggerRelease
+     * @for Envelope
+     * @example
+     * <div>
+     * <code>
+     * let osc, env;
+     * 
+     * function setup() {
+     *   let cnv = createCanvas(100, 100);
+     *   background(220);
+     *   cnv.mousePressed(playSound);
+     *   cnv.mouseReleased(stopSound);
+     *   textAlign(CENTER);
+     *   textSize(10);
+     *   text('tap to triggerAttack', width/2, height/2);
+     * 
+     *   osc = new Oscillator();
+     *   osc.disconnect();
+     *   env = new Envelope();
+     *   osc.connect(env);
+     * }
+     * 
+     * function playSound() {
+     *   background(0, 255, 255);
+     *   text('release to release', width/2, height/2);
+     *   osc.start();
+     *   env.attackTime(random(0.00, 0.25));
+     *   env.triggerAttack(0.5);
+     * }
+     * 
+     * function stopSound() {
+     *   background(220);
+     *   text('tap to triggerAttack', width/2, height/2);
+     *   env.releaseTime(random(0.1, 0.3));
+     *   env.triggerRelease();
+     * }
+     * </code>
+     * </div>
+     */    triggerRelease() {
       this.envelope.triggerRelease();
     }
     /**
-       * @method setInput
-       * @for Envelope
-       * @param {Object} unit A p5.sound Object 
-       */    setInput(input) {
+     * @method setInput
+     * @for Envelope
+     * @param {Object} unit A p5.sound Object 
+     */    setInput(input) {
       input.getNode().connect(this.envelope);
     }
     /**
-       * Sets the attack, decay, sustain, and release times of the envelope.
-       * @method setADSR
-       * @for Envelope
-       * @param {Number} attack how quickly the envelope reaches the maximum level
-       * @param {Number} decay how quickly the envelope reaches the sustain level
-       * @param {Number} sustain how long the envelope stays at the decay level
-       * @param {Number} release how quickly the envelope fades out after the sustain level
-       */    setADSR(a, d, s, r) {
+     * Sets the attack, decay, sustain, and release times of the envelope.
+     * @method setADSR
+     * @for Envelope
+     * @param {Number} attack how quickly the envelope reaches the maximum level
+     * @param {Number} decay how quickly the envelope reaches the sustain level
+     * @param {Number} sustain how long the envelope stays at the decay level
+     * @param {Number} release how quickly the envelope fades out after the sustain level
+     */    setADSR(a, d, s, r) {
       this.envelope.attack = a, this.envelope.decay = d, this.envelope.sustain = s, this.envelope.release = r;
     }
     /**
-       * Sets the release time of the envelope.
-       * @method releaseTime
-       * @for Envelope
-       * @param {Number} releaseTime the release time in seconds 
-       */    releaseTime(value) {
+     * Sets the release time of the envelope.
+     * @method releaseTime
+     * @for Envelope
+     * @param {Number} releaseTime the release time in seconds 
+     */    releaseTime(value) {
       this.envelope.release = value;
     }
     /**
-       * Sets the attack time of the envelope.
-       * @method attackTime
-       * @for Envelope
-       * @param {Number} attackTime the attack time in seconds 
-       */    attackTime(value) {
+     * Sets the attack time of the envelope.
+     * @method attackTime
+     * @for Envelope
+     * @param {Number} attackTime the attack time in seconds 
+     */    attackTime(value) {
       this.envelope.attack = value;
     }
     connect(destination) {
@@ -14747,89 +14736,89 @@
       this.d = d, this.f = f, this.delay = new FeedbackDelay(this.d, this.f).toDestination();
     }
     /**
-       * Set the delay time in seconds.
-       * @method delayTime
-       * @for Delay
-       * @param {Number} delayTime The delay time in seconds. 
-       * @param {Number} [rampTime] The time in seconds it takes to ramp to the new delay time. 
-       *                            By default it is 0.1 seconds. Setting it to 0 will change 
-       *                            the delay time immediately and demonstrate legacy behavior.
-       * @example
-       * <div>
-       * <code>
-       * let osc, delay, env;
-       *
-       * function setup() {
-       *   let cnv = createCanvas(100, 100);
-       *   background(220);
-       *   textAlign(CENTER);
-       *   textSize(9);
-       *   text('click and drag mouse', width/2, height/2);
-       * 
-       *   osc = new Oscillator('sawtooth');
-       *   osc.amp(0.74);
-       *   env = new Envelope(0.01);
-       *   delay = new Delay(0.12, 0.7);
-       *   
-       *   osc.disconnect();
-       *   osc.connect(env);
-       *   env.disconnect();
-       *   env.connect(delay);
-       * 
-       *   cnv.mousePressed(oscStart);
-       *   cnv.mouseReleased(oscStop);
-       *   cnv.mouseOut(oscStop);
-       *   describe('Tap to play a square wave with delay effect.');
-       * }
-       * 
-       * function oscStart() {
-       *   background(0, 255, 255);
-       *   text('release to hear delay', width/2, height/2);
-       *   osc.start();
-       *   env.triggerAttack();
-       * }
-       * 
-       * function oscStop() {
-       *   background(220);
-       *   text('click and drag mouse', width/2, height/2);
-       *   env.triggerRelease();
-       * } 
-       *   
-       * function draw() {
-       *   
-       *   let dtime = map(mouseX, 0, width, 0.1, 0.5);
-       *   delay.delayTime(dtime);
-       * }
-       */    delayTime(value, rampTime = .1) {
+     * Set the delay time in seconds.
+     * @method delayTime
+     * @for Delay
+     * @param {Number} delayTime The delay time in seconds. 
+     * @param {Number} [rampTime] The time in seconds it takes to ramp to the new delay time. 
+     *                            By default it is 0.1 seconds. Setting it to 0 will change 
+     *                            the delay time immediately and demonstrate legacy behavior.
+     * @example
+     * <div>
+     * <code>
+     * let osc, delay, env;
+     *
+     * function setup() {
+     *   let cnv = createCanvas(100, 100);
+     *   background(220);
+     *   textAlign(CENTER);
+     *   textSize(9);
+     *   text('click and drag mouse', width/2, height/2);
+     * 
+     *   osc = new Oscillator('sawtooth');
+     *   osc.amp(0.74);
+     *   env = new Envelope(0.01);
+     *   delay = new Delay(0.12, 0.7);
+     *   
+     *   osc.disconnect();
+     *   osc.connect(env);
+     *   env.disconnect();
+     *   env.connect(delay);
+     * 
+     *   cnv.mousePressed(oscStart);
+     *   cnv.mouseReleased(oscStop);
+     *   cnv.mouseOut(oscStop);
+     *   describe('Tap to play a square wave with delay effect.');
+     * }
+     * 
+     * function oscStart() {
+     *   background(0, 255, 255);
+     *   text('release to hear delay', width/2, height/2);
+     *   osc.start();
+     *   env.triggerAttack();
+     * }
+     * 
+     * function oscStop() {
+     *   background(220);
+     *   text('click and drag mouse', width/2, height/2);
+     *   env.triggerRelease();
+     * } 
+     *   
+     * function draw() {
+     *   
+     *   let dtime = map(mouseX, 0, width, 0.1, 0.5);
+     *   delay.delayTime(dtime);
+     * }
+     */    delayTime(value, rampTime = .1) {
       //legacy behavior
       0 != rampTime ? 
       //new tape emulation behavior
       this.delay.delayTime.rampTo(clamp(value, 0, 1), rampTime) : this.delay.delayTime.value = clamp(value, 0, 1);
     }
     /**
-       * The amount of feedback in the delay line.
-       * @method feedback
-       * @for Delay
-       * @param {number} feedbackAmount A number between 0 and 0.99.
-       */    feedback(value) {
+     * The amount of feedback in the delay line.
+     * @method feedback
+     * @for Delay
+     * @param {number} feedbackAmount A number between 0 and 0.99.
+     */    feedback(value) {
       this.delay.feedback.rampTo(clamp(value, 0, .99), .1);
     }
     /**
-       * Process an input signal with a delay effect.
-       * @method process
-       * @for Delay
-       * @param {Object} unit A p5.sound source such as an Oscillator, Soundfile, or AudioIn object. 
-       * @param {Number} delayTime The amount of delay in seconds. A number between 0 and 1.
-       * @param {Number} feedback The amount of feedback. A number between 0 and 1.
-       */    process(input, delayTime, feedback) {
+     * Process an input signal with a delay effect.
+     * @method process
+     * @for Delay
+     * @param {Object} unit A p5.sound source such as an Oscillator, Soundfile, or AudioIn object. 
+     * @param {Number} delayTime The amount of delay in seconds. A number between 0 and 1.
+     * @param {Number} feedback The amount of feedback. A number between 0 and 1.
+     */    process(input, delayTime, feedback) {
       this.delay.delayTime.value = delayTime, this.delay.feedback.value = feedback, input.getNode().connect(this.delay);
     }
     /**
-       * Adjust the amplitude of the delay effect.
-       * @method amp
-       * @for Delay
-       * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
-       */    amp(value) {
+     * Adjust the amplitude of the delay effect.
+     * @method amp
+     * @for Delay
+     * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
+     */    amp(value) {
       let dbValue = gainToDb(value);
       this.delay.volume.rampTo(dbValue, .1);
     }
@@ -14847,11 +14836,11 @@
       this.decayTime = decayTime || 1, this.reverb = new Reverb$1(this.decayTime).toDestination();
     }
     /**
-       * Set the decay time of the reverb.
-       * @method set
-       * @for Reverb
-       * @param {Number} time Decay time of the reverb
-       */    set(t) {
+     * Set the decay time of the reverb.
+     * @method set
+     * @for Reverb
+     * @param {Number} time Decay time of the reverb
+     */    set(t) {
       this.reverb.decay = t;
     }
     connect(destination) {
@@ -14868,35 +14857,35 @@
       this.type = t, this.cutoff = c, this.biquad = new BiquadFilter(this.cutoff, this.type).toDestination();
     }
     /**
-       * The filter's resonance factor.
-       * @method res
-       * @for Biquad
-       * @param {Number} resonance resonance of the filter. A number between 0 and 100.
-       */    res(r) {
+     * The filter's resonance factor.
+     * @method res
+     * @for Biquad
+     * @param {Number} resonance resonance of the filter. A number between 0 and 100.
+     */    res(r) {
       this.biquad.Q.value = r;
     }
     /**
-       * The gain of the filter in dB units.
-       * @method gain
-       * @for Biquad
-       * @param {Number} gain gain value in dB units. The gain is only used for lowshelf, highshelf, and peaking filters.
-       */    gain(g) {
+     * The gain of the filter in dB units.
+     * @method gain
+     * @for Biquad
+     * @param {Number} gain gain value in dB units. The gain is only used for lowshelf, highshelf, and peaking filters.
+     */    gain(g) {
       this.biquad.gain.value = g;
     }
     /**
-       * Set the type of the filter.
-       * @method setType
-       * @for Biquad
-       * @param {String} type type of the filter. Options: "lowpass", "highpass", "bandpass", "lowshelf", "highshelf", "notch", "allpass", "peaking" 
-       */    setType(t) {
+     * Set the type of the filter.
+     * @method setType
+     * @for Biquad
+     * @param {String} type type of the filter. Options: "lowpass", "highpass", "bandpass", "lowshelf", "highshelf", "notch", "allpass", "peaking" 
+     */    setType(t) {
       this.biquad.type = t;
     }
     /**
-       * Set the cutoff frequency of the filter.
-       * @method freq
-       * @for Biquad
-       * @param {Number} cutoffFrequency the cutoff frequency of the filter.
-       */    freq(f) {
+     * Set the cutoff frequency of the filter.
+     * @method freq
+     * @for Biquad
+     * @param {Number} cutoffFrequency the cutoff frequency of the filter.
+     */    freq(f) {
       this.biquad.frequency.value = clamp(f, 0, 24e3);
     }
     connect(destination) {
@@ -14913,11 +14902,11 @@
       this.pitchshifter = new PitchShift(shiftValue).toDestination();
     }
     /**
-         * Shift the pitch of the source audio.
-         * @method shift
-         * @for PitchShifter
-         * @param {Number} pitchValue amount of semitones to shift the pitch
-         */    shift(value) {
+       * Shift the pitch of the source audio.
+       * @method shift
+       * @for PitchShifter
+       * @param {Number} pitchValue amount of semitones to shift the pitch
+       */    shift(value) {
       void 0 !== value && (this.pitchshifter.pitch = value);
     }
     connect(destination) {
@@ -14931,56 +14920,56 @@
     }
   }
   /**
-     * Generate a gain node to use for mixing and main volume.
-     * @class Gain
-     * @constructor
-     * @example
-     * <div>
-     * <code>
-     * let cnv, soundFile, osc, gain;
-     * 
-     * function preload() {
-     *   soundFile = loadSound('assets/Damscray_DancingTiger.mp3');
-     * }
-     * 
-     * function setup() {
-     *   cnv = createCanvas(100, 100);
-     *   cnv.mousePressed(playSound);
-     * 
-     *   gain = new Gain(0.74);
-     *   osc = new p5.Oscillator();
-     *   osc.amp(0.74);
-     *   osc.disconnect();
-     *   soundFile.loop();
-     *   soundFile.disconnect();
-     * 
-     *   //connect both sound sources to gain node
-     *   soundFile.connect(gain);
-     *   osc.connect(gain);
-     * }
-     * 
-     * function playSound() {
-     *   soundFile.play();
-     *   soundFile.play();
-     * }
-     * 
-     * function draw() {
-     *   background(220);
-     *   let level = map(mouseX, 0, width, 0, 1);
-     *   gain.amp(level);
-     * }
-     * </code>
-     * </div>
-     */ , p5.prototype.Gain = class {
+   * Generate a gain node to use for mixing and main volume.
+   * @class Gain
+   * @constructor
+   * @example
+   * <div>
+   * <code>
+   * let cnv, soundFile, osc, gain;
+   * 
+   * function preload() {
+   *   soundFile = loadSound('assets/Damscray_DancingTiger.mp3');
+   * }
+   * 
+   * function setup() {
+   *   cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(playSound);
+   * 
+   *   gain = new Gain(0.74);
+   *   osc = new p5.Oscillator();
+   *   osc.amp(0.74);
+   *   osc.disconnect();
+   *   soundFile.loop();
+   *   soundFile.disconnect();
+   * 
+   *   //connect both sound sources to gain node
+   *   soundFile.connect(gain);
+   *   osc.connect(gain);
+   * }
+   * 
+   * function playSound() {
+   *   soundFile.play();
+   *   soundFile.play();
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   *   let level = map(mouseX, 0, width, 0, 1);
+   *   gain.amp(level);
+   * }
+   * </code>
+   * </div>
+   */ , p5.prototype.Gain = class {
     constructor(value = 1) {
       this.gain = new Gain$1(value).toDestination();
     }
     /**
-       * Adjust the amplitude of the soundfile.
-       * @method amp
-       * @for Gain
-       * @param {Number} amplitude amplitude value between 0 and 1.
-       */    amp(value) {
+     * Adjust the amplitude of the soundfile.
+     * @method amp
+     * @for Gain
+     * @param {Number} amplitude amplitude value between 0 and 1.
+     */    amp(value) {
       this.gain.gain.rampTo(value, .1);
     }
     connect(destination) {
@@ -14999,19 +14988,19 @@
       });
     }
     /**
-       * Connect an audio source to the amplitude object.
-       * @method setInput
-       * @for Amplitude
-       * @param {Object} input - An object that has audio output.
-       */    setInput(input) {
+     * Connect an audio source to the amplitude object.
+     * @method setInput
+     * @for Amplitude
+     * @param {Object} input - An object that has audio output.
+     */    setInput(input) {
       input.getNode().connect(this.amplitude);
     }
     /**
-       * Get the current amplitude value of a sound.
-       * @method getLevel
-       * @for Amplitude
-       * @return {Number} Amplitude level (volume) of a sound.
-       */    getLevel() {
+     * Get the current amplitude value of a sound.
+     * @method getLevel
+     * @for Amplitude
+     * @return {Number} Amplitude level (volume) of a sound.
+     */    getLevel() {
       return this.amplitude.getValue();
     }
     connect(destination) {
@@ -15037,83 +15026,83 @@
       return this.gain;
     }
     /**
-         * Returns the frequency spectrum of the input signal.
-         * @method analyze
-         * @for FFT
-         * @returns {Array} Array of amplitude values from 0 to 1.
-         */    analyze() {
+       * Returns the frequency spectrum of the input signal.
+       * @method analyze
+       * @for FFT
+       * @returns {Array} Array of amplitude values from 0 to 1.
+       */    analyze() {
       return this.analyzer.getValue();
     }
     /**
-         * Returns an array of sample values from the input audio.
-         * @method waveform
-         * @for FFT
-         * @return {Array} Array of sample values from -1 to -1.
-         */    waveform() {
+       * Returns an array of sample values from the input audio.
+       * @method waveform
+       * @for FFT
+       * @return {Array} Array of sample values from -1 to -1.
+       */    waveform() {
       return this.samples.getValue();
     }
   }
   /**
-     * Generate a buffer with random values.
-     * @class Noise
-     * @constructor
-     * @param {String} [type] - the type of noise (white, pink, brown)
-     * @example
-     * <div>
-     * <code>
-     * let noise, env, cnv;
-     * let types = ['white', 'pink', 'brown'];
-     * let noiseType = 'brown';
-     * 
-     * function setup() {
-     *   cnv = createCanvas(100, 100);
-     *   textAlign(CENTER);
-     *   cnv.mousePressed(start);
-     *   noise = new Noise(noiseType);
-     *   env = new Envelope(0.01, 0.1, 0.15, 0.5);
-     *   noise.disconnect();
-     *   noise.connect(env);
-     *   noise.start();
-     * }
-     * 
-     * function start() {
-     *   noiseType = random(types);
-     *   noise.type(noiseType);
-     *   env.play();
-     * }
-     * 
-     * function draw() {
-     *   background(noiseType);
-     *   text('tap to play', width/2, 20);
-     *   let txt = 'type: ' + noiseType;
-     *   text(txt, width/2, 40);
-     * }
-     * </code>
-     * </div>
-     */ , p5.prototype.Noise = class {
+   * Generate a buffer with random values.
+   * @class Noise
+   * @constructor
+   * @param {String} [type] - the type of noise (white, pink, brown)
+   * @example
+   * <div>
+   * <code>
+   * let noise, env, cnv;
+   * let types = ['white', 'pink', 'brown'];
+   * let noiseType = 'brown';
+   * 
+   * function setup() {
+   *   cnv = createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   cnv.mousePressed(start);
+   *   noise = new Noise(noiseType);
+   *   env = new Envelope(0.01, 0.1, 0.15, 0.5);
+   *   noise.disconnect();
+   *   noise.connect(env);
+   *   noise.start();
+   * }
+   * 
+   * function start() {
+   *   noiseType = random(types);
+   *   noise.type(noiseType);
+   *   env.play();
+   * }
+   * 
+   * function draw() {
+   *   background(noiseType);
+   *   text('tap to play', width/2, 20);
+   *   let txt = 'type: ' + noiseType;
+   *   text(txt, width/2, 40);
+   * }
+   * </code>
+   * </div>
+   */ , p5.prototype.Noise = class {
     constructor(type) {
       void 0 === type && (type = "white"), this.noise = (new Noise$1).toDestination(), 
       this.noise.type = type;
     }
     /**
-       * @method type
-       * @for Noise
-       * @param {String} t - the type of noise (white, pink, brown) 
-       */    type(t) {
+     * @method type
+     * @for Noise
+     * @param {String} t - the type of noise (white, pink, brown) 
+     */    type(t) {
       this.noise.type = t;
     }
     /**
-       * Starts the noise source.
-       * @method stop
-       * @for Noise
-       */    start() {
+     * Starts the noise source.
+     * @method stop
+     * @for Noise
+     */    start() {
       this.noise.start();
     }
     /**
-       * Stops the noise source.
-       * @method stop
-       * @for Noise
-       */    stop() {
+     * Stops the noise source.
+     * @method stop
+     * @for Noise
+     */    stop() {
       this.noise.stop();
     }
     connect(destination) {
@@ -15130,11 +15119,11 @@
       this.panner = new Panner$1(0).toDestination();
     }
     /**
-       * Pan a sound source left or right.
-       * @method pan
-       * @for Panner
-       * @param {Number, Object}  panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or a an audio rate signal such as an LFO.
-       */    pan(p) {
+     * Pan a sound source left or right.
+     * @method pan
+     * @for Panner
+     * @param {Number, Object}  panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or a an audio rate signal such as an LFO.
+     */    pan(p) {
       "object" != typeof p ? this.panner.pan.rampTo(clamp(p, -1, 1), .01) : p.getNode().connect(this.panner.pan);
     }
     getNode() {
@@ -15158,71 +15147,71 @@
       }).toDestination();
     }
     /**
-       * Connects an input source to the 3D panner.
-       * @method process
-       * @for Panner3D
-       * @param {Object} input an input source to process with the 3D panner.
-       */    process(input) {
+     * Connects an input source to the 3D panner.
+     * @method process
+     * @for Panner3D
+     * @param {Object} input an input source to process with the 3D panner.
+     */    process(input) {
       input.getNode().connect(this.panner3d);
     }
     /**
-       * Set the x, y, and z position of the 3D panner.
-       * @method set
-       * @for Panner3D
-       * @param {Number} xPosition the x coordinate of the panner.
-       * @param {Number} yPosition the y coordinate of the panner.
-       * @param {Number} zPosition the z coordinate of the panner.
-       */    set(x, y, z) {
+     * Set the x, y, and z position of the 3D panner.
+     * @method set
+     * @for Panner3D
+     * @param {Number} xPosition the x coordinate of the panner.
+     * @param {Number} yPosition the y coordinate of the panner.
+     * @param {Number} zPosition the z coordinate of the panner.
+     */    set(x, y, z) {
       this.panner3d.positionX.rampTo(x, .01), this.panner3d.positionY.rampTo(y, .01), 
       this.panner3d.positionZ.rampTo(z, .01);
     }
     /**
-       * The rolloff rate of the panner.
-       * @method setFalloff
-       * @for Panner3D
-       * @param {Number} rolloffFactor 
-       * @param {Number} maxDistance 
-       */    setFalloff(rolloffFactor, maxDistance) {
+     * The rolloff rate of the panner.
+     * @method setFalloff
+     * @for Panner3D
+     * @param {Number} rolloffFactor 
+     * @param {Number} maxDistance 
+     */    setFalloff(rolloffFactor, maxDistance) {
       this.panner3d.rolloffFactor = rolloffFactor, this.panner3d.maxDistance = maxDistance;
     }
     /**
-       * Set the maximum distance of the panner.
-       * @method maxDist
-       * @for Panner3D
-       * @param {Number} distance the maximum distance that the sound source can be heard from.
-       */    maxDist(d) {
+     * Set the maximum distance of the panner.
+     * @method maxDist
+     * @for Panner3D
+     * @param {Number} distance the maximum distance that the sound source can be heard from.
+     */    maxDist(d) {
       this.panner3d.maxDistance = d;
     }
     /**
-       * Set the rolloff rate of the panner.
-       * @method rolloff
-       * @for Panner3D
-       * @param {Number} r the rolloff rate of the panner.
-       */    rolloff(r) {
+     * Set the rolloff rate of the panner.
+     * @method rolloff
+     * @for Panner3D
+     * @param {Number} r the rolloff rate of the panner.
+     */    rolloff(r) {
       this.panner3d.rolloffFactor = r;
     }
     /**
-       * Set the X position of the sound source.
-       * @method positionX
-       * @for Panner3D
-       * @param {Number} positionX the x position of the sound source.
-       */    positionX(p) {
+     * Set the X position of the sound source.
+     * @method positionX
+     * @for Panner3D
+     * @param {Number} positionX the x position of the sound source.
+     */    positionX(p) {
       this.panner3d.positionX.rampTo(p, .01);
     }
     /**
-       * Set the Y position of the sound source.
-       * @method positionY
-       * @for Panner3D
-       * @param {Number} positionY the y position of the sound source.
-       */    positionY(p) {
+     * Set the Y position of the sound source.
+     * @method positionY
+     * @for Panner3D
+     * @param {Number} positionY the y position of the sound source.
+     */    positionY(p) {
       this.panner3d.positionY.rampTo(p, .01);
     }
     /**
-       * Set the Z position of the sound source.
-       * @method positionZ
-       * @for Panner3D
-       * @param {Number} positionZ the z position of the sound source.
-       */    positionZ(p) {
+     * Set the Z position of the sound source.
+     * @method positionZ
+     * @for Panner3D
+     * @param {Number} positionZ the z position of the sound source.
+     */    positionZ(p) {
       this.panner3d.positionZ.rampTo(p, .01);
     }
     connect(destination) {
@@ -15244,11 +15233,11 @@
       this.audioIn = (new UserMedia).toDestination();
     }
     /**
-         * Start the audio input.
-         * @method start
-         * @for AudioIn
-         */    start() {
-      globalContext.resume(), this.audioIn.open().then((() => {
+       * Start the audio input.
+       * @method start
+       * @for AudioIn
+       */    start() {
+      Tone.start(), this.audioIn.open().then((() => {
         // promise resolves when input is available
         console.log("mic open");
         // print the incoming mic levels in decibels
@@ -15258,18 +15247,18 @@
       }));
     }
     /**
-         * Stop the audio input.
-         * @method stop
-         * @for AudioIn
-         */    stop() {
+       * Stop the audio input.
+       * @method stop
+       * @for AudioIn
+       */    stop() {
       this.audioIn.close();
     }
     /**
-         * Set amplitude (volume) of a mic input between 0 and 1.0.
-         * @method amp
-         * @for AudioIn
-         * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
-         */    amp(value) {
+       * Set amplitude (volume) of a mic input between 0 and 1.0.
+       * @method amp
+       * @for AudioIn
+       * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
+       */    amp(value) {
       let dbValue = gainToDb(value);
       this.delay.volume.rampTo(dbValue, .1);
     }

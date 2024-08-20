@@ -1,5 +1,7 @@
-import { BiquadFilter as ToneBiquadFilter, Context as ToneContext} from "tone";
+import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { clamp } from "./Utils";
+import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter/BiquadFilter.js";
+
 
 /**
  * Filter the frequency range of a sound.
@@ -15,7 +17,7 @@ class Biquad {
   constructor(c = 800, t = "lowpass") {
     this.type = t;
     this.cutoff = c;
-    this.biquad= new ToneBiquadFilter(this.cutoff, this.type).toDestination();
+    this.biquad = new ToneBiquadFilter(this.cutoff, this.type).toDestination();
   }
   
   /**

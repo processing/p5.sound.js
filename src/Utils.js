@@ -1,4 +1,5 @@
 import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone/build/esm/core/Global.js";
+import { start as ToneStart } from "tone/build/esm/core/Global.js";
 
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
@@ -14,7 +15,7 @@ function setAudioContext(context) {
 }
 
 function userStartAudio() {
-    Tone.start();
+    ToneStart();
 }
 
 function userStopAudio() {

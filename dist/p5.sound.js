@@ -330,6 +330,11 @@
      * 	console.log("context started");
      * });
      * @category Core
+     */  function start() {
+    return globalContext.resume();
+  }
+  /**
+     * Log Tone.js + version in the console.
      */  function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
   }
@@ -5794,7 +5799,7 @@
       this._disposeClock();
     }
   }
-  let Tone$1 = class {
+  class Tone {
     constructor() {
       //-------------------------------------
       // 	DEBUGGING
@@ -5854,10 +5859,10 @@
          */    toString() {
       return this.name;
     }
-  };
+  }
   /**
      * The version number semver
-     */  Tone$1.version = "15.0.4";
+     */  Tone.version = "15.0.4";
   /**
      * The threshold for correctness for operators. Less than one sample even
      * at very high sampling rates (e.g. `1e-6 < 1 / 192000`).
@@ -5870,7 +5875,7 @@
      * retrieval.
      * @internal
      */
-  class Timeline extends Tone$1 {
+  class Timeline extends Tone {
     constructor() {
       super(), this.name = "Timeline", 
       /**
@@ -6111,7 +6116,7 @@
      * MIT (c) 2011 Jerome Etienne.
      * @category Core
      */
-  class Emitter extends Tone$1 {
+  class Emitter extends Tone {
     constructor() {
       super(...arguments), this.name = "Emitter";
     }
@@ -6604,7 +6609,7 @@
      * 	console.log("loaded");
      * });
      * @category Core
-     */  class ToneAudioBuffer extends Tone$1 {
+     */  class ToneAudioBuffer extends Tone {
     constructor() {
       super(), this.name = "ToneAudioBuffer", 
       /**
@@ -7055,9 +7060,6 @@
      * The global audio context which is getable and assignable through
      * getContext and setContext
      */  let globalContext = dummyContext;
-  /**
-     * Log Tone.js + version in the console.
-     */
   if (theWindow && !theWindow.TONE_SILENCE_LOGGING) {
     const printString = ` * Tone.js ${"v"}15.0.4 * `;
     // eslint-disable-next-line no-console
@@ -7067,7 +7069,7 @@
   /**
      * TimeBase is a flexible encoding of time which can be evaluated to and from a string.
      */
-  class TimeBaseClass extends Tone$1 {
+  class TimeBaseClass extends Tone {
     /**
          * @param context The context associated with the time value. Used to compute
          * Transport and context-relative timing.
@@ -7614,7 +7616,7 @@
   }
   /**
      * The Base class for all nodes that have an AudioContext.
-     */  class ToneWithContext extends Tone$1 {
+     */  class ToneWithContext extends Tone {
     constructor() {
       super();
       const options = optionsFromArguments(ToneWithContext.getDefaults(), arguments, [ "context" ]);
@@ -8632,7 +8634,7 @@
   /**
      * Represents a single value which is gettable and settable in a timed way
      */
-  class TimelineValue extends Tone$1 {
+  class TimelineValue extends Tone {
     /**
          * @param initialValue The value to return if there is no scheduled values
          */
@@ -8839,7 +8841,7 @@
      * events. Internally uses an [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree)
      * to represent the data.
      * @internal
-     */  class IntervalTimeline extends Tone$1 {
+     */  class IntervalTimeline extends Tone {
     constructor() {
       super(...arguments), this.name = "IntervalTimeline", 
       /**
@@ -14551,7 +14553,7 @@
   }, p5.prototype.setAudioContext = function(context) {
     setContext(context);
   }, p5.prototype.userStartAudio = function() {
-    Tone.start();
+    start();
   }, p5.prototype.userStopAudio = function() {
     context = getContext(), context.suspend();
   }, p5.prototype.Oscillator = Oscillator, p5.prototype.SawOsc = class extends Oscillator {
@@ -15248,7 +15250,7 @@
          * @method start
          * @for AudioIn
          */    start() {
-      globalContext.resume(), this.audioIn.open().then((() => {
+      start(), this.audioIn.open().then((() => {
         // promise resolves when input is available
         console.log("mic open");
         // print the incoming mic levels in decibels

@@ -1,8 +1,6 @@
 import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
-import json from '@rollup/plugin-json';
-import visualizer from 'rollup-plugin-visualizer';
 
 export default [
   // Unminified version
@@ -39,7 +37,6 @@ export default [
           wrap_iife: true
         }
       }),
-      json(),
     ],
     treeshake: {
       preset: 'recommended',
@@ -56,6 +53,5 @@ export default [
       resolve(), // Resolves node_modules
       terser(), // Minify the output
     ],
-    
   }
 ];

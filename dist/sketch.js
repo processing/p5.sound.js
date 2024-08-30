@@ -1,3 +1,4 @@
+
 let osc, lfo;
 let cnv;
 
@@ -12,11 +13,12 @@ function setup() {
   lfo = new Oscillator(1);
   lfo.disconnect();
   osc.amp(lfo);
+  lfo.start();
+  osc.start();
 }
 
 function startSound() {
-  lfo.start();
-  osc.start();
+  userStartAudio();
 }
 
 function draw(){

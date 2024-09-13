@@ -6,7 +6,7 @@ function clamp(value, min, max) {
 }
 
 function getAudioContext() {
-    context = ToneGetContext();
+    let context = ToneGetContext();
     return context;
 }
 

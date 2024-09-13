@@ -15,7 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.21",
-    "tone": "^15.0.2"
+    "tone": "^15.0.2",
+    "yuidocjs": "^0.10.2"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",

@@ -58,7 +58,7 @@ class Noise {
 
   /**
    * Starts the noise source.
-   * @method stop
+   * @method start
    * @for Noise
    */
   start() {

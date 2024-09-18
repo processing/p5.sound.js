@@ -1,8 +1,7 @@
 {
-  "name": "p5.sound.new",
-  "version": "1.0.0",
+  "name": "p5.sound",
+  "version": "0.1.0-beta",
   "description": "a light p5.js wrapper for tone.js ",
-  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
@@ -12,7 +11,13 @@
     "sound"
   ],
   "author": "tommy",
-  "license": "ISC",
+  "license": "LGPL-2.1",
+  "main": "./dist/p5.sound.js",
+  "files": [
+    "LICENSE",
+    "dist/p5.sound.min.js",
+    "dist/p5.sound.js",
+  ],
   "dependencies": {
     "lodash": "^4.17.21",
     "tone": "^15.0.2",

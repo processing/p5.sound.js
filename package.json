@@ -16,7 +16,7 @@
   "files": [
     "LICENSE",
     "dist/p5.sound.min.js",
-    "dist/p5.sound.js",
+    "dist/p5.sound.js"
   ],
   "dependencies": {
     "lodash": "^4.17.21",

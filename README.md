@@ -1,44 +1,76 @@
-This repo is an attempt at revising the p5.js sound library to the specifications laid out by p5.js 2023 Sound Fellow aarón montoya-moraga (with some additions by myself). A detailed description of this new direction including a list of new and deprecated classes is documented by aarón [here](https://github.com/processing/p5.sound.js). 
+# p5.sound.js
 
-The biggest deviation this approach makes with the original p5.sound library is its implementation of the web audio api through the use of Tone.js as a node module import. After some conversations with Yotam Mann (creator of Tone.js), Jason Sigal (original author of p5.sound), and aarón, I opted for an approach that would make maintaining the code base for p5 sound easier for future maintainers while simulataneously honoring Tone.js as the original and ongoing foundation of p5.sound.
+p5.sound is a minimal abstraction of the [Tone.js](https://tonejs.github.io/) library. It is designed to extend the musical and sonic capabilities of p5.js with a feature set that is inspired by an accessible and poetic approach to creative coding. Functionality includes audio input, sound file playback and manipulation,  effects, synthesis and analysis.
 
-p5.sound will now act as a thin wrapper for Tone.js, or glue code, that will provide an interface for the library in a format familiar to users of p5.js and the original p5.sound library. p5.sound shouldn't reinvent the wheel - Tone.js has been developed with musicality and creativity in mind - so let's import it and make it even more accessible and compatible with p5.js. Additionally, the new p5.sound will focus on raw sound and audio generation and deprecate some functionality with regard to pre-fabricated synthesis models (p5.MonoSynth and p5.PolySynth), and for now, systems of composition p5.Phrase p5.part, and p5.score.
+## Examples
 
-There are a few other deprecations and additions as well as recommended usages but that will be documented in more detail later.
+- Examples at [p5js.org/examples](https://p5js.org/examples/)
+- Additional examples at [processing.github.io/p5.js-sound](https://processing.github.io/p5.js-sound/)
+- p5.js Sound Tutorial by Dan Shiffman on [YouTube](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aFcVjlDAkkGIixw70s7jpW)
 
-For now the classes provided in this initial push include the Amplitude meter, Oscillator, Noise Source, Soundfile Player, as well as Biquad Filter, Panner, Reverb and Delay effects. 
+## Documentation
 
-Below is a proposed timeline with an MVP of the project slated for mid June. 
+Interactive documentation can be found at [p5js.org/reference/#/libraries/p5.sound](http://p5js.org/reference/#/libraries/p5.sound)
 
-Proposed Timeline:
+## Latest Build
 
-June 7th - 
-Add Analyser FFT
-Gain
-Envelope
-Audio Input
+- Visit http://p5js.org/download/ for the latest official release of p5 with the latest p5.sound included.
+- The sound library [here](https://github.com/processing/p5.sound.js-pre-release) is updated more frequently, and we occasionally offer new [releases](https://github.com/processing/p5.sound.js-pre-release/releases) before the release cycle of p5.js.
 
-Finish all methods related to existing classes
+## Contribute
 
-June 14th - 
-Examples for Reference Pages for each class done
+If you would like to contribute to this project, visit https://github.com/processing/p5.js/tree/main/contributor_docs to get started.
 
-June 21st - 
-Pre-release candidate and integration with p5 website done
+If you have any questions or concerns regarding the project, you can reach out to our [Discord](https://discord.gg/HWzy4HpaEJ) and [Gitter](https://gitter.im/processing/p5.js-sound) communities. The p5.js team closely monitors all pull requests and issues on GitHub, so there's no need to also post them on Discord. Additionally, conversations about specific pull requests and issues should take place on GitHub, to ensure that people following along over can see and take part in the whole discussion.
 
-to install dependencies
+## Dependencies
+
+p5.sound is built using [Tone.js](https://github.com/tonejs/Tone.js), an interactive music framework developed by (@[Yotam Mann](https://github.com/tambien)).
+
+## Library Revision
+
+This repository is an update of the [original p5.sound](https://github.com/processing/p5.js-sound) library (initially authored by [Jason Sigal](https://github.com/therewasaguy)), with the following goals:
+
+- Code stability and readability
+- Updated and fewer dependencies
+- Deprecating the least used features
+- Greater consistency between classes and methods
+
+The project was started by aarón montoya-moraga(@[montoyamoraga](https://github.com/montoyamoraga)) during the 2023 p5.js sound fellowship (read the [announcement](https://medium.com/@ProcessingOrg/announcing-the-2023-p5-sound-fellow-aar%C3%B3n-montoya-moraga-7613450902f6) for more details) and was completed by Tommy Martinez in September, 2024.
+
+core contributors:
+- Tommy Martinez (@[tmartinez88](https://github.com/tmartinez88))
+- aarón montoya-moraga (@[montoyamoraga](https://github.com/montoyamoraga))
+
+project advisors:
+- Kristin Galvin (@[blechdom](https://github.com/blechdom))
+- Kenneth Lim (@[limzykenneth](https://github.com/limzykenneth))
+- Rachel Lim (@[raclim](https://github.com/raclim))
+- Yotam Mann (@[tambien](https://github.com/tambien))
+- Luisa Peirera (@[luisaph](https://github.com/luisaph))
+- Jason Sigal (@[therewasaguy](https://github.com/therewasaguy))
+- Cassie Tarakajian (@[catarak](https://github.com/catarak))
+- Qianqian Ye (@[Qianqianye](https://github.com/Qianqianye))
+
+## Usage
+
+To use this library, make sure you have p5.js installed. Visit the [p5.js website](https://p5js.org/) for more information and installation instructions.
+
+Please let us know if you find any bugs or issues by creating a new issue in this repo!
+
+## Building the Library
+
+installing the dependencies
 ```
 npm install
 ```
 
-to build reference pages
-```
-yuidoc .
-```
-
-to build library
+building the library
 ```
 npm run build
 ```
 
-
+building reference pages (optional)
+```
+npx yuidoc .
+```

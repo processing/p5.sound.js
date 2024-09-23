@@ -5,7 +5,7 @@ p5.sound is a minimal abstraction of the [Tone.js](https://tonejs.github.io/) li
 ## Examples
 
 - Examples at [p5js.org/examples](https://p5js.org/examples/)
-- Additional examples at [processing.github.io/p5.js-sound](https://processing.github.io/p5.js-sound/)
+- Additional p5 editor examples [here](https://editor.p5js.org/thomasjohnmartinez/collections/Dp0zGclVL)
 - p5.js Sound Tutorial by Dan Shiffman on [YouTube](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aFcVjlDAkkGIixw70s7jpW)
 
 ## Documentation

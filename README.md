@@ -25,7 +25,7 @@ If you have any questions or concerns regarding the project, you can reach out t
 
 ## Dependencies
 
-p5.sound is built using [Tone.js](https://github.com/tonejs/Tone.js), an interactive music framework developed by (@[Yotam Mann](https://github.com/tambien)).
+p5.sound is built using [Tone.js](https://github.com/tonejs/Tone.js), an interactive music framework developed by ([Yotam Mann](https://github.com/tambien)).
 
 ## Library Revision
 
@@ -36,21 +36,21 @@ This repository is an update of the [original p5.sound](https://github.com/proce
 - Deprecating the least used features
 - Greater consistency between classes and methods
 
-The project was started by aarón montoya-moraga(@[montoyamoraga](https://github.com/montoyamoraga)) during the 2023 p5.js sound fellowship (read the [announcement](https://medium.com/@ProcessingOrg/announcing-the-2023-p5-sound-fellow-aar%C3%B3n-montoya-moraga-7613450902f6) for more details) and was completed by Tommy Martinez in September, 2024.
+The project was started by aarón montoya-moraga([montoyamoraga](https://github.com/montoyamoraga)) during the 2023 p5.js sound fellowship (read the [announcement](https://medium.com/@ProcessingOrg/announcing-the-2023-p5-sound-fellow-aar%C3%B3n-montoya-moraga-7613450902f6) for more details) and was completed by [Tommy Martinez](https://github.com/ogbabydiesal) in September, 2024.
 
 core contributors:
-- Tommy Martinez (@[tmartinez88](https://github.com/tmartinez88))
-- aarón montoya-moraga (@[montoyamoraga](https://github.com/montoyamoraga))
+- Tommy Martinez ([ogbabydiesal](https://github.com/ogbabydiesal))
+- aarón montoya-moraga ([montoyamoraga](https://github.com/montoyamoraga))
 
 project advisors:
-- Kristin Galvin (@[blechdom](https://github.com/blechdom))
-- Kenneth Lim (@[limzykenneth](https://github.com/limzykenneth))
-- Rachel Lim (@[raclim](https://github.com/raclim))
-- Yotam Mann (@[tambien](https://github.com/tambien))
-- Luisa Peirera (@[luisaph](https://github.com/luisaph))
-- Jason Sigal (@[therewasaguy](https://github.com/therewasaguy))
-- Cassie Tarakajian (@[catarak](https://github.com/catarak))
-- Qianqian Ye (@[Qianqianye](https://github.com/Qianqianye))
+- Kristin Galvin ([blechdom](https://github.com/blechdom))
+- Kenneth Lim ([limzykenneth](https://github.com/limzykenneth))
+- Rachel Lim ([raclim](https://github.com/raclim))
+- Yotam Mann ([tambien](https://github.com/tambien))
+- Luisa Peirera ([luisaph](https://github.com/luisaph))
+- Jason Sigal ([therewasaguy](https://github.com/therewasaguy))
+- Cassie Tarakajian ([catarak](https://github.com/catarak))
+- Qianqian Ye ([Qianqianye](https://github.com/Qianqianye))
 
 ## Usage
 

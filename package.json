@@ -1,7 +1,7 @@
 {
   "name": "p5.sound",
   "version": "0.1.0-beta",
-  "description": "p5.sound is a minimal wrapper for Tone.js, intended to extend the musical and audio functionality within the p5 core library.",
+  "description": "p5.sound is a minimal wrapper for Tone.js designed to extend the musical and audio capabilities of the p5.js core library.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"

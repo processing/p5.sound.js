@@ -21,15 +21,15 @@ Interactive documentation can be found at [p5js.org/reference/#/libraries/p5.sou
 
 If you would like to contribute to this project, visit https://github.com/processing/p5.js/tree/main/contributor_docs to get started.
 
-If you have any questions or concerns regarding the project, you can reach out to our [Discord](https://discord.gg/HWzy4HpaEJ) and [Gitter](https://gitter.im/processing/p5.js-sound) communities. The p5.js team closely monitors all pull requests and issues on GitHub, so there's no need to also post them on Discord. Additionally, conversations about specific pull requests and issues should take place on GitHub, to ensure that people following along over can see and take part in the whole discussion.
+If you have any questions or concerns regarding the project, you can reach out to our [Discord](https://discord.gg/HWzy4HpaEJ) and [Gitter](https://gitter.im/processing/p5.js-sound) communities. The p5.js team closely monitors all pull requests and issues on GitHub, so there's no need to also post them on Discord. Additionally, conversations about specific pull requests and issues should take place on GitHub, to ensure that people following along over can see and take part in the discussion.
 
 ## Dependencies
 
-p5.sound is built using [Tone.js](https://github.com/tonejs/Tone.js), an interactive music framework developed by ([Yotam Mann](https://github.com/tambien)).
+p5.sound is built using [Tone.js](https://github.com/tonejs/Tone.js), an interactive music framework developed by [Yotam Mann](https://github.com/tambien).
 
 ## Library Revision
 
-This repository is an update of the [original p5.sound](https://github.com/processing/p5.js-sound) library (initially authored by [Jason Sigal](https://github.com/therewasaguy)), with the following goals:
+This repository is an update of the [original p5.sound](https://github.com/processing/p5.js-sound) library (initially authored by [Jason Sigal](https://github.com/therewasaguy)) made with the following goals in mind:
 
 - Code stability and readability
 - Updated and fewer dependencies

@@ -50,10 +50,25 @@ class Noise {
   /**
    * @method type
    * @for Noise
-   * @param {String} t - the type of noise (white, pink, brown) 
+   * @param {String} type - the type of noise (white, pink, brown) 
    */
   type(t) {
     this.noise.type = t;
+  }
+
+  /**
+   * Adjust the amplitude of the noise source.
+   * @method amp
+   * @for Noise
+   * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal. 
+   */
+  amp(value, p = 0.1) {
+    if (typeof value === "object") {
+      value.getNode().connect(this.noise.volume);
+      return;
+    }
+    let dbValue = ToneGainToDb(value);
+    this.noise.volume.rampTo(dbValue, p);
   }
 
   /**

@@ -1,6 +1,6 @@
 # p5.sound.js
 
-p5.sound.js is a minimal abstraction of the [Tone.js](https://tonejs.github.io/) library. It is designed to extend the musical and sonic capabilities of p5.js with a feature set that is inspired by an accessible and poetic approach to creative coding. Functionality includes audio input, sound file playback and manipulation,  effects, synthesis and analysis.
+p5.sound.js is a minimal abstraction of the [Tone.js](https://tonejs.github.io/) library. It is designed to extend the musical and sonic capabilities of p5.js with a feature set that is inspired by an accessible and poetic approach to creative coding. Functionality includes audio input, sound file playback and manipulation, effects, synthesis and analysis.
 
 ## Examples
 
@@ -20,7 +20,7 @@ Interactive documentation can be found at [p5js.org/reference/p5.sound](http://p
 
 If you would like to contribute to this project, visit https://github.com/processing/p5.js/tree/main/contributor_docs to get started.
 
-If you have any questions or concerns regarding the project, you can reach out to our [Discord](https://discord.gg/HWzy4HpaEJ) and [Gitter](https://gitter.im/processing/p5.js-sound) communities. The p5.js team closely monitors all pull requests and issues on GitHub, so there's no need to also post them on Discord. Additionally, conversations about specific pull requests and issues should take place on GitHub, to ensure that people following along over can see and take part in the discussion.
+If you have any questions or concerns regarding the project, you can reach out to our [Discord](https://discord.gg/HWzy4HpaEJ) and [Gitter](https://gitter.im/processing/p5.js-sound) communities. The p5.js team closely monitors all pull requests and issues on GitHub, so there's no need to also post them on Discord. Additionally, conversations about specific pull requests and issues should take place on GitHub, to ensure that people following along can see and take part in the discussion.
 
 ## Dependencies
 

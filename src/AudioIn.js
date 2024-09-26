@@ -16,9 +16,9 @@ import { start as ToneStart } from "tone/build/esm/core/Global.js";
  *   cnv.mousePressed(startMic);
  *   background(220);
  *   
- *   mic = new AudioIn();
- *   delay = new Delay(0.74, 0.1);
- *   filter = new Biquad(600, "bandpass");
+ *   mic = new p5.AudioIn();
+ *   delay = new p5.Delay(0.74, 0.1);
+ *   filter = new p5.Biquad(600, "bandpass");
  *   
  *   mic.disconnect();
  *   mic.connect(delay);

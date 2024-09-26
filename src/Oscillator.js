@@ -20,7 +20,7 @@ import { clamp } from "./Utils";
  *   describe("a sketch that demonstrates the frequency and amplitude parameters of an oscillator.");
  *   let cnv = createCanvas(100, 100);
  *   cnv.mousePressed(playOscillator);
- *   osc = new Oscillator();
+ *   osc = new p5.Oscillator();
  * }
  *
  * function draw() {
@@ -126,8 +126,8 @@ class Oscillator {
    *   textWrap(WORD);
    *   textSize(10);
    *   
-   *   osc = new Oscillator('sine');
-   *   lfo = new Oscillator(1);
+   *   osc = new p5.Oscillator('sine');
+   *   lfo = new p5.Oscillator(1);
    *   lfo.disconnect();
    *   osc.amp(lfo);
    * }
@@ -170,7 +170,7 @@ class Oscillator {
    * function setup() {
    *   let cnv = createCanvas(100, 100);
    *   cnv.mousePressed(startOscillator);
-   *   osc = new Oscillator();
+   *   osc = new p5.Oscillator();
    * }
    * 
    * function startOscillator() {

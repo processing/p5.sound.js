@@ -20,8 +20,8 @@ import { clamp } from './Utils';
  *   background(220);
  *   cnv.mousePressed(startSound);
  *   
- *   panner = new Panner();
- *   lfo = new Oscillator(1);
+ *   panner = new p5.Panner();
+ *   lfo = new p5.Oscillator(1);
  *   //disconnect lfo from speakers because we don't want to hear it!
  *   lfo.disconnect();
  *   panner.pan(lfo);

@@ -45,7 +45,7 @@ import { Panner3D as TonePanner3D} from "tone/build/esm/component/channel/Panner
  *   vY = random(-0.5, 0.5);
  *   vZ = random(-0.5, 0.5) * 1.5;
  * 
- *   spatializer = new Panner3D();
+ *   spatializer = new p5.Panner3D();
  *   spatializer.maxDist(100);
  *   soundSource.loop();
  *   soundSource.disconnect();

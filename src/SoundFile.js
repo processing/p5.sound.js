@@ -3,7 +3,7 @@ import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.j
 import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
 
 function loadSound (path) {
-  let player = new SoundFile(
+  let player = new p5.SoundFile(
     path,
     function () { 
       self._decrementPreload();
@@ -31,8 +31,8 @@ function loadSound (path) {
  *   cnv = createCanvas(100, 100);
  *   textAlign(CENTER);
  *   cnv.mousePressed(playSound);
- *   amp = new Amplitude();
- *   delay = new Delay();
+ *   amp = new p5.Amplitude();
+ *   delay = new p5.Delay();
  *   sound.disconnect();
  *   sound.connect(delay);
  *   delay.connect(amp);

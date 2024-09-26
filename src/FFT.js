@@ -15,8 +15,8 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
  * function setup(){
  *   let cnv = createCanvas(100,100);
  *   cnv.mouseClicked(togglePlay);
- *   fft = new FFT(32);
- *   osc = new TriOsc(440);
+ *   fft = new p5.FFT(32);
+ *   osc = new p5.TriOsc(440);
  *   osc.connect(fft);
  * }
  * 

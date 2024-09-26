@@ -20,7 +20,7 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
  *   cnv.mousePressed(playSound);
  *   textAlign(CENTER);
  *   fill(255);
- *   amp = new Amplitude();
+ *   amp = new p5.Amplitude();
  *   sound.connect(amp);
  * }
  * 

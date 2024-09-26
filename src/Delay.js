@@ -20,9 +20,9 @@ import { clamp } from './Utils';
  *   textAlign(CENTER);
  *   text('tap to play', width/2, height/2);
  * 
- *   osc = new Oscillator('square');
+ *   osc = new p5.Oscillator('square');
  *   osc.amp(0.5);
- *   delay = new Delay(0.12, 0.7);
+ *   delay = new p5.Delay(0.12, 0.7);
  *   
  *   osc.disconnect();
  *   osc.connect(delay);
@@ -68,10 +68,10 @@ class Delay {
    *   textSize(9);
    *   text('click and drag mouse', width/2, height/2);
    * 
-   *   osc = new Oscillator('sawtooth');
+   *   osc = new p5.Oscillator('sawtooth');
    *   osc.amp(0.74);
-   *   env = new Envelope(0.01);
-   *   delay = new Delay(0.12, 0.7);
+   *   env = new p5.Envelope(0.01);
+   *   delay = new p5.Delay(0.12, 0.7);
    *   
    *   osc.disconnect();
    *   osc.connect(env);

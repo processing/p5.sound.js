@@ -60,9 +60,9 @@ class Envelope {
    *   textSize(10);
    *   text('tap to triggerAttack', width/2, height/2);
    * 
-   *   osc = new Oscillator();
+   *   osc = new p5.Oscillator();
    *   osc.disconnect();
-   *   env = new Envelope();
+   *   env = new p5.Envelope();
    *   osc.connect(env);
    * }
    * 
@@ -107,9 +107,9 @@ class Envelope {
    *   textSize(10);
    *   text('tap to triggerAttack', width/2, height/2);
    * 
-   *   osc = new Oscillator();
+   *   osc = new p5.Oscillator();
    *   osc.disconnect();
-   *   env = new Envelope();
+   *   env = new p5.Envelope();
    *   osc.connect(env);
    * }
    * 

@@ -18,7 +18,7 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
  *   cnv = createCanvas(100, 100);
  *   cnv.mousePressed(playSound);
  * 
- *   gain = new Gain(0.74);
+ *   gain = new p5.Gain(0.74);
  *   osc = new p5.Oscillator();
  *   osc.amp(0.74);
  *   osc.disconnect();

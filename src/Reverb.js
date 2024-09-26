@@ -15,9 +15,9 @@ import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
  * function setup() {
  *   let cnv = createCanvas(100, 100);
  *   cnv.mousePressed(playSound);
- *   noise = new Noise();
- *   env = new Envelope();
- *   reverb = new Reverb();
+ *   noise = new p5.Noise();
+ *   env = new p5.Envelope();
+ *   reverb = new p5.Reverb();
  *   noise.disconnect();
  *   noise.connect(env);
  *   env.disconnect();

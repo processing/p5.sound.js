@@ -22,7 +22,7 @@ import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.j
  *   textAlign(CENTER);
  *   textSize(9);
  *   text('click to play sound', width/2, height/2);
- *   pitchShifter = new PitchShifter();
+ *   pitchShifter = new p5.PitchShifter();
  *   
  *   soundFile.disconnect();
  *   soundFile.connect(pitchShifter);

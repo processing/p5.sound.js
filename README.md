@@ -1,6 +1,6 @@
 # p5.sound.js
 
-p5.sound.js is a minimal abstraction of the [Tone.js](https://tonejs.github.io/) library. It is designed to extend the musical and sonic capabilities of p5.js with a feature set that is inspired by an accessible and poetic approach to creative coding. Functionality includes audio input, sound file playback and manipulation, effects, synthesis and analysis.
+p5.sound.js extends the musical and sonic capabilities of [p5.js](https://p5js.org). It is designed to be a minimal abstraction of the [Tone.js](https://tonejs.github.io/) library with a feature set that is inspired by p5.js's apporach to accessible and poetic creative coding. Key functionalities include audio input, sound file playback and manipulation, effects, synthesis and analysis.
 
 ## Examples
 

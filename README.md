@@ -1,6 +1,6 @@
 # p5.sound.js
 
-p5.sound.js extends the musical and sonic capabilities of [p5.js](https://p5js.org). It is designed to be a minimal abstraction of the [Tone.js](https://tonejs.github.io/) library with a feature set that is inspired by p5.js's apporach to accessible and poetic creative coding. Key functionalities include audio input, sound file playback and manipulation, effects, synthesis and analysis.
+p5.sound.js extends the musical and sonic capabilities of [p5.js](https://p5js.org). It is designed to be a minimal abstraction of the [Tone.js](https://tonejs.github.io/) library with a feature set that is inspired by p5.js's approach to accessible and poetic creative coding. Key functionalities include audio input, sound file playback and manipulation, effects, synthesis and analysis.
 
 ## Examples
 
@@ -35,7 +35,7 @@ This repository is an update of the [original p5.sound](https://github.com/proce
 - Deprecating the least used features
 - Greater consistency between classes and methods
 
-The project was started by aarón montoya-moraga([montoyamoraga](https://github.com/montoyamoraga)) during the 2023 p5.js sound fellowship (read the [announcement](https://medium.com/@ProcessingOrg/announcing-the-2023-p5-sound-fellow-aar%C3%B3n-montoya-moraga-7613450902f6) for more details) and was completed by [Tommy Martinez](https://github.com/ogbabydiesal) in September, 2024.
+The project was started by aarón montoya-moraga ([montoyamoraga](https://github.com/montoyamoraga)) during the 2023 p5.js sound fellowship (read the [announcement](https://medium.com/@ProcessingOrg/announcing-the-2023-p5-sound-fellow-aar%C3%B3n-montoya-moraga-7613450902f6) for more details) and was completed by [Tommy Martinez](https://github.com/ogbabydiesal) in September, 2024.
 
 Core contributors:
 - Tommy Martinez ([ogbabydiesal](https://github.com/ogbabydiesal))

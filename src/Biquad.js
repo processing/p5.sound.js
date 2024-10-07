@@ -1,7 +1,13 @@
+/*
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ *  @main
+ */
+
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { clamp } from "./Utils";
 import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter/BiquadFilter.js";
-
 
 /**
  * Filter the frequency range of a sound.
@@ -12,6 +18,57 @@ import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter
  *                        "highpass", "bandpass", "lowshelf",
  *                        "highshelf", "notch", "allpass", 
  *                        "peaking"
+ * @example
+ * <div>
+ * <code>
+ * ///kind of Karplus-Strong string synthesis using p5.sound.js
+ * 
+ * let noise, lowPass, hiPass, delay, env, gain;
+ * 
+ * function setup() {
+ *   let cnv = createCanvas(100, 100);
+ *   background(220);
+ *   textAlign(CENTER);
+ *   textSize(9);
+ *   text('click and drag mouse', width/2, height/2);
+ *   
+ *   noise = new Noise('white');
+ *   env = new Envelope(0);
+ *   lowPass = new Biquad(1200, 'lowpass');
+ *   hiPass = new Biquad(55, 'highpass');
+ *   delay = new Delay(0.0005, 0.97);
+ *   gain = new Gain(0.5);
+ *   noise.disconnect();
+ *   noise.connect(hiPass);
+ *   hiPass.disconnect();
+ *   hiPass.connect(env);
+ *   env.disconnect();
+ *   env.connect(lowPass);
+ *   lowPass.disconnect();
+ *   lowPass.connect(delay);
+ * 
+ *   cnv.mousePressed(pluckStart);
+ *   cnv.mouseReleased(pluckStop);
+ *   cnv.mouseOut(pluckStop);
+ *   describe('A sketch that synthesizes string sounds.');
+ * }
+ * 
+ * function pluckStart() {
+ *   background(0, 255, 255);
+ *   text('release to trigger decay', width/2, height/2);
+ *   let dtime = map(mouseX, 0, width, 0.009, 0.001);
+ *   delay.delayTime(dtime, 0);
+ *   noise.start();
+ *   env.triggerAttack();
+ * }
+ * 
+ * function pluckStop() {
+ *   background(220);
+ *   text('click to pluck', width/2, height/2);
+ *   env.triggerRelease();
+ * }
+ * </code>
+ * </div>
  */
 class Biquad {
   constructor(c = 800, t = "lowpass") {

@@ -1,3 +1,10 @@
+/*
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ *  @main
+ */
+
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Panner3D as TonePanner3D} from "tone/build/esm/component/channel/Panner3D.js";
 

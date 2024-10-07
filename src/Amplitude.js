@@ -1,3 +1,10 @@
+/*
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ *  @main
+ */
+
 import { Meter as ToneMeter } from "tone/build/esm/component/analysis/Meter.js";
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 

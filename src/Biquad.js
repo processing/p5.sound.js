@@ -1,7 +1,13 @@
+/*
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ *  @main
+ */
+
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { clamp } from "./Utils";
 import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter/BiquadFilter.js";
-
 
 /**
  * Filter the frequency range of a sound.

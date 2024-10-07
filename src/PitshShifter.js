@@ -1,6 +1,12 @@
+/*
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ *  @main
+ */
+
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.js";
-
 
 /**
  * Change the pitch of a sound.

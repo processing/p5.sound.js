@@ -1,3 +1,10 @@
+/*
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ *  @main
+ */
+
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Noise as ToneNoise } from "tone/build/esm/source/Noise.js";
 

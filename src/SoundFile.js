@@ -1,14 +1,53 @@
-/*
+/**
+ *  p5.sound.js extends p5.js with Web Audio functionality including audio input, playback, analysis and synthesis.
  *  @module p5.sound
  *  @submodule p5.sound
  *  @for p5.sound
- *  @main
+ *  @main p5.sound
  */
 
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
 import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
 
+/**
+ *  loadSound() returns a new SoundFile from a specified
+ *  path. If called during preload(), the SoundFile will be ready
+ *  to play in time for setup() and draw(). If called outside of
+ *  preload, the SoundFile will not be ready immediately, so
+ *  loadSound accepts a callback as the second parameter. Using a
+ *  <a href="https://github.com/processing/p5.js/wiki/Local-server">
+ *  local server</a> is recommended when loading external files.
+ *
+ *  @method loadSound
+ *  @for p5sound
+ *  @param  {String|Array}   path     Path to the sound file, or an array with
+ *                                    paths to soundfiles in multiple formats
+ *                                    i.e. ['sound.ogg', 'sound.mp3'].
+ *                                    Alternately, accepts an object: either
+ *                                    from the HTML5 File API, or a p5.File.
+ *  @return {SoundFile}               Returns a SoundFile
+ *  @example
+ *  <div><code>
+ *  let mySound;
+ *  function preload() {
+ *    mySound = loadSound('assets/doorbell');
+ *  }
+ *
+ *  function setup() {
+ *    let cnv = createCanvas(100, 100);
+ *    cnv.mousePressed(canvasPressed);
+ *    background(220);
+ *    text('tap here to play', 10, 20);
+ *  }
+ *
+ *  function canvasPressed() {
+ *    // playing a sound file on a user gesture
+ *    // is equivalent to `userStartAudio()`
+ *    mySound.play();
+ *  }
+ *  </code></div>
+ */
 function loadSound (path) {
   let player = new p5.SoundFile(
     path,

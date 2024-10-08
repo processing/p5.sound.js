@@ -1,8 +1,7 @@
-/*
+/**
  *  @module p5.sound
  *  @submodule p5.sound
  *  @for p5.sound
- *  @main
  */
 
 import { FFT as ToneFFT } from "tone/build/esm/component/analysis/FFT.js";

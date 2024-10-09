@@ -46,6 +46,7 @@ Project mentors and advisors:
 - Kenneth Lim ([limzykenneth](https://github.com/limzykenneth))
 - Rachel Lim ([raclim](https://github.com/raclim))
 - Yotam Mann ([tambien](https://github.com/tambien))
+- Dave Pagurek ([davepagurek](https://github.com/davepagurek))
 - Luisa Peirera ([luisaph](https://github.com/luisaph))
 - Jason Sigal ([therewasaguy](https://github.com/therewasaguy))
 - Cassie Tarakajian ([catarak](https://github.com/catarak))

@@ -1,3 +1,9 @@
+/**
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ */
+
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
 

@@ -1,3 +1,9 @@
+/**
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ */
+
 import { FFT as ToneFFT } from "tone/build/esm/component/analysis/FFT.js";
 import { Waveform as ToneWaveform } from "tone/build/esm/component/analysis/Waveform.js";
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";

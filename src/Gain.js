@@ -1,3 +1,9 @@
+/**
+ *  @module p5.sound
+ *  @submodule p5.sound
+ *  @for p5.sound
+ */
+
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
 

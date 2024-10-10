@@ -9,7 +9,7 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
 
 /**
  * Generate a gain node to use for mixing and main volume.
- * @class Gain
+ * @class p5.Gain
  * @constructor
  * @example
  * <div>

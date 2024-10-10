@@ -11,7 +11,7 @@ import { clamp } from './Utils';
 
 /**
  * A delay effect with parameters for feedback, and delay time.
- * @class Delay
+ * @class p5.Delay
  * @constructor
  * @param {Number} [delayTime] The delay time in seconds between 0 and 1. Defaults to 0.250.
  * @param {Number} [feedback] The amount of feedback in the delay line between 0 and 1. Defaults to 0.2.

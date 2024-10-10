@@ -9,7 +9,7 @@ import { Noise as ToneNoise } from "tone/build/esm/source/Noise.js";
 
 /**
  * Generate a buffer with random values.
- * @class Noise
+ * @class p5.Noise
  * @constructor
  * @param {String} [type] - the type of noise (white, pink, brown)
  * @example

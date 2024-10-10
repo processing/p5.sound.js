@@ -10,7 +10,7 @@ import { clamp } from './Utils';
 
 /**
  * A panning effect.
- * @class Panner
+ * @class p5.Panner
  * @constructor
  * @example
  * <div>

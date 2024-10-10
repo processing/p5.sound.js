@@ -11,7 +11,7 @@ import { clamp } from "./Utils";
 
 /** 
  * Generate Sine, Triangle, Square and Sawtooth waveforms.
- * @class Oscillator
+ * @class p5.Oscillator
  * @constructor
  * @param {Number} [frequency] frequency defaults to 440Hz
  * @param {String} [type] type of oscillator. Options:
@@ -213,7 +213,7 @@ class Oscillator {
 
 /**
  * Creates a sawtooth oscillator.
- * @class SawOsc
+ * @class p5.SawOsc
  * @constructor
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
@@ -227,7 +227,7 @@ class SawOsc extends Oscillator {
 
 /**
  * Creates a square oscillator.
- * @class SqrOsc
+ * @class p5.SqrOsc
  * @constructor
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
@@ -241,7 +241,7 @@ class SqrOsc extends Oscillator {
 
 /**
  * Creates a triangle oscillator.
- * @class TriOsc
+ * @class p5.TriOsc
  * @constructor
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
@@ -255,7 +255,7 @@ class TriOsc extends Oscillator {
 
 /**
  * Creates a sine oscillator.
- * @class SinOsc
+ * @class p5.SinOsc
  * @constructor
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency

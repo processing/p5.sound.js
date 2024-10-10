@@ -9,7 +9,7 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 
 /**
  * Get the current volume of a sound.
- * @class Amplitude
+ * @class p5.Amplitude
  * @constructor
  * @example
  * <div>

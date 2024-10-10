@@ -9,7 +9,7 @@ import { Panner3D as TonePanner3D} from "tone/build/esm/component/channel/Panner
 
 /**
  * A 3D sound spatializer.
- * @class Panner3D
+ * @class p5.Panner3D
  * @constructor
  * @example
  * <div>

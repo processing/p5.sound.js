@@ -10,7 +10,7 @@ import { UserMedia as ToneUserMedia} from "tone/build/esm/source/UserMedia.js";
 import { start as ToneStart } from "tone/build/esm/core/Global.js";
 /**
  * Get sound from an input source, typically a computer microphone.
- * @class AudioIn
+ * @class p5.AudioIn
  * @constructor
  * @example
  * <div>

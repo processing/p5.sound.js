@@ -9,7 +9,7 @@ import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/compo
 
 /**
  * Generate an amplitude envelope.
- * @class Envelope
+ * @class p5.Envelope
  * @constructor
  * @param {Number} [attack] how quickly the envelope reaches the maximum level
  * @param {Number} [decay] how quickly the envelope reaches the sustain level

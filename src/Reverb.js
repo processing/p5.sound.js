@@ -9,7 +9,7 @@ import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
 
 /**
  * Add reverb to a sound by specifying duration and decay.
- * @class Reverb
+ * @class p5.Reverb
  * @constructor
  * @param {Number} [decayTime] Set the decay time of the reverb
  * @example

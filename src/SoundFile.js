@@ -60,7 +60,7 @@ function loadSound (path) {
 
 /**
  * Load and play sound files.
- * @class SoundFile
+ * @class p5.SoundFile
  * @constructor
  * @example
  * <div>

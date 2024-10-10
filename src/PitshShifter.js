@@ -9,7 +9,7 @@ import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.j
 
 /**
  * Change the pitch of a sound.
- * @class PitchShifter
+ * @class p5.PitchShifter
  * @constructor
  * @example
  * <div>

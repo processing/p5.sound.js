@@ -10,7 +10,7 @@ import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter
 
 /**
  * Filter the frequency range of a sound.
- * @class Biquad
+ * @class p5.Biquad
  * @constructor
  * @param {Number} [cutoff] cutoff frequency of the filter, a value between 0 and 24000.
  * @param {String} [type] filter type. Options: "lowpass", 

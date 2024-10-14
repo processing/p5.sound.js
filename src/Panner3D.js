@@ -28,8 +28,8 @@ import { Panner3D as TonePanner3D} from "tone/build/esm/component/channel/Panner
  * let vZ;
  * 
  * function preload() {
- *   soundSource = loadSound('assets/beat.mp3');
- *   font = loadFont('assets/SourceSansPro-Regular.otf');
+ *   soundSource = loadSound('/assets/beat.mp3');
+ *   font = loadFont('/assets/SourceSansPro-Regular.otf');
  * }
  * 
  * function setup() {

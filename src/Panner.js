@@ -18,7 +18,7 @@ import { clamp } from './Utils';
  * let panner, lfo, soundfile, cnv;
  * 
  * function preload() {
- *   soundfile = loadSound('assets/beat.mp3');
+ *   soundfile = loadSound('/assets/beat.mp3');
  * }
  * 
  * function setup() {

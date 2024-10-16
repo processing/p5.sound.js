@@ -1,7 +1,7 @@
 /**
- *  @module p5.sound
- *  @submodule p5.sound
- *  @for p5.sound
+ *  @module Sound
+ *  @submodule Sound Utilities
+ *  @for sound
  */
 
 import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone/build/esm/core/Global.js";

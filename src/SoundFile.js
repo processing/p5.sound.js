@@ -1,9 +1,8 @@
 /**
  *  p5.sound.js extends p5.js with Web Audio functionality including audio input, playback, analysis and synthesis.
  *  @module p5.sound
- *  @submodule p5.sound
+ *  @submodule SoundFile
  *  @for p5.sound
- *  @main p5.sound
  */
 
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
@@ -20,7 +19,7 @@ import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
  *  local server</a> is recommended when loading external files.
  *
  *  @method loadSound
- *  @for p5sound
+ *  @for sound
  *  @param  {String|Array}   path     Path to the sound file, or an array with
  *                                    paths to soundfiles in multiple formats
  *                                    i.e. ['sound.ogg', 'sound.mp3'].

@@ -11,6 +11,7 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
  * Get the current volume of a sound.
  * @class Amplitude
  * @constructor
+ * @param {Number} [smoothing] Smooth the amplitude analysis by averaging with the last analysis frame. 0.0 is no time averaging with the last analysis frame.
  * @example
  * <div>
  * <code>
@@ -45,8 +46,8 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
  * </div>
  */
 class Amplitude {
-  constructor() {
-    this.amplitude = new ToneMeter({normalRange:true});
+  constructor(smoothing = 0) {
+    this.amplitude = new ToneMeter({normalRange:true, smoothing:smoothing});
   }
 
   /**
@@ -67,6 +68,16 @@ class Amplitude {
    */
   getLevel() {
     return this.amplitude.getValue();
+  }
+
+  /**
+   * Get the current amplitude value of a sound.
+   * @method smooth
+   * @for Amplitude
+   * @param {Number} Smooth Amplitude analysis by averaging with the last analysis frame. Off by default.
+   */
+  smooth(s) {
+    this.amplitude.smoothing = s;
   }
 
   connect(destination) {

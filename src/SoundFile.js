@@ -290,8 +290,12 @@ class SoundFile {
    * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
    */
   rate(value = 1) {
+    if (value < 0) {
+      value = 0;
+    }
     this.soundfile.playbackRate = value;
     this.speed = value;
+
   }
 
   /**

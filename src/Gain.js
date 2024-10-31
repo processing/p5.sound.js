@@ -58,9 +58,13 @@ class Gain {
    * Adjust the amplitude of the soundfile.
    * @method amp
    * @for Gain
-   * @param {Number} amplitude amplitude value between 0 and 1.
+   * @param {Number, Object} amplitude amplitude value between 0 and 1, or an audio rate signal such as an LFO.
    */
   amp(value) {
+    if (typeof value === "object") {
+      value.getNode().connect(this.gain.gain);
+      return;
+    }
     this.gain.gain.rampTo(value, 0.1);
   }
 

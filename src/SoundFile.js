@@ -104,7 +104,7 @@ class SoundFile {
   constructor(buffer, successCallback) {
     this.soundfile = new TonePlayer(buffer, successCallback).toDestination();
     this.playing = false;
-    this.rate = 1;
+    this.speed = 1;
     this.paused = false;
   }
 
@@ -114,7 +114,7 @@ class SoundFile {
    * @for SoundFile 
    */
   start() {
-    this.soundfile.playbackRate = this.rate;
+    this.soundfile.playbackRate = this.speed;
     this.playing = true;
     if (!this.paused) {
       this.soundfile.start();
@@ -127,7 +127,7 @@ class SoundFile {
    * @for SoundFile
    */
   play() {
-    this.soundfile.playbackRate = this.rate;
+    this.soundfile.playbackRate = this.speed;
     this.playing = true;
     if (!this.paused) {
       this.soundfile.start();
@@ -289,9 +289,9 @@ class SoundFile {
    * @for SoundFile
    * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
    */
-  rate(value) {
+  rate(value = 1) {
     this.soundfile.playbackRate = value;
-    this.rate = value;
+    this.speed = value;
   }
 
   /**

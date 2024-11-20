@@ -8,7 +8,7 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
 
 /**
- * Add reverb to a sound by specifying duration and decay.
+ * Add reverb to a sound.
  * @class Reverb
  * @constructor
  * @param {Number} [decayTime] Set the decay time of the reverb
@@ -57,7 +57,7 @@ class Reverb {
    * Set the decay time of the reverb.
    * @method set
    * @for Reverb
-   * @param {Number} time Decay time of the reverb
+   * @param {Number} time Decay time of the reverb in seconds.
    */
   set(t) {
     this.reverb.decay = t;

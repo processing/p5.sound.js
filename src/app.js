@@ -25,7 +25,7 @@ p5.Reverb = Reverb;
 import Biquad from './Biquad';
 p5.Biquad = Biquad;
 
-import PitchShifter from './PitshShifter';
+import PitchShifter from './PitchShifter';
 p5.PitchShifter = PitchShifter;
 
 import Gain from './Gain';

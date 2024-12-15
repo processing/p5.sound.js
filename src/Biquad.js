@@ -129,4 +129,47 @@ class Biquad {
   }
 }
 
+/**
+ * Creates a Lowpass Biquad filter.
+ * @class LowPass
+ * @constructor
+ * @extends Biquad
+ * @param {Number} [freq] Set the cutoff frequency of the filter
+ */
+class LowPass extends Biquad {
+  constructor(frequency) {
+    super(frequency);
+    this.biquad.type = "lowpass";
+  }
+}
+
+/**
+ * Creates a Highpass Biquad filter.
+ * @class HighPass
+ * @constructor
+ * @extends Biquad
+ * @param {Number} [freq] Set the cutoff frequency of the filter
+ */
+class HighPass extends Biquad {
+  constructor(frequency) {
+    super(frequency);
+    this.biquad.type = "highpass";
+  }
+}
+
+/**
+ * Creates a Bandpass Biquad filter.
+ * @class BandPass
+ * @constructor
+ * @extends Biquad
+ * @param {Number} [freq] Set the cutoff frequency of the filter
+ */
+class BandPass extends Biquad {
+  constructor(frequency) {
+    super(frequency);
+    this.biquad.type = "bandpass";
+  }
+}
+
 export default Biquad;
+export { LowPass, HighPass, BandPass };

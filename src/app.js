@@ -25,6 +25,11 @@ p5.Reverb = Reverb;
 import Biquad from './Biquad';
 p5.Biquad = Biquad;
 
+import {LowPass, HighPass, BandPass} from './Biquad';
+p5.LowPass = LowPass;
+p5.HighPass = HighPass;
+p5.BandPass = BandPass;
+
 import PitchShifter from './PitchShifter';
 p5.PitchShifter = PitchShifter;
 

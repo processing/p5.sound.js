@@ -85,9 +85,10 @@ class Oscillator {
    * Adjusts the frequency of the oscillator.
    * @method freq
    * @for Oscillator
-   * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). 
+   * @param {Number} frequency frequency of the oscillator in Hz (cycles per second).
+   * @param {Number} [rampTime] the time in seconds it takes to ramp to the new frequency (defaults to 0). 
    */
-  freq(f, p = 0.1) {
+  freq(f, p = 0) {
     this.osc.frequency.rampTo(clamp(f, 0, 24000), p);
   }
 

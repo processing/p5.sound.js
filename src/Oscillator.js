@@ -200,7 +200,11 @@ class Oscillator {
   }
 
   connect(destination) {
-    this.osc.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.osc.connect(destination.getNode());
+    } else {
+      this.osc.connect(destination);
+    }
   }
 
   disconnect() {

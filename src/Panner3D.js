@@ -200,7 +200,11 @@ class Panner3D {
   }
 
   connect(destination) {
-    this.panner3d.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.panner3d.connect(destination.getNode());
+    } else {
+      this.panner3d.connect(destination);
+    } 
   }
 
   disconnect() {

@@ -17,8 +17,10 @@ function clamp(value, min, max) {
  *  @return {AudioContext} the audio context
  */
 function getAudioContext() {
+    const audiocontext = new window.AudioContext();
+    ToneSetContext(audiocontext);
     let context = ToneGetContext();
-    return context;
+    return context._context;
 }
 
 /**

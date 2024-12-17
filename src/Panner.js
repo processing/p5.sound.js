@@ -69,7 +69,11 @@ class Panner {
   }
 
   connect(destination) {
-    this.panner.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.panner.connect(destination.getNode());
+    } else {
+      this.panner.connect(destination);
+    } 
   }
 
   disconnect() {

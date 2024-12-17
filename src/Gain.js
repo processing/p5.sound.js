@@ -69,7 +69,11 @@ class Gain {
   }
 
   connect(destination) {
-    this.gain.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.gain.connect(destination.getNode());
+    } else {
+      this.gain.connect(destination);
+    }
   }
 
   disconnect() {

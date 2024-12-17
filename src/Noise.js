@@ -97,7 +97,11 @@ class Noise {
   }
 
   connect(destination) {
-    this.noise.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.noise.connect(destination.getNode());
+    } else {
+      this.noise.connect(destination);
+    }
   }
 
   disconnect() {

@@ -159,7 +159,11 @@ class Delay {
   }
 
   connect(destination) {
-    this.delay.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.delay.connect(destination.getNode());
+    } else {
+      this.delay.connect(destination);
+    }
   }
 
   disconnect() {

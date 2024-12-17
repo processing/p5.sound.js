@@ -65,7 +65,11 @@ class PitchShifter {
     }
     
     connect(destination) {
-    this.pitchshifter.connect(destination.getNode());
+        if(typeof destination.getNode === 'function') {
+            this.pitchshifter.connect(destination.getNode());
+        } else {
+            this.pitchshifter.connect(destination);
+        } 
     }
 
     disconnect() {

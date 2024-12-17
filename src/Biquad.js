@@ -117,7 +117,11 @@ class Biquad {
   }
 
   connect(destination) {
-    this.biquad.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.biquad.connect(destination.getNode());
+    } else {
+      this.biquad.connect(destination);
+    }
   }
 
   disconnect() {

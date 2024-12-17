@@ -81,7 +81,11 @@ class Amplitude {
   }
 
   connect(destination) {
-    this.amplitude.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.amplitude.connect(destination.getNode());
+    } else {
+      this.amplitude.connect(destination);
+    }
   }
 
   disconnect() {

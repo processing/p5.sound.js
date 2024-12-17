@@ -92,10 +92,14 @@ class AudioIn {
     
     getNode() {
         return this.audioIn;
-      }
+    }
     
     connect(destination) {
-    this.audioIn.connect(destination.getNode());
+        if (typeof destination.getNode === 'function') {
+            this.audioIn.connect(destination.getNode());
+        } else {
+            this.audioIn.connect(destination);
+        }
     }
     
     disconnect() {

@@ -64,7 +64,11 @@ class Reverb {
   }
 
   connect(destination) {
-    this.reverb.connect(destination.getNode());
+    if(typeof destination.getNode === 'function') {
+      this.reverb.connect(destination.getNode());
+    } else {
+      this.reverb.connect(destination);
+    }
   }
   
   disconnect() {

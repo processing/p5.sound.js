@@ -51,9 +51,8 @@ import { start as ToneStart } from "tone/build/esm/core/Global.js";
  */
 class AudioIn {
     constructor() {
-        this.audioIn = new ToneUserMedia().toDestination();
+        this.audioIn = new ToneUserMedia();
     }
-    
     /**
      * Start the audio input.
      * @method start

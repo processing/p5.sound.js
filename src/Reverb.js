@@ -63,6 +63,16 @@ class Reverb {
     this.reverb.decay = t;
   }
 
+  /**
+   * Adjust the dry/wet value.
+   * @method drywet
+   * @for Reverb
+   * @param {Number} mix The desired mix between the original and the affected signal. A number between 0 and 1. 0 is all dry, 1 is completely affected.
+   */
+  drywet(t) {
+    this.reverb.wet.value = t;
+  }
+
   connect(destination) {
     if(typeof destination.getNode === 'function') {
       this.reverb.connect(destination.getNode());

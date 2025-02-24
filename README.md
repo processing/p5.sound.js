@@ -37,6 +37,8 @@ This repository is an update of the [original p5.sound](https://github.com/proce
 
 The project was started by aarón montoya-moraga ([montoyamoraga](https://github.com/montoyamoraga)) during the 2023 p5.js sound fellowship (read the [announcement](https://medium.com/@ProcessingOrg/announcing-the-2023-p5-sound-fellow-aar%C3%B3n-montoya-moraga-7613450902f6) for more details) and was completed by [Tommy Martinez](https://github.com/ogbabydiesal) in September, 2024.
 
+A changeleog of new and deprecated features in the new library can be viewed ([here](https://docs.google.com/spreadsheets/d/1pL0EVOlRTtfc6kcmK2rd9tZXpZal8FkJKALPb7app28/edit?gid=0#gid=0))
+
 Core contributors:
 - Tommy Martinez ([ogbabydiesal](https://github.com/ogbabydiesal))
 - aarón montoya-moraga ([montoyamoraga](https://github.com/montoyamoraga))

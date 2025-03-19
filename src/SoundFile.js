@@ -48,13 +48,27 @@ import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
  *  </code></div>
  */
 function loadSound (path) {
-  let player = new p5.SoundFile(
-    path,
-    function () { 
-      self._decrementPreload();
-    }
-  );
-  return player;
+  if(self._incrementPreload && self._decrementPreload){
+    self._incrementPreload();
+
+    let player = new p5.SoundFile(
+      path,
+      function () {
+        self._decrementPreload();
+      }
+    );
+    return player;
+
+  }else{
+    return new Promise((resolve) => {
+      let player = new p5.SoundFile(
+        path,
+        function () {
+          resolve(player);
+        }
+      );
+    });
+  }
 }
 
 /**

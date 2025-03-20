@@ -18,7 +18,7 @@ import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/compo
  * @example
  * <div>
  * <code>
- * consoe.log('do an example here');
+ * console.log('do an example here');
  * </code>
  * </div>
  */

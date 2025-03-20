@@ -54,7 +54,7 @@ class Panner {
    * Pan a sound source left or right.
    * @method pan
    * @for Panner
-   * @param {Number, Object}  panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or a an audio rate signal such as an LFO.
+   * @param {Number, Object}  panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or an audio rate signal such as an LFO.
    */
   pan(p) {
     if (typeof p === "object") {

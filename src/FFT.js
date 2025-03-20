@@ -12,7 +12,7 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
  * Analyze the frequency spectrum and waveform of sounds.
  * @class FFT
  * @constructor
- * @param {Number} [fftSize] FFT anaylsis size. Must be a power of two between 16 and 1024. Defaults to 32.
+ * @param {Number} [fftSize] FFT analysis size. Must be a power of two between 16 and 1024. Defaults to 32.
  * @example
  * <div>
  * <code>

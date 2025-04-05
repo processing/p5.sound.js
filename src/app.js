@@ -58,5 +58,5 @@ p5.prototype.loadSound = loadSound;
 import AudioIn from './AudioIn';
 p5.AudioIn = AudioIn;
 
-//import Recorder from './Recorder';
-//p5.prototype.Recorder = Recorder;
+import Recorder from './Recorder';
+p5.prototype.Recorder = Recorder;

@@ -59,4 +59,4 @@ import AudioIn from './AudioIn';
 p5.AudioIn = AudioIn;
 
 import Recorder from './Recorder';
-p5.prototype.Recorder = Recorder;
+p5.Recorder = Recorder;

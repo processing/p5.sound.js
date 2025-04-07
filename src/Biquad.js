@@ -113,7 +113,7 @@ class Biquad {
    * @param {Number} cutoffFrequency the cutoff frequency of the filter.
    */
   freq(f) {
-    this.biquad.frequency.value = clamp(f, 0, 24000);
+    this.biquad.frequency.value = clamp(f, 0, 22050);
   }
 
   connect(destination) {

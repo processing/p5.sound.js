@@ -21,7 +21,7 @@ import { Recorder as ToneRecorder } from "tone/build/esm/component/channel/Recor
  *   osc = new p5.Oscillator('sine');
  *   osc.amp(0.5);
  * 
- *   recorder = new p5.prototype.Recorder();
+ *   recorder = new p5.Recorder();
  *   osc.connect(recorder);
  * 
  *   cnv.mousePressed(startRecording);

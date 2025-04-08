@@ -17,6 +17,10 @@ function clamp(value, min, max) {
  *  @return {AudioContext} the audio context
  */
 function getAudioContext() {
+    // Check if the AudioContext is already created
+    if (ToneGetContext()) {
+        return ToneGetContext().rawContext;
+    }
     const audiocontext = new window.AudioContext();
     ToneSetContext(audiocontext);
     let context = ToneGetContext();

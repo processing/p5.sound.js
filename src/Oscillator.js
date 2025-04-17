@@ -161,6 +161,7 @@ class Oscillator {
       value.getNode().connect(this.osc.volume);
       return;
     }
+    value = clamp(value, 0, 1);
     let dbValue = ToneGainToDb(value);
     this.osc.volume.rampTo(dbValue, p);
   }

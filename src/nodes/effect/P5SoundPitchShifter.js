@@ -4,12 +4,12 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.js";
+import { P5SoundMixEffectNode } from "../core/P5SoundMixEffectNode.js";
 
 /**
  * Change the pitch of a sound.
- * @class PitchShifter
+ * @class P5SoundPitchShifter
  * @constructor
  * @example
  * <div>
@@ -27,7 +27,7 @@ import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.j
  *   textAlign(CENTER);
  *   textSize(9);
  *   text('click to play sound', width/2, height/2);
- *   pitchShifter = new p5.PitchShifter();
+ *   pitchShifter = new p5.P5SoundPitchShifter();
  *   
  *   soundFile.disconnect();
  *   soundFile.connect(pitchShifter);
@@ -47,38 +47,26 @@ import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.j
  * </code>
  * </div>
  */
-class PitchShifter {
-    constructor(shiftValue = 1) {
-        this.pitchshifter = new TonePitchShift(shiftValue).toDestination();
+export class P5SoundPitchShifter extends P5SoundMixEffectNode
+{
+    constructor(shiftValue = 1)
+    {
+        super();
+
+        this._tonePitchShifterNode = new TonePitchShift(shiftValue);
+
+        this.configureMixIO(this._tonePitchShifterNode, this._tonePitchShifterNode);
     }
-    
+
+    isP5SoundPitchShifter = true;
+
+    get shift() { return this._tonePitchShifterNode.pitch.value; }
+
     /**
      * Shift the pitch of the source audio.
      * @method shift
-     * @for PitchShifter
+     * @for P5SoundPitchShifter
      * @param {Number} pitchValue amount of semitones to shift the pitch
      */
-    shift (value) {
-        if (value !== undefined) {
-            this.pitchshifter.pitch = value;
-        }
-    }
-    
-    connect(destination) {
-        if(typeof destination.getNode === 'function') {
-            this.pitchshifter.connect(destination.getNode());
-        } else {
-            this.pitchshifter.connect(destination);
-        } 
-    }
-
-    disconnect() {
-        this.pitchshifter.disconnect(ToneContext.destination);
-    }
-
-    getNode() {
-        return this.pitchshifter;
-    }
+    set shift(pitchValue) { this._tonePitchShifterNode.pitch.value = value;}
 }
-
-export default PitchShifter;

@@ -4,12 +4,12 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
+import { P5SoundMixEffectNode } from "../core/P5SoundMixEffectNode.js";
 
 /**
  * Add reverb to a sound.
- * @class Reverb
+ * @class P5SoundReverb
  * @constructor
  * @param {Number} [decayTime] Set the decay time of the reverb
  * @example
@@ -21,9 +21,9 @@ import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
  * function setup() {
  *   let cnv = createCanvas(100, 100);
  *   cnv.mousePressed(playSound);
- *   noise = new p5.Noise();
- *   env = new p5.Envelope();
- *   reverb = new p5.Reverb();
+ *   noise = new p5.P5SoundNoise();
+ *   env = new p5.P5SoundEnvelope();
+ *   reverb = new p5.P5SoundReverb();
  *   noise.disconnect();
  *   noise.connect(env);
  *   env.disconnect();
@@ -47,47 +47,29 @@ import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
  * </code>
  * </div>
  */
-class Reverb {
-  constructor(decayTime) {
-    this.decayTime = decayTime || 1;
-    this.reverb = new ToneReverb(this.decayTime).toDestination();
+export class P5SoundReverb extends P5SoundMixEffectNode
+{
+  constructor(decayTime = 1)
+  {
+    super();
+
+    this._toneReverbNode = new ToneReverb();
+
+    this.decayTime = decayTime;
+
+    this.configureMixIO(this._toneReverbNode, this._toneReverbNode);
   }
 
+  isP5SoundReverb = true;
+
+  get decayTime() { return this._toneReverbNode.decayTime; }
   /**
    * Set the decay time of the reverb.
    * @method set
-   * @for Reverb
+   * @for P5SoundReverb
    * @param {Number} time Decay time of the reverb in seconds.
    */
-  set(t) {
-    this.reverb.decay = t;
-  }
-
-  /**
-   * Adjust the dry/wet value.
-   * @method drywet
-   * @for Reverb
-   * @param {Number} mix The desired mix between the original and the affected signal. A number between 0 and 1. 0 is all dry, 1 is completely affected.
-   */
-  drywet(t) {
-    this.reverb.wet.value = t;
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.reverb.connect(destination.getNode());
-    } else {
-      this.reverb.connect(destination);
-    }
-  }
-  
-  disconnect() {
-    this.reverb.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.reverb;
-  }
+  set decayTime(time) { this._toneReverbNode.decay = time; }
 }
 
-export default Reverb;
+export default P5SoundReverb;

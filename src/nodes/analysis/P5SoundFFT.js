@@ -7,12 +7,13 @@
 import { FFT as ToneFFT } from "tone/build/esm/component/analysis/FFT.js";
 import { Waveform as ToneWaveform } from "tone/build/esm/component/analysis/Waveform.js";
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
+import {P5SoundAnalyzerNode} from "../core/P5SoundAnalyzerNode";
 
 /**
  * Analyze the frequency spectrum and waveform of sounds.
- * @class FFT
+ * @class P5SoundFFT
  * @constructor
- * @param {Number} [fftSize] FFT analysis size. Must be a power of two between 16 and 1024. Defaults to 32.
+ * @param {Number} [fftSize] P5SoundFFT analysis size. Must be a power of two between 16 and 1024. Defaults to 32.
  * @example
  * <div>
  * <code>
@@ -21,7 +22,7 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
  * function setup(){
  *   let cnv = createCanvas(100,100);
  *   cnv.mouseClicked(togglePlay);
- *   fft = new p5.FFT(32);
+ *   fft = new p5.P5SoundFFT(32);
  *   osc = new p5.TriOsc(440);
  *   osc.connect(fft);
  * }
@@ -62,44 +63,46 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
  * </code>
  * </div>
  */
-class FFT {
-    constructor(fftSize = 32) {
-        this.fftSize = fftSize;
-        this.analyzer = new ToneFFT({
-            size: this.fftSize,
-            normalRange: true,
-        });
-        this.samples = new ToneWaveform();
-        //creates a single gain node to connect to for the analyzer and waveform
-        this.gain = new ToneGain(1);
-        this.gain.connect(this.analyzer);
-        this.gain.connect(this.samples);
+// TODO: Separate FFT and Waveform
+export class P5SoundFFT extends P5SoundAnalyzerNode
+{
+    constructor(fftSize = 32)
+    {
+        super();
+
+        this._fftSize = fftSize;
+
+        this._toneFFTNode = new ToneFFT
+        (
+            {
+                size: this._fftSize,
+                normalRange: true,
+            }
+        );
+
+        this._samples = new ToneWaveform();
+
+        this._thruNode = new ToneGain();
+        this._thruNode.connect(this._toneFFTNode, this._samples);
+
+        this.configureInput(this._thruNode);
     }
 
-    //return the gain node which is the parent node to the analyzer and waveform
-    getNode() {    
-        return this.gain;
-    }
+    isP5SoundFFT = true;
     
     /**
      * Returns the frequency spectrum of the input signal.
-     * @method analyze
-     * @for FFT
+     * @method analysis
+     * @for P5SoundFFT
      * @returns {Array} Array of amplitude values from 0 to 1.
      */
-    analyze() {
-        return this.analyzer.getValue();
-    }
+    get analysis() { return this._toneFFTNode.getValue(); }
     
     /**
      * Returns an array of sample values from the input audio.
      * @method waveform
-     * @for FFT
+     * @for P5SoundFFT
      * @return {Array} Array of sample values from -1 to -1.
      */
-    waveform() {
-        return this.samples.getValue();
-    }
+    get waveform() { return this._samples.getValue(); }
 }
-
-export default FFT;

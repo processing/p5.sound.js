@@ -1,40 +1,41 @@
 import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './Utils';
+
 p5.prototype.getAudioContext = getAudioContext;
 p5.prototype.setAudioContext = setAudioContext;
 p5.prototype.userStartAudio = userStartAudio;
 p5.prototype.userStopAudio = userStopAudio;
 
-import Oscillator from './Oscillator';
-p5.Oscillator = Oscillator;
+import { P5SoundOscillator }  from './nodes/core/source/P5SoundOscillator.js';
+p5.Oscillator = P5SoundOscillator;
 
-import {SawOsc, SinOsc, TriOsc, SqrOsc} from './Oscillator';
-p5.SawOsc = SawOsc;
-p5.SinOsc = SinOsc;
-p5.TriOsc = TriOsc;
-p5.SqrOsc = SqrOsc;
+import { P5SoundSawOsc, P5SoundSinOsc, P5SoundTriOsc, P5SoundSqrOsc } from './nodes/core/source/P5SoundOscillator';
+p5.SawOsc = P5SoundSawOsc;
+p5.SinOsc = P5SoundSinOsc;
+p5.TriOsc = P5SoundTriOsc;
+p5.SqrOsc = P5SoundSqrOsc;
 
 import Envelope from './Envelope';
 p5.Envelope = Envelope;
 
-import Delay from './Delay';
-p5.Delay = Delay;
+import { P5SoundDelay } from './nodes/core/effect/P5SoundDelay.js';
+p5.Delay = P5SoundDelay;
 
 import Reverb from './Reverb';
 p5.Reverb = Reverb;
 
-import Biquad from './Biquad';
-p5.Biquad = Biquad;
+import { P5SoundBiquad } from './nodes/core/effect/P5SoundBiquad.js';
+p5.Biquad = P5SoundBiquad;
 
-import {LowPass, HighPass, BandPass} from './Biquad';
-p5.LowPass = LowPass;
-p5.HighPass = HighPass;
-p5.BandPass = BandPass;
+import { P5SoundLowPass, P5SoundHighPass, P5SoundBandPass } from './nodes/core/effect/P5SoundBiquad';
+p5.LowPass = P5SoundLowPass;
+p5.HighPass = P5SoundHighPass;
+p5.BandPass = P5SoundBandPass;
 
 import PitchShifter from './PitchShifter';
 p5.PitchShifter = PitchShifter;
 
-import Gain from './Gain';
-p5.Gain = Gain;
+import { P5SoundGain } from './nodes/core/effect/P5SoundGain.js';
+p5.Gain = P5SoundGain;
 
 import Amplitude from './Amplitude';
 p5.Amplitude = Amplitude;
@@ -45,8 +46,8 @@ p5.FFT = FFT;
 import Noise from './Noise';
 p5.Noise = Noise;
 
-import Panner from './Panner';
-p5.Panner = Panner;
+import { P5SoundPanner } from './nodes/core/effect/P5SoundPanner.js';
+p5.Panner = P5SoundPanner;
 
 import Panner3D from './Panner3D';
 p5.Panner3D = Panner3D;

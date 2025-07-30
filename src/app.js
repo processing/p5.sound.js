@@ -59,5 +59,8 @@ p5.prototype.loadSound = loadSound;
 import AudioIn from './AudioIn';
 p5.AudioIn = AudioIn;
 
+p5.AudioOutput = new p5.Gain();
+p5.AudioOutput.toDestination();
+
 //import Recorder from './Recorder';
 //p5.prototype.Recorder = Recorder;

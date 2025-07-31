@@ -14,6 +14,7 @@ export class P5SoundAnalyzerNode extends P5SoundNode
 
 	get input() { return this._analyzerInputNode; };
 
+	// TODO: ? get value() { return whatever data type the given analyzer provides } ? (separate PR)
 	configureInput(input)
 	{
 		this.connectInputTo(input);

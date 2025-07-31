@@ -4,8 +4,8 @@
  *  @for p5.sound
  */
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
-import { P5SoundEffectNode } from "../P5SoundEffectNode.js";
-import { P5SoundParameter } from "../P5SoundParameter.js";
+import { P5SoundEffectNode } from "../core/P5SoundEffectNode.js";
+import { P5SoundParameter } from "../../P5SoundParameter.js";
 
 /**
  * Generate a gain node to use for mixing and main volume.
@@ -55,12 +55,12 @@ export class P5SoundGain extends P5SoundEffectNode
   {
     super();
 
-    this._gainNode = new ToneGain(gainValue);
+    this._toneGainNode = new ToneGain(gainValue);
 
-    this._gain = new P5SoundParameter(this._gainNode.gain);
+    this._gain = new P5SoundParameter(this._toneGainNode.gain);
 
-    this.configureInput(this._gainNode);
-    this.configureOutput(this._gainNode);
+    this.configureInput(this._toneGainNode);
+    this.configureOutput(this._toneGainNode);
   }
 
   isP5SoundGain = true;

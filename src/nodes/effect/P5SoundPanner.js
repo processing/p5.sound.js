@@ -4,8 +4,8 @@
  *  @for p5.sound
  */
 
-import { P5SoundEffectNode } from "../P5SoundEffectNode.js";
-import { P5SoundParameter } from "../P5SoundParameter.js";
+import { P5SoundEffectNode } from "../core/P5SoundEffectNode.js";
+import { P5SoundParameter } from "../../P5SoundParameter.js";
 import { Panner as TonePanner} from "tone/build/esm/component/channel/Panner.js";
 
 /**
@@ -51,12 +51,12 @@ export class P5SoundPanner extends P5SoundEffectNode
   {
     super();
 
-    this._pannerNode = new TonePanner();
+    this._tonePannerNode = new TonePanner();
 
-    this._pan = new P5SoundParameter(this._pannerNode.pan, panAmount);
+    this._pan = new P5SoundParameter(this._tonePannerNode.pan, panAmount);
 
-    this.configureInput(this._pannerNode);
-    this.configureOutput(this._pannerNode);
+    this.configureInput(this._tonePannerNode);
+    this.configureOutput(this._tonePannerNode);
   }
 
   isP5SoundPanner = true;

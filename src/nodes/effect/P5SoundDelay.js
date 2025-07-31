@@ -5,8 +5,8 @@
  */
 
 import { FeedbackDelay as ToneFeedbackDelay } from "tone/build/esm/effect/FeedbackDelay.js";
-import { P5SoundParameter } from "../P5SoundParameter.js";
-import { P5SoundMixEffectNode } from "../P5SoundMixEffectNode.js";
+import { P5SoundParameter } from "../../P5SoundParameter.js";
+import { P5SoundMixEffectNode } from "../core/P5SoundMixEffectNode.js";
 
 /**
  * A delay effect with parameters for feedback, and delay time.
@@ -52,13 +52,15 @@ export class P5SoundDelay extends P5SoundMixEffectNode
   {
     super();
 
-    this._delayNode = new ToneFeedbackDelay();
+    this._toneFeedbackDelayNode = new ToneFeedbackDelay();
 
-    this._delayTime = new P5SoundParameter(this._delayNode.delayTime, delayTime);
-    this._feedback = new P5SoundParameter(this._delayNode.feedback, feedback);
+    this._delayTime = new P5SoundParameter(this._toneFeedbackDelayNode.delayTime, delayTime);
+    this._feedback = new P5SoundParameter(this._toneFeedbackDelayNode.feedback, feedback);
 
-    this.configureMixIO(this._delayNode, this._delayNode);
+    this.configureMixIO(this._toneFeedbackDelayNode, this._toneFeedbackDelayNode);
   }
+
+  isP5SoundDelay = true;
 
   /**
    * Set the delay time in seconds.
@@ -82,7 +84,7 @@ export class P5SoundDelay extends P5SoundMixEffectNode
    * 
    *   osc = new p5.P5SoundOscillator('sawtooth');
    *   osc.amp(0.74);
-   *   env = new p5.Envelope(0.01);
+   *   env = new p5.P5SoundEnvelope(0.01);
    *   delay = new p5.P5SoundDelay(0.12, 0.7);
    *   
    *   osc.disconnect();

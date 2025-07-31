@@ -4,8 +4,8 @@
  *  @for p5.sound
  */
 import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter/BiquadFilter.js";
-import { P5SoundEffectNode } from "../P5SoundEffectNode.js";
-import { P5SoundParameter } from "../P5SoundParameter.js";
+import { P5SoundEffectNode } from "../../core/P5SoundEffectNode.js";
+import { P5SoundParameter } from "../../../P5SoundParameter.js";
 
 /**
  * Filter the frequency range of a sound.
@@ -30,8 +30,8 @@ import { P5SoundParameter } from "../P5SoundParameter.js";
  *   textSize(9);
  *   text('click and drag mouse', width/2, height/2);
  *   
- *   noise = new p5.Noise('white');
- *   env = new p5.Envelope(0);
+ *   noise = new p5.P5SoundNoise('white');
+ *   env = new p5.P5SoundEnvelope(0);
  *   lowPass = new p5.P5SoundBiquad(1200, 'lowpass');
  *   hiPass = new p5.P5SoundBiquad(55, 'highpass');
  *   delay = new p5.P5SoundDelay(0.0005, 0.97);
@@ -74,16 +74,16 @@ export class P5SoundBiquad extends P5SoundEffectNode
   {
     super();
 
-    this._biquadNode = new ToneBiquadFilter();
+    this._toneBiquadNode = new ToneBiquadFilter();
 
-    this._q = new P5SoundParameter(this._biquadNode.q);
-    this._filterGain = new P5SoundParameter(this._biquadNode.gain);
-    this._frequency = new P5SoundParameter(this._biquadNode.frequency, frequency);
+    this._q = new P5SoundParameter(this._toneBiquadNode.q);
+    this._filterGain = new P5SoundParameter(this._toneBiquadNode.gain);
+    this._frequency = new P5SoundParameter(this._toneBiquadNode.frequency, frequency);
 
     this.type = type;
 
-    this.configureInput(this._biquadNode);
-    this.configureOutput(this._biquadNode);
+    this.configureInput(this._toneBiquadNode);
+    this.configureOutput(this._toneBiquadNode);
   }
 
   isP5SoundBiquad = true;
@@ -103,7 +103,7 @@ export class P5SoundBiquad extends P5SoundEffectNode
   set type(value)
   {
     this._type = value;
-    this._biquadNode.type = value;
+    this._toneBiquadNode.type = value;
   }
 
   get filterGain() { return this._filterGain; }
@@ -115,57 +115,12 @@ export class P5SoundBiquad extends P5SoundEffectNode
    */
   set filterGain(gain) { this._filterGain.value = gain; }
 
+  get frequency() { return this._frequency; }
   /**
    * Set the cutoff frequency of the filter.
    * @method freq
    * @for P5SoundBiquad
    * @param {Number} cutoffFrequency the cutoff frequency of the filter.
    */
-  get frequency() { return this._frequency; }
   set frequency(cutoffFrequency) { this._frequency.value = cutoffFrequency; }
-}
-
-/**
- * Creates a Lowpass P5SoundBiquad filter.
- * @class P5SoundLowPass
- * @constructor
- * @extends P5SoundBiquad
- * @param {Number} [freq] Set the cutoff frequency of the filter
- */
-export class P5SoundLowPass extends P5SoundBiquad
-{
-  constructor(frequency)
-  {
-    super(frequency, "lowpass");
-  }
-}
-
-/**
- * Creates a Highpass P5SoundBiquad filter.
- * @class P5SoundHighPass
- * @constructor
- * @extends P5SoundBiquad
- * @param {Number} [freq] Set the cutoff frequency of the filter
- */
-export class P5SoundHighPass extends P5SoundBiquad
-{
-  constructor(frequency)
-  {
-    super(frequency, "highpass");
-  }
-}
-
-/**
- * Creates a Bandpass P5SoundBiquad filter.
- * @class P5SoundBandPass
- * @constructor
- * @extends P5SoundBiquad
- * @param {Number} [freq] Set the cutoff frequency of the filter
- */
-export class P5SoundBandPass extends P5SoundBiquad
-{
-  constructor(frequency)
-  {
-    super(frequency, "bandpass");
-  }
 }

@@ -1,4 +1,3 @@
-import { P5SoundNode } from "./P5SoundNode.js";
 import { P5SoundSourceNode } from "./P5SoundSourceNode";
 
 export class P5SoundStartableSourceNode extends P5SoundSourceNode

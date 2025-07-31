@@ -14,7 +14,7 @@ export class P5SoundNode extends P5SoundObject
 
 	isP5SoundNode = true;
 
-	get gain() { return this._gain; }
+	get gain() { return this._gain.parameter; }
 	set gain(value) { this._gain.value = value; }
 
 	connect(...audioNodes)

@@ -99,7 +99,7 @@ export class P5SoundOscillator extends P5SoundStartableSourceNode
 
   get frequency()
   {
-    return this._frequency;
+    return this._frequency.parameter;
   }
 
   /**
@@ -129,7 +129,7 @@ export class P5SoundOscillator extends P5SoundStartableSourceNode
 
   get detune()
   {
-    return this._detune;
+    return this._detune.parameter;
   }
 
   set detune(value)

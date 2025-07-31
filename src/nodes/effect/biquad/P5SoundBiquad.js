@@ -88,7 +88,7 @@ export class P5SoundBiquad extends P5SoundEffectNode
 
   isP5SoundBiquad = true;
 
-  get q() { return this._q; }
+  get q() { return this._q.parameter; }
   set q(value) { this._q.value = value; }
 
   /**
@@ -115,7 +115,7 @@ export class P5SoundBiquad extends P5SoundEffectNode
    */
   set filterGain(gain) { this._filterGain.value = gain; }
 
-  get frequency() { return this._frequency; }
+  get frequency() { return this._frequency.parameter; }
   /**
    * Set the cutoff frequency of the filter.
    * @method freq

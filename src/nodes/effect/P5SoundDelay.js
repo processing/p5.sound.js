@@ -117,10 +117,10 @@ export class P5SoundDelay extends P5SoundMixEffectNode
    *   delay.delayTime(dtime);
    * }
    */
-  get delayTime() { return this._delayTime; }
+  get delayTime() { return this._delayTime.parameter; }
   set delayTime(value) { this._delayTime.value = value; }
 
-  get feedback() { return this._feedback; }
+  get feedback() { return this._feedback.parameter; }
   /**
    * The amount of feedback in the delay line.
    * @method feedback

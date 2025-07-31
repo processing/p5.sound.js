@@ -65,6 +65,6 @@ export class P5SoundGain extends P5SoundEffectNode
 
   isP5SoundGain = true;
 
-  get gain() { return this._gain; }
+  get gain() { return this._gain.parameter; }
   set gain(value) { this._gain.value = value; }
 }

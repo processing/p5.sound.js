@@ -127,7 +127,7 @@ export class P5SoundPanner3D extends P5SoundEffectNode
 
   isP5SoundPanner3D = true;
 
-  get positionX() { return this._positionX; }
+  get positionX() { return this._positionX.parameter; }
   /**
    * Set the X position of the sound source.
    * @method positionX
@@ -136,7 +136,7 @@ export class P5SoundPanner3D extends P5SoundEffectNode
    */
   set positionX(positionX) { this._positionX.value = positionX; }
 
-  get positionY() { return this._positionY; }
+  get positionY() { return this._positionY.parameter; }
   /**
    * Set the Y position of the sound source.
    * @method positionY
@@ -145,7 +145,7 @@ export class P5SoundPanner3D extends P5SoundEffectNode
    */
   set positionY(positionY) { this._positionY.value = positionY; }
 
-  get positionZ() { return this._positionZ; }
+  get positionZ() { return this._positionZ.parameter; }
   /**
    * Set the Z position of the sound source.
    * @method positionZ

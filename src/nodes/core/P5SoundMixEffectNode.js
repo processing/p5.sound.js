@@ -30,10 +30,10 @@ export class P5SoundMixEffectNode extends P5SoundEffectNode
 
 	isP5SoundMixEffect = true;
 
-	get dryGain() { return this._dryGain; }
+	get dryGain() { return this._dryGain.parameter; }
 	set dryGain(value) { this._dryGain.value = value; }
 
-	get wetGain() { return this._wetGain; }
+	get wetGain() { return this._wetGain.parameter; }
 	set wetGain(value) { this._wetGain.value = value; }
 
 	get wetMix() { return this._wetMix; }

@@ -8,11 +8,11 @@ export class P5SoundParameter extends P5SoundObject
 
 		if (audioParameter !== null)
 		{
-			this._parameter = audioParameter;
+			this._audioParameter = audioParameter;
 
 			if (value !== null)
 			{
-				this._parameter.value = value;
+				this._audioParameter.value = value;
 			}
 		}
 	}
@@ -21,12 +21,12 @@ export class P5SoundParameter extends P5SoundObject
 
 	get parameter()
 	{
-		return this._parameter;
+		return this._audioParameter;
 	}
 
 	set parameter(audioParameter)
 	{
-		this._parameter = audioParameter;
+		this._audioParameter = audioParameter;
 	}
 
 	get value()

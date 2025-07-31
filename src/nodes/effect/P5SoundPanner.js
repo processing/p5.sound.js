@@ -61,7 +61,7 @@ export class P5SoundPanner extends P5SoundEffectNode
 
   isP5SoundPanner = true;
 
-  get pan() { return this._pan; }
+  get pan() { return this._pan.parameter; }
 
   /**
    * Pan a sound source left or right.

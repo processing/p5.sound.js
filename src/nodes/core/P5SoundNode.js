@@ -28,9 +28,7 @@ export class P5SoundNode extends P5SoundObject
 				// TODO: Friendly Error
 				console.warn
 				(
-					"P5.Sound:", "ErrType: CONNECTION_ERR", "[" + "Sound Node" + "]",
-					"Attempted to connect to:", "[" + "Other Node" + "]",
-					", which has no input."
+					"P5.Sound:", "ErrType: CONNECTION_ERR", "Invalid Connection."
 				)
 
 				return;

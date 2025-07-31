@@ -8,19 +8,21 @@ export class P5SoundMixEffectNode extends P5SoundEffectNode
 	{
 		super();
 
-		this._mixEffectInputNode = new ToneGain();
-		this._mixEffectOutputNode = new ToneGain();
+		this._mixEffectInputNode = new ToneGain(1);
+		this._mixEffectOutputNode = new ToneGain(1);
 
 		this._dryGainNode = new ToneGain();
 		this._wetGainNode = new ToneGain();
 
-		this._dryGain = new P5SoundParameter(this._dryGainNode.gain);
-		this._wetGain = new P5SoundParameter(this._wetGainNode.gain);
+		this._dryGain = new P5SoundParameter(this._dryGainNode.gain, 0);
+		this._wetGain = new P5SoundParameter(this._wetGainNode.gain, 1);
 
 		this.wetMix = wetMix;
 
 		this._mixEffectInputNode.connect(this._dryGainNode);
 		this._dryGainNode.connect(this._mixEffectOutputNode);
+
+		this._wetGainNode.connect(this._mixEffectOutputNode);
 
 		this.configureInput(this._mixEffectInputNode);
 		this.configureOutput(this._mixEffectOutputNode);
@@ -43,17 +45,17 @@ export class P5SoundMixEffectNode extends P5SoundEffectNode
 		this.wetGain = this._wetMix;
 	}
 
-	configureMixIO(input, output)
+	configureWetIO(input, output)
 	{
 		this._mixEffectInputNode.connect(input);
 
 		if(output.isP5SoundNode)
 		{
-			output.connect(this._mixEffectOutputNode);
+			output.connect(this._wetGainNode);
 		}
 		else
 		{
-			output.connect(this._mixEffectOutputNode);
+			output.connect(this._wetGainNode);
 		}
 	}
 }

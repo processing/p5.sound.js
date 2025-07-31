@@ -52,8 +52,7 @@ export class P5SoundNode extends P5SoundObject
 		}
 	}
 
-	// TODO: deal with disconnect method (separate PR)
-	// TODO: Test
+	// TODO: deal with disconnect method
 	disconnect()
 	{
 		this._output.disconnect();

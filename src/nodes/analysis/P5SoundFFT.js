@@ -63,7 +63,7 @@ import {P5SoundAnalyzerNode} from "../core/P5SoundAnalyzerNode";
  * </code>
  * </div>
  */
-// TODO: Separate FFT and Waveform (separate PR)
+// TODO: Separate FFT and Waveform
 export class P5SoundFFT extends P5SoundAnalyzerNode
 {
     constructor(fftSize = 32)

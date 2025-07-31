@@ -8,7 +8,7 @@ export class P5SoundNode extends P5SoundObject
 	{
 		super();
 
-		this._output = new ToneGain(1);
+		this._output = new ToneGain(1).toDestination();
 		this._gain = new P5SoundParameter(this._output.gain);
 	}
 
@@ -51,6 +51,13 @@ export class P5SoundNode extends P5SoundObject
 				this._output.connect(audioNode);
 			}
 		}
+	}
+
+	// TODO: deal with disconnect method (separate PR)
+	// TODO: Test
+	disconnect()
+	{
+		this._output.disconnect();
 	}
 
 	configureOutput(audioNode)

@@ -1,6 +1,6 @@
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
-import { P5SoundObject } from "./P5SoundObject.js";
-import { P5SoundParameter } from "./P5SoundParameter.js";
+import { P5SoundObject } from "../../P5SoundObject.js";
+import { P5SoundParameter } from "../../P5SoundParameter.js";
 
 export class P5SoundNode extends P5SoundObject
 {

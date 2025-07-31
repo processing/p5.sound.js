@@ -7,12 +7,12 @@ export class P5SoundAnalyzerNode extends P5SoundNode
 	{
 		super();
 
-		this._inputNode = new ToneGain(1);
+		this._analyzerInputNode = new ToneGain(1);
 	}
 
 	isP5SoundAnalyzer = true;
 
-	get input() { return this._inputNode; };
+	get input() { return this._analyzerInputNode; };
 
 	configureInput(input)
 	{
@@ -23,11 +23,11 @@ export class P5SoundAnalyzerNode extends P5SoundNode
 	{
 		if(audioNode.isP5SoundAnalyzer)
 		{
-			this._inputNode.connect(audioNode.input);
+			this._analyzerInputNode.connect(audioNode.input);
 		}
 		else
 		{
-			this._inputNode.connect(audioNode);
+			this._analyzerInputNode.connect(audioNode);
 		}
 	}
 }

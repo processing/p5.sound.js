@@ -57,7 +57,7 @@ export class P5SoundDelay extends P5SoundMixEffectNode
     this._delayTime = new P5SoundParameter(this._toneFeedbackDelayNode.delayTime, delayTime);
     this._feedback = new P5SoundParameter(this._toneFeedbackDelayNode.feedback, feedback);
 
-    this.configureMixIO(this._toneFeedbackDelayNode, this._toneFeedbackDelayNode);
+    this.configureWetIO(this._toneFeedbackDelayNode, this._toneFeedbackDelayNode);
   }
 
   isP5SoundDelay = true;

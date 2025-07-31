@@ -25,13 +25,10 @@ export class P5SoundNode extends P5SoundObject
 
 			if (audioNode.isP5SoundObject && !audioNode.input && !audioNode.isP5SoundParameter)
 			{
-				// TODO: Friendly Error
-				console.warn
-				(
-					"P5.Sound:", "ErrType: CONNECTION_ERR", "Invalid Connection."
-				)
+				// TODO: P5 Friendly Error
+				console.warn("P5.Sound:", "ErrType: CONNECTION_ERR", "Invalid Connection.");
 
-				return;
+				continue;
 			}
 
 			if (audioNode.isP5SoundObject)

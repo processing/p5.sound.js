@@ -5,7 +5,7 @@
  */
 
 import { Meter as ToneMeter } from "tone/build/esm/component/analysis/Meter.js";
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import {P5SoundAnalyzerNode} from "../core/P5SoundAnalyzerNode";
 
 /**
  * Get the current volume of a sound.
@@ -45,19 +45,15 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
  * </code>
  * </div>
  */
-class Amplitude {
-  constructor(smoothing = 0) {
-    this.amplitude = new ToneMeter({normalRange:true, smoothing:smoothing});
-  }
+export class P5SoundAmplitude extends P5SoundAnalyzerNode
+{
+  constructor(smoothing = 0)
+  {
+    super();
 
-  /**
-   * Connect an audio source to the amplitude object.
-   * @method setInput
-   * @for Amplitude
-   * @param {Object} input - An object that has audio output.
-   */
-  setInput(input) {
-    input.getNode().connect(this.amplitude);
+    this._toneMeterNode = new ToneMeter( { normalRange:true, smoothing:smoothing } );
+
+    this.configureInput(this._toneMeterNode);
   }
 
   /**
@@ -66,35 +62,14 @@ class Amplitude {
    * @for Amplitude
    * @return {Number} Amplitude level (volume) of a sound.
    */
-  getLevel() {
-    return this.amplitude.getValue();
-  }
+  get level() { return this._toneMeterNode.getValue(); }
 
+  get smooth() { return this._toneMeterNode.smoothing; }
   /**
-   * Get the current amplitude value of a sound.
+   * Set the current amplitude value of a sound.
    * @method smooth
    * @for Amplitude
-   * @param {Number} Smooth Amplitude analysis by averaging with the last analysis frame. Off by default.
+   * @param {Number} value Amplitude analysis by averaging with the last analysis frame. Off by default.
    */
-  smooth(s) {
-    this.amplitude.smoothing = s;
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.amplitude.connect(destination.getNode());
-    } else {
-      this.amplitude.connect(destination);
-    }
-  }
-
-  disconnect() {
-    this.amplitude.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.amplitude;
-  }
+  set smooth(value) { this._toneMeterNode.smoothing = value; }
 }
-
-export default Amplitude;

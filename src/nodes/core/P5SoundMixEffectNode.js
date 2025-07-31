@@ -47,7 +47,7 @@ export class P5SoundMixEffectNode extends P5SoundEffectNode
 	{
 		this._mixEffectInputNode.connect(input);
 
-		if(output.isISNode)
+		if(output.isP5SoundNode)
 		{
 			output.connect(this._mixEffectOutputNode);
 		}

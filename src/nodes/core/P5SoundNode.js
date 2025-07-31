@@ -31,18 +31,20 @@ export class P5SoundNode extends P5SoundObject
 				continue;
 			}
 
+			// If audioNode is a P5SoundObject...
 			if (audioNode.isP5SoundObject)
 			{
+				//...if the node has an input
 				if (audioNode.isP5SoundEffect)
 				{
 					this._output.connect(audioNode.input);
 				}
+				//...if the node is a parameter
 				else if (audioNode.isP5SoundParameter)
 				{
-					this._output.constructor(audioNode);
+					this._output.connect(audioNode);
 				}
 			}
-
 			else
 			{
 				this._output.connect(audioNode);

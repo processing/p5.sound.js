@@ -5,7 +5,7 @@
  */
 
 import { Oscillator as ToneOscillator } from "tone/build/esm/source/oscillator/Oscillator.js";
-import { P5SoundUtils } from "../../../P5SoundUtils.js";
+import { P5SoundUtils } from "../../../utilities/P5SoundUtils.js";
 import { P5SoundParameter } from "../../../P5SoundParameter.js";
 import { P5SoundStartableSourceNode } from "../../core/P5SoundStartableSourceNode.js";
 

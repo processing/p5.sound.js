@@ -8,7 +8,7 @@ export class P5SoundNode extends P5SoundObject
 	{
 		super();
 
-		this._output = new ToneGain(1).toDestination();
+		this._output = new ToneGain(1);
 		this._gain = new P5SoundParameter(this._output.gain);
 	}
 

@@ -1,19 +1,18 @@
 /**
  *  p5.sound.js extends p5.js with Web Audio functionality including audio input, playback, analysis and synthesis.
  *  @module p5.sound
- *  @submodule SoundFile
+ *  @submodule P5SoundFile
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
 import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
+import { P5SoundStartableSourceNode } from "../core/P5SoundStartableSourceNode.js";
 
 /**
- *  loadSound() returns a new SoundFile from a specified
- *  path. If called during preload(), the SoundFile will be ready
+ *  loadSound() returns a new P5SoundFile from a specified
+ *  path. If called during preload(), the P5SoundFile will be ready
  *  to play in time for setup() and draw(). If called outside of
- *  preload, the SoundFile will not be ready immediately, so
+ *  preload, the P5SoundFile will not be ready immediately, so
  *  loadSound accepts a callback as the second parameter. Using a
  *  <a href="https://github.com/processing/p5.js/wiki/Local-server">
  *  local server</a> is recommended when loading external files.
@@ -25,7 +24,7 @@ import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
  *                                    i.e. ['sound.ogg', 'sound.mp3'].
  *                                    Alternately, accepts an object: either
  *                                    from the HTML5 File API, or a p5.File.
- *  @return {SoundFile}               Returns a SoundFile
+ *  @return {P5SoundFile}               Returns a P5SoundFile
  *  @example
  *  <div><code>
  *  let mySound;
@@ -47,23 +46,32 @@ import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
  *  }
  *  </code></div>
  */
-function loadSound (path) {
-  if(self._incrementPreload && self._decrementPreload){
+export function loadSound (path)
+{
+  if(self._incrementPreload && self._decrementPreload)
+  {
     self._incrementPreload();
 
-    let player = new p5.SoundFile(
+    let player = new p5.SoundFile
+    (
       path,
       function () {
         self._decrementPreload();
       }
     );
+
     return player;
 
-  }else{
-    return new Promise((resolve) => {
-      let player = new p5.SoundFile(
+  }
+  else
+  {
+    return new Promise((resolve) =>
+    {
+      let player = new p5.SoundFile
+      (
         path,
-        function () {
+        function ()
+        {
           resolve(player);
         }
       );
@@ -73,7 +81,7 @@ function loadSound (path) {
 
 /**
  * Load and play sound files.
- * @class SoundFile
+ * @class P5SoundFile
  * @constructor
  * @example
  * <div>
@@ -91,7 +99,7 @@ function loadSound (path) {
  *   textAlign(CENTER);
  *   cnv.mousePressed(playSound);
  *   amp = new p5.Amplitude();
- *   delay = new p5.Delay();
+ *   delay = new p5.P5SoundDelay();
  *   sound.disconnect();
  *   sound.connect(delay);
  *   delay.connect(amp);
@@ -114,54 +122,70 @@ function loadSound (path) {
  * </code>
  * </div>
  */
-class SoundFile {
-  constructor(buffer, successCallback) {
-    this.soundfile = new TonePlayer(buffer, successCallback).toDestination();
-    this.playing = false;
-    this.speed = 1;
-    this.paused = false;
+export class P5SoundFile extends P5SoundStartableSourceNode
+{
+  constructor(buffer, successCallback)
+  {
+    super();
+
+    this._tonePlayerNode = new TonePlayer(buffer, successCallback);
+
+    this._isPlaying = false;
+    this._speed = 1;
+    this._paused = false;
+
+    this.configureOutput(this._tonePlayerNode);
   }
+
+  isP5SoundFile = true;
 
   /**
    * Start the soundfile.
    * @method start
-   * @for SoundFile 
+   * @for P5SoundFile
    */
-  start() {
-    this.soundfile.playbackRate = this.speed;
-    this.playing = true;
-    if (!this.paused) {
-      this.soundfile.start();
+  start()
+  {
+    this._tonePlayerNode.playbackRate = this._speed;
+    this._isPlaying = true;
+
+    if (!this._paused)
+    {
+      this._tonePlayerNode.start();
     }
   }
 
   /**
    * Start the soundfile.
    * @method play
-   * @for SoundFile
+   * @for P5SoundFile
    */
-  play() {
-    this.soundfile.playbackRate = this.speed;
-    this.playing = true;
-    if (!this.paused) {
-      this.soundfile.start();
+  play()
+  {
+    this._tonePlayerNode.playbackRate = this._speed;
+    this._isPlaying = true;
+
+    if (!this._paused)
+    {
+      this._tonePlayerNode.start();
     }
   }
 
   /**
    * Stop the soundfile.
    * @method stop
-   * @for SoundFile 
+   * @for P5SoundFile
    */
-  stop() {
-    this.soundfile.stop();
-    this.playing = false;
+  stop()
+  {
+    this._tonePlayerNode.stop();
+    this._isPlaying = false;
   }
 
   /**
    * Pause the soundfile.
    * @method pause
-   * @for SoundFile 
+   * @for P5SoundFile
    * @example
    * <div>
    * <code>
@@ -200,52 +224,44 @@ class SoundFile {
    * </code>
    * </div>
    */
-  pause() {
+  pause()
+  {
     //no such pause method in Tone.js need to find workaround
-    this.soundfile.playbackRate = 0;
-    this.playing = false;
-    this.paused = true;
+    this._tonePlayerNode.playbackRate = 0;
+    this._isPlaying = false;
+    this._paused = true;
   }
 
   /**
    * Loop the soundfile.
    * @method loop
-   * @for SoundFile
+   * @for P5SoundFile
    * @param {Boolean} loopState Set to True or False in order to set the loop state.
    */
-  loop(value = true) {
-    this.soundfile.loop = value;
+  loop(value = true)
+  {
+    this._tonePlayerNode.loop = value;
   }
 
   /**
    * Set a loop region, and optionally a playback rate, and amplitude for the soundfile.
    * @method setLoop
-   * @for SoundFile
+   * @for P5SoundFile
    * @param {Number} [startTime] Set to True or False in order to set the loop state.
    * @param {Number} [rate] Set to True or False in order to set the loop state.
    * @param {Number} [amp] Set to True or False in order to set the loop state.
    * @param {Number} [duration] Set to True or False in order to set the loop state.
    */
-  loopPoints(startTime = 0, duration = this.soundfile.buffer.duration, schedule = 0) {
-    this.soundfile.loopStart = startTime;
-    this.soundfile.loopEnd = startTime + duration;
-  }
-  
-  /**
-   * Adjust the amplitude of the soundfile.
-   * @method amp
-   * @for SoundFile
-   * @param {Number} amplitude amplitude value between 0 and 1.
-   */
-  amp(value) {
-    let dbValue = ToneGainToDb(value);
-    this.soundfile.volume.value = dbValue;
+  loopPoints(startTime = 0, duration = this._tonePlayerNode.buffer.duration, schedule = 0)
+  {
+    this._tonePlayerNode.loopStart = startTime;
+    this._tonePlayerNode.loopEnd = startTime + duration;
   }
   
   /**
    * Change the path for the soundfile.
    * @method setPath
-   * @for SoundFile
+   * @for P5SoundFile
    * @param {String} path Path to the sound file.
    * @param {Function} [successCallback] Function to call when the sound file is loaded.
    * @example
@@ -284,15 +300,20 @@ class SoundFile {
    * </code>
    * </div>
    */
-  setPath(path, successCallback) {
-    this.soundfile.load(path).then(() => {
-      if (successCallback) {
+  setPath(path, successCallback)
+  {
+    this._tonePlayerNode.load(path).then(() =>
+    {
+      if (successCallback)
+      {
         successCallback();
       }
-      else {
+      else
+      {
         console.log('Audio loaded successfully!');
       }
-    }).catch((error) => {
+    }).catch((error) =>
+    {
       console.error('Error loading audio:', error);
     });
   }
@@ -300,72 +321,82 @@ class SoundFile {
   /**
    * Set the playback rate of the soundfile.
    * @method rate
-   * @for SoundFile
+   * @for P5SoundFile
    * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
    */
-  rate(value = 1) {
-    if (value < 0) {
+  rate(value = 1)
+  {
+    if (value < 0)
+    {
       value = 0;
     }
-    this.soundfile.playbackRate = value;
-    this.speed = value;
 
+    this._tonePlayerNode.playbackRate = value;
+    this._speed = value;
   }
 
   /**
    * Returns the duration of a sound file in seconds.
    * @method duration
-   * @for SoundFile 
+   * @for P5SoundFile
    * @return {Number} duration
    */
-  duration() {
-    return this.soundfile.buffer.duration;
+  duration()
+  {
+    return this._tonePlayerNode.buffer.duration;
   }
 
   /**
    * Return the sample rate of the sound file.
    * @method sampleRate
-   * @for SoundFile
+   * @for P5SoundFile
    * @return {Number} sampleRate
    */
-  sampleRate() {
-    if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
+  sampleRate()
+  {
+    if (this._tonePlayerNode.buffer)
+    {
+      return this._tonePlayerNode.buffer.sampleRate;
+    }
   }
 
   /**
    * Move the playhead of a soundfile that is currently playing to a new position.
    * @method jump
-   * @for SoundFile 
+   * @for P5SoundFile
    * @param {Number} timePoint Time to jump to in seconds.
    */
-  jump(value) {
-    this.soundfile.seek(value);
+  jump(value)
+  {
+    this._tonePlayerNode.seek(value);
   }
 
   /**
    * Return the playback state of the soundfile.
    * @method isPlaying
-   * @for SoundFile 
+   * @for P5SoundFile
    * @return {Boolean} Playback state, true or false.
    */
-  isPlaying() {
-    return this.playing;
+  isPlaying()
+  {
+    return this._isPlaying;
   }
 
   /**
    * Return the playback state of the soundfile.
    * @method isLooping
-   * @for SoundFile 
+   * @for P5SoundFile
    * @return {Boolean} Looping State, true or false.
    */
-  isLooping() {
-    return this.soundfile.loop;
+  isLooping()
+  {
+    return this._tonePlayerNode.loop;
   }
 
   /**
    * Define a function to call when the soundfile is done playing.
    * @method onended
-   * @for SoundFile
+   * @for P5SoundFile
    * @param {Function} callback Name of a function that will be called when the soundfile is done playing.
    * @example
    * <div>
@@ -401,14 +432,15 @@ class SoundFile {
    * </code>
    * </div>
    */
-  onended(callback) {
-    this.soundfile.onstop = callback;
+  onended(callback)
+  {
+    this._tonePlayerNode.onstop = callback;
   }
     
   /**
    * Return the number of samples in a sound file.
    * @method frames
-   * @for SoundFile
+   * @for P5SoundFile
    * @return {Number} The number of samples in the sound file.
    * @example
    * <div>
@@ -435,42 +467,39 @@ class SoundFile {
    * </code>
    * </div>
    */
-  frames() {
-    if (this.soundfile.buffer) return this.soundfile.buffer.length;
+  frames()
+  {
+    if (this._tonePlayerNode.buffer)
+    {
+      return this._tonePlayerNode.buffer.length;
+    }
   }
   
   /**
    * Gets the number of channels in the sound file.
    * @method sampleRate
-   * @for SoundFile
+   * @for P5SoundFile
    * @return Returns the sample rate of the sound file.
    */
-  sampleRate() {
-    if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
+  sampleRate()
+  {
+    if (this._tonePlayerNode.buffer)
+    {
+      this._tonePlayerNode.buffer.sampleRate;
+    }
   }
 
   /**
    * Gets the number of channels in the sound file.
    * @method channels
-   * @for SoundFile
+   * @for P5SoundFile
    * @return Returns the number of channels in the sound file.
    */
-  channels() {
-    if (this.soundfile.buffer) return this.soundfile.buffer.numberOfChannels;
-  }
-
-  connect(destination) {
-    this.soundfile.connect(destination.getNode());
-  }
-
-  disconnect() {
-    this.soundfile.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.soundfile;
+  channels()
+  {
+    if (this._tonePlayerNode.buffer)
+    {
+      return this._tonePlayerNode.buffer.numberOfChannels;
+    }
   }
 }
-
-export default SoundFile;
-export { loadSound };

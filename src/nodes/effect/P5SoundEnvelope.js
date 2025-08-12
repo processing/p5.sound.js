@@ -4,12 +4,12 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/component/envelope/AmplitudeEnvelope.js";
+import { P5SoundEffectNode } from "../core/P5SoundEffectNode.js";
 
 /**
  * Generate an amplitude envelope.
- * @class Envelope
+ * @class P5SoundEnvelope
  * @constructor
  * @param {Number} [attack] how quickly the envelope reaches the maximum level
  * @param {Number} [decay] how quickly the envelope reaches the sustain level
@@ -22,36 +22,49 @@ import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/compo
  * </code>
  * </div>
  */
-class Envelope {
-  constructor(a = 0.1, d = 0.12, s = 0.1, r = 0.2) {
-    this.attack = a;
-    this.attackLevel = 1;
-    this.decay = d;
-    this.sustain = s;
-    this.release = r;
+export class P5SoundEnvelope extends P5SoundEffectNode
+{
+  constructor(attack = 0.1, decay = 0.12, sustain = 0.1, release = 0.2)
+  {
+    super();
 
-    this.envelope = new ToneAmplitudeEnvelope({
-      attack: this.attack,
-      decay: this.decay,
-      sustain: this.sustain,
-      release: this.release,
-    }).toDestination();
+    this._attack = attack;
+    this._attackLevel = 1;
+    this._decay = decay;
+    this._sustain = sustain;
+    this._release = release;
+
+    this._toneAmplitudeEnvelopeNode = new ToneAmplitudeEnvelope
+    (
+      {
+        attack: this._attack,
+        decay: this._decay,
+        sustain: this._sustain,
+        release: this._release,
+      }
+    );
+
+    this.configureInput(this._toneAmplitudeEnvelopeNode);
+    this.configureOutput(this._toneAmplitudeEnvelopeNode);
   }
+
+  isP5SoundEnvelope = true;
 
   /**
    * Trigger the envelope and release it after the sustain time.
    * @method play
-   * @for Envelope
+   * @for P5SoundEnvelope
    */
-  play() {
-    this.envelope.triggerAttackRelease(this.sustain);
+  play()
+  {
+    this._toneAmplitudeEnvelopeNode.triggerAttackRelease(this.sustainTime);
   }
 
   /**
-   * Trigger the Attack, and Decay portion of the Envelope. Similar to holding
+   * Trigger the Attack, and Decay portion of the P5SoundEnvelope. Similar to holding
    * down a key on a piano, but it will hold the sustain level until you let go.
    * @method triggerAttack
-   * @for Envelope
+   * @for P5SoundEnvelope
    * @example
    * <div>
    * <code>
@@ -66,9 +79,9 @@ class Envelope {
    *   textSize(10);
    *   text('tap to triggerAttack', width/2, height/2);
    * 
-   *   osc = new p5.Oscillator();
+   *   osc = new p5.P5SoundOscillator();
    *   osc.disconnect();
-   *   env = new p5.Envelope();
+   *   env = new p5.P5SoundEnvelope();
    *   osc.connect(env);
    * }
    * 
@@ -90,15 +103,16 @@ class Envelope {
    * </div>
    */
 
-  triggerAttack() {
-    this.envelope.triggerAttack();
+  triggerAttack()
+  {
+    this._toneAmplitudeEnvelopeNode.triggerAttack();
   }
   /**
    * Trigger the Release of the envelope. Similar to releasing the key on 
    * a piano and letting the sound fade according to the release level and 
    * release time. 
    * @method triggerRelease
-   * @for Envelope
+   * @for P5SoundEnvelope
    * @example
    * <div>
    * <code>
@@ -113,9 +127,9 @@ class Envelope {
    *   textSize(10);
    *   text('tap to triggerAttack', width/2, height/2);
    * 
-   *   osc = new p5.Oscillator();
+   *   osc = new p5.P5SoundOscillator();
    *   osc.disconnect();
-   *   env = new p5.Envelope();
+   *   env = new p5.P5SoundEnvelope();
    *   osc.connect(env);
    * }
    * 
@@ -136,66 +150,62 @@ class Envelope {
    * </code>
    * </div>
    */
-  triggerRelease() {
-    this.envelope.triggerRelease();
-  }
-
-  /**
-   * @method setInput
-   * @for Envelope
-   * @param {Object} unit A p5.sound Object 
-   */
-  setInput(input) {
-    input.getNode().connect(this.envelope);
+  triggerRelease()
+  {
+    this._toneAmplitudeEnvelopeNode.triggerRelease();
   }
 
   /**
    * Sets the attack, decay, sustain, and release times of the envelope.
    * @method setADSR
-   * @for Envelope
+   * @for P5SoundEnvelope
    * @param {Number} attack how quickly the envelope reaches the maximum level
    * @param {Number} decay how quickly the envelope reaches the sustain level
    * @param {Number} sustain how long the envelope stays at the decay level
    * @param {Number} release how quickly the envelope fades out after the sustain level
    */
-  setADSR(a, d, s, r) {
-    this.envelope.attack = a;
-    this.envelope.decay = d;
-    this.envelope.sustain = s;
-    this.envelope.release = r;
+  setADSR(attack, decay, sustain, release)
+  {
+    this.attackTime = attack;
+    this.decayTime = decay;
+    this.sustainTime = sustain;
+    this.releaseTime = release;
   }
 
-  /**
-   * Sets the release time of the envelope.
-   * @method releaseTime
-   * @for Envelope
-   * @param {Number} releaseTime the release time in seconds 
-   */
-  releaseTime(value) {
-    this.envelope.release = value;
-  }
-
+  get attackTime() { return this._toneAmplitudeEnvelopeNode.attack; }
   /**
    * Sets the attack time of the envelope.
    * @method attackTime
-   * @for Envelope
-   * @param {Number} attackTime the attack time in seconds 
+   * @for P5SoundEnvelope
+   * @param {Number} value the attack time in seconds
    */
-  attackTime(value) {
-    this.envelope.attack = value;
-  }
+  set attackTime(value) { this._toneAmplitudeEnvelopeNode.attack = value; }
 
-  connect(destination) {
-    this.envelope.connect(destination.getNode());
-  }
+  get decayTime() { return this._toneAmplitudeEnvelopeNode.decay; }
+  /**
+   * Sets the decay time of the envelope.
+   * @method decayTime
+   * @for P5SoundEnvelope
+   * @param {Number} value the decay time in seconds
+   */
+  set decayTime(value) { this._toneAmplitudeEnvelopeNode.decay = value; }
 
-  disconnect() {
-    this.envelope.disconnect(ToneContext.destination);
-  }
+  get sustainTime() { return this._toneAmplitudeEnvelopeNode.sustain; }
+  /**
+   * Sets the sustain time of the envelope.
+   * @method sustainTime
+   * @for P5SoundEnvelope
+   * @param {Number} value the sustain time in seconds
+   */
+  set sustainTime(value) { this._toneAmplitudeEnvelopeNode.sustain = value; }
 
-  getNode() {
-    return this.envelope;
-  }
+  get releaseTime() { return this._toneAmplitudeEnvelopeNode.release; }
+  /**
+   * Sets the release time of the envelope.
+   * @method attackTime
+   * @for P5SoundEnvelope
+   * @param {Number} value the release time in seconds
+   */
+  set releaseTime(value) { this._toneAmplitudeEnvelopeNode.release = value; }
+
 }
-
-export default Envelope;

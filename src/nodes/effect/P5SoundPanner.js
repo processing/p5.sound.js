@@ -4,13 +4,13 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { P5SoundEffectNode } from "../core/P5SoundEffectNode.js";
+import { P5SoundParameter } from "../../P5SoundParameter.js";
 import { Panner as TonePanner} from "tone/build/esm/component/channel/Panner.js";
-import { clamp } from './Utils';
 
 /**
  * A panning effect.
- * @class Panner
+ * @class P5SoundPanner
  * @constructor
  * @example
  * <div>
@@ -26,8 +26,8 @@ import { clamp } from './Utils';
  *   background(220);
  *   cnv.mousePressed(startSound);
  *   
- *   panner = new p5.Panner();
- *   lfo = new p5.Oscillator(1);
+ *   panner = new p5.P5SoundPanner();
+ *   lfo = new p5.P5SoundOscillator(1);
  *   //disconnect lfo from speakers because we don't want to hear it!
  *   lfo.disconnect();
  *   panner.pan(lfo);
@@ -45,40 +45,29 @@ import { clamp } from './Utils';
  * </code>
  * </div>
  */
-class Panner {
-  constructor() {
-    this.panner= new TonePanner(0).toDestination();
+export class P5SoundPanner extends P5SoundEffectNode
+{
+  constructor(panAmount = 0)
+  {
+    super();
+
+    this._tonePannerNode = new TonePanner();
+
+    this._pan = new P5SoundParameter(this._tonePannerNode.pan, panAmount);
+
+    this.configureInput(this._tonePannerNode);
+    this.configureOutput(this._tonePannerNode);
   }
-  
+
+  isP5SoundPanner = true;
+
+  get pan() { return this._pan.parameter; }
+
   /**
    * Pan a sound source left or right.
    * @method pan
-   * @for Panner
+   * @for P5SoundPanner
    * @param {Number, Object}  panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or an audio rate signal such as an LFO.
    */
-  pan(p) {
-    if (typeof p === "object") {
-      p.getNode().connect(this.panner.pan);
-      return;
-    }
-    this.panner.pan.rampTo(clamp(p, -1, 1), 0.01);
-  }
-
-  getNode() {
-    return this.panner;
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.panner.connect(destination.getNode());
-    } else {
-      this.panner.connect(destination);
-    } 
-  }
-
-  disconnect() {
-    this.panner.disconnect(ToneContext.destination);
-  }
+  set pan(panAmount) { this._pan.value = panAmount; }
 }
-
-export default Panner;

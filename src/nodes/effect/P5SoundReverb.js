@@ -53,23 +53,33 @@ export class P5SoundReverb extends P5SoundMixEffectNode
   {
     super();
 
-    this._toneReverbNode = new ToneReverb();
-
     this.decayTime = decayTime;
 
-    this.configureMixIO(this._toneReverbNode, this._toneReverbNode);
+    this._toneReverbNode = new ToneReverb(this.decayTime);
+
+    this.configureWetIO(this._toneReverbNode, this._toneReverbNode);
   }
 
   isP5SoundReverb = true;
-
-  get decayTime() { return this._toneReverbNode.decayTime; }
-  /**
+   /**
    * Set the decay time of the reverb.
    * @method set
-   * @for P5SoundReverb
+   * @for Reverb
    * @param {Number} time Decay time of the reverb in seconds.
    */
-  set decayTime(time) { this._toneReverbNode.decay = time; }
+  set(t) {
+    this._toneReverbNode.decay = t;
+  }
+  
+  // what is the function of these getters and setters?
+  // get decayTime() { return this._toneReverbNode.decayTime; }
+  // /**
+  //  * Set the decay time of the reverb.
+  //  * @method set
+  //  * @for P5SoundReverb
+  //  * @param {Number} time Decay time of the reverb in seconds.
+  //  */
+  // set decayTime(time) { this._toneReverbNode.decay = time; }
 }
 
 export default P5SoundReverb;

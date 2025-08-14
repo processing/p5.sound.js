@@ -71,7 +71,6 @@ export class P5SoundReverb extends P5SoundMixEffectNode
     this._toneReverbNode.decay = t;
   }
   
-  // what is the function of these getters and setters?
   // get decayTime() { return this._toneReverbNode.decayTime; }
   // /**
   //  * Set the decay time of the reverb.

@@ -8,8 +8,10 @@ export class P5SoundNode extends P5SoundObject
 	{
 		super();
 
-		this._output = new ToneGain(1).toDestination();
+		this._output = new ToneGain(1);
 		this._gain = new P5SoundParameter(this._output.gain);
+
+		this._connections = [];
 	}
 
 	isP5SoundNode = true;
@@ -47,13 +49,26 @@ export class P5SoundNode extends P5SoundObject
 			{
 				this._output.connect(audioNode);
 			}
+
+			this._connections.push(audioNode);
 		}
 	}
 
-	// TODO: deal with disconnect method
-	disconnect()
+	disconnect(audioNode = null)
 	{
-		this._output.disconnect();
+		if(audioNode === null)
+		{
+			for (let nodeIndex = 0; nodeIndex < this._connections.length; nodeIndex++)
+			{
+				let audioNode = this._connections[nodeIndex];
+
+				this._output.disconnect(audioNode);
+			}
+		}
+		else
+		{
+			this._output.disconnect(audioNode);
+		}
 	}
 
 	configureOutput(audioNode)

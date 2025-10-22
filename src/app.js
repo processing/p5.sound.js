@@ -4,10 +4,16 @@ p5.prototype.setAudioContext = setAudioContext;
 p5.prototype.userStartAudio = userStartAudio;
 p5.prototype.userStopAudio = userStopAudio;
 
-import Oscillator from './Oscillator';
+import { p5soundNode } from "./core/p5soundNode";
+import { p5soundSource } from "./core/p5soundSource";
+import { p5soundEffect } from "./core/p5soundEffect";
+p5.p5soundEffect = p5soundEffect;
+p5.p5soundNode = p5soundNode;
+p5.p5soundSource = p5soundSource;
+import Oscillator from './sources/Oscillator';
 p5.Oscillator = Oscillator;
 
-import {SawOsc, SinOsc, TriOsc, SqrOsc} from './Oscillator';
+import {SawOsc, SinOsc, TriOsc, SqrOsc} from './sources/Oscillator';
 p5.SawOsc = SawOsc;
 p5.SinOsc = SinOsc;
 p5.TriOsc = TriOsc;
@@ -16,7 +22,7 @@ p5.SqrOsc = SqrOsc;
 import Envelope from './Envelope';
 p5.Envelope = Envelope;
 
-import Delay from './Delay';
+import Delay from './effects/Delay';
 p5.Delay = Delay;
 
 import Reverb from './Reverb';

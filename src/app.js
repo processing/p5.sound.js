@@ -28,10 +28,10 @@ p5.Delay = Delay;
 import Reverb from './effects/Reverb';
 p5.Reverb = Reverb;
 
-import Biquad from './Biquad';
+import Biquad from './effects/Biquad';
 p5.Biquad = Biquad;
 
-import {LowPass, HighPass, BandPass} from './Biquad';
+import {LowPass, HighPass, BandPass} from './effects/Biquad';
 p5.LowPass = LowPass;
 p5.HighPass = HighPass;
 p5.BandPass = BandPass;

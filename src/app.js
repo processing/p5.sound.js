@@ -6,8 +6,8 @@ p5.prototype.userStopAudio = userStopAudio;
 
 import { p5soundNode } from "./core/p5soundNode";
 import { p5soundSource } from "./core/p5soundSource";
-import { p5soundEffect } from "./core/p5soundEffect";
-p5.p5soundEffect = p5soundEffect;
+import { p5soundMixEffect } from "./core/p5soundMixEffect";
+p5.p5soundMixEffect = p5soundMixEffect;
 p5.p5soundNode = p5soundNode;
 p5.p5soundSource = p5soundSource;
 import Oscillator from './sources/Oscillator';
@@ -48,7 +48,7 @@ p5.Amplitude = Amplitude;
 import FFT from './FFT';
 p5.FFT = FFT;
 
-import Noise from './Noise';
+import Noise from './sources/Noise';
 p5.Noise = Noise;
 
 import Panner from './Panner';
@@ -61,7 +61,7 @@ import SoundFile, { loadSound } from './SoundFile';
 p5.SoundFile = SoundFile;
 p5.prototype.loadSound = loadSound;
 
-import AudioIn from './AudioIn';
+import AudioIn from './sources/AudioIn';
 p5.AudioIn = AudioIn;
 
 //import Recorder from './Recorder';

@@ -5,7 +5,6 @@
  */
 
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { Effect as ToneEffect } from "tone/build/esm/effect/Effect.js";
 
 /**
  * Generate a buffer with random values.

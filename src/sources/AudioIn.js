@@ -4,14 +4,14 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
 import { UserMedia as ToneUserMedia} from "tone/build/esm/source/UserMedia.js";
 import { start as ToneStart } from "tone/build/esm/core/Global.js";
+import { p5soundSource } from "../core/p5soundSource.js";
 /**
  * Get sound from an input source, typically a computer microphone.
  * @class AudioIn
  * @constructor
+ * @extends p5soundSource
  * @example
  * <div>
  * <code>
@@ -49,9 +49,10 @@ import { start as ToneStart } from "tone/build/esm/core/Global.js";
  * </code>
  * </div>
  */
-class AudioIn {
+class AudioIn extends p5soundSource {
     constructor() {
-        this.audioIn = new ToneUserMedia();
+        super();
+        this.node = new ToneUserMedia();
     }
     /**
      * Start the audio input.
@@ -60,7 +61,7 @@ class AudioIn {
      */
     start() {
         ToneStart();
-        this.audioIn.open().then(() => {
+        this.node.open().then(() => {
             // promise resolves when input is available
             console.log("mic open");
             // print the incoming mic levels in decibels
@@ -75,34 +76,7 @@ class AudioIn {
      * @for AudioIn
      */
     stop() {
-        this.audioIn.close();
-    }
-
-    /**
-     * Set amplitude (volume) of a mic input between 0 and 1.0.
-     * @method amp
-     * @for AudioIn
-     * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
-     */
-    amp(value) {
-        let dbValue = ToneGainToDb(value);
-        this.delay.volume.rampTo(dbValue, 0.1);
-    }
-    
-    getNode() {
-        return this.audioIn;
-    }
-    
-    connect(destination) {
-        if (typeof destination.getNode === 'function') {
-            this.audioIn.connect(destination.getNode());
-        } else {
-            this.audioIn.connect(destination);
-        }
-    }
-    
-    disconnect() {
-        this.audioIn.disconnect(ToneContext.destination);
+        this.node.close();
     }
 }
 

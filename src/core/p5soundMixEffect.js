@@ -4,12 +4,12 @@
  *  @for p5.sound
  */
 
-import { p5soundNode } from "../core/p5soundNode.js";
-import { clamp } from '../Utils';
+import { p5soundNode } from "./p5soundNode.js";
+import { clamp } from '../Utils.js';
 
 /**
- * Generate a buffer with random values.
- * @class p5soundEffect
+ * A class for effects with Dry/Wet mix control.
+ * @class p5soundMixEffect
  * @constructor
  * @extends p5soundNode
  * @example
@@ -45,7 +45,7 @@ import { clamp } from '../Utils';
  * </code>
  * </div>
  */
-class p5soundEffect extends p5soundNode {
+class p5soundMixEffect extends p5soundNode {
   constructor() {
     super();
     this.node = null;
@@ -53,7 +53,7 @@ class p5soundEffect extends p5soundNode {
   /**
    * Set the wet/dry mix of the effect.
    * @method wet
-   * @for p5soundEffect
+   * @for p5soundMixEffect
    * @param {Number} amount Between 0 (dry) and 1 (wet)
    */
   wet(amount) {
@@ -65,4 +65,4 @@ class p5soundEffect extends p5soundNode {
   }
 }
 
-export { p5soundEffect };
+export { p5soundMixEffect };

@@ -3,9 +3,7 @@
  *  @submodule p5.sound
  *  @for p5.sound
  */
-import { p5soundEffect } from "../core/p5soundEffect.js";
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
+import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
 import { FeedbackDelay as ToneFeedbackDelay } from "tone/build/esm/effect/FeedbackDelay.js";
 import { clamp } from '../Utils';
 
@@ -13,7 +11,7 @@ import { clamp } from '../Utils';
  * A delay effect with parameters for feedback, and delay time.
  * @class Delay
  * @constructor
- * @extends p5soundEffect
+ * @extends p5soundMixEffect
  * @param {Number} [delayTime] The delay time in seconds between 0 and 1. Defaults to 0.250.
  * @param {Number} [feedback] The amount of feedback in the delay line between 0 and 1. Defaults to 0.2.
  * @example
@@ -48,7 +46,7 @@ import { clamp } from '../Utils';
  *   osc.stop();
  * }
  */
-class Delay extends p5soundEffect {
+class Delay extends p5soundMixEffect {
   constructor(d = 0.250, f = 0.2)  {
     super();
     this.d = d;

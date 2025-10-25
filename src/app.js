@@ -25,7 +25,7 @@ p5.Envelope = Envelope;
 import Delay from './effects/Delay';
 p5.Delay = Delay;
 
-import Reverb from './Reverb';
+import Reverb from './effects/Reverb';
 p5.Reverb = Reverb;
 
 import Biquad from './Biquad';

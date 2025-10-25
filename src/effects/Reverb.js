@@ -4,13 +4,14 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
+import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
 
 /**
  * Add reverb to a sound.
  * @class Reverb
  * @constructor
+ * @extends p5soundMixEffect
  * @param {Number} [decayTime] Set the decay time of the reverb
  * @example
  * <div>
@@ -47,10 +48,11 @@ import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
  * </code>
  * </div>
  */
-class Reverb {
+class Reverb extends p5soundMixEffect {
   constructor(decayTime) {
+    super();
     this.decayTime = decayTime || 1;
-    this.reverb = new ToneReverb(this.decayTime).toDestination();
+    this.node = new ToneReverb(this.decayTime).toDestination();
   }
 
   /**
@@ -60,33 +62,7 @@ class Reverb {
    * @param {Number} time Decay time of the reverb in seconds.
    */
   set(t) {
-    this.reverb.decay = t;
-  }
-
-  /**
-   * Adjust the dry/wet value.
-   * @method drywet
-   * @for Reverb
-   * @param {Number} mix The desired mix between the original and the affected signal. A number between 0 and 1. 0 is all dry, 1 is completely affected.
-   */
-  drywet(t) {
-    this.reverb.wet.value = t;
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.reverb.connect(destination.getNode());
-    } else {
-      this.reverb.connect(destination);
-    }
-  }
-  
-  disconnect() {
-    this.reverb.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.reverb;
+    this.node.decay = t;
   }
 }
 

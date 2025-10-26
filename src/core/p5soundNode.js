@@ -7,41 +7,9 @@
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 
 /**
- * Generate a buffer with random values.
+ * Generic methods for p5.sound.js nodes
  * @class p5soundNode
  * @constructor
- * @example
- * <div>
- * <code>
- * let noise, env, cnv;
- * let types = ['white', 'pink', 'brown'];
- * let noiseType = 'brown';
- * 
- * function setup() {
- *   cnv = createCanvas(100, 100);
- *   textAlign(CENTER);
- *   cnv.mousePressed(start);
- *   noise = new p5.Noise(noiseType);
- *   env = new p5.Envelope(0.01, 0.1, 0.15, 0.5);
- *   noise.disconnect();
- *   noise.connect(env);
- *   noise.start();
- * }
- * 
- * function start() {
- *   noiseType = random(types);
- *   noise.type(noiseType);
- *   env.play();
- * }
- * 
- * function draw() {
- *   background(noiseType);
- *   text('tap to play', width/2, 20);
- *   let txt = 'type: ' + noiseType;
- *   text(txt, width/2, 40);
- * }
- * </code>
- * </div>
  */
 class p5soundNode {
   constructor() {
@@ -49,7 +17,7 @@ class p5soundNode {
   }
 
   /**
-   * Adjust the amplitude of the noise source.
+   * Adjust the amplitude of the p5 sound node.
    * @method amp
    * @for p5soundNode
    * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal.

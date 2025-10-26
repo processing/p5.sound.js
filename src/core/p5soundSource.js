@@ -7,7 +7,7 @@
 import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
- * Generic methods for p5.sound.js nodes
+ * Generic methods for p5 sound source nodes
  * @class p5soundSource
  * @constructor
  * @extends p5soundNode

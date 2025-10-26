@@ -23,7 +23,7 @@ import { p5soundNode } from "../core/p5soundNode";
  * </code>
  * </div>
  */
-class Envelope extends p5soundSource {
+class Envelope extends p5soundNode {
   constructor(a = 0.1, d = 0.12, s = 0.1, r = 0.2) {
     super();
     this.attack = a;

@@ -4,13 +4,14 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.js";
+import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
  * Change the pitch of a sound.
  * @class PitchShifter
  * @constructor
+ * @extends p5soundNode
  * @example
  * <div>
  * <code>
@@ -47,9 +48,10 @@ import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.j
  * </code>
  * </div>
  */
-class PitchShifter {
+class PitchShifter extends p5soundNode {
     constructor(shiftValue = 1) {
-        this.pitchshifter = new TonePitchShift(shiftValue).toDestination();
+        super();
+        this.node = new TonePitchShift(shiftValue).toDestination();
     }
     
     /**
@@ -60,24 +62,8 @@ class PitchShifter {
      */
     shift (value) {
         if (value !== undefined) {
-            this.pitchshifter.pitch = value;
+            this.node.pitch = value;
         }
-    }
-    
-    connect(destination) {
-        if(typeof destination.getNode === 'function') {
-            this.pitchshifter.connect(destination.getNode());
-        } else {
-            this.pitchshifter.connect(destination);
-        } 
-    }
-
-    disconnect() {
-        this.pitchshifter.disconnect(ToneContext.destination);
-    }
-
-    getNode() {
-        return this.pitchshifter;
     }
 }
 

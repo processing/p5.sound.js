@@ -5,12 +5,13 @@
  */
 
 import { Meter as ToneMeter } from "tone/build/esm/component/analysis/Meter.js";
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
  * Get the current volume of a sound.
  * @class Amplitude
  * @constructor
+ * @extends p5soundNode
  * @param {Number} [smoothing] Smooth the amplitude analysis by averaging with the last analysis frame. 0.0 is no time averaging with the last analysis frame.
  * @example
  * <div>
@@ -45,9 +46,10 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
  * </code>
  * </div>
  */
-class Amplitude {
+class Amplitude extends p5soundNode {
   constructor(smoothing = 0) {
-    this.amplitude = new ToneMeter({normalRange:true, smoothing:smoothing});
+    super();
+    this.node = new ToneMeter({normalRange:true, smoothing:smoothing});
   }
 
   /**
@@ -57,7 +59,7 @@ class Amplitude {
    * @param {Object} input - An object that has audio output.
    */
   setInput(input) {
-    input.getNode().connect(this.amplitude);
+    input.getNode().connect(this.node);
   }
 
   /**
@@ -67,7 +69,7 @@ class Amplitude {
    * @return {Number} Amplitude level (volume) of a sound.
    */
   getLevel() {
-    return this.amplitude.getValue();
+    return this.node.getValue();
   }
 
   /**
@@ -77,23 +79,7 @@ class Amplitude {
    * @param {Number} Smooth Amplitude analysis by averaging with the last analysis frame. Off by default.
    */
   smooth(s) {
-    this.amplitude.smoothing = s;
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.amplitude.connect(destination.getNode());
-    } else {
-      this.amplitude.connect(destination);
-    }
-  }
-
-  disconnect() {
-    this.amplitude.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.amplitude;
+    this.node.smoothing = s;
   }
 }
 

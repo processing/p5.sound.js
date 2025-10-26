@@ -4,13 +4,14 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Panner3D as TonePanner3D} from "tone/build/esm/component/channel/Panner3D.js";
+import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
  * A 3D sound spatializer.
  * @class Panner3D
  * @constructor
+ * @extends p5soundNode
  * @example
  * <div>
  * <code>
@@ -101,9 +102,10 @@ import { Panner3D as TonePanner3D} from "tone/build/esm/component/channel/Panner
  * </code>
  * </div>
  */
-class Panner3D {
+class Panner3D extends p5soundNode {
   constructor() {
-    this.panner3d= new TonePanner3D({
+    super();
+    this.node = new TonePanner3D({
       coneInnerAngle:360,
       coneOuterAngle:360,
       coneOuterGain:1,
@@ -120,7 +122,7 @@ class Panner3D {
    * @param {Object} input an input source to process with the 3D panner.
    */
   process(input) {
-    input.getNode().connect(this.panner3d);
+    input.getNode().connect(this.node);
   }
 
   /**
@@ -132,9 +134,9 @@ class Panner3D {
    * @param {Number} zPosition the z coordinate of the panner.
    */
   set(x, y, z) {
-    this.panner3d.positionX.rampTo(x, 0.01);
-    this.panner3d.positionY.rampTo(y, 0.01);
-    this.panner3d.positionZ.rampTo(z, 0.01);
+    this.node.positionX.rampTo(x, 0.01);
+    this.node.positionY.rampTo(y, 0.01);
+    this.node.positionZ.rampTo(z, 0.01);
   }
   
   /**
@@ -145,8 +147,8 @@ class Panner3D {
    * @param {Number} maxDistance 
    */
   setFalloff(rolloffFactor, maxDistance) {
-    this.panner3d.rolloffFactor = rolloffFactor;
-    this.panner3d.maxDistance = maxDistance;
+    this.node.rolloffFactor = rolloffFactor;
+    this.node.maxDistance = maxDistance;
   }
 
   /**
@@ -156,7 +158,7 @@ class Panner3D {
    * @param {Number} distance the maximum distance that the sound source can be heard from.
    */
   maxDist(d) {
-    this.panner3d.maxDistance = d;
+    this.node.maxDistance = d;
   }
 
   /**
@@ -166,7 +168,7 @@ class Panner3D {
    * @param {Number} r the rolloff rate of the panner.
    */
   rolloff(r) {
-    this.panner3d.rolloffFactor = r;
+    this.node.rolloffFactor = r;
   }
 
   /**
@@ -176,7 +178,7 @@ class Panner3D {
    * @param {Number} positionX the x position of the sound source.
    */
   positionX(p) {
-    this.panner3d.positionX.rampTo(p, 0.01);
+    this.node.positionX.rampTo(p, 0.01);
   }
 
   /**
@@ -186,7 +188,7 @@ class Panner3D {
    * @param {Number} positionY the y position of the sound source.
    */
   positionY(p) {
-    this.panner3d.positionY.rampTo(p, 0.01);
+    this.node.positionY.rampTo(p, 0.01);
   }
 
   /**
@@ -196,23 +198,7 @@ class Panner3D {
    * @param {Number} positionZ the z position of the sound source.
    */
   positionZ(p) {
-    this.panner3d.positionZ.rampTo(p, 0.01);
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.panner3d.connect(destination.getNode());
-    } else {
-      this.panner3d.connect(destination);
-    } 
-  }
-
-  disconnect() {
-    this.panner3d.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.panner3d;
+    this.node.positionZ.rampTo(p, 0.01);
   }
 }
 

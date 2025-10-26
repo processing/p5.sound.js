@@ -4,7 +4,7 @@
  *  @for p5.sound
  */
 
-import { clamp } from "../Utils";
+import { clamp } from "../core/Utils.js";
 import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter/BiquadFilter.js";
 import { p5soundNode } from "../core/p5soundNode.js";
 

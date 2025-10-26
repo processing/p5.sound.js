@@ -1,4 +1,4 @@
-import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './Utils';
+import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './core/Utils';
 p5.prototype.getAudioContext = getAudioContext;
 p5.prototype.setAudioContext = setAudioContext;
 p5.prototype.userStartAudio = userStartAudio;
@@ -19,7 +19,7 @@ p5.SinOsc = SinOsc;
 p5.TriOsc = TriOsc;
 p5.SqrOsc = SqrOsc;
 
-import Envelope from './Envelope';
+import Envelope from './effects/Envelope';
 p5.Envelope = Envelope;
 
 import Delay from './effects/Delay';
@@ -36,28 +36,28 @@ p5.LowPass = LowPass;
 p5.HighPass = HighPass;
 p5.BandPass = BandPass;
 
-import PitchShifter from './PitchShifter';
+import PitchShifter from './effects/PitchShifter';
 p5.PitchShifter = PitchShifter;
 
-import Gain from './Gain';
+import Gain from './effects/Gain';
 p5.Gain = Gain;
 
-import Amplitude from './Amplitude';
+import Amplitude from './analysis/Amplitude';
 p5.Amplitude = Amplitude;
 
-import FFT from './FFT';
+import FFT from './analysis/FFT';
 p5.FFT = FFT;
 
 import Noise from './sources/Noise';
 p5.Noise = Noise;
 
-import Panner from './Panner';
+import Panner from './effects/Panner';
 p5.Panner = Panner;
 
-import Panner3D from './Panner3D';
+import Panner3D from './effects/Panner3D';
 p5.Panner3D = Panner3D;
 
-import SoundFile, { loadSound } from './SoundFile';
+import SoundFile, { loadSound } from './sources/SoundFile';
 p5.SoundFile = SoundFile;
 p5.prototype.loadSound = loadSound;
 

@@ -5,33 +5,32 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
 import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
+import { p5soundSource } from "../core/p5soundSource";
 
 /**
- *  loadSound() returns a new SoundFile from a specified
- *  path. If called during preload(), the SoundFile will be ready
- *  to play in time for setup() and draw(). If called outside of
- *  preload, the SoundFile will not be ready immediately, so
- *  loadSound accepts a callback as the second parameter. Using a
- *  <a href="https://github.com/processing/p5.js/wiki/Local-server">
- *  local server</a> is recommended when loading external files.
+ * loadSound() returns a new SoundFile from a specified
+ * path. If called during preload(), the SoundFile will be ready
+ * to play in time for setup() and draw(). If called outside of
+ * preload, the SoundFile will not be ready immediately, so
+ * loadSound accepts a callback as the second parameter. Using a
+ * <a href="https://github.com/processing/p5.js/wiki/Local-server">
+ * local server</a> is recommended when loading external files.
  *
- *  @method loadSound
- *  @for sound
- *  @param  {String|Array}   path     Path to the sound file, or an array with
- *                                    paths to soundfiles in multiple formats
- *                                    i.e. ['sound.ogg', 'sound.mp3'].
- *                                    Alternately, accepts an object: either
- *                                    from the HTML5 File API, or a p5.File.
- *  @return {SoundFile}               Returns a SoundFile
- *  @example
- *  <div><code>
- *  let mySound;
- *  function preload() {
- *    mySound = loadSound('/assets/doorbell.mp3');
- *  }
+ * @method loadSound
+ * @for sound
+ * @param  {String|Array}   path     Path to the sound file, or an array with
+ *                                   paths to soundfiles in multiple formats
+ *                                   i.e. ['sound.ogg', 'sound.mp3'].
+ *                                   Alternately, accepts an object: either
+ *                                   from the HTML5 File API, or a p5.File.
+ * @return {SoundFile}               Returns a SoundFile
+ * @example
+ * <div><code>
+ * let mySound;
+ * function preload() {
+ *   mySound = loadSound('/assets/doorbell.mp3');
+ * }
  *
  *  function setup() {
  *    let cnv = createCanvas(100, 100);
@@ -50,7 +49,6 @@ import { Player as TonePlayer } from "tone/build/esm/source/buffer/Player.js";
 function loadSound (path) {
   if(self._incrementPreload && self._decrementPreload){
     self._incrementPreload();
-
     let player = new p5.SoundFile(
       path,
       function () {
@@ -59,7 +57,7 @@ function loadSound (path) {
     );
     return player;
 
-  }else{
+  } else{
     return new Promise((resolve) => {
       let player = new p5.SoundFile(
         path,
@@ -75,6 +73,7 @@ function loadSound (path) {
  * Load and play sound files.
  * @class SoundFile
  * @constructor
+ * @extends p5soundSource
  * @example
  * <div>
  * <code>
@@ -114,9 +113,10 @@ function loadSound (path) {
  * </code>
  * </div>
  */
-class SoundFile {
+class SoundFile extends p5soundSource {
   constructor(buffer, successCallback) {
-    this.soundfile = new TonePlayer(buffer, successCallback).toDestination();
+    super();
+    this.node = new TonePlayer(buffer, successCallback).toDestination();
     this.playing = false;
     this.speed = 1;
     this.paused = false;
@@ -128,10 +128,10 @@ class SoundFile {
    * @for SoundFile 
    */
   start() {
-    this.soundfile.playbackRate = this.speed;
+    this.node.playbackRate = this.speed;
     this.playing = true;
     if (!this.paused) {
-      this.soundfile.start();
+      this.node.start();
     }
   }
 
@@ -141,10 +141,10 @@ class SoundFile {
    * @for SoundFile
    */
   play() {
-    this.soundfile.playbackRate = this.speed;
+    this.node.playbackRate = this.speed;
     this.playing = true;
     if (!this.paused) {
-      this.soundfile.start();
+      this.node.start();
     }
   }
 
@@ -154,7 +154,7 @@ class SoundFile {
    * @for SoundFile 
    */
   stop() {
-    this.soundfile.stop();
+    this.node.stop();
     this.playing = false;
   }
 
@@ -202,7 +202,7 @@ class SoundFile {
    */
   pause() {
     //no such pause method in Tone.js need to find workaround
-    this.soundfile.playbackRate = 0;
+    this.node.playbackRate = 0;
     this.playing = false;
     this.paused = true;
   }
@@ -214,7 +214,7 @@ class SoundFile {
    * @param {Boolean} loopState Set to True or False in order to set the loop state.
    */
   loop(value = true) {
-    this.soundfile.loop = value;
+    this.node.loop = value;
   }
 
   /**
@@ -226,20 +226,9 @@ class SoundFile {
    * @param {Number} [amp] Set to True or False in order to set the loop state.
    * @param {Number} [duration] Set to True or False in order to set the loop state.
    */
-  loopPoints(startTime = 0, duration = this.soundfile.buffer.duration, schedule = 0) {
-    this.soundfile.loopStart = startTime;
-    this.soundfile.loopEnd = startTime + duration;
-  }
-  
-  /**
-   * Adjust the amplitude of the soundfile.
-   * @method amp
-   * @for SoundFile
-   * @param {Number} amplitude amplitude value between 0 and 1.
-   */
-  amp(value) {
-    let dbValue = ToneGainToDb(value);
-    this.soundfile.volume.value = dbValue;
+  loopPoints(startTime = 0, duration = this.node.buffer.duration, schedule = 0) {
+    this.node.loopStart = startTime;
+    this.node.loopEnd = startTime + duration;
   }
   
   /**
@@ -285,7 +274,7 @@ class SoundFile {
    * </div>
    */
   setPath(path, successCallback) {
-    this.soundfile.load(path).then(() => {
+    this.node.load(path).then(() => {
       if (successCallback) {
         successCallback();
       }
@@ -307,7 +296,7 @@ class SoundFile {
     if (value < 0) {
       value = 0;
     }
-    this.soundfile.playbackRate = value;
+    this.node.playbackRate = value;
     this.speed = value;
 
   }
@@ -319,7 +308,7 @@ class SoundFile {
    * @return {Number} duration
    */
   duration() {
-    return this.soundfile.buffer.duration;
+    return this.node.buffer.duration;
   }
 
   /**
@@ -329,7 +318,7 @@ class SoundFile {
    * @return {Number} sampleRate
    */
   sampleRate() {
-    if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
+    if (this.node.buffer) return this.node.buffer.sampleRate;
   }
 
   /**
@@ -339,7 +328,7 @@ class SoundFile {
    * @param {Number} timePoint Time to jump to in seconds.
    */
   jump(value) {
-    this.soundfile.seek(value);
+    this.node.seek(value);
   }
 
   /**
@@ -359,7 +348,7 @@ class SoundFile {
    * @return {Boolean} Looping State, true or false.
    */
   isLooping() {
-    return this.soundfile.loop;
+    return this.node.loop;
   }
 
   /**
@@ -402,7 +391,7 @@ class SoundFile {
    * </div>
    */
   onended(callback) {
-    this.soundfile.onstop = callback;
+    this.node.onstop = callback;
   }
     
   /**
@@ -436,17 +425,7 @@ class SoundFile {
    * </div>
    */
   frames() {
-    if (this.soundfile.buffer) return this.soundfile.buffer.length;
-  }
-  
-  /**
-   * Gets the number of channels in the sound file.
-   * @method sampleRate
-   * @for SoundFile
-   * @return Returns the sample rate of the sound file.
-   */
-  sampleRate() {
-    if (this.soundfile.buffer) return this.soundfile.buffer.sampleRate;
+    if (this.node.buffer) return this.node.buffer.length;
   }
 
   /**
@@ -456,19 +435,7 @@ class SoundFile {
    * @return Returns the number of channels in the sound file.
    */
   channels() {
-    if (this.soundfile.buffer) return this.soundfile.buffer.numberOfChannels;
-  }
-
-  connect(destination) {
-    this.soundfile.connect(destination.getNode());
-  }
-
-  disconnect() {
-    this.soundfile.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.soundfile;
+    if (this.node.buffer) return this.node.buffer.numberOfChannels;
   }
 }
 

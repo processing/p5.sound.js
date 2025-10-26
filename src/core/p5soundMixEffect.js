@@ -5,7 +5,7 @@
  */
 
 import { p5soundNode } from "./p5soundNode.js";
-import { clamp } from '../Utils.js';
+import { clamp } from './Utils.js';
 
 /**
  * A class for effects with Dry/Wet mix control.

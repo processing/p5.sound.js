@@ -4,14 +4,15 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Panner as TonePanner} from "tone/build/esm/component/channel/Panner.js";
-import { clamp } from './Utils';
+import { clamp } from '../core/Utils.js';
+import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
  * A panning effect.
  * @class Panner
  * @constructor
+ * @extends p5soundNode
  * @example
  * <div>
  * <code>
@@ -45,39 +46,24 @@ import { clamp } from './Utils';
  * </code>
  * </div>
  */
-class Panner {
+class Panner extends p5soundNode {
   constructor() {
-    this.panner= new TonePanner(0).toDestination();
+    super();
+    this.node = new TonePanner(0).toDestination();
   }
   
   /**
    * Pan a sound source left or right.
    * @method pan
    * @for Panner
-   * @param {Number, Object}  panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or an audio rate signal such as an LFO.
+   * @param {Number, Object} panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or an audio rate signal such as an LFO.
    */
-  pan(p) {
-    if (typeof p === "object") {
-      p.getNode().connect(this.panner.pan);
+  pan(amount) {
+    if (typeof amount === "object") {
+      amount.getNode().connect(this.node.pan);
       return;
     }
-    this.panner.pan.rampTo(clamp(p, -1, 1), 0.01);
-  }
-
-  getNode() {
-    return this.panner;
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.panner.connect(destination.getNode());
-    } else {
-      this.panner.connect(destination);
-    } 
-  }
-
-  disconnect() {
-    this.panner.disconnect(ToneContext.destination);
+    this.node.pan.rampTo(clamp(amount, -1, 1), 0.01);
   }
 }
 

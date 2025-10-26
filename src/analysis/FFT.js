@@ -7,11 +7,13 @@
 import { FFT as ToneFFT } from "tone/build/esm/component/analysis/FFT.js";
 import { Waveform as ToneWaveform } from "tone/build/esm/component/analysis/Waveform.js";
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
+import { p5soundNode } from "../core/p5soundNode";
 
 /**
  * Analyze the frequency spectrum and waveform of sounds.
  * @class FFT
  * @constructor
+ * @extends p5soundNode
  * @param {Number} [fftSize] FFT analysis size. Must be a power of two between 16 and 1024. Defaults to 32.
  * @example
  * <div>
@@ -62,8 +64,9 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
  * </code>
  * </div>
  */
-class FFT {
+class FFT extends p5soundNode {
     constructor(fftSize = 32) {
+        super();
         this.fftSize = fftSize;
         this.analyzer = new ToneFFT({
             size: this.fftSize,
@@ -71,16 +74,11 @@ class FFT {
         });
         this.samples = new ToneWaveform();
         //creates a single gain node to connect to for the analyzer and waveform
-        this.gain = new ToneGain(1);
-        this.gain.connect(this.analyzer);
-        this.gain.connect(this.samples);
+        this.node = new ToneGain(1);
+        this.node.connect(this.analyzer);
+        this.node.connect(this.samples);
     }
 
-    //return the gain node which is the parent node to the analyzer and waveform
-    getNode() {    
-        return this.gain;
-    }
-    
     /**
      * Returns the frequency spectrum of the input signal.
      * @method analyze

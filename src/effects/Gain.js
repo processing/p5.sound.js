@@ -4,13 +4,14 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
+import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
  * Generate a gain node to use for mixing and main volume.
  * @class Gain
  * @constructor
+ * @extends p5soundNode
  * @example
  * <div>
  * <code>
@@ -23,7 +24,7 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
  * function setup() {
  *   cnv = createCanvas(100, 100);
  *   cnv.mousePressed(playSound);
- * 
+ *   background(220);
  *   gain = new p5.Gain(0.74);
  *   osc = new p5.Oscillator();
  *   osc.amp(0.74);
@@ -38,50 +39,20 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
  * 
  * function playSound() {
  *   soundFile.play();
- *   soundFile.play();
+ *   osc.play();
  * }
  * 
  * function draw() {
- *   background(220);
  *   let level = map(mouseX, 0, width, 0, 1);
  *   gain.amp(level);
  * }
  * </code>
  * </div>
  */
-class Gain {
+class Gain extends p5soundNode {
   constructor(value = 1) {
-    this.gain = new ToneGain(value).toDestination();
-  }
-
-  /**
-   * Adjust the amplitude of the soundfile.
-   * @method amp
-   * @for Gain
-   * @param {Number, Object} amplitude amplitude value between 0 and 1, or an audio rate signal such as an LFO.
-   */
-  amp(value) {
-    if (typeof value === "object") {
-      value.getNode().connect(this.gain.gain);
-      return;
-    }
-    this.gain.gain.rampTo(value, 0.1);
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.gain.connect(destination.getNode());
-    } else {
-      this.gain.connect(destination);
-    }
-  }
-
-  disconnect() {
-    this.gain.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.gain;
+    super();
+    this.node = new ToneGain(value).toDestination();
   }
 }
 

@@ -5,7 +5,7 @@
  */
 import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
 import { FeedbackDelay as ToneFeedbackDelay } from "tone/build/esm/effect/FeedbackDelay.js";
-import { clamp } from '../Utils';
+import { clamp } from '../core/Utils.js';
 
 /**
  * A delay effect with parameters for feedback, and delay time.

@@ -4,10 +4,8 @@
  *  @for p5.sound
  */
 import { p5soundSource } from "../core/p5soundSource.js";
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
 import { Oscillator as ToneOscillator } from "tone/build/esm/source/oscillator/Oscillator.js";
-import { clamp } from "../Utils";
+import { clamp } from "../core/Utils.js";
 
 /** 
  * Generate Sine, Triangle, Square and Sawtooth waveforms.

@@ -82,7 +82,7 @@ class Biquad extends p5soundNode {
    * The filter's resonance factor.
    * @method res
    * @for Biquad
-   * @param {Number} resonance resonance of the filter. A number between 0 and 100.
+   * @param {Number} resonance resonance of the filter. A number between 0 and 100. Values closer to 100 can cause the filter to self-oscillate and become loud!
    */
   res(r) {
     this.node.Q.value = r;
@@ -102,7 +102,7 @@ class Biquad extends p5soundNode {
    * Set the type of the filter.
    * @method setType
    * @for Biquad
-   * @param {String} type type of the filter. Options: "lowpass", "highpass", "bandpass", "lowshelf", "highshelf", "notch", "allpass", "peaking" 
+   * @param {String} type type of the filter. Options: "lowpass", "highpass", "bandpass", "lowshelf", "highshelf", "notch", "allpass", and "peaking." 
    */
   setType(t) {
     this.node.type = t;

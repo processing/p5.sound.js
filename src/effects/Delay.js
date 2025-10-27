@@ -3,16 +3,15 @@
  *  @submodule p5.sound
  *  @for p5.sound
  */
-
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
+import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
 import { FeedbackDelay as ToneFeedbackDelay } from "tone/build/esm/effect/FeedbackDelay.js";
-import { clamp } from './Utils';
+import { clamp } from '../core/Utils.js';
 
 /**
  * A delay effect with parameters for feedback, and delay time.
  * @class Delay
  * @constructor
+ * @extends p5soundMixEffect
  * @param {Number} [delayTime] The delay time in seconds between 0 and 1. Defaults to 0.250.
  * @param {Number} [feedback] The amount of feedback in the delay line between 0 and 1. Defaults to 0.2.
  * @example
@@ -47,11 +46,12 @@ import { clamp } from './Utils';
  *   osc.stop();
  * }
  */
-class Delay {
+class Delay extends p5soundMixEffect {
   constructor(d = 0.250, f = 0.2)  {
+    super();
     this.d = d;
     this.f = f;
-    this.delay = new ToneFeedbackDelay(this.d, this.f).toDestination();
+    this.node = new ToneFeedbackDelay(this.d, this.f).toDestination();
   }
 
   /**
@@ -112,11 +112,11 @@ class Delay {
   delayTime(value, rampTime = 0.1) {
     //legacy behavior
     if (rampTime == 0) {
-      this.delay.delayTime.value = clamp(value, 0, 1);
+      this.node.delayTime.value = clamp(value, 0, 1);
       return;
     }
     //new tape emulation behavior
-    this.delay.delayTime.rampTo(clamp(value, 0, 1), rampTime);
+    this.node.delayTime.rampTo(clamp(value, 0, 1), rampTime);
   }
 
   /**
@@ -126,7 +126,7 @@ class Delay {
    * @param {number} feedbackAmount A number between 0 and 0.99.
    */
   feedback(value) {
-    this.delay.feedback.rampTo(clamp(value, 0, 0.99), 0.1);
+    this.node.feedback.rampTo(clamp(value, 0, 0.99), 0.1);
   }
 
   /**
@@ -138,36 +138,9 @@ class Delay {
    * @param {Number} feedback The amount of feedback. A number between 0 and 1.
    */
   process(input, delayTime, feedback) { 
-    this.delay.delayTime.value = delayTime;
-    this.delay.feedback.value = feedback;
-    input.getNode().connect(this.delay);
-  }
-
-  /**
-   * Adjust the amplitude of the delay effect.
-   * @method amp
-   * @for Delay
-   * @param {Number} amplitudeAmount An amplitude value between 0 and 1.
-   */
-  amp(value) {
-    let dbValue = ToneGainToDb(value);
-    this.delay.volume.rampTo(dbValue, 0.1);
-  }
-
-  getNode() {
-    return this.delay;
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.delay.connect(destination.getNode());
-    } else {
-      this.delay.connect(destination);
-    }
-  }
-
-  disconnect() {
-    this.delay.disconnect(ToneContext.destination);
+    this.node.delayTime.value = delayTime;
+    this.node.feedback.value = feedback;
+    input.getNode().connect(this.node);
   }
 }
 

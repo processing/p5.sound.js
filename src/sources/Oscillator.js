@@ -3,16 +3,15 @@
  *  @submodule p5.sound
  *  @for p5.sound
  */
-
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
+import { p5soundSource } from "../core/p5soundSource.js";
 import { Oscillator as ToneOscillator } from "tone/build/esm/source/oscillator/Oscillator.js";
-import { clamp } from "./Utils";
+import { clamp } from "../core/Utils.js";
 
 /** 
  * Generate Sine, Triangle, Square and Sawtooth waveforms.
  * @class Oscillator
  * @constructor
+ * @extends p5soundSource
  * @param {Number} [frequency] frequency defaults to 440Hz
  * @param {String} [type] type of oscillator. Options:
  *                        'sine' (default), 'triangle',
@@ -59,8 +58,9 @@ import { clamp } from "./Utils";
  * </code> 
  * </div>
  */
-class Oscillator {
+class Oscillator extends p5soundSource {
   constructor(frequency = 440, type = "sine") {
+    super();
     if (typeof frequency === "string" && typeof type === "string") {
       let f = frequency;
       frequency = 440;
@@ -75,10 +75,10 @@ class Oscillator {
     
     this.frequency = frequency;
     this.type = type;
-    this.osc = new ToneOscillator().toDestination();
-    this.osc.frequency.value = this.frequency;
-    this.osc.type = this.type;
-    this.osc.volume.value = -6;
+    this.node = new ToneOscillator().toDestination();
+    this.node.frequency.value = this.frequency;
+    this.node.type = this.type;
+    this.node.volume.value = -6;
   }
 
   /**
@@ -89,7 +89,7 @@ class Oscillator {
    * @param {Number} [rampTime] the time in seconds it takes to ramp to the new frequency (defaults to 0). 
    */
   freq(f, p = 0) {
-    this.osc.frequency.rampTo(clamp(f, 0, 24000), p);
+    this.node.frequency.rampTo(clamp(f, 0, 24000), p);
   }
 
   /**
@@ -99,7 +99,7 @@ class Oscillator {
    * @param {Number} phase phase of the oscillator in degrees (0-360). 
    */
   phase(p) {
-    this.osc.phase = p;
+    this.node.phase = p;
   }
 
   /**
@@ -111,109 +111,7 @@ class Oscillator {
    *                 'sawtooth', 'square'
    */
   setType(t) {
-    this.osc.type = t;
-  }
-
-  /**
-   * Adjust the amplitude of the Oscillator.
-   * @method amp
-   * @for Oscillator
-   * @param {Number} amplitude Set the amplitude between 0 and 1.0. Or, pass in an object such as an oscillator to modulate amplitude with an audio signal.
-   * @example
-   * <div>
-   * <code>
-   * let osc, lfo;
-   * let cnv;
-   * 
-   * function setup() {
-   *   describe("a sketch that demonstrates amplitude modulation with an LFO and sine tone");
-   *   cnv = createCanvas(100, 100);
-   *   cnv.mousePressed(startSound);
-   *   textAlign(CENTER);
-   *   textWrap(WORD);
-   *   textSize(10);
-   *   
-   *   osc = new p5.Oscillator('sine');
-   *   lfo = new p5.Oscillator(1);
-   *   lfo.disconnect();
-   *   osc.amp(lfo);
-   * }
-   * 
-   * function startSound() {
-   *   lfo.start();
-   *   osc.start();
-   * }
-   * 
-   * function draw(){
-   *   background(220);
-   *   text('click to play sound', 0, height/2 - 20, 100);
-   *   text('control lfo with mouseX position', 0, height/2, 100);
-   * 
-   *   let freq = map(mouseX, 0, width, 0, 10);
-   *   lfo.freq(freq);
-   * }
-   * </code>
-   * </div>
-   */
-  amp(value, p = 0.1) {
-    //if value is an object (i.e. audio signal such as an LFO), connect it to the oscillator's volume
-    if (typeof value === "object") {
-      value.getNode().connect(this.osc.volume);
-      return;
-    }
-    value = clamp(value, 0, 1);
-    let dbValue = ToneGainToDb(value);
-    this.osc.volume.rampTo(dbValue, p);
-  }
-
-  /**
-   * Starts the oscillator. Usually from user gesture.
-   * @method start
-   * @for Oscillator
-   * @example
-   * <div>
-   * <code>
-   * let osc;
-   * 
-   * function setup() {
-   *   let cnv = createCanvas(100, 100);
-   *   cnv.mousePressed(startOscillator);
-   *   osc = new p5.Oscillator();
-   * }
-   * 
-   * function startOscillator() {
-   *   osc.start();
-   * }
-   * </code>
-   * </div>
-   */
-  start() {
-    this.osc.start();
-  }
-
-  /**
-   * Stops the oscillator.
-   * @method stop
-   * @for Oscillator
-   */
-  stop() {
-    this.osc.stop();
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.osc.connect(destination.getNode());
-    } else {
-      this.osc.connect(destination);
-    }
-  }
-
-  disconnect() {
-    this.osc.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.osc;
+    this.node.type = t;
   }
 }
 
@@ -227,7 +125,7 @@ class Oscillator {
 class SawOsc extends Oscillator {
   constructor(frequency) {
     super(frequency);
-    this.osc.type = "sawtooth";
+    this.node.type = "sawtooth";
   }
 }
 
@@ -241,7 +139,7 @@ class SawOsc extends Oscillator {
 class SqrOsc extends Oscillator {
   constructor(frequency) {
     super(frequency);
-    this.osc.type = "square";
+    this.node.type = "square";
   }
 }
 
@@ -255,7 +153,7 @@ class SqrOsc extends Oscillator {
 class TriOsc extends Oscillator {
   constructor(frequency) {
     super(frequency);
-    this.osc.type = "triangle"
+    this.node.type = "triangle"
   }
 }
 
@@ -269,7 +167,7 @@ class TriOsc extends Oscillator {
 class SinOsc extends Oscillator {
   constructor(frequency) {
     super(frequency);
-    this.osc.type = "sine"
+    this.node.type = "sine"
   }
 }
 

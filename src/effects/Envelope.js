@@ -4,13 +4,14 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/component/envelope/AmplitudeEnvelope.js";
+import { p5soundNode } from "../core/p5soundNode";
 
 /**
  * Generate an amplitude envelope.
  * @class Envelope
  * @constructor
+ * @extends p5soundNode
  * @param {Number} [attack] how quickly the envelope reaches the maximum level
  * @param {Number} [decay] how quickly the envelope reaches the sustain level
  * @param {Number} [sustain] how long the envelope stays at the decay level
@@ -22,15 +23,16 @@ import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/compo
  * </code>
  * </div>
  */
-class Envelope {
+class Envelope extends p5soundNode {
   constructor(a = 0.1, d = 0.12, s = 0.1, r = 0.2) {
+    super();
     this.attack = a;
     this.attackLevel = 1;
     this.decay = d;
     this.sustain = s;
     this.release = r;
 
-    this.envelope = new ToneAmplitudeEnvelope({
+    this.node = new ToneAmplitudeEnvelope({
       attack: this.attack,
       decay: this.decay,
       sustain: this.sustain,
@@ -44,7 +46,7 @@ class Envelope {
    * @for Envelope
    */
   play() {
-    this.envelope.triggerAttackRelease(this.sustain);
+    this.node.triggerAttackRelease(this.sustain);
   }
 
   /**
@@ -91,7 +93,7 @@ class Envelope {
    */
 
   triggerAttack() {
-    this.envelope.triggerAttack();
+    this.node.triggerAttack();
   }
   /**
    * Trigger the Release of the envelope. Similar to releasing the key on 
@@ -137,7 +139,7 @@ class Envelope {
    * </div>
    */
   triggerRelease() {
-    this.envelope.triggerRelease();
+    this.node.triggerRelease();
   }
 
   /**
@@ -146,7 +148,7 @@ class Envelope {
    * @param {Object} unit A p5.sound Object 
    */
   setInput(input) {
-    input.getNode().connect(this.envelope);
+    input.getNode().connect(this.node);
   }
 
   /**
@@ -159,10 +161,10 @@ class Envelope {
    * @param {Number} release how quickly the envelope fades out after the sustain level
    */
   setADSR(a, d, s, r) {
-    this.envelope.attack = a;
-    this.envelope.decay = d;
-    this.envelope.sustain = s;
-    this.envelope.release = r;
+    this.node.attack = a;
+    this.node.decay = d;
+    this.node.sustain = s;
+    this.node.release = r;
   }
 
   /**
@@ -172,7 +174,7 @@ class Envelope {
    * @param {Number} releaseTime the release time in seconds 
    */
   releaseTime(value) {
-    this.envelope.release = value;
+    this.node.release = value;
   }
 
   /**
@@ -182,19 +184,7 @@ class Envelope {
    * @param {Number} attackTime the attack time in seconds 
    */
   attackTime(value) {
-    this.envelope.attack = value;
-  }
-
-  connect(destination) {
-    this.envelope.connect(destination.getNode());
-  }
-
-  disconnect() {
-    this.envelope.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.envelope;
+    this.node.attack = value;
   }
 }
 

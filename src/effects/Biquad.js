@@ -4,14 +4,15 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
-import { clamp } from "./Utils";
+import { clamp } from "../core/Utils.js";
 import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter/BiquadFilter.js";
+import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
  * Filter the frequency range of a sound.
  * @class Biquad
  * @constructor
+ * @extends p5soundNode
  * @param {Number} [cutoff] cutoff frequency of the filter, a value between 0 and 24000.
  * @param {String} [type] filter type. Options: "lowpass", 
  *                        "highpass", "bandpass", "lowshelf",
@@ -69,21 +70,22 @@ import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter
  * </code>
  * </div>
  */
-class Biquad {
+class Biquad extends p5soundNode {
   constructor(c = 800, t = "lowpass") {
+    super();
     this.type = t;
     this.cutoff = c;
-    this.biquad = new ToneBiquadFilter(this.cutoff, this.type).toDestination();
+    this.node = new ToneBiquadFilter(this.cutoff, this.type).toDestination();
   }
   
   /**
    * The filter's resonance factor.
    * @method res
    * @for Biquad
-   * @param {Number} resonance resonance of the filter. A number between 0 and 100.
+   * @param {Number} resonance resonance of the filter. A number between 0 and 100. Values closer to 100 can cause the filter to self-oscillate and become loud!
    */
   res(r) {
-    this.biquad.Q.value = r;
+    this.node.Q.value = r;
   }
 
   /**
@@ -93,17 +95,17 @@ class Biquad {
    * @param {Number} gain gain value in dB units. The gain is only used for lowshelf, highshelf, and peaking filters.
    */
   gain(g) {
-    this.biquad.gain.value = g;
+    this.node.gain.value = g;
   }
 
   /**
    * Set the type of the filter.
    * @method setType
    * @for Biquad
-   * @param {String} type type of the filter. Options: "lowpass", "highpass", "bandpass", "lowshelf", "highshelf", "notch", "allpass", "peaking" 
+   * @param {String} type type of the filter. Options: "lowpass", "highpass", "bandpass", "lowshelf", "highshelf", "notch", "allpass", and "peaking." 
    */
   setType(t) {
-    this.biquad.type = t;
+    this.node.type = t;
   }
 
   /**
@@ -113,23 +115,7 @@ class Biquad {
    * @param {Number} cutoffFrequency the cutoff frequency of the filter.
    */
   freq(f) {
-    this.biquad.frequency.value = clamp(f, 0, 22050);
-  }
-
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.biquad.connect(destination.getNode());
-    } else {
-      this.biquad.connect(destination);
-    }
-  }
-
-  disconnect() {
-    this.biquad.disconnect(ToneContext.destination);
-  }
-
-  getNode() {
-    return this.biquad;
+    this.node.frequency.value = clamp(f, 0, 22050);
   }
 }
 
@@ -143,7 +129,7 @@ class Biquad {
 class LowPass extends Biquad {
   constructor(frequency) {
     super(frequency);
-    this.biquad.type = "lowpass";
+    this.node.type = "lowpass";
   }
 }
 
@@ -157,7 +143,7 @@ class LowPass extends Biquad {
 class HighPass extends Biquad {
   constructor(frequency) {
     super(frequency);
-    this.biquad.type = "highpass";
+    this.node.type = "highpass";
   }
 }
 
@@ -171,7 +157,7 @@ class HighPass extends Biquad {
 class BandPass extends Biquad {
   constructor(frequency) {
     super(frequency);
-    this.biquad.type = "bandpass";
+    this.node.type = "bandpass";
   }
 }
 

@@ -218,15 +218,13 @@ class SoundFile extends p5soundSource {
   }
 
   /**
-   * Set a loop region, and optionally a playback rate, and amplitude for the soundfile.
+   * Set a loop region. The loop() method must be set to true for this to work.
    * @method setLoop
    * @for SoundFile
-   * @param {Number} [startTime] Set to True or False in order to set the loop state.
-   * @param {Number} [rate] Set to True or False in order to set the loop state.
-   * @param {Number} [amp] Set to True or False in order to set the loop state.
-   * @param {Number} [duration] Set to True or False in order to set the loop state.
+   * @param {Number} [startTime] The start time of the loop point in seconds.
+   * @param {Number} [duration] The duration of the loop point in seconds.
    */
-  loopPoints(startTime = 0, duration = this.node.buffer.duration, schedule = 0) {
+  loopPoints(startTime = 0, duration = this.node.buffer.duration) {
     this.node.loopStart = startTime;
     this.node.loopEnd = startTime + duration;
   }

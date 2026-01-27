@@ -9,7 +9,7 @@ p5.sound.js extends the musical and sonic capabilities of [p5.js](https://p5js.o
 
 ## Documentation
 
-Interactive documentation can be found at [p5js.org/reference/p5.sound](http://p5js.org/reference/p5.sound)
+Interactive documentation can be found at [beta.p5js.org/reference/p5.sound](http://beta.p5js.org/reference/p5.sound)
 
 ## Latest Build
 

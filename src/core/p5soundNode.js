@@ -128,19 +128,19 @@ class p5soundNode {
   }
 
   setInput(source) {
+    //for p5 nodes
     if (typeof source.getNode === 'function') {
       source.connect(this.input)
       console.log('firstcase')
       return;
     }
-
+    //for tone.js nodes
     if (typeof source.connect === 'function' && typeof source.output !== 'undefined') {
-      source.connect(this.input);   // route Tone's output into our input
+      source.connect(this.input);
       console.log('secondcase')
       return;
     } 
-
-    // Case 3: Raw Web Audio AudioNode — connect directly
+    //for web audio nodes
     if (source instanceof AudioNode) {
       source.connect(this.input);
       console.log('thirdcase')

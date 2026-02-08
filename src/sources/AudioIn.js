@@ -7,7 +7,9 @@
 import { UserMedia as ToneUserMedia} from "tone/build/esm/source/UserMedia.js";
 import { p5soundSource } from "../core/p5soundSource.js";
 /**
- * Get sound from an input source, typically a computer microphone.
+ * Get sound from your computer's audio input source.
+ * 
+ * This is usually your onboard microphone, but you can change this in your computer's audio settings. Take caution when activating the microphone as you may create LOUD feedback. Your web browser will ask for your permission when starting the microphone.
  * @class AudioIn
  * @constructor
  * @extends p5soundSource

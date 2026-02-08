@@ -19,10 +19,6 @@ function clamp(value, min, max) {
  *  @return {AudioContext} the audio context
  */
 function getAudioContext() {
-    // Check if the AudioContext is already created
-    // if (ToneGetContext()) {
-    //     return ToneGetContext();
-    // }
     if (!audioContext) {
         audioContext = new window.AudioContext();
         ToneSetContext(audioContext);
@@ -41,7 +37,7 @@ function setAudioContext(context) {
 }
 
 /**
- *  userStartAudio() starts the AudioContext on a user gesture. It can be placed in a specific interaction function, such as mousePressed().
+ *  starts audio processing in the window when called from a user interaction (such as mousePressed()). Only necessary when not starting p5.sound nodes with the start() method.
  *  @function userStartAudio
  */
 function userStartAudio() {
@@ -49,7 +45,7 @@ function userStartAudio() {
 }
 
 /**
- *  userStopAudio() stops the AudioContext on a user gesture.
+ *  stops audio processing in the browser window.
  *  @function userStopAudio
  */
 function userStopAudio() {

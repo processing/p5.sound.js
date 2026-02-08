@@ -8,7 +8,9 @@ import { p5soundNode } from "./p5soundNode.js";
 import { clamp } from './Utils.js';
 
 /**
- * Generic dry/wet mix method for p5 effect nodes
+ * This is a base "mixing" class for effects like P5.Reverb and P5.Delay.
+ * 
+ * It all allows you to adjust the balance between a source node's original (dry) or effected (wet) signal.
  * @class p5soundMixEffect
  * @constructor
  * @extends p5soundNode
@@ -19,10 +21,10 @@ class p5soundMixEffect extends p5soundNode {
     this.node = null;
   }
   /**
-   * Set the wet/dry mix of the effect.
+   * Adjusts the balance between the source node's original (dry) or effected (wet) signal.
    * @method wet
    * @for p5soundMixEffect
-   * @param {Number} amount Between 0 (dry) and 1 (wet)
+   * @param {Number} amount a value between 0 (dry) and 1 (wet).
    * @example
    * <div>
    * <code>

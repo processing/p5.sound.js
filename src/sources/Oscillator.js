@@ -8,12 +8,14 @@ import { Oscillator as ToneOscillator } from "tone/build/esm/source/oscillator/O
 import { clamp } from "../core/Utils.js";
 
 /** 
- * Generate Sine, Triangle, Square and Sawtooth waveforms.
+ * Generates a consistent tone, sometimes referred to as a pitch.
+ * 
+ * A building block of sound design, this oscillator can produce the following "waveforms": Sine, Triangle, Square and Sawtooth. A repeating waveform produces a perceived pitch beginning at around 20 times a second, with additional textural or harmonic content dependent on the type of waveform you choose.
  * @class Oscillator
  * @constructor
  * @extends p5soundSource
- * @param {Number} [frequency] frequency defaults to 440Hz
- * @param {String} [type] type of oscillator. Options:
+ * @param {Number} [frequency] defaults to 440Hz, or 440 'cycles per second.' represents the pitch of the tone. Acts as a 'control-rate' or 'low frequency oscillator' (LFO) at values between 0 and 20. Creates a tone between 20 and about 20,000 Hertz depending on how well you can hear!
+ * @param {String} [type] type of waveform:
  *                        'sine' (default), 'triangle',
  *                        'sawtooth', 'square'
  * @example
@@ -31,28 +33,27 @@ import { clamp } from "../core/Utils.js";
  * function draw() {
  *   background(220)
  *   freq = constrain(map(mouseX, 0, width, 100, 500), 100, 500);
- *   //amp = constrain(map(mouseY, height, 0, 0, 1), 0, 1);
+ *   amp = constrain(map(mouseY, height, 0, 0, 1), 0, 1);
  *   text('tap to play', 20, 20);
  *   text('freq: ' + freq, 20, 40);
- *   //text('amp: ' + amp, 20, 60);
+ *   text('amp: ' + amp, 20, 60);
  *
  *   if (playing) {
- *     // smooth the transitions by 0.1 seconds
- *     osc.freq(freq);
- *     //osc.amp(amp);
+ *     //smooth the frequency transition over 0.1 seconds
+ *     osc.freq(freq, 0.1);
+ *     osc.amp(amp);
  *   }
  * }
  *
  * function playOscillator() {
- *   // starting an oscillator on a user gesture will enable audio
- *   // in browsers that have a strict autoplay policy.
+ *   // starting an oscillator on a user interaction like mousePressed() will enable audio in browsers that have a strict autoplay policy (most browsers).
  *   osc.start();
  *   playing = true;
  * }
  *
  * function mouseReleased() {
- *   // ramp amplitude to 0 over 0.5 seconds
- *   //osc.amp(0, 0.5);
+ *   //lower volume to 0 over 0.1 seconds
+ *   osc.amp(0, 0.1);
  *   playing = false;
  * }
  * </code> 
@@ -83,17 +84,27 @@ class Oscillator extends p5soundSource {
 
   /**
    * Adjusts the frequency of the oscillator.
+   * 
+   * Frequency is measured int Hertz (Hz) and determines the amount of cycles a waveform (square, sawtooth, etc...) will repeat in a second. The amount of repetitions will result in a change in perceived 'pitch.' You can lookup corresponding frequency values for 'notes' if you would like to play a scale. For example, 'middle C' on the keyboard has a frequency of 261.63 Hz.
    * @method freq
    * @for Oscillator
-   * @param {Number} frequency frequency of the oscillator in Hz (cycles per second).
-   * @param {Number} [rampTime] the time in seconds it takes to ramp to the new frequency (defaults to 0). 
+   * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). used to change 'pitch' or 'notes.'
+   * @param {Number} [rampTime] the time in seconds it takes to ramp to a new frequency value (defaults to 0).
+   * @example
+   * <div>
+   * <code>
+   * 
+   * </code>
+   * </div>
    */
   freq(f, p = 0) {
     this.node.frequency.rampTo(clamp(f, 0, 24000), p);
   }
 
   /**
-   * Adjusts the phase of the oscillator.
+   * Adjusts the phase of the oscillator. Effectively, this changes the starting point of waveform.
+   * 
+   * You might want to adjust the phase of an oscillator in more advanced sound design tasks when layering multiple oscillators to produce a particular instrument or timbre.
    * @method phase
    * @for Oscillator
    * @param {Number} phase phase of the oscillator in degrees (0-360). 

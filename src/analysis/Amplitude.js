@@ -8,7 +8,9 @@ import { Meter as ToneMeter } from "tone/build/esm/component/analysis/Meter.js";
 import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
- * Get the current volume of a sound.
+ * Get the current amplitude or 'loudness' of a sound.
+ * 
+ * Useful for audio-reactive visualizations or analysis.
  * @class Amplitude
  * @constructor
  * @extends p5soundNode

@@ -18,7 +18,7 @@ import { p5soundSource } from "../core/p5soundSource";
  * local server</a> is recommended when loading external files.
  *
  * @method loadSound
- * @for sound
+ * @for p5.sound
  * @param  {String|Array}   path     Path to the sound file, or an array with
  *                                   paths to soundfiles in multiple formats
  *                                   i.e. ['sound.ogg', 'sound.mp3'].
@@ -46,8 +46,8 @@ import { p5soundSource } from "../core/p5soundSource";
  *  }
  *  </code></div>
  */
-function loadSound (path) {
-  if(self._incrementPreload && self._decrementPreload){
+function loadSound(path) {
+  if (self._incrementPreload && self._decrementPreload) {
     self._incrementPreload();
     let player = new p5.SoundFile(
       path,
@@ -57,7 +57,7 @@ function loadSound (path) {
     );
     return player;
 
-  } else{
+  } else {
     return new Promise((resolve) => {
       let player = new p5.SoundFile(
         path,
@@ -228,7 +228,7 @@ class SoundFile extends p5soundSource {
     this.node.loopStart = startTime;
     this.node.loopEnd = startTime + duration;
   }
-  
+
   /**
    * Change the path for the soundfile.
    * @method setPath
@@ -391,7 +391,7 @@ class SoundFile extends p5soundSource {
   onended(callback) {
     this.node.onstop = callback;
   }
-    
+
   /**
    * Return the number of samples in a sound file.
    * @method frames

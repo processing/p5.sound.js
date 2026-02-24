@@ -1,0 +1,11 @@
+{
+  "name": "p5.sound.js",
+  "description": "p5.sound.js extends p5.js with Web Audio functionality.",
+  "version": "0.3.0-rc.0",
+  "url": "https://github.com/processing/p5.sound.js",
+  "options": {
+    "paths": ["src"],
+    "exclude": "dist,out,node_modules",
+    "outdir": "./out"
+  }
+}

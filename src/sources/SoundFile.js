@@ -49,22 +49,15 @@ import { p5soundSource } from "../core/p5soundSource";
 function loadSound(path) {
   if (self._incrementPreload && self._decrementPreload) {
     self._incrementPreload();
-    let player = new p5.SoundFile(
-      path,
-      function () {
-        self._decrementPreload();
-      }
-    );
+    let player = new p5.SoundFile(path, function () {
+      self._decrementPreload();
+    });
     return player;
-
   } else {
     return new Promise((resolve) => {
-      let player = new p5.SoundFile(
-        path,
-        function () {
-          resolve(player);
-        }
-      );
+      let player = new p5.SoundFile(path, function () {
+        resolve(player);
+      });
     });
   }
 }
@@ -78,13 +71,13 @@ function loadSound(path) {
  * <div>
  * <code>
  * let sound, amp, delay, cnv;
- * 
+ *
  * function preload() {
  *   //replace this sound with something local with rights to distribute
- *   //need to fix local asset loading first though :) 
+ *   //need to fix local asset loading first though :)
  *   sound = loadSound('/assets/doorbell.mp3');
  * }
- * 
+ *
  * function setup() {
  *   cnv = createCanvas(100, 100);
  *   textAlign(CENTER);
@@ -95,11 +88,11 @@ function loadSound(path) {
  *   sound.connect(delay);
  *   delay.connect(amp);
  * }
- * 
+ *
  * function playSound() {
  *   sound.play();
  * }
- * 
+ *
  * function draw() {
  *   let dtime = map(mouseX, 0, width, 0, 1);
  *   delay.delayTime(dtime);
@@ -125,7 +118,7 @@ class SoundFile extends p5soundSource {
   /**
    * Start the soundfile.
    * @method start
-   * @for SoundFile 
+   * @for SoundFile
    */
   start() {
     this.node.playbackRate = this.speed;
@@ -151,7 +144,7 @@ class SoundFile extends p5soundSource {
   /**
    * Stop the soundfile.
    * @method stop
-   * @for SoundFile 
+   * @for SoundFile
    */
   stop() {
     this.node.stop();
@@ -161,7 +154,7 @@ class SoundFile extends p5soundSource {
   /**
    * Pause the soundfile.
    * @method pause
-   * @for SoundFile 
+   * @for SoundFile
    * @example
    * <div>
    * <code>
@@ -170,7 +163,7 @@ class SoundFile extends p5soundSource {
    * function preload() {
    *   player = loadSound('/assets/Damscray_DancingTiger.mp3');
    * }
-   * 
+   *
    * function setup() {
    *   describe('A sketch that pauses and resumes sound file playback.');
    *   let cnv = createCanvas(100, 100);
@@ -181,10 +174,10 @@ class SoundFile extends p5soundSource {
    *   textSize(10);
    *   background(220);
    *   text('click to play', 0, 20, 100);
-   *   
+   *
    *   player.loop();
    * }
-   * 
+   *
    * function playSound() {
    *   if (!player.isPlaying()) {
    *     player.play();
@@ -243,7 +236,7 @@ class SoundFile extends p5soundSource {
    * function preload() {
    *   soundSource = loadSound('/assets/Damscray_-_Dancing_Tiger_01.mp3');
    * }
-   * 
+   *
    * function setup() {
    *   describe(
    *     'a sketch that says click to play sound. there is a button that says load sound. when you click the button, the path of the sound file player changes and the new sound plays.');
@@ -256,39 +249,41 @@ class SoundFile extends p5soundSource {
    *   text('click to play sound or the button to load a new sound', 0, 20, 100);
    *   btn = createButton('New Sound');
    *   btn.mousePressed(setNewPath);
-   *   soundSource.loop();  
+   *   soundSource.loop();
    * }
-   * 
+   *
    * function playSound() {
    *   soundSource.play();
    * }
-   * 
+   *
    * function setNewPath() {
    *   background(220);
    *   text('a new sound was loaded', 0, 20, 100);
-   *   soundSource.setPath('/assets/Damscray_-_Dancing_Tiger_02.mp3', playSound); 
+   *   soundSource.setPath('/assets/Damscray_-_Dancing_Tiger_02.mp3', playSound);
    * }
    * </code>
    * </div>
    */
   setPath(path, successCallback) {
-    this.node.load(path).then(() => {
-      if (successCallback) {
-        successCallback();
-      }
-      else {
-        console.log('Audio loaded successfully!');
-      }
-    }).catch((error) => {
-      console.error('Error loading audio:', error);
-    });
+    this.node
+      .load(path)
+      .then(() => {
+        if (successCallback) {
+          successCallback();
+        } else {
+          console.log("Audio loaded successfully!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error loading audio:", error);
+      });
   }
 
   /**
    * Set the playback rate of the soundfile.
    * @method rate
    * @for SoundFile
-   * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
+   * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.
    */
   rate(value = 1) {
     if (value < 0) {
@@ -296,13 +291,12 @@ class SoundFile extends p5soundSource {
     }
     this.node.playbackRate = value;
     this.speed = value;
-
   }
 
   /**
    * Returns the duration of a sound file in seconds.
    * @method duration
-   * @for SoundFile 
+   * @for SoundFile
    * @return {Number} duration
    */
   duration() {
@@ -322,7 +316,7 @@ class SoundFile extends p5soundSource {
   /**
    * Move the playhead of a soundfile that is currently playing to a new position.
    * @method jump
-   * @for SoundFile 
+   * @for SoundFile
    * @param {Number} timePoint Time to jump to in seconds.
    */
   jump(value) {
@@ -332,7 +326,7 @@ class SoundFile extends p5soundSource {
   /**
    * Return the playback state of the soundfile.
    * @method isPlaying
-   * @for SoundFile 
+   * @for SoundFile
    * @return {Boolean} Playback state, true or false.
    */
   isPlaying() {
@@ -342,7 +336,7 @@ class SoundFile extends p5soundSource {
   /**
    * Return the playback state of the soundfile.
    * @method isLooping
-   * @for SoundFile 
+   * @for SoundFile
    * @return {Boolean} Looping State, true or false.
    */
   isLooping() {
@@ -362,7 +356,7 @@ class SoundFile extends p5soundSource {
    * function preload() {
    *   player = loadSound('/assets/lucky_dragons_-_power_melody.mp3');
    * }
-   * 
+   *
    * function setup() {
    *   let cnv = createCanvas(100, 100);
    *   background(220);
@@ -372,12 +366,12 @@ class SoundFile extends p5soundSource {
    *   cnv.mousePressed(playSound);
    *   player.onended(coolFunction);
    * }
-   * 
+   *
    * function coolFunction() {
    *   background(220);
    *   text('sound is done', width/2, height/2);
    * }
-   * 
+   *
    * function playSound() {
    *   background(0, 255, 255);
    *   text('sound is playing', width/2, height/2);
@@ -405,7 +399,7 @@ class SoundFile extends p5soundSource {
    * function preload() {
    *   player = loadSound('/assets/lucky_dragons_-_power_melody.mp3');
    * }
-   * 
+   *
    * function setup() {
    *   describe('A sketch that calculates and displays the length of a sound file using number of samples and sample rate.');
    *   createCanvas(100, 100);

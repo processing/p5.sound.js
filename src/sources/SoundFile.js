@@ -18,7 +18,7 @@ import { p5soundSource } from "../core/p5soundSource";
  * local server</a> is recommended when loading external files.
  *
  * @method loadSound
- * @for sound
+ * @for p5.sound
  * @param  {String|Array}   path     Path to the sound file, or an array with
  *                                   paths to soundfiles in multiple formats
  *                                   i.e. ['sound.ogg', 'sound.mp3'].

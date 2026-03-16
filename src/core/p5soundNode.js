@@ -5,6 +5,7 @@
  */
 
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { getAudioContext } from "./Utils";
 
 /**
  * Generic methods for p5.sound.js nodes
@@ -14,6 +15,10 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 class p5soundNode {
   constructor() {
     this.node = null;
+    this.ctx = getAudioContext();
+    this.input = this.ctx.createGain();
+    this.output = this.ctx.createGain();
+    this.output.connect(this.ctx.destination);
   }
 
   /**
@@ -68,18 +73,18 @@ class p5soundNode {
 
   connect(destination) {
     if(typeof destination.getNode === 'function') {
-      this.node.connect(destination.getNode());
+      this.output.connect(destination.getNode());
     } else {
-      this.node.connect(destination);
+      this.output.connect(destination);
     }
   }
   
   disconnect() {
-    this.node.disconnect(ToneContext.destination);
+    this.output.disconnect();
   }
 
   getNode() {
-    return this.node;
+    return this.input;
   }
 }
 

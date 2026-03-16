@@ -7,6 +7,8 @@
 import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone/build/esm/core/Global.js";
 import { start as ToneStart } from "tone/build/esm/core/Global.js";
 
+let audioContext = null;
+
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
@@ -18,13 +20,14 @@ function clamp(value, min, max) {
  */
 function getAudioContext() {
     // Check if the AudioContext is already created
-    if (ToneGetContext()) {
-        return ToneGetContext().rawContext;
+    // if (ToneGetContext()) {
+    //     return ToneGetContext();
+    // }
+    if (!audioContext) {
+        audioContext = new window.AudioContext();
+        ToneSetContext(audioContext);
     }
-    const audiocontext = new window.AudioContext();
-    ToneSetContext(audiocontext);
-    let context = ToneGetContext();
-    return context._context;
+    return audioContext;
 }
 
 /**
@@ -33,6 +36,7 @@ function getAudioContext() {
  *  @param {AudioContext} the desired AudioContext.
  */
 function setAudioContext(context) {
+    audioContext = context;
     ToneSetContext(context);
 }
 
@@ -49,7 +53,7 @@ function userStartAudio() {
  *  @function userStopAudio
  */
 function userStopAudio() {
-    context = ToneGetContext();
+    const context = audioContext || ToneGetContext();
     context.suspend();
 }
 

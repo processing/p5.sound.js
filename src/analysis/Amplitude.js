@@ -50,7 +50,9 @@ class Amplitude extends p5soundNode {
   constructor(smoothing = 0) {
     super();
     this.node = new ToneMeter({normalRange:true, smoothing:smoothing});
-    this.input.connect(this.node.input)
+    let toneInput = this.node.input;
+    while (toneInput && toneInput.input) toneInput = toneInput.input;
+    this.input.connect(toneInput);
   }
 
   /**

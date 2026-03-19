@@ -77,6 +77,9 @@ class FFT extends p5soundNode {
         this.node = new ToneGain(1);
         this.node.connect(this.analyzer);
         this.node.connect(this.samples);
+        let toneInput = this.node.input;
+        while (toneInput && toneInput.input) toneInput = toneInput.input;
+        this.input.connect(toneInput);
     }
 
     /**

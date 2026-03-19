@@ -52,7 +52,6 @@ class AudioIn extends p5soundSource {
     constructor() {
         super();
         this.node = new ToneUserMedia().connect(this.output);
-        
     }
     /**
      * Start the audio input.

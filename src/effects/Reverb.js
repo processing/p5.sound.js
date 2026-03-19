@@ -53,12 +53,10 @@ class Reverb extends p5soundMixEffect {
     super();
     this.decayTime = decayTime || 10;
     this.node = new ToneReverb(this.decayTime);
-    // Use the underlying native AudioNode handles to avoid Tone overload issues
-    const toneInput  = this.node.input.input  ?? this.node.input;   // native AudioNode
-    const toneOutput = this.node.output.output ?? this.node.output; // native AudioNode
-
-    this.input.connect(toneInput);    // p5 input GainNode → Tone reverb input
-    toneOutput.connect(this.output);  // Tone reverb output → p5 output GainNode
+    const toneInput  = this.node.input.input ?? this.node.input;
+    const toneOutput = this.node.output.output ?? this.node.output;
+    this.input.connect(toneInput);
+    toneOutput.connect(this.output);
   }
 
   /**

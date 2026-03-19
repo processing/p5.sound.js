@@ -52,7 +52,7 @@ class Noise extends p5soundSource {
     if (typeof type === "undefined") {
       type = "white";
     }
-    this.node = new ToneNoise().toDestination();
+    this.node = new ToneNoise().connect(this.output)
     this.node.type = type;
   }
   /**

@@ -51,7 +51,11 @@ import { p5soundNode } from "../core/p5soundNode.js";
 class PitchShifter extends p5soundNode {
     constructor(shiftValue = 1) {
         super();
-        this.node = new TonePitchShift(shiftValue).toDestination();
+        this.node = new TonePitchShift(shiftValue)
+        const toneInput  = this.node.input.input ?? this.node.input;
+        const toneOutput = this.node.output.output ?? this.node.output;
+        this.input.connect(toneInput);
+        toneOutput.connect(this.output);
     }
     
     /**

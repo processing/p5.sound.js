@@ -10,6 +10,7 @@ import { p5soundMixEffect } from "./core/p5soundMixEffect";
 p5.p5soundMixEffect = p5soundMixEffect;
 p5.p5soundNode = p5soundNode;
 p5.p5soundSource = p5soundSource;
+
 import Oscillator from './sources/Oscillator';
 p5.Oscillator = Oscillator;
 
@@ -63,6 +64,24 @@ p5.prototype.loadSound = loadSound;
 
 import AudioIn from './sources/AudioIn';
 p5.AudioIn = AudioIn;
+
+import { MonoSynth, EQ, Convolver, Distortion, OnsetDetect, Filter, Effect, Compressor, AudioVoice, Part, Phrase, PolySynth, Pulse, Score, SoundLoop } from './core/Friendly';
+//deprecated functions
+p5.MonoSynth = MonoSynth;
+p5.EQ = EQ;
+p5.Convolver = Convolver;
+p5.Distortion = Distortion;
+p5.OnsetDetect = OnsetDetect;
+p5.Filter = Filter;
+p5.Effect = Effect;
+p5.Compressor = Compressor;
+p5.AudioVoice = AudioVoice;
+p5.Part = Part;
+p5.Phrase = Phrase;
+p5.PolySynth = PolySynth;
+p5.Pulse = Pulse;
+p5.Score = Score;
+p5.SoundLoop = SoundLoop;
 
 //import Recorder from './Recorder';
 //p5.prototype.Recorder = Recorder;

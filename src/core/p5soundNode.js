@@ -137,7 +137,6 @@ class p5soundNode {
     //for tone.js nodes
     if (typeof source.connect === 'function' && typeof source.output !== 'undefined') {
       source.connect(this.input);
-      console.log('secondcase')
       return;
     } 
     //for web audio nodes

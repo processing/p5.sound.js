@@ -1,4 +1,6 @@
+import { toneLoggingSilenced } from './bootstrap';
 import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './core/Utils';
+void toneLoggingSilenced;
 p5.prototype.getAudioContext = getAudioContext;
 p5.prototype.setAudioContext = setAudioContext;
 p5.prototype.userStartAudio = userStartAudio;

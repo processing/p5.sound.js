@@ -5,7 +5,6 @@
  */
 
 import { UserMedia as ToneUserMedia} from "tone/build/esm/source/UserMedia.js";
-import { start as ToneStart } from "tone/build/esm/core/Global.js";
 import { p5soundSource } from "../core/p5soundSource.js";
 /**
  * Get sound from an input source, typically a computer microphone.
@@ -52,7 +51,7 @@ import { p5soundSource } from "../core/p5soundSource.js";
 class AudioIn extends p5soundSource {
     constructor() {
         super();
-        this.node = new ToneUserMedia();
+        this.node = new ToneUserMedia().connect(this.output);
     }
     /**
      * Start the audio input.
@@ -96,7 +95,7 @@ class AudioIn extends p5soundSource {
      * </div>
      */
     start() {
-        ToneStart();
+        userStartAudio();
         this.node.open().then(() => {
             // promise resolves when input is available
             console.log("mic open");

@@ -112,7 +112,11 @@ class Panner3D extends p5soundNode {
       positionX:0,
       positionY:0,
       positionZ:0,
-    }).toDestination();
+    })
+    const toneInput  = this.node.input.input ?? this.node.input;
+    const toneOutput = this.node.output.output ?? this.node.output;
+    this.input.connect(toneInput);
+    toneOutput.connect(this.output);
   }
 
   /**

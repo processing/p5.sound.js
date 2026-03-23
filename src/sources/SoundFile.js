@@ -116,7 +116,7 @@ function loadSound (path) {
 class SoundFile extends p5soundSource {
   constructor(buffer, successCallback) {
     super();
-    this.node = new TonePlayer(buffer, successCallback).toDestination();
+    this.node = new TonePlayer(buffer, successCallback).connect(this.output);
     this.playing = false;
     this.speed = 1;
     this.paused = false;

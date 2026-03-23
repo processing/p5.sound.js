@@ -49,7 +49,11 @@ import { p5soundNode } from "../core/p5soundNode.js";
 class Panner extends p5soundNode {
   constructor() {
     super();
-    this.node = new TonePanner(0).toDestination();
+    this.node = new TonePanner(0)
+    const toneInput  = this.node.input.input ?? this.node.input;
+    const toneOutput = this.node.output.output ?? this.node.output;
+    this.input.connect(toneInput);
+    toneOutput.connect(this.output);
   }
   
   /**

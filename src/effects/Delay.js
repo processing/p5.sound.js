@@ -51,7 +51,11 @@ class Delay extends p5soundMixEffect {
     super();
     this.d = d;
     this.f = f;
-    this.node = new ToneFeedbackDelay(this.d, this.f).toDestination();
+    this.node = new ToneFeedbackDelay(this.d, this.f)
+    const toneInput  = this.node.input.input ?? this.node.input;
+    const toneOutput = this.node.output.output ?? this.node.output;
+    this.input.connect(toneInput);
+    toneOutput.connect(this.output);
   }
 
   /**

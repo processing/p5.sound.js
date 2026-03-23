@@ -51,8 +51,12 @@ import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
 class Reverb extends p5soundMixEffect {
   constructor(decayTime) {
     super();
-    this.decayTime = decayTime || 1;
-    this.node = new ToneReverb(this.decayTime).toDestination();
+    this.decayTime = decayTime || 10;
+    this.node = new ToneReverb(this.decayTime);
+    const toneInput  = this.node.input.input ?? this.node.input;
+    const toneOutput = this.node.output.output ?? this.node.output;
+    this.input.connect(toneInput);
+    toneOutput.connect(this.output);
   }
 
   /**

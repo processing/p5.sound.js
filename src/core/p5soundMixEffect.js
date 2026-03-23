@@ -16,7 +16,6 @@ import { clamp } from './Utils.js';
 class p5soundMixEffect extends p5soundNode {
   constructor() {
     super();
-    this.node = null;
   }
   /**
    * Set the wet/dry mix of the effect.

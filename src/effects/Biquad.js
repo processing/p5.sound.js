@@ -75,7 +75,11 @@ class Biquad extends p5soundNode {
     super();
     this.type = t;
     this.cutoff = c;
-    this.node = new ToneBiquadFilter(this.cutoff, this.type).toDestination();
+    this.node = new ToneBiquadFilter(this.cutoff, this.type)
+    const toneInput  = this.node.input.input ?? this.node.input;
+    const toneOutput = this.node.output.output ?? this.node.output;
+    this.input.connect(toneInput);
+    toneOutput.connect(this.output);
   }
   
   /**

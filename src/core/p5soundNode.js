@@ -4,7 +4,8 @@
  *  @for p5.sound
  */
 
-import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
+import { getAudioContext } from "./Utils";
+import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
 
 /**
  * Generic methods for p5.sound.js nodes
@@ -14,6 +15,10 @@ import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 class p5soundNode {
   constructor() {
     this.node = null;
+    this.ctx = getAudioContext();
+    this.input = this.ctx.createGain();
+    this.output = this.ctx.createGain();
+    this.output.connect(this.ctx.destination);
   }
 
   /**
@@ -68,18 +73,39 @@ class p5soundNode {
 
   connect(destination) {
     if(typeof destination.getNode === 'function') {
-      this.node.connect(destination.getNode());
+      this.output.connect(destination.getNode());
     } else {
-      this.node.connect(destination);
+      this.output.connect(destination);
+    }
+  }
+
+  setInput(source) {
+    if (typeof source.getNode === 'function') {
+      source.connect(this.input)
+      console.log('firstcase')
+      return;
+    }
+
+    if (typeof source.connect === 'function' && typeof source.output !== 'undefined') {
+      source.connect(this.input);   // route Tone's output into our input
+      console.log('secondcase')
+      return;
+    } 
+
+    // Case 3: Raw Web Audio AudioNode — connect directly
+    if (source instanceof AudioNode) {
+      source.connect(this.input);
+      console.log('thirdcase')
+      return;
     }
   }
   
   disconnect() {
-    this.node.disconnect(ToneContext.destination);
+    this.output.disconnect();
   }
 
   getNode() {
-    return this.node;
+    return this.input;
   }
 }
 

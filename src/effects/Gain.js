@@ -52,7 +52,11 @@ import { p5soundNode } from "../core/p5soundNode.js";
 class Gain extends p5soundNode {
   constructor(value = 1) {
     super();
-    this.node = new ToneGain(value).toDestination();
+    this.node = new ToneGain(value)
+    const toneInput  = this.node.input.input ?? this.node.input;
+    const toneOutput = this.node.output.output ?? this.node.output;
+    this.input.connect(toneInput);
+    toneOutput.connect(this.output);
   }
 }
 

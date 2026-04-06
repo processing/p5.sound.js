@@ -6,7 +6,6 @@
 
 import { getAudioContext } from "./Utils";
 import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
-
 /**
  * This is the primary or "base" class for p5.sound.js nodes.
  * 

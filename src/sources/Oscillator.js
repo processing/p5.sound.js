@@ -73,7 +73,6 @@ class Oscillator extends p5soundSource {
       type = f;
       frequency = t;
     }
-    
     this.frequency = frequency;
     this.type = type;
     this.node = new ToneOscillator().connect(this.output);

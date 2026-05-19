@@ -13,7 +13,7 @@ Interactive documentation can be found at [beta.p5js.org/reference/p5.sound](htt
 
 ## Latest Build
 
-- Visit http://p5js.org/download/ for the latest official release of p5.js with the latest p5.sound included.
+- Visit https://github.com/processing/p5.sound.js/releases for the latest official release of p5.js with the latest p5.sound included.
 - The p5.sound.js library [here](https://github.com/processing/p5.sound.js) is updated more frequently, and we occasionally offer new [releases](https://github.com/processing/p5.sound.js/releases) before the release cycle of p5.js.
 
 ## Contribute

@@ -8,9 +8,9 @@ import { getAudioContext } from "./Utils";
 import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
 
 /**
- * This is the primary or "base" class for p5.sound.js nodes.
+ * This is the primary or "base" class for p5.sound.js "nodes."
  * 
- * It allows p5.sound.js audio sources and effects to connect to one another. It also allows you to modify their volumes. 
+ * It allows p5.sound.js audio sources and effects to connect to one another. It also allows you to change how loud they are. 
  * @class p5soundNode
  * @constructor
  */
@@ -34,12 +34,10 @@ class p5soundNode {
    * <div>
    * <code>
    * let osc, lfo;
-   * let cnv;
    * 
    * function setup() {
    *   describe("a sketch that demonstrates amplitude modulation with an LFO and sine tone");
-   *   cnv = createCanvas(100, 100);
-   *   cnv.mousePressed(startSound);
+   *   createCanvas(100, 100);
    *   textAlign(CENTER);
    *   textWrap(WORD);
    *   textSize(10);
@@ -50,7 +48,7 @@ class p5soundNode {
    *   osc.amp(lfo);
    * }
    * 
-   * function startSound() {
+   * function mousePressed() {
    *   lfo.start();
    *   osc.start();
    * }
@@ -68,7 +66,7 @@ class p5soundNode {
    */
   amp(value, p = 0.1) {
     if (typeof value === "object") {
-      value.getNode().connect(this.node.volume);
+      value.connect(this.output.gain);
       return;
     }
     let dbValue = ToneGainToDb(value);
@@ -90,8 +88,7 @@ class p5soundNode {
    * 
    * function setup() {
    *   describe("a sketch that demonstrates how to connect an audio source node to an effect node");
-   *   cnv = createCanvas(100, 100);
-   *   cnv.mousePressed(startSound);
+   *   createCanvas(100, 100);
    *   textAlign(CENTER);
    *   textWrap(WORD);
    *   textSize(10);
@@ -104,7 +101,7 @@ class p5soundNode {
    *   osc.connect(delay);
    * }
    * 
-   * function startSound() {
+   * function mousePressed() {
    *   osc.start();
    * }
    * 
@@ -127,11 +124,52 @@ class p5soundNode {
     }
   }
 
+  /**
+   * Set the input of an effect node. 
+   * 
+   * @method setInput
+   * @for p5soundNode
+   * @param {Object} input The node you would like to use as an input.
+   * @example
+   * <div>
+   * <code>
+   * let osc, delay;
+   * let cnv;
+   * 
+   * function setup() {
+   *   describe("a sketch that demonstrates how to connect an audio source node to an effect node");
+   *   createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   
+   *   osc = new p5.Oscillator('sine');
+   *   delay = new p5.Delay(0.120, 0.65);
+   *   //disconnect the oscillator from the speakers before connecting to the delay effect!
+   *   osc.disconnect();
+   *   //connect the oscillator to the delay effect.
+   *   delay.setInput(osc);
+   * }
+   * 
+   * function mousePressed() {
+   *   osc.start();
+   * }
+   * 
+   * function draw(){
+   *   background(220);
+   *   text('click to play sound', 0, height/2 - 20, 100);
+   *   text('control oscillator frequency with mouseX position', 0, height/2, 100);
+   * 
+   *   let freq = map(mouseX, 0, width, 800, 1600);
+   *   osc.freq(freq);
+   * }
+   * </code>
+   * </div>
+   */
   setInput(source) {
     //for p5 nodes
     if (typeof source.getNode === 'function') {
-      source.connect(this.input)
-      console.log('firstcase')
+      source.connect(this.input);
       return;
     }
     //for tone.js nodes
@@ -142,7 +180,6 @@ class p5soundNode {
     //for web audio nodes
     if (source instanceof AudioNode) {
       source.connect(this.input);
-      console.log('thirdcase')
       return;
     }
   }
@@ -150,9 +187,35 @@ class p5soundNode {
   /**
    * Disconnect an audio node from the main output.
    * 
-   * You may want to disconnect your audio source from the main output before you connect it to another effect. It is used in many of the p5.sound.js examples.
+   * You may want to disconnect your audio node from the main output before you connect it to another effect. It is used in many of the p5.sound.js examples.
    * @method disconnect
    * @for p5soundNode
+   * @example
+   * <div>
+   * <code>
+   * instruction = "click to start"
+   *
+   * function setup() {
+   *   describe("a sketch that demonstrates how to disconnect an audio node from the main output destination");
+   *   createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   osc = new p5.Oscillator('sine');   
+   * }
+   *     
+   * function mousePressed() { 
+   *   osc.start();
+   *   osc.disconnect();
+   *   instruction = "oscillator has started but is disonnected"
+   * }
+   *     
+   * function draw() {
+   *   background(220)
+   *   text(instruction, 0, 10, 100);
+   * }
+   * </code>
+   * </div>
    */
   disconnect() {
     this.output.disconnect();

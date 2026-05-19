@@ -43,8 +43,10 @@ class p5soundNode {
    *   textSize(10);
    *   
    *   osc = new p5.Oscillator('sine');
+   *   // an LFO stands for 'Low Frequency Oscillator,' they are used often in sound synthesis to create control signals for audio parameters. In the line below, we create an LFO by initializing a slowly moving oscillator which we will use to control the amplitude (or volume) of another sound source.
    *   lfo = new p5.Oscillator(1);
    *   lfo.disconnect();
+   *   //comment out the line below to only adjust the source sound amplitude with mouse movements.
    *   osc.amp(lfo);
    * }
    * 
@@ -76,7 +78,7 @@ class p5soundNode {
   /**
    * Connects audio nodes together.  
    * 
-   * You can connect a node to multiple destinations simultaneously by calling this method multiple times.
+   * You can connect a node to multiple destinations simultaneously by calling this method multiple times on additional destination nodes.
    * @method connect
    * @for p5soundNode
    * @param {Object} destination The node you would like to connect to.

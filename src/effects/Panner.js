@@ -13,6 +13,7 @@ import { p5soundNode } from "../core/p5soundNode.js";
  * @class Panner
  * @constructor
  * @extends p5soundNode
+ * @param {Number} [panAmount] defaults to 0, accepts values between -1 and 1 representing the pan position of the sound source between the left and right speaker channels.
  * @example
  * <div>
  * <code>
@@ -23,33 +24,25 @@ import { p5soundNode } from "../core/p5soundNode.js";
  * }
  * 
  * function setup() {
- *   cnv = createCanvas(100, 100);
+ *   createCanvas(100, 100);
+ *   describe("a sketch that pans a sound source to the left speaker channel")
  *   background(220);
- *   cnv.mousePressed(startSound);
- *   
- *   panner = new p5.Panner();
- *   lfo = new p5.Oscillator(1);
- *   //disconnect lfo from speakers because we don't want to hear it!
- *   lfo.disconnect();
- *   panner.pan(lfo);
- * 
+ *   panner = new p5.Panner(-1);
  *   soundfile.loop();
  *   soundfile.disconnect();
  *   soundfile.connect(panner);
- *   
  * }
  * 
- * function startSound() {
- *   lfo.start();
+ * function mousePressed() {
  *   soundfile.start();
  * }
  * </code>
  * </div>
  */
 class Panner extends p5soundNode {
-  constructor() {
+  constructor(amount = 0) {
     super();
-    this.node = new TonePanner(0)
+    this.node = new TonePanner(amount);
     const toneInput  = this.node.input.input ?? this.node.input;
     const toneOutput = this.node.output.output ?? this.node.output;
     this.input.connect(toneInput);
@@ -61,6 +54,38 @@ class Panner extends p5soundNode {
    * @method pan
    * @for Panner
    * @param {Number, Object} panAmount Sets the pan position of the sound source. Can be a value between -1 and 1 or an audio rate signal such as an LFO.
+   * @example
+   * <div>
+   * <code>
+   * let panner, lfo, soundfile, cnv;
+   * 
+   * function preload() {
+   *   soundfile = loadSound('/assets/beat.mp3');
+   * }
+   * 
+   * function setup() {
+   *   createCanvas(100, 100);
+   *   describe("a sketch that pans a sound source between the left and right speaker channels");
+   *   background(220);
+   *   panner = new p5.Panner();
+   *   lfo = new p5.Oscillator(1);
+   *   //disconnect lfo from speakers because we don't want to hear it!
+   *   lfo.disconnect();
+   * 
+   *   //connect the panner to an LFO to control the panning effect
+   *   panner.pan(lfo);
+   * 
+   *   soundfile.loop();
+   *   soundfile.disconnect();
+   *   soundfile.connect(panner);
+   * }
+   * 
+   * function mousePressed() {
+   *   lfo.start();
+   *   soundfile.start();
+   * }
+   * </code>
+   * </div>
    */
   pan(amount) {
     if (typeof amount === "object") {

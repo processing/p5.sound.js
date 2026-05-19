@@ -47,6 +47,7 @@ import { p5soundSource } from "../core/p5soundSource";
  *  </code></div>
  */
 function loadSound (path) {
+  if (typeof path === 'string') path = encodeURI(path);
   if(self._incrementPreload && self._decrementPreload){
     self._incrementPreload();
     let player = new p5.SoundFile(
@@ -136,7 +137,7 @@ class SoundFile extends p5soundSource {
   }
 
   /**
-   * Start the soundfile.
+   * Start the soundfile. Same as the start() method.
    * @method play
    * @for SoundFile
    */

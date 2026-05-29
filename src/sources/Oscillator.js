@@ -6,6 +6,8 @@
 import { p5soundSource } from "../core/p5soundSource.js";
 import { Oscillator as ToneOscillator } from "tone/build/esm/source/oscillator/Oscillator.js";
 import { clamp } from "../core/Utils.js";
+import { Frequency } from "tone/build/esm/core/type/Frequency.js";
+
 
 /** 
  * Generates a consistent tone, sometimes referred to as a pitch.
@@ -59,21 +61,32 @@ import { clamp } from "../core/Utils.js";
  * </code> 
  * </div>
  */
+
+
+// new p5.Osillator(400, "triangle")
+// new p5.Oscillator("triangle", 400)
+//act as enum
+
+//if one of inputs is a number we know the other is a type
+//if on of the types is a string like"sawtooth" the other is the frequency
+//
+//assume first is frequency
+//string in list of types ['sine', 'sawtooth', 'square', 'triangle']
 class Oscillator extends p5soundSource {
   constructor(frequency = 440, type = "sine") {
     super();
-    if (typeof frequency === "string" && typeof type === "string") {
-      let f = frequency;
-      frequency = 440;
-      type = f;
-    }
-    if (typeof frequency === "string" && typeof type === "number") {
-      let t = type;
-      let f = frequency;
-      type = f;
-      frequency = t;
-    }
-    
+    // if (typeof frequency === "string" && typeof type === "string") {
+    //   let f = frequency;
+    //   frequency = 440;
+    //   type = f;
+    // }
+    // if (typeof frequency === "string" && typeof type === "number") {
+    //   let t = type;
+    //   let f = frequency;
+    //   type = f;
+    //   frequency = t;
+    // }
+    // if (typeof type == number)
     this.frequency = frequency;
     this.type = type;
     this.node = new ToneOscillator().connect(this.output);
@@ -85,7 +98,7 @@ class Oscillator extends p5soundSource {
   /**
    * Adjusts the frequency of the oscillator.
    * 
-   * Frequency is measured int Hertz (Hz) and determines the amount of cycles a waveform (square, sawtooth, etc...) will repeat in a second. The amount of repetitions will result in a change in perceived 'pitch.' You can lookup corresponding frequency values for 'notes' if you would like to play a scale. For example, 'middle C' on the keyboard has a frequency of 261.63 Hz.
+   * Frequency is measured int Hertz (Hz) and determines the amount of cycles a waveform (square, sawtooth, etc...) will repeat in a second. The amount of repetitions results in a change of perceived 'pitch.' You can lookup corresponding frequency values for 'notes' if you would like to play a scale. For example, 'middle C' on the keyboard has a frequency of 261.63 Hz. You can also use note names such as C4, D4, C#4 (for octaves in range of -4 to 11).  
    * @method freq
    * @for Oscillator
    * @param {Number} frequency frequency of the oscillator in Hz (cycles per second). used to change 'pitch' or 'notes.'
@@ -97,17 +110,31 @@ class Oscillator extends p5soundSource {
    * </code>
    * </div>
    */
-  freq(f, p = 0) {
-    this.node.frequency.rampTo(clamp(f, 0, 24000), p);
+  freq(f, rampTime = 0) {
+    if (typeof f === "number") {
+      this.node.frequency.rampTo(clamp(f, 0, 24000), rampTime);
+    }
+    else if (typeof f === "string") {
+      let hz = clamp(Frequency(f).toFrequency(), 0, 24000);
+      this.node.frequency.rampTo(hz, rampTime);
+    }
+    else {
+      console.warn("Oscillator.freq(): argument must be a number (Hz) or a note name string (e.g. 'C4')");
+      return;
+    }
   }
 
   /**
    * Adjusts the phase of the oscillator. Effectively, this changes the starting point of waveform.
    * 
-   * You might want to adjust the phase of an oscillator in more advanced sound design tasks when layering multiple oscillators to produce a particular instrument or timbre.
+   * You might want to adjust the phase of an oscillator in more advanced sound design scenarios when layering multiple oscillators at different offsets to produce a particular instrument or timbre.
    * @method phase
    * @for Oscillator
-   * @param {Number} phase phase of the oscillator in degrees (0-360). 
+   * @param {Number} phase phase of the oscillator in degrees (0-360).
+   * @example
+   * <div>
+   * <code>
+   * 
    */
   phase(p) {
     this.node.phase = p;
@@ -120,6 +147,36 @@ class Oscillator extends p5soundSource {
    * @param {String} type type of the oscillator. Options:
    *                 'sine' (default), 'triangle',
    *                 'sawtooth', 'square'
+   * @example
+   * <div>
+   * <code>
+   * let waveShapes = ['sine', 'sawtooth', 'square', 'triangle'];
+   * let currentWaveShape;
+   *  
+   * function setup() {
+   *   createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   currentWaveShape = random(waveShapes)
+   *   osc = new p5.Oscillator(currentWaveShape);
+   *   //create an envelope to stop the oscillator after a second or so. 
+   *   env = new p5.Envelope(0.01, 0.1, 0.45, 0.5);
+   *   osc.disconnect();
+   *   osc.connect(env);
+   * }
+   *  
+   * function mousePressed() {
+   *   osc.start();
+   *   env.play();
+   *   currentWaveShape = random(waveShapes);
+   *   osc.setType(currentWaveShape);
+   * }
+   *  
+   * function draw() {
+   *   background(220);
+   *   text('tap to play', width/2, 20);
+   *   let txt = 'type: ' + currentWaveShape;
+   *   text(txt, width/2, 40);
+   * }
    */
   setType(t) {
     this.node.type = t;
@@ -132,6 +189,28 @@ class Oscillator extends p5soundSource {
  * @constructor
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
+ * * @example
+ * <div>
+ * <code>
+ * function setup() {
+ *   describe("a sketch that creates an oscillator with a sawtooth wave shape");
+ *   createCanvas(100, 100);
+ *   textAlign(CENTER);
+ *   textWrap(WORD);
+ *   textSize(10);
+ *   osc = new p5.SinOsc;
+ * }
+ * 
+ * function mousePressed() {
+ *   osc.start();
+ * }
+ * 
+ * function draw(){
+ *   background(220);
+ *   text('click to hear a sawtooth wave shape', 0, 10, 100);
+ * }
+ * </code>
+ * </div>
  */
 class SawOsc extends Oscillator {
   constructor(frequency) {
@@ -146,6 +225,28 @@ class SawOsc extends Oscillator {
  * @constructor
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
+ * * @example
+ * <div>
+ * <code>
+ * function setup() {
+ *   describe("a sketch that creates an oscillator with a square wave shape");
+ *   createCanvas(100, 100);
+ *   textAlign(CENTER);
+ *   textWrap(WORD);
+ *   textSize(10);
+ *   osc = new p5.SqrOsc(440);
+ * }
+ * 
+ * function mousePressed() {
+ *   osc.start();
+ * }
+ * 
+ * function draw(){
+ *   background(220);
+ *   text('click to hear a square wave shape', 0, 10, 100);
+ * }
+ * </code>
+ * </div>
  */
 class SqrOsc extends Oscillator {
   constructor(frequency) {
@@ -160,6 +261,28 @@ class SqrOsc extends Oscillator {
  * @constructor
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
+ * * @example
+ * <div>
+ * <code>
+ * function setup() {
+ *   describe("a sketch that creates an oscillator with a triangle wave shape");
+ *   createCanvas(100, 100);
+ *   textAlign(CENTER);
+ *   textWrap(WORD);
+ *   textSize(10);
+ *   osc = new p5.TriOsc(440);
+ * }
+ * 
+ * function mousePressed() {
+ *   osc.start();
+ * }
+ * 
+ * function draw(){
+ *   background(220);
+ *   text('click to hear a triangle wave shape', 0, 10, 100);
+ * }
+ * </code>
+ * </div>
  */
 class TriOsc extends Oscillator {
   constructor(frequency) {
@@ -174,6 +297,28 @@ class TriOsc extends Oscillator {
  * @constructor
  * @extends Oscillator
  * @param {Number} [freq] Set the frequency
+ * @example
+ * <div>
+ * <code>
+ * function setup() {
+ *   describe("a sketch that creates an oscillator with a sine wave shape");
+ *   createCanvas(100, 100);
+ *   textAlign(CENTER);
+ *   textWrap(WORD);
+ *   textSize(10);
+ *   osc = new p5.SinOsc;
+ * }
+ * 
+ * function mousePressed() {
+ *   osc.start();
+ * }
+ * 
+ * function draw(){
+ *   background(220);
+ *   text('click to hear a sinusoidal wave shape', 0, 10, 100);
+ * }
+ * </code>
+ * </div>
  */
 class SinOsc extends Oscillator {
   constructor(frequency) {

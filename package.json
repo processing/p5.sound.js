@@ -4,7 +4,9 @@
   "description": "p5.sound is a minimal wrapper for Tone.js designed to extend the musical and audio capabilities of the p5.js core library.",
   "scripts": {
     "build": "rollup -c",
-    "test:integration": "npx playwright test"
+    "test:integration:chromium-only": "npx playwright test test-examples-on-web-editor --project=chromium",
+    "test:integration": "npx playwright test test-examples-on-web-editor",
+    "test:integration:ui": "npx playwright test test-examples-on-web-editor --ui"
   },
   "keywords": [
     "p5.js",

@@ -2,7 +2,7 @@
 
 See also: [about-playwright.md](./about-playwright.md)
 
-`tests/integration/test-examples-on-web-editor.spec.js` is a Playwright spec that smoke-tests a list of p5.sound example sketches on the p5 web editor, looking for console errors and uncaught exceptions, against (currently) chromium and firefox browsers.
+`tests/integration/test-examples-on-web-editor.spec.js` is a Playwright spec that smoke-tests a list of p5.sound example sketches on the p5 web editor, looking for console errors and uncaught exceptions. It currently runs against Chromium and Firefox (see [Browsers](#browsers)).
 
 ## Where are the sketches?
 

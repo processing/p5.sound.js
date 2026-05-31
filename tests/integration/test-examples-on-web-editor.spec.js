@@ -82,22 +82,6 @@ const SKETCHES = [
 ];
 
 /**
- * Console-error texts we deliberately ignore — these are artifacts of running
- * sketches in an automated browser, not real sketch/library failures:
- *
- * - 404s: the p5 editor prefetches URLs without a trailing slash, producing a
- *   benign 404.
- * - AudioContext autoplay: even with autoplay enabled (see BROWSER_SETUP), a
- *   sketch that starts audio before our canvas-click gesture can still log this
- *   once; it reflects the headless environment, not the sketch.
- * @type {RegExp[]}
- */
-const IGNORED_CONSOLE_PATTERNS = [
-  /Failed to load resource: the server responded with a status of 404/,
-  /The AudioContext was not allowed to start/,
-];
-
-/**
  * How long to let the editor settle after load before pressing Play, so the
  * editor↔preview-sandbox postMessage channel is established first.
  */
@@ -229,7 +213,8 @@ for (const sketch of SKETCHES) {
 
 /**
  * Attaches console + pageerror listeners and returns the live array they push
- * into. Ignored patterns are filtered out at capture time.
+ * into. We record *every* console error and uncaught exceptionObserved healthy 
+ * sketches produce no console errors at all.
  * @param {Page} page
  * @returns {CapturedError[]}
  */
@@ -239,9 +224,7 @@ function trackErrors(page) {
 
   page.on("console", (/** @type {ConsoleMessage} */ msg) => {
     if (msg.type() !== "error") return;
-    const text = msg.text();
-    if (IGNORED_CONSOLE_PATTERNS.some((re) => re.test(text))) return;
-    errors.push({ kind: "console", text, url: page.url() });
+    errors.push({ kind: "console", text: msg.text(), url: page.url() });
   });
 
   page.on("pageerror", (/** @type {Error} */ err) => {

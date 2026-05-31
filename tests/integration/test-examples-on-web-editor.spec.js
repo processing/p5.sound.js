@@ -127,6 +127,10 @@ const BROWSER_SETUP = {
         "media.autoplay.default": 0,
         "media.autoplay.blocking_policy": 0,
         "media.autoplay.block-webaudio": false,
+        // Mute output: headless Firefox routes audio to the real device (unlike
+        // headless Chromium's null sink), so the test run is otherwise audible.
+        // Web Audio still runs, so errors still surface — we just silence it.
+        "media.volume_scale": "0.0",
       },
     },
   },

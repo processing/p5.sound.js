@@ -23,8 +23,6 @@ The suite is cross-browser. Each browser needs a *different* mechanism to (a) al
 
 Run all (supported) browsers with `npm run test:integration`, or just Chromium with `npm run test:integration:chromium-only`. (Native permission prompts are browser chrome and can't be clicked by Playwright, which is why the prompt is bypassed at the config level rather than clicked.)
 
-Note: under headless **Firefox** the sketches are **audible** (audio routes to the real output device); headless **Chromium** is silent (null audio backend). This is expected, not a bug.
-
 ## Difficulties in testing on the web editor
 
 - The preview is **two iframes deep** (`iframe[title="sketch preview"]` → a `blob:` child iframe → `#defaultCanvas0`).
@@ -33,4 +31,4 @@ Note: under headless **Firefox** the sketches are **audible** (audio routes to t
 - The click itself, however, requires the canvas to become **`visible`** — and we deliberately do **not** force it. If the canvas attaches but never becomes clickable, or never attaches at all, the test fails with an explicit message rather than silently skipping the interaction:
   - `Expected to click the canvas but it never became visible`
   - `Sketch never rendered a canvas (preview stayed empty)`
-- Because the tests run against the live editor and live example code, the pass/fail set reflects the current state of those sketches and that external platform, not this repo.
+- Because the tests run against the live editor and live example code, the pass/fail set reflects the current state of those sketches and that external platform, not only the p5.sound library they're linked against.

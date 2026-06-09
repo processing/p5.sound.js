@@ -224,7 +224,8 @@ class p5soundNode {
   }
 
   /**
-   * A private function that is called when an audio source tries to connect to this node.  
+   * A private function that is called when an audio source tries to connect to this node. Called internally by the connect() method. 
+   * @private
    * @method getNode
    * @for p5soundNode
    */

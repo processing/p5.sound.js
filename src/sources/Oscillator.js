@@ -75,18 +75,20 @@ import { Frequency } from "tone/build/esm/core/type/Frequency.js";
 class Oscillator extends p5soundSource {
   constructor(frequency = 440, type = "sine") {
     super();
-    // if (typeof frequency === "string" && typeof type === "string") {
-    //   let f = frequency;
-    //   frequency = 440;
-    //   type = f;
-    // }
-    // if (typeof frequency === "string" && typeof type === "number") {
-    //   let t = type;
-    //   let f = frequency;
-    //   type = f;
-    //   frequency = t;
-    // }
-    // if (typeof type == number)
+    let tempType;
+    let tempFrequency;
+    if (["sine", "triangle", "sawtooth", "square"].includes(frequency)) {
+      tempType = frequency;
+      if (!["sine", "triangle", "sawtooth", "square"].includes(type)) {
+        tempFrequency = type;
+      }
+      else {
+        tempFrequency = 440;
+      }
+      type = tempType;
+      frequency = tempFrequency;
+    }
+    
     this.frequency = frequency;
     this.type = type;
     this.node = new ToneOscillator().connect(this.output);

@@ -1,11 +1,9 @@
 let verb, filter;
 let soundFile;
 
-function preload() {
-  soundFile = loadSound('assets/chime.mp3')
-}
-function setup(){
+async function setup(){
   let cnv = createCanvas(400,400);
+  soundFile = await loadSound('assets/chime.mp3')
   cnv.mouseClicked(togglePlay);
   filter = new p5.Biquad(800, 'lowpass');
   filter.res(18);

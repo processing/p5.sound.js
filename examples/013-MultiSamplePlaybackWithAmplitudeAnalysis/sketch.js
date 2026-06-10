@@ -26,17 +26,19 @@ let paths = [
 ];
 let counter = 0;
 
-function preload() {
-  //creates a sound file player "foreach" path
-  paths.forEach((path) => {
-    let sound = loadSound(path);
+async function loadAllSounds() {
+  //creates a sound file player for each path
+  //(Alternatively could use Promise.all for quicker parallel file loading)
+  for (let path of paths){
+    let sound = await loadSound(path);
     //push soundfile players into array called samples
     samples.push(sound);
-  });
+  }
 }
 
-function setup() {
+async function setup() {
   cnv = createCanvas(400, 400);
+  await loadAllSounds();
   background(0, 0, 255);
   cnv.mousePressed(startSound);
   textAlign(CENTER);

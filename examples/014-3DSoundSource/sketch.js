@@ -11,15 +11,12 @@ let vX;
 let vY;
 let vZ;
 
-function preload() {
-  soundSource = loadSound("https://tonejs.github.io/audio/berklee/gong_1.mp3");
-}
-
-function setup() {
+async function setup() {
   describe(
     "A 3D shape with a sound source attached to it. The sound source is spatialized using the Panner3D class. Click to play the sound."
   );
   cnv = createCanvas(100, 100, WEBGL);
+  soundSource = await loadSound("https://tonejs.github.io/audio/berklee/gong_1.mp3");
   cnv.mousePressed(playSound);
 
   camera(0, 0, 0, 0, 0, 1);

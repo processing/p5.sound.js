@@ -33,50 +33,56 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
-  /* Configure projects for major browsers */
+  /*
+   * Two example smoke suites, each run on the browsers we have headless
+   * audio/mic setup for (chromium & firefox; webkit is not investigated):
+   *
+   *   web-*   -> test-examples-on-web-editor.spec.js
+   *              tests the published examples collection on editor.p5js.org (what users see)
+   *   local-* -> test-examples-local.spec.js
+   *              tests the repo's examples/ against the freshly built dist/,
+   *              served by the webServer below (deterministic, offline)
+   *
+   * `testMatch` binds each spec to its projects so the two never cross over.
+   * The local-* projects set baseURL to the local http-server.
+   */
   projects: [
     {
-      name: 'chromium',
+      name: 'web-chromium',
+      testMatch: 'test-examples-on-web-editor.spec.js',
       use: { ...devices['Desktop Chrome'] },
     },
-
     {
-      name: 'firefox',
+      name: 'web-firefox',
+      testMatch: 'test-examples-on-web-editor.spec.js',
       use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'local-chromium',
+      testMatch: 'test-examples-local.spec.js',
+      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:5050/' },
+    },
+    {
+      name: 'local-firefox',
+      testMatch: 'test-examples-local.spec.js',
+      use: { ...devices['Desktop Firefox'], baseURL: 'http://localhost:5050/' },
     },
 
     //We haven't investigated setting up mic+camera permissions and auto-start of audio context on safari
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    // webkit (Desktop Safari) is intentionally omitted.
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  /*
+   * Static server for the local-examples suite. Serves the repo root so that
+   * each example's index.html and its ../../dist/p5.sound.js resolve. -c-1
+   * disables caching so a fresh `npm run build` is always picked up.
+   * Harmless (just idles) when only the web-* projects run.
+   */
+  webServer: {
+    command: 'npx http-server . -p 5050 -c-1 --silent',
+    url: 'http://localhost:5050/examples/',
+    reuseExistingServer: !process.env.CI,
+    timeout: 30_000,
+  },
 });
 

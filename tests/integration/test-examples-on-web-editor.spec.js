@@ -1,5 +1,5 @@
 //@ts-check
-import { test as testOriginal, expect } from "@playwright/test";
+import { test, expect, BROWSER_SETUP } from "./lib/browser-setup.js";
 
 /**
  * Smoke-tests every sketch in the p5.sound examples collection on the p5 web
@@ -47,14 +47,6 @@ import { test as testOriginal, expect } from "@playwright/test";
  * @property {string} url Direct URL to the sketch on the p5 web editor.
  */
 
-/**
- * The launch/context setup one browser needs to run audio + getUserMedia sketches
- * headlessly without prompts or gesture gating.
- * @typedef {Object} BrowserSetup
- * @property {string[]} permissions Context permissions to grant up front.
- * @property {import("@playwright/test").LaunchOptions} launchOptions
- */
-
 /** @type {Sketch[]} */
 const SKETCHES = [
   { name: "001-Oscillator-FrequencyAmplitude", url: "https://editor.p5js.org/thomasjohnmartinez/sketches/z-KkeTrcu" },
@@ -99,59 +91,9 @@ const MAX_WAIT_FOR_VISIBLE_CANVAS_MS = 5_000;
 /** Max time (ms) for a single canvas click attempt. */
 const CANVAS_CLICK_TIMEOUT_MS = 5_000;
 
-/**
- * Configs for per-browser setup. The keys are the browsers this spec runs on; a browser not
- * listed here (e.g. webkit) is skipped. 
- * Each browser needs a different mechanism to: 
- * (a) satisfy granting getUserMedia  (camera&microphone access) without a prompt and
- * (b) let audio start without a user gesture.
- * @type {Record<string, BrowserSetup>}
- */
-const BROWSER_SETUP = {
-  chromium: {
-    // Grant mic/camera so getUserMedia() resolves without a native prompt.
-    permissions: ["microphone", "camera"],
-    // --autoplay-policy lets audio start without a user gesture.
-    launchOptions: { args: ["--autoplay-policy=no-user-gesture-required"] },
-  },
-  firefox: {
-    // Firefox rejects the "microphone"/"camera" permission names; instead we
-    // feed a fake device and disable the prompt (see firefoxUserPrefs below).
-    permissions: [],
-    launchOptions: {
-      firefoxUserPrefs: {
-        // Fake media device + no prompt, in place of granting permissions.
-        "media.navigator.streams.fake": true,
-        "media.navigator.permission.disabled": true,
-        // Allow autoplay (incl. WebAudio), in place of the autoplay launch flag.
-        "media.autoplay.default": 0,
-        "media.autoplay.blocking_policy": 0,
-        "media.autoplay.block-webaudio": false,
-        // Mute output: headless Firefox routes audio to the real device (unlike
-        // headless Chromium's null sink), so the test run is otherwise audible.
-        // Web Audio still runs, so errors still surface — we just silence it.
-        "media.volume_scale": "0.0",
-      },
-    },
-  },
-};
-
-//Modify the test function to automatically apply permissions and launchOptions appropriate to the 
-// specific browser being ued.
-// Apply only the current browser's setup. 
-// * launchOptions is worker-scoped (the browser launches once per worker); 
-// * permissions is a per-test context option.
-const test = testOriginal.extend({
-  launchOptions: [
-    async ({ browserName, launchOptions }, use) => {
-      await use({ ...launchOptions, ...(BROWSER_SETUP[browserName]?.launchOptions ?? {}) });
-    },
-    { scope: "worker" },
-  ],
-  permissions: async ({ browserName }, use) => {
-    await use(BROWSER_SETUP[browserName]?.permissions ?? []);
-  },
-});
+// The important overridden `test` function (with per-browser audio/mic setup), `expect`, and 
+// BROWSER_SETUP come from ./lib/browser-setup.js — the only code shared with the local-examples
+// suite. BROWSER_SETUP is also used below to skip browsers we have no setup for.
 
 // Test setup for ALL browser types.
 // A wide viewport keeps the editor's preview pane from collapsing

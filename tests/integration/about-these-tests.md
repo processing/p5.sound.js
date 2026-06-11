@@ -11,6 +11,24 @@ Neither is "the real one" - they answer different questions. The web suite can d
 
 The two specs are intentionally kept **separate and simple** rather than sharing a procedure: run locally there are no iframes, no Play button, no settle race, no cookie banner and no Stop button, so the local spec is much shorter. The only shared code is the per-browser audio/mic setup in [`lib/browser-setup.js`](./lib/browser-setup.js) - identical, non-obvious, and easy to get subtly wrong, so it lives in one place.
 
+## Setup (first time)
+
+```bash
+npm install            # installs packages, including @playwright/test and http-server
+npx playwright install # downloads the browser binaries Playwright drives
+```
+
+Or if you really need to save disk space, you might be able to change that second command to
+```bash
+npx playwright install chromium firefox
+```
+
+These are two separate steps because they install different things: `npm install` populates `node_modules` whereas `npx playwright install` downloads the browser binaries separately into a machine-global cache (`~/Library/Caches/ms-playwright` on macOS).  If you've previously run `npx playwright install` for any other Playwright project it may not need to do anything.
+
+Note `npx playwright install` installs the various browsers Playwright ships (Chromium, Firefox, WebKit, FFmpeg) even though we don't currently make use of them all.  (On macOS 14 you may see a "frozen WebKit" warning - that's harmless here, since the suite currently skips WebKit.)
+
+The local examples also need a built `dist/`.  The relevant `test:integration:*` npm scripts first run `npm run build` for you so that you're always testing the latest local code on your branch.
+
 ## Where are the sketches?
 
 - **web editor suite:** the list of sketch URLs is a literal array (`SKETCHES`) in the spec, extracted once from the [collection](https://editor.p5js.org/thomasjohnmartinez/collections/Dp0zGclVL). The test does not re-scrape at runtime, so it is deterministic. Re-extract and update the list when the collection changes.

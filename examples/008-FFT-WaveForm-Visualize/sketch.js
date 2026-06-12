@@ -1,4 +1,4 @@
-let osc;
+let fft, osc;
 
 
 function setup(){

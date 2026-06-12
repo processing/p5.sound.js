@@ -1,4 +1,4 @@
-let osc, reverb;
+let osc;
 let playing = false;
 
 function setup() {
@@ -6,7 +6,7 @@ function setup() {
   background(220);
   cnv.mousePressed(playSound);
   osc = new p5.Oscillator();
-  reverb = new p5.Reverb();
+  let reverb = new p5.Reverb();
   osc.disconnect();
   osc.connect(reverb);
   textAlign(CENTER);

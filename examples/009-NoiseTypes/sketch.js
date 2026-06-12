@@ -1,23 +1,22 @@
-let noise, env, cnv;
+let noiseGen, env;
 let types = ['white', 'pink', 'brown'];
 let noiseType = 'brown';
  
 function setup() {
-  cnv = createCanvas(100, 100);
+  let cnv = createCanvas(100, 100);
   textAlign(CENTER);
   cnv.mousePressed(startSound);
-  noise = new p5.Noise(noiseType);
+  noiseGen = new p5.Noise(noiseType);
   env = new p5.Envelope(0.01, 0.1, 0.45, 0.5);
-  noise.disconnect();
-  noise.connect(env);
-  
+  noiseGen.disconnect();
+  noiseGen.connect(env);
 }
  
 function startSound() {
   noiseType = random(types);
-  noise.type(noiseType);
-  noise.amp(0.2);
-  noise.start();
+  noiseGen.type(noiseType);
+  noiseGen.amp(0.2);
+  noiseGen.start();
   env.play();
 }
  

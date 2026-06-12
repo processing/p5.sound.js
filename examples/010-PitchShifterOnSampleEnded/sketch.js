@@ -1,9 +1,9 @@
-let cnv, soundFile, pitchShifter;
+let soundFile, pitchShifter;
 let shifts = [-1, 1, 2, -2, 8, 4];
  
 async function setup() {
   describe('a sketch that loops a sample of a guitar note, each time the note is played the pitch is shifted');
-  cnv = createCanvas(100, 100);
+  let cnv = createCanvas(100, 100);
   soundFile = await loadSound('assets/gtrSample.mp3');
   cnv.mousePressed(startSound);
   background(220);

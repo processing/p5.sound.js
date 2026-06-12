@@ -1,5 +1,3 @@
-let osc;
-let env;
 let noiseGen;
 let lowPass;
 

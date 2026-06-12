@@ -1,5 +1,5 @@
-let osc, osc2, os3, delay, env, ampy, started = false;
-let lfo1, lfo2, lfo3;
+let  ampy, delay, env, lfo1, lfo2, lfo3, osc, osc2, osc3;
+let started = false;
 function setup() {
   let cnv = createCanvas(400, 400);
   background(220);

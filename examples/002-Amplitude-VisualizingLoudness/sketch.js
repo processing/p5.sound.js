@@ -1,12 +1,14 @@
+let sound;
+let amp;
+
 async function setup() {
-  sound = loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
+  sound = await loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
   createCanvas(400, 400);
   textAlign(CENTER);
   fill(255);
 
   amp = new p5.Amplitude();
   sound.connect(amp);
-
   describe('The color of the background changes based on the amplitude of the sound.');
 }
  

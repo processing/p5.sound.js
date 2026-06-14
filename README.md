@@ -4,7 +4,8 @@ p5.sound.js extends the musical and sonic capabilities of [p5.js](https://p5js.o
 
 ## Examples
 
-- p5.sound example on p5.js editor [here](https://editor.p5js.org/thomasjohnmartinez/collections/Dp0zGclVL)
+- A set of p5.sound examples are in this repo at [examples/](examples/)
+- The original examples can be found on the p5.js web editor [here](https://editor.p5js.org/thomasjohnmartinez/collections/Dp0zGclVL).  Note that these may differ from the above set.
 - Legacy p5.js Sound Tutorial by Dan Shiffman on [YouTube](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aFcVjlDAkkGIixw70s7jpW)
 
 ## Documentation
@@ -76,3 +77,32 @@ building reference pages (optional)
 ```
 npx yuidoc .
 ```
+
+## Testing the examples
+
+The library is configured to use [Playwright](https://playwright.dev/) to automatically test the [local](./examples) and [web-editor-hosted](https://editor.p5js.org/thomasjohnmartinez/collections/Dp0zGclVL) sets of p5.sound.js examples by automatically controlling a browser (firefox or chromium).
+
+If you haven't used Playwright on your system before, you'll have to run the following command _once_ to allow it to download the browsers it uses:
+
+### Setting up playwright
+```bash
+npx playwright install
+```
+
+### Starting the tests
+1. Launch playwright's test-runner UI: 
+```bash
+npm run test:integration:ui
+```
+
+2. Choose example set(s) and browser(s)
+From the GUI, click "projects" and choose which examples ("web-" and/or "local-") and which browsers ("chromium" and/or "firefox") you wish to test.
+
+3. Run the tests!
+click the green play button at the top of the list of tests.
+
+If a test fails, you can inspect its console log, the test actions, and even screenshots of what it looked like while it was running.
+
+There are also various other ways to run the tests automatically without any interaction.  
+
+For more information, read [tests/integration/about-these-tests.md](tests/integration/about-these-tests.md)

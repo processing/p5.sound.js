@@ -7,8 +7,6 @@
 import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone/build/esm/core/Global.js";
 import { start as ToneStart } from "tone/build/esm/core/Global.js";
 
-let audioContext = null;
-
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
@@ -19,11 +17,10 @@ function clamp(value, min, max) {
  *  @return {AudioContext} the audio context
  */
 function getAudioContext() {
-    if (!audioContext) {
-        audioContext = new window.AudioContext();
-        ToneSetContext(audioContext);
-    }
-    return audioContext;
+    // Return the AudioContext that Tone.js owns rather than creating our own.
+    // Tone wraps its context with standardized-audio-context, which polyfills
+    // the Web Audio gaps Firefox and Safari have.
+    return ToneGetContext().rawContext;
 }
 
 /**
@@ -32,7 +29,7 @@ function getAudioContext() {
  *  @param {AudioContext} the desired AudioContext.
  */
 function setAudioContext(context) {
-    audioContext = context;
+    // Hand the supplied context to Tone; getAudioContext() then reflects it.
     ToneSetContext(context);
 }
 
@@ -49,8 +46,7 @@ function userStartAudio() {
  *  @function userStopAudio
  */
 function userStopAudio() {
-    const context = audioContext || ToneGetContext();
-    context.suspend();
+    getAudioContext().suspend();
 }
 
 export { clamp, getAudioContext, setAudioContext, userStartAudio, userStopAudio };

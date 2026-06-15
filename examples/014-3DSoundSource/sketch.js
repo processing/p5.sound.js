@@ -1,7 +1,5 @@
 let radius = 10;
 let soundSource, spatializer;
-let font;
-let cnv;
 
 let x = 0;
 let y = 0;
@@ -15,7 +13,7 @@ async function setup() {
   describe(
     "A 3D shape with a sound source attached to it. The sound source is spatialized using the Panner3D class. Click to play the sound."
   );
-  cnv = createCanvas(100, 100, WEBGL);
+  let cnv = createCanvas(100, 100, WEBGL);
   soundSource = await loadSound("https://tonejs.github.io/audio/berklee/gong_1.mp3");
   cnv.mousePressed(playSound);
 

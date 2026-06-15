@@ -1,4 +1,5 @@
-let osc, env;
+let noiseGen;
+let lowPass;
 
 function setup() {
   let cnv = createCanvas(100, 100);
@@ -14,27 +15,25 @@ function setup() {
   lowPass = new p5.Biquad();
   lowPass.res = 79;
   
-  noise = new p5.Noise('white');
-  noise.disconnect();
-  noise.connect(lowPass)
+  noiseGen = new p5.Noise('white');
+  noiseGen.disconnect();
+  noiseGen.connect(lowPass)
 }
 
 function draw(){
-  cutoff = map(mouseY, height, 0, 300, 20000)
+  let cutoff = map(mouseY, height, 0, 300, 20000)
   //pitch = map(mouseX, 0, width, 90, 2000)
   lowPass.freq(cutoff) 
 }
 
 function playSound() {
-  noise.start()
+  noiseGen.start()
   background(0, 255, 255);
   text('release to stop noise', 0, 40, 100);
-  
 }
 
 function stopSound() {
   background(220);
-  noise.stop()
+  noiseGen.stop()
   text('tap to start noise', 0, 40, 100);
-  
 }

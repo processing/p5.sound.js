@@ -37,6 +37,6 @@ function startMic() {
 function draw() {
   text('click to open mic, watch out for feedback', 0 , 200, 400);
   text('move the mouse to change the delay time', 0 , 220, 400);
-  d = map(mouseX, 0, width, 0.1, 0.5);
+  let d = map(mouseX, 0, width, 0.1, 0.5);
   delay.delayTime(d);
 }

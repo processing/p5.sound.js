@@ -26,8 +26,7 @@
 
 //physical modelling
 
-let synth, ctx
-
+let env, osc, synth;
 
 function setup() {
   createCanvas(400, 400);
@@ -40,19 +39,13 @@ function setup() {
   //connect the osc to envelope
   osc.connect(env)
   
-  ctx = getAudioContext()
+  let ctx = getAudioContext()
   
   Tone.setContext(ctx)
   
-  
   synth = new Tone.MembraneSynth();
 
-
-  
-  
-  
-  
-  rev = new p5.Reverb(3)
+  let rev = new p5.Reverb(3)
   
   env.disconnect()
   env.connect(rev)
@@ -63,7 +56,7 @@ function draw() {
 }
 
 function mousePressed() {
-  console.log('mousewas clicked')
+  console.log('mouse was clicked')
   //play osc and env
   osc.start();
   env.play();

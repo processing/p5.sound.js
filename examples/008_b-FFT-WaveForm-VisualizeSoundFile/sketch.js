@@ -1,4 +1,5 @@
-let verb, filter;
+let filter;
+let fft;
 let soundFile;
 
 async function setup(){
@@ -7,7 +8,7 @@ async function setup(){
   cnv.mouseClicked(togglePlay);
   filter = new p5.Biquad(800, 'lowpass');
   filter.res(18);
-  verb = new p5.Reverb(0.850);
+  let verb = new p5.Reverb(0.850);
   fft = new p5.FFT(32);
   soundFile.disconnect();
   soundFile.amp(2.0)

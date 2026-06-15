@@ -1,7 +1,6 @@
 //mixolydian
 let scale = [100, 112.5, 125, 133.3, 150, 166.6, 175, 200]
-let osc
-let del
+let osc;
 
 //this runs once 
 function setup() {
@@ -9,10 +8,10 @@ function setup() {
   background(240);
   osc = new p5.Oscillator()
   osc.amp(0.5);
-  del = new p5.Delay(0.250, 0.7)
+  let delay = new p5.Delay(0.250, 0.7)
   osc.setType('triangle')
   osc.disconnect();
-  osc.connect(del)
+  osc.connect(delay)
   
   osc.start()
   frameRate(1)

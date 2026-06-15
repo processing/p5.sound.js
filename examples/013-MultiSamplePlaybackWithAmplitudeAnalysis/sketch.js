@@ -1,13 +1,9 @@
 //what if we want a beginning middle and end
 
 let samples = [];
-let delay;
 let started = false;
 let filter;
-let cnv;
-let button;
 let ampy;
-let timer;
 
 let paths = [
   "assets/sample_0.mp3",
@@ -37,7 +33,7 @@ async function loadAllSounds() {
 }
 
 async function setup() {
-  cnv = createCanvas(400, 400);
+  let cnv = createCanvas(400, 400);
   await loadAllSounds();
   background(0, 0, 255);
   cnv.mousePressed(startSound);
@@ -47,7 +43,7 @@ async function setup() {
   //vary the frameRate to create variations in sample triggers
   //frameRate(10 + random(-4, 10));
   ampy = new p5.Amplitude();
-  delay = new p5.Delay();
+  let delay = new p5.Delay();
   delay.delayTime(0.256);
   delay.feedback(0.6);
   filter = new p5.Biquad();
@@ -83,8 +79,6 @@ function draw() {
     noStroke();
     circle(width/2, height/2, ampy.getLevel() * 250 + 130);
   }
-  
-  
 }
 
 function startSound() {

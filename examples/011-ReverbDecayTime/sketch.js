@@ -1,4 +1,4 @@
-let noise, osc, env, reverb;
+let noiseGen, env, reverb;
 let randomTime = 0;
 
 function setup() {
@@ -6,11 +6,11 @@ function setup() {
   let cnv = createCanvas(100, 100);
   cnv.mousePressed(playSound);
   
-  noise = new p5.Noise();
+  noiseGen = new p5.Noise();
   env = new p5.Envelope(0, 0.1);
   reverb = new p5.Reverb();
-  noise.disconnect();
-  noise.connect(env);
+  noiseGen.disconnect();
+  noiseGen.connect(env);
   env.disconnect();
   env.connect(reverb);
   
@@ -19,7 +19,7 @@ function setup() {
 }
 
 function playSound() {
-  noise.start();
+  noiseGen.start();
   randomTime = random(0.1, 3);
   reverb.set(randomTime);
   env.play();

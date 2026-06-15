@@ -1,6 +1,5 @@
 let player, measure;
 
-
 async function setup() {
   player = await loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
   describe('A sketch that pauses and resumes sound file playback.');
@@ -14,7 +13,7 @@ async function setup() {
 function draw() {
   background(220)
   orbitControl();
-  amplitude = measure.getLevel() * 1000;
+  let amplitude = measure.getLevel() * 1000;
   // Draw the box.
   let angle = createVector(1, 1, 0);
   rotate(1, angle);

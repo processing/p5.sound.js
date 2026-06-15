@@ -2,7 +2,7 @@
 //TODO: implement damping
 //click and hold to simulate a string pluck, move the mouse to change filter resonance and cutoff. release mouse to trigger decay.
 
-let noise, lowPass, hiPass, delay, env, gain, damper, delay2, fft;
+let noiseGen, lowPass, delay, env, fft;
 
 let plucked = false;
 
@@ -15,16 +15,16 @@ function setup() {
   textSize(15);
   strokeWeight(.1);
   text('click to pluck', width/2, height/2);
-  noise = new p5.Noise('pink');
+  noiseGen = new p5.Noise('pink');
   env = new p5.Envelope(0);
   lowPass = new p5.Biquad(2500, 'lowpass');
-  hiPass = new p5.Biquad(55, 'highpass');
+  let hiPass = new p5.Biquad(55, 'highpass');
   delay = new p5.Delay(0.0005, 0.9);
-  gain = new p5.Gain(0.5);
-  delay2 = new p5.Delay(0.1, 0.74);
+  let gain = new p5.Gain(0.5);
+  let delay2 = new p5.Delay(0.1, 0.74);
   
-  noise.disconnect(); //disconnect from speakers
-  noise.connect(hiPass); //connects to the highpass filter
+  noiseGen.disconnect(); //disconnect from speakers
+  noiseGen.connect(hiPass); //connects to the highpass filter
   hiPass.disconnect(); 
   hiPass.connect(env);
   env.disconnect();
@@ -49,7 +49,7 @@ function pluckStart() {
   
   let pitch = (1000 / random(frequencies)) * 0.001; 
   delay.delayTime(pitch, 0);  
-  noise.start();
+  noiseGen.start();
   env.triggerAttack();
 }
 

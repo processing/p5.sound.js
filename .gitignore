@@ -4,5 +4,11 @@ out/
 .DS_Store
 /src/.DS_Store
 .vscode
-playwright-report
-test-results
+local.code-workspace
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

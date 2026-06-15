@@ -3,8 +3,13 @@
   "version": "0.3.0",
   "description": "p5.sound is a minimal wrapper for Tone.js designed to extend the musical and audio capabilities of the p5.js core library.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test:integration": "npm run build && npx playwright test",
+    "test:integration:web": "npx playwright test test-examples-on-web-editor",
+    "test:integration:web:chromium": "npx playwright test test-examples-on-web-editor --project=web-chromium",
+    "test:integration:local": "npm run build && npx playwright test test-examples-local",
+    "test:integration:local:chromium": "npm run build && npx playwright test test-examples-local --project=local-chromium",
+    "test:integration:ui": "npm run build && npx playwright test --ui"
   },
   "keywords": [
     "p5.js",
@@ -26,11 +31,14 @@
   "devDependencies": {
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",
+    "@playwright/test": "^1.60.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@types/node": "^25.9.1",
     "babel-loader": "^9.1.3",
+    "http-server": "^14.1.1",
     "rollup": "^2.79.1",
     "rollup-plugin-ignore": "^1.0.10",
     "rollup-plugin-terser": "^7.0.2",

@@ -79,4 +79,34 @@ These apply to the **web editor** suite only - the local suite sidesteps all of 
 - There's a **race**: the editor ships the sketch code to the preview sandbox over `postMessage`; pressing Play before that channel is established means the code never arrives and no canvas renders. A short fixed settle wait before Play (`SETTLE_BEFORE_PLAY_MS`) is a brittle-but-readable workaround. (A better fix would be for the editor to disable Play until it's ready.)
 - p5 marks the canvas `data-hidden="true"` during setup/preload, so the test waits for the canvas to be **`attached`** (not `visible`) before deciding the sketch started.
 
-Locally, the only comparable wrinkle is that p5 v2 numbers the default canvas inconsistently (`defaultCanvas1` for 2D sketches, `defaultCanvas0` for WEBGL ones), so the local spec matches the canvas by its `p5Canvas` class rather than by id.
+## Other testing "gotchas"
+p5 v2 numbers the default canvas inconsistently (`defaultCanvas1` for 2D sketches, `defaultCanvas0` for WEBGL ones), so the local spec matches the canvas by its `p5Canvas` class rather than by id.
+
+As the tests click the canvas very soon after it is marked attached, there's a chance that the following pattern in examples will hit on an undefined mySound because loadSound hasn't completed before the mouse click:
+```js
+let mySound;
+async function setup(){
+    createCanvas(400,400);
+    mySound = await loadSound(someURL);
+}
+
+function mousePressed(){
+    //mySound could still be undefined
+    mySound.play();
+}
+```
+Either check if mySound is defined in mousePressed, or register the mousePressed event handler synchronously in line with awaiting loadSound:
+
+```js
+let mySound;
+async function setup(){
+    const cnv = createCanvas(400,400);
+    mySound = await loadSound(someURL);
+    //only register the mouse handler afer the sound has finished loading!
+    cnv.mousePressed(playSound);
+}
+
+function playSound(){
+    mySound.play();
+}
+```

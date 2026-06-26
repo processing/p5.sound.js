@@ -30,14 +30,14 @@ class p5soundMixEffect extends p5soundNode {
    * let osc, del
    *
    * function setup() {
-   *   cnv = createCanvas(100, 100);
-   *   background(220);
+   *   createCanvas(100, 100);
    *   osc = new p5.Oscillator();
    *   osc.disconnect();
    *   del = new p5.Delay();
    *   osc.connect(del);
    *   del.delayTime(0.25);
    *   del.feedback(0.5);
+   *   //changes the blend between the original and effect signal to 50%
    *   del.wet(0.5);
    * }
    *
@@ -47,6 +47,7 @@ class p5soundMixEffect extends p5soundNode {
    *
    * function draw() {
    *   del.delayTime(map(mouseX, 0, width, 0.01, 0.5));
+   *   //map the blend between effect and dry signal to mouse position
    *   del.wet(map(mouseY, 0, height, 0.1, 0.9));
    *   background(220);
    *   textAlign(CENTER);

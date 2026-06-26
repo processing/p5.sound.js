@@ -7,7 +7,7 @@
 import { p5soundNode } from "../core/p5soundNode.js";
 
 /**
- * Generic methods for p5 sound nodes that GENERATE audio. 
+ * Generic methods for p5 sound nodes that GENERATE sound. 
  * @class p5soundSource
  * @constructor
  * @extends p5soundNode
@@ -19,7 +19,7 @@ class p5soundSource extends p5soundNode {
   /**
    * Starts the p5 sound source.
    * 
-   * Should be called from a user interaction, such as MousePressed() in order respect the browser's autoplay policy.
+   * Should be called from a user interaction such as MousePressed() in order to adhere to the browser's autoplay policy.
    * @method start
    * @for p5soundSource
    * @example

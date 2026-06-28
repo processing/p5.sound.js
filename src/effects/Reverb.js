@@ -9,6 +9,8 @@ import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
 
 /**
  * Add reverb to a sound.
+ * 
+ * Reverb is an effect that is used commonly in electronic sound production. It makes input sound like it is in an actual space. Large spaces have longer decay times
  * @class Reverb
  * @constructor
  * @extends p5soundMixEffect
@@ -16,34 +18,40 @@ import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
  * @example
  * <div>
  * <code>
- * let noise, osc, env, reverb;
- * let randomTime = 0;
+ * let sample, reverb;
  * 
- * function setup() {
+ * async function setup() {
+ *   sample = await loadSound("../../sounds/drums.mp3");
+ *   sample.loop(true);
  *   let cnv = createCanvas(100, 100);
+ *   describe("a sketch that plays processes an audio file with a reverb effect.");
  *   cnv.mousePressed(playSound);
- *   noise = new p5.Noise();
- *   env = new p5.Envelope();
- *   reverb = new p5.Reverb();
- *   noise.disconnect();
- *   noise.connect(env);
- *   env.disconnect();
- *   env.connect(reverb);
- *   noise.start();
+ *   
+ *   reverb = new p5.Reverb(3);
+ *   sample.disconnect();
+ *   sample.connect(reverb);
+ *   
  *   textAlign(CENTER);
+ *   textWrap(WORD);
+ *   textSize(10);
  * }
  * 
  * function playSound() {
- *  randomTime = random(0.1, 3);
- *  reverb.set(randomTime); 
- *  env.play();
+ *   if (!sample.isPlaying()) {
+ *     sample.play();
+ *   }
+ *   else {
+ *     sample.stop();
+ *   }
  * }
  * 
  * function draw() {
  *   background(220);
- *   text('click to play', width/2, 20);
- *   text('decay ' + round(randomTime, 2), width/2, 40);
- *   describe('Click to play a sound with a random decay time.');
+ *   text("click to play sound, move mouse to change wet/dry mix", 0, 20, width);
+ *   
+ *   let dryWet = map(mouseX, 0, width, 0, 1);
+ *   text("wet: " + (constrain(round(dryWet * 100), 0, 100)) + "%", width / 2, 80);
+ *   reverb.wet(dryWet);
  * }
  * </code>
  * </div>
@@ -60,10 +68,51 @@ class Reverb extends p5soundMixEffect {
   }
 
   /**
-   * Set the decay time of the reverb.
+   * Set the decay time of the reverb. A longer decay time makes the input sound more cavernous.
    * @method set
    * @for Reverb
    * @param {Number} time Decay time of the reverb in seconds.
+   * @example
+   * <div>
+   * <code>
+   * let sample, reverb
+   * let randomTime = 0;
+   * 
+   * async function setup() {
+   *   sample = await loadSound("../../sounds/drums.mp3");
+   *   sample.loop(true);
+   *   let cnv = createCanvas(100, 100);
+   *   describe("a sketch that plays processes an audio file with a reverb effect.");
+   *   cnv.mousePressed(playSound);
+   *   
+   *   reverb = new p5.Reverb(3);
+   *   sample.disconnect();
+   *   sample.connect(reverb);
+   *   
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   * }
+   * 
+   * function playSound() {
+   *   if (!sample.isPlaying()) {
+   *     sample.play();
+   *     randomTime = random(0.1, 3);
+   *     reverb.set(randomTime);
+   *   }
+   *   else {
+   *     randomTime = random(0.1, 8);
+   *     reverb.set(randomTime);
+   *   }
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   *   text("click to play sound and change the decay time", 0, 20, width);
+   *   text("Decay Time: " + randomTime.toFixed(2), width / 2, 80);
+   * }
+   * </code>
+   * </div>
    */
   set(t) {
     this.node.decay = t;

@@ -48,6 +48,48 @@ class Envelope extends p5soundNode {
    * Trigger the envelope and release it after the sustain time.
    * @method play
    * @for Envelope
+   * @example
+   * <div>
+   * <code>
+   * let fft, noise, envelope;
+   * 
+   * function setup() {
+   *   createCanvas(100,100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   fill(255, 0, 255);
+   * 
+   *   envelope = new p5.Envelope();
+   *   noise = new p5.Noise();
+   *   noise.disconnect();
+   *   noise.connect(envelope);
+   * 
+   *   fft = new p5.FFT(128);
+   *   envelope.connect(fft);
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   * 
+   *   // draw the audio spectrum
+   *   let spectrum = fft.analyze();
+   *   noStroke();
+   *   fill(0, 0, 0);
+   *   for (let i = 0; i < spectrum.length; i++) {
+   *     let x = map(i, 0, spectrum.length, 0, width);     
+   *     let h = -height + map(spectrum[i], 0, 0.02, height, 0);
+   *     rect(x, height, width / spectrum.length, h )
+   *   }
+   *   text('click to play an enveloped noise burst', 10, 20, width - 20);
+   * }
+   * 
+   * function mousePressed() {
+   *   noise.start();
+   *   envelope.play();
+   * }
+   * </code>
+   * </div>
    */
   play() {
     this.node.triggerAttackRelease(this.sustain);
@@ -95,10 +137,10 @@ class Envelope extends p5soundNode {
    * </code>
    * </div>
    */
-
   triggerAttack() {
     this.node.triggerAttack();
   }
+
   /**
    * Trigger the Release of the envelope. Similar to releasing the key on 
    * a piano and letting the sound fade according to the release level and 
@@ -147,15 +189,6 @@ class Envelope extends p5soundNode {
   }
 
   /**
-   * @method setInput
-   * @for Envelope
-   * @param {Object} unit A p5.sound Object 
-   */
-  setInput(input) {
-    input.getNode().connect(this.node);
-  }
-
-  /**
    * Sets the attack, decay, sustain, and release times of the envelope.
    * @method setADSR
    * @for Envelope
@@ -163,6 +196,50 @@ class Envelope extends p5soundNode {
    * @param {Number} decay how quickly the envelope reaches the sustain level
    * @param {Number} sustain how long the envelope stays at the decay level
    * @param {Number} release how quickly the envelope fades out after the sustain level
+   * @example
+   * <div>
+   * <code>
+   * let fft, noise, envelope;
+   *
+   * function setup() {
+   *   createCanvas(100,100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   fill(255, 0, 255);
+   * 
+   *   envelope = new p5.Envelope();
+   *   noise = new p5.Noise();
+   *   noise.disconnect();
+   *   noise.connect(envelope);
+   * 
+   *   fft = new p5.FFT(128);
+   *   envelope.connect(fft);
+   *   //adjust the envelop parameters to create unique sounds
+   *   envelope.setADSR(0.1, 2.1, 1, 3);
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   * 
+   *   // draw the audio spectrum
+   *   let spectrum = fft.analyze();
+   *   noStroke();
+   *   fill(0, 0, 0);
+   *   for (let i = 0; i < spectrum.length; i++) {
+   *     let x = map(i, 0, spectrum.length, 0, width);     
+   *     let h = -height + map(spectrum[i], 0, 0.02, height, 0);
+   *     rect(x, height, width / spectrum.length, h )
+   *   }
+   *   text('click to play an enveloped noise burst', 10, 20, width - 20);
+   * }
+   * 
+   * function mousePressed() {
+   *   noise.start();
+   *   envelope.play();
+   * }
+   * </code>
+   * </div>
    */
   setADSR(a, d, s, r) {
     this.node.attack = a;
@@ -175,7 +252,53 @@ class Envelope extends p5soundNode {
    * Sets the release time of the envelope.
    * @method releaseTime
    * @for Envelope
-   * @param {Number} releaseTime the release time in seconds 
+   * @param {Number} releaseTime the release time of the envelope in seconds 
+   * @example
+   * <div>
+   * <code>
+   * let fft, noise, envelope;
+   *
+   * function setup() {
+   *   createCanvas(100,100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   fill(255, 0, 255);
+   * 
+   *   envelope = new p5.Envelope();
+   *   noise = new p5.Noise();
+   *   noise.disconnect();
+   *   noise.connect(envelope);
+   * 
+   *   fft = new p5.FFT(128);
+   *   envelope.connect(fft);
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   * 
+   *   // draw the audio spectrum
+   *   let spectrum = fft.analyze();
+   * 
+   *   //move the mouse to change the envelope's release time
+   *   let releaseTime = round(map(mouseX, 0, width, 0.1, 5));
+   *   envelope.releaseTime(releaseTime);
+   * 
+   *   noStroke();
+   *   fill(0, 0, 0);
+   *   for (let i = 0; i < spectrum.length; i++) {
+   *     let x = map(i, 0, spectrum.length, 0, width);     
+   *     let h = -height + map(spectrum[i], 0, 0.02, height, 0);
+   *     rect(x, height, width / spectrum.length, h )
+   *   }
+   *   text('click to play noise and move mouse to change release time', 10, 10, width - 20);
+   *   text('Release Time: ' + releaseTime, 0, 65, width);
+   * }
+   * 
+   * function mousePressed() {
+   *   noise.start();
+   *   envelope.play();
+   * }
    */
   releaseTime(value) {
     this.node.release = value;
@@ -185,7 +308,55 @@ class Envelope extends p5soundNode {
    * Sets the attack time of the envelope.
    * @method attackTime
    * @for Envelope
-   * @param {Number} attackTime the attack time in seconds 
+   * @param {Number} attackTime the attack time of the envelope in seconds 
+   * @example
+   * <div>
+   * <code>
+   * let fft, noise, envelope;
+   *
+   * function setup() {
+   *   createCanvas(100,100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   fill(255, 0, 255);
+   * 
+   *   envelope = new p5.Envelope();
+   *   noise = new p5.Noise();
+   *   noise.disconnect();
+   *   noise.connect(envelope);
+   * 
+   *   fft = new p5.FFT(128);
+   *   envelope.connect(fft);
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   * 
+   *   // draw the audio spectrum
+   *   let spectrum = fft.analyze();
+   * 
+   *   //move the mouse to change the envelope's attack time
+   *   let attackTime = round(map(mouseX, 0, width, 0.01, 0.4), 2);
+   *   envelope.attackTime(attackTime);
+   * 
+   *   noStroke();
+   *   fill(0, 0, 0);
+   *   for (let i = 0; i < spectrum.length; i++) {
+   *     let x = map(i, 0, spectrum.length, 0, width);     
+   *     let h = -height + map(spectrum[i], 0, 0.02, height, 0);
+   *     rect(x, height, width / spectrum.length, h )
+   *   }
+   *   text('click to play noise and move mouse to change attack time', 10, 10, width - 20);
+   *   text('Attack Time: ' + attackTime, 0, 65, width);
+   * }
+   * 
+   * function mousePressed() {
+   *   noise.start();
+   *   envelope.play();
+   * }
+   * </div>
+   * <code>
    */
   attackTime(value) {
     this.node.attack = value;

@@ -1,0 +1,43 @@
+let fft, noise, envelope;
+
+function setup() {
+  createCanvas(100,100);
+  textAlign(CENTER);
+  textWrap(WORD);
+  textSize(10);
+  fill(255, 0, 255);
+
+  envelope = new p5.Envelope();
+  noise = new p5.Noise();
+  noise.disconnect();
+  noise.connect(envelope);
+
+  fft = new p5.FFT(128);
+  envelope.connect(fft);
+}
+
+function draw() {
+  background(220);
+
+  // draw the audio spectrum
+  let spectrum = fft.analyze();
+
+  //move the mouse to change the envelope's attack time
+  let attackTime = round(map(mouseX, 0, width, 0.01, 0.4), 2);
+  envelope.attackTime(attackTime);
+
+  noStroke();
+  fill(0, 0, 0);
+  for (let i = 0; i < spectrum.length; i++) {
+    let x = map(i, 0, spectrum.length, 0, width);     
+    let h = -height + map(spectrum[i], 0, 0.02, height, 0);
+    rect(x, height, width / spectrum.length, h )
+  }
+  text('click to play noise and move mouse to change attack time', 10, 10, width - 20);
+  text('Attack Time: ' + attackTime, 0, 65, width);
+}
+
+function mousePressed() {
+  noise.start();
+  envelope.play();
+}

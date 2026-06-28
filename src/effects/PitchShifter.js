@@ -15,35 +15,24 @@ import { p5soundNode } from "../core/p5soundNode.js";
  * @example
  * <div>
  * <code>
- *  let cnv, soundFile, pitchShifter;
+ * let cnv, pitchShifter;
  *  
- * function preload() {
- *   soundFile = loadSound('/assets/beatbox.mp3');
- * }
- *  
- * function setup() {
- *   cnv = createCanvas(100, 100);
- *   cnv.mousePressed(startSound);
+ * async function setup() {
+ *   describe('a sketch that pitches the microphone input up an octave');
+ *   createCanvas(100, 100);
  *   background(220);
  *   textAlign(CENTER);
  *   textSize(9);
+ *   textWrap(WORD)
  *   text('click to play sound', width/2, height/2);
- *   pitchShifter = new p5.PitchShifter();
- *   
- *   soundFile.disconnect();
- *   soundFile.connect(pitchShifter);
- *   //change the pitch and retrigger sample when done playing
- *   soundFile.onended(changePitch);
+ *   mic = new p5.AudioIn();
+ *   pitchShifter = new p5.PitchShifter(12);
+ *   mic.disconnect();
+ *   mic.connect(pitchShifter);
  * }
  * 
- * function startSound () {
- *   soundFile.play();
- * }
- *  
- * function changePitch () {
- *   let pitchValue = random(-12, 12);
- *   pitchShifter.shift(pitchValue);
- *   soundFile.play();
+ * function mousePressed () {
+ *   mic.start();
  * }
  * </code>
  * </div>
@@ -57,12 +46,38 @@ class PitchShifter extends p5soundNode {
         this.input.connect(toneInput);
         toneOutput.connect(this.output);
     }
-    
+
     /**
      * Shift the pitch of the source audio.
      * @method shift
      * @for PitchShifter
      * @param {Number} pitchValue amount of semitones to shift the pitch
+     * @example
+     * <div>
+     * <code>
+     * let cnv, pitchShifter;
+     *
+     * async function setup() {
+     *   describe('a sketch that pitches the microphone input up an octave');
+     *   createCanvas(100, 100);
+     *   background(220);
+     *   textAlign(CENTER);
+     *   textSize(9);
+     *   textWrap(WORD)
+     *   text('click to play sound', width/2, height/2);
+     *   mic = new p5.AudioIn();
+     *   pitchShifter = new p5.PitchShifter(12);
+     *   mic.disconnect();
+     *   mic.connect(pitchShifter);
+     * }
+     * 
+     * function mousePressed () {
+     *   mic.start();
+     *   //shift the input audio up a random number of semitones
+     *   pitchShifter.shift(round(random(1, 12)));
+     * }
+     * </code>
+     * </div>
      */
     shift (value) {
         if (value !== undefined) {

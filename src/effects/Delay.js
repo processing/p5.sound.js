@@ -124,7 +124,7 @@ class Delay extends p5soundMixEffect {
   }
 
   /**
-   * The amount of feedback in the delay line.
+   * The amount of feedback in the delay line. Adjusting the feedback amount creates more or less repetitions in the echo effect.
    * @method feedback
    * @for Delay
    * @param {number} feedbackAmount A number between 0 and 0.99.

@@ -1,32 +1,36 @@
-let noise, osc, env, reverb;
+let sample, reverb
 let randomTime = 0;
 
-function setup() {
-  describe("a sketch that plays a quick burst of noise through a reverb effect when clicked. each time the decay time of the reverb is changed.");
+async function setup() {
+  sample = await loadSound("../../sounds/drums.mp3");
+  sample.loop(true);
   let cnv = createCanvas(100, 100);
+  describe("a sketch that plays processes an audio file with a reverb effect.");
   cnv.mousePressed(playSound);
   
-  noise = new p5.Noise();
-  env = new p5.Envelope(0, 0.1);
-  reverb = new p5.Reverb();
-  noise.disconnect();
-  noise.connect(env);
-  env.disconnect();
-  env.connect(reverb);
-  
+  reverb = new p5.Reverb(3);
+  sample.disconnect();
+  sample.connect(reverb);
   
   textAlign(CENTER);
+  textWrap(WORD);
+  textSize(10);
 }
 
 function playSound() {
-  noise.start();
-  randomTime = random(0.1, 3);
-  reverb.set(randomTime);
-  env.play();
+  if (!sample.isPlaying()) {
+    sample.play();
+    randomTime = random(0.1, 3);
+    reverb.set(randomTime);
+  }
+  else {
+    randomTime = random(0.1, 8);
+    reverb.set(randomTime);
+  }
 }
 
 function draw() {
   background(220);
-  text("click to play", width / 2, 20);
-  text("decay " + round(randomTime, 2), width / 2, 40);
+  text("click to play sound and change the decay time", 0, 20, width);
+  text("Decay Time: " + randomTime.toFixed(2), width / 2, 80);
 }

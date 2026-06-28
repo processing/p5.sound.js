@@ -55,6 +55,12 @@ Project mentors and advisors:
 - Cassie Tarakajian ([catarak](https://github.com/catarak))
 - Qianqian Ye ([Qianqianye](https://github.com/Qianqianye))
 
+## Sound Assets
+
+The audio files in [`sounds/`](./sounds) are dedicated to the public domain 
+under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) — 
+see [`sounds/LICENSE`](./sounds/LICENSE) for performer credits and full details.
+
 ## Usage
 
 To use this library, make sure you have p5.js installed. Visit the [p5.js website](https://p5js.org/) for more information and installation instructions.

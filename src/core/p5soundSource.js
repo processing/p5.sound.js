@@ -15,6 +15,7 @@ import { p5soundNode } from "../core/p5soundNode.js";
 class p5soundSource extends p5soundNode {
   constructor() {
     super();
+    this.started = false;
   }
   /**
    * Starts the p5 sound source.
@@ -30,8 +31,7 @@ class p5soundSource extends p5soundNode {
    * 
    * function setup() {
    *   describe("a sketch that demonstrates how to connect an audio source node to an effect node");
-   *   cnv = createCanvas(100, 100);
-   *   cnv.mousePressed(startSound);
+   *   createCanvas(100, 100);
    *   textAlign(CENTER);
    *   textWrap(WORD);
    *   textSize(10);
@@ -44,7 +44,7 @@ class p5soundSource extends p5soundNode {
    *   osc.connect(delay);
    * }
    * 
-   * function startSound() {
+   * function mousePressed() {
    *   osc.start();
    * }
    * 
@@ -61,6 +61,7 @@ class p5soundSource extends p5soundNode {
    */
   start() {
     this.node.start();
+    this.started = true;
   }
   
   /**
@@ -76,8 +77,7 @@ class p5soundSource extends p5soundNode {
    * 
    * function setup() {
    *   describe("a sketch that demonstrates how to stop and start an audio source node");
-   *   cnv = createCanvas(100, 100);
-   *   cnv.mousePressed(startSound);
+   *   createCanvas(100, 100);
    *   textAlign(CENTER);
    *   textWrap(WORD);
    *   textSize(10);
@@ -90,7 +90,7 @@ class p5soundSource extends p5soundNode {
    *   osc.connect(delay);
    * }
    * 
-   * function startSound() {
+   * function mousePressed() {
    *   if (!isPlaying) {
    *     osc.start();
    *     isPlaying = true; 
@@ -110,6 +110,7 @@ class p5soundSource extends p5soundNode {
    */
   stop() {
     this.node.stop();
+    this.started = false;
   }
 }
 

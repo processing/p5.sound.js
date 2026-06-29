@@ -127,6 +127,28 @@ class SoundFile extends p5soundSource {
    * Start the soundfile.
    * @method start
    * @for SoundFile 
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/chime.mp3");
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that plays a soundfile");
+   * }
+   *
+   * function draw() {
+   *   background(220);
+   *   text("click to play the sound, demonstrating the start() method", 0, 20, width);
+   * }
+   *
+   * function mousePressed() {
+   *   sample.start();
+   * }
+   * </code>
+   * </div>
    */
   start() {
     this.node.playbackRate = this.speed;
@@ -140,6 +162,28 @@ class SoundFile extends p5soundSource {
    * Start the soundfile. Same as the start() method.
    * @method play
    * @for SoundFile
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/chime.mp3");
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that plays a soundfile");
+   * }
+   *
+   * function draw() {
+   *   background(220);
+   *   text("click to play the sound, demonstrating the start() method", 0, 20, width);
+   * }
+   *
+   * function mousePressed() {
+   *   sample.start();
+   * }
+   * </code>
+   * </div>
    */
   play() {
     this.node.playbackRate = this.speed;
@@ -152,7 +196,37 @@ class SoundFile extends p5soundSource {
   /**
    * Stop the soundfile.
    * @method stop
-   * @for SoundFile 
+   * @for SoundFile
+   * @example
+   * async function setup() {
+   *  sample = await loadSound("assets/chime.mp3");
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that plays a soundfile");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  if (!sample.playing) {
+   *    text("click to play the sound, demonstrating the start() method", 0, 20, width);
+   *  }
+   *  else {
+   *    text("click to stop the sound, demonstrating the stop() method", 0, 20, width);
+   *  }
+   * }
+   *
+   * function mousePressed() {
+   *  if (!sample.playing) {
+   *    sample.start();
+   *  }
+   *  else {
+   *    sample.stop();
+   *  }
+   * }
+   * </code>
+   * </div>
    */
   stop() {
     this.node.stop();
@@ -166,37 +240,32 @@ class SoundFile extends p5soundSource {
    * @example
    * <div>
    * <code>
-   * let player;
+   * async function setup() {
+   *  sample = await loadSound("assets/chime.mp3");
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that pauses and resumes a soundfile");
+   * }
    *
-   * function preload() {
-   *   player = loadSound('/assets/Damscray_DancingTiger.mp3');
+   * function draw() {
+   *  background(220);
+   *  if (!sample.playing) {
+   *    text("click to play the sound, demonstrating the start() method", 0, 20, width);
+   *  }
+   *  else {
+   *    text("click to pause the sound, demonstrating the pause() method", 0, 20, width);
+   *  }
    * }
-   * 
-   * function setup() {
-   *   describe('A sketch that pauses and resumes sound file playback.');
-   *   let cnv = createCanvas(100, 100);
-   *   cnv.mousePressed(playSound);
-   *   background(220);
-   *   textAlign(CENTER);
-   *   textWrap(WORD);
-   *   textSize(10);
-   *   background(220);
-   *   text('click to play', 0, 20, 100);
-   *   
-   *   player.loop();
-   * }
-   * 
-   * function playSound() {
-   *   if (!player.isPlaying()) {
-   *     player.play();
-   *     background(220);
-   *     text('click to pause', 0, 20, 100);
-   *   }
-   *   else {
-   *     player.pause();
-   *     background(220);
-   *     text('click to play', 0, 20, 100);
-   *   }
+   *
+   * function mousePressed() {
+   *  if (!sample.playing) {
+   *    sample.start();
+   *  }
+   *  else {
+   *    sample.pause();
+   *  }
    * }
    * </code>
    * </div>
@@ -213,6 +282,49 @@ class SoundFile extends p5soundSource {
    * @method loop
    * @for SoundFile
    * @param {Boolean} loopState Set to True or False in order to set the loop state.
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/drums.mp3");
+   *
+   *  //set the sample to loop
+   *  sample.loop(true);
+   *  //call a function when the sound ends
+   *  sample.onended(stopSound);
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that plays and pauses a soundfile");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  if (!sample.playing) {
+   *    text("click to play the sound and it will loop", 0, 20, width);
+   *  }
+   *  else {
+   *    text("click to stop the looping", 0, 20, width);
+   *  }
+   * }
+   *
+   * function mousePressed() {
+   *  if (!sample.playing) {
+   *    sample.start();
+   *  }
+   *  else {
+   *    //stop the sample by disabling looping
+   *    sample.loop(false);
+   *  }
+   * }
+   *
+   * function stopSound() {
+   *  //stop the sound when the loop ends
+   *  sample.stop();
+   * }
+   * </code>
+   * </div>
    */
   loop(value = true) {
     this.node.loop = value;
@@ -224,6 +336,39 @@ class SoundFile extends p5soundSource {
    * @for SoundFile
    * @param {Number} [startTime] The start time of the loop point in seconds.
    * @param {Number} [duration] The duration of the loop point in seconds.
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/drums.mp3");
+   *
+   *  //set the sample to loop, must be on for loopPoints to work
+   *  sample.loop(true);
+   *
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that loops short segments of a soundfile");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  if (!sample.playing) {
+   *    text("click to play the sound and it will loop", 0, 20, width);
+   *  }
+   *  else {
+   *    text("click to stop the looping", 0, 20, width);
+   *  }
+   * }
+   *
+   * function mousePressed() {
+   *  sample.start();
+   *  //set the loop points to a random range in the soundfile, making sure not to choose looppoints that exceed the duration fo the soundfile.
+   *  sample.loopPoints(random(0, sample.duration() - 0.3), random(0, 0.3))
+   * }
+   * </code>
+   * </div>
    */
   loopPoints(startTime = 0, duration = this.node.buffer.duration) {
     this.node.loopStart = startTime;
@@ -289,7 +434,42 @@ class SoundFile extends p5soundSource {
    * Set the playback rate of the soundfile.
    * @method rate
    * @for SoundFile
-   * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.  
+   * @param {Number} rate 1 is normal speed, 2 is double speed. Negative values plays the soundfile backwards.
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/drums.mp3");
+   *  sample.loop(true);
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(10);
+   *  describe("a sketch that changes the playback rate of a soundfile");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  rate = map(mouseX, 0, width, 0.5, 2);
+   *  sample.rate(rate);
+   *  if (!sample.isPlaying()) {
+   *    text("click to play the sound, move your mouse to change the playback rate", 0, 20, width);
+   *  }
+   *  else {
+   *    text("Playback Rate: " + rate.toFixed(2), 0, 20, width);
+   *  }
+   * }
+   *
+   * function mousePressed() {
+   *  if(!sample.isPlaying()) {
+   *    sample.play();
+   *  }
+   *  else {
+   *    sample.stop();
+   *  }
+   * }
+   * </code>
+   * </div>
    */
   rate(value = 1) {
     if (value < 0) {
@@ -297,7 +477,6 @@ class SoundFile extends p5soundSource {
     }
     this.node.playbackRate = value;
     this.speed = value;
-
   }
 
   /**
@@ -305,6 +484,25 @@ class SoundFile extends p5soundSource {
    * @method duration
    * @for SoundFile 
    * @return {Number} duration
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/drums.mp3");
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that reports the duration of a soundfile");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  duration = sample.duration();
+   *  text("Duration: " + duration + " seconds", 0, 20, width);
+   * }
+   * </code>
+   * </div>
    */
   duration() {
     return this.node.buffer.duration;
@@ -315,6 +513,25 @@ class SoundFile extends p5soundSource {
    * @method sampleRate
    * @for SoundFile
    * @return {Number} sampleRate
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/drums.mp3");
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that reports the sample rate of a soundfile");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  sampleRate = sample.sampleRate();
+   *  text("Sample Rate: " + sampleRate + " Hz", 0, 20, width);
+   * }
+   * </code>
+   * </div>
    */
   sampleRate() {
     if (this.node.buffer) return this.node.buffer.sampleRate;
@@ -325,6 +542,38 @@ class SoundFile extends p5soundSource {
    * @method jump
    * @for SoundFile 
    * @param {Number} timePoint Time to jump to in seconds.
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/drums.mp3");
+   *  duration = sample.duration();
+   *  sample.loop(true);
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(10);
+   *  describe("a sketch that jumps to a specific point in a soundfile");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  text("Duration: " + duration + " s", 0, 20, width);
+   *  if (sample.isPlaying()) {
+   *    text("jump to: " + (mouseX / width * duration).toFixed(2) + " s on next click", 0, 40, width);
+   *  }
+   * }
+   *
+   * function mousePressed() {
+   *  if(!sample.isPlaying()) {
+   *    sample.play();
+   *  }
+   *  else {
+   *    sample.jump(mouseX / width * duration);
+   *  }
+   * }
+   * </code>
+   * </div>
    */
   jump(value) {
     this.node.seek(value);
@@ -335,6 +584,38 @@ class SoundFile extends p5soundSource {
    * @method isPlaying
    * @for SoundFile 
    * @return {Boolean} Playback state, true or false.
+   * @example
+   * async function setup() {
+   *  sample = await loadSound("assets/chime.mp3");
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(8);
+   *  describe("a sketch that plays a soundfile");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  //check if sample is playing or not
+   *  if (!sample.playing) {
+   *    text("click to play the sound, demonstrating the start() method", 0, 20, width);
+   *  }
+   *  else {
+   *    text("click to stop the sound, demonstrating the stop() method", 0, 20, width);
+   *  }
+   * }
+   *
+   * function mousePressed() {
+   *  //check if sample is playing or not
+   *  if (!sample.playing) {
+   *    sample.start();
+   *  }
+   *  else {
+   *    sample.stop();
+   *  }
+   * }
+   * </code>
+   * </div>
    */
   isPlaying() {
     return this.playing;
@@ -345,6 +626,27 @@ class SoundFile extends p5soundSource {
    * @method isLooping
    * @for SoundFile 
    * @return {Boolean} Looping State, true or false.
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *  sample = await loadSound("assets/drums.mp3");
+   *  //uncomment the line below to see the text update
+   *  //sample.loop(true);
+   *  looping = sample.isLooping();
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  textWrap(WORD);
+   *  textSize(10);
+   *  describe("a sketch that checks whether a soundfile is looping");
+   * }
+   *
+   * function draw() {
+   *  background(220);
+   *  text("Looping: " + looping, 0, 20, width);
+   * }
+   * </code>
+   * </div>
    */
   isLooping() {
     return this.node.loop;
@@ -432,6 +734,25 @@ class SoundFile extends p5soundSource {
    * @method channels
    * @for SoundFile
    * @return Returns the number of channels in the sound file.
+   * @example
+   * <div>
+   * <code>
+   * async function setup() {
+   *   sample = await loadSound("assets/chime.mp3");
+   *   createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(10);
+   *   describe("a sketch that reports how many channels an audio file has");
+   * }
+   * 
+   * function draw() {
+   *   background(220);
+   *   numberOfChannels = sample.channels();
+   *   text("sample has " + numberOfChannels + " channels", 10, 10, width);
+   * }
+   * </code>
+   * </div>
    */
   channels() {
     if (this.node.buffer) return this.node.buffer.numberOfChannels;

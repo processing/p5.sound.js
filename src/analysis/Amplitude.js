@@ -62,6 +62,50 @@ class Amplitude extends p5soundNode {
    * @method setInput
    * @for Amplitude
    * @param {Object} input - An object that has audio output.
+   * @example
+   * <div>
+   * <code>
+   * let amplitude = 0;
+   * 
+   * async function setup() {
+   *   sample = await loadSound("assets/drums.mp3");
+   *   sample.loop(true);
+   * 
+   *   createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(8);
+   *   describe("a sketch that demonstrates setting the input for amplitude analysis");
+   * 
+   *   analyze = new p5.Amplitude();
+   *   //sample.connect(analyze);
+   *   analyze.setInput(sample);
+   * }
+   * 
+   * function draw() {
+   *   background(amplitude * 512, 0, 0);
+   *   
+   *   amplitude = analyze.getLevel();
+   *   
+   *   fill(255);
+   *   if (!sample.isPlaying()) {
+   *     text("click to play the sound, move your mouse to adjust smoothing", 0, 20, width);
+   *   }
+   *   else {
+   *     text("Amplitude: " + amplitude.toFixed(2), 0, 20, width);
+   *   }
+   * }
+   * 
+   * function mousePressed() {
+   *   if(!sample.isPlaying()) {
+   *     sample.play();
+   *   }
+   *   else {
+   *     sample.stop();
+   *   }
+   * }
+   * </code>
+   * </div>
    */
   setInput(input) {
     input.getNode().connect(this.node);
@@ -72,6 +116,47 @@ class Amplitude extends p5soundNode {
    * @method getLevel
    * @for Amplitude
    * @return {Number} Amplitude level (volume) of a sound.
+   * @example
+   * <div>
+   * <code>
+   * let amplitude = 0;
+   * 
+   * async function setup() {
+   *   sample = await loadSound("assets/drums.mp3");
+   *   sample.loop(true);
+   * 
+   *   createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(8);
+   *   describe("a sketch that visualizes the loudness of a soundfile");
+   * 
+   *   analyze = new p5.Amplitude();
+   *   sample.connect(analyze);
+   * }
+   * 
+   * function draw() {
+   *   background(amplitude * 512, 0, 0);
+   *   amplitude = analyze.getLevel();
+   *   fill(255);
+   *   if (!sample.isPlaying()) {
+   *     text("click to play the sound", 0, 20, width);
+   *   }
+   *   else {
+   *     text("Amplitude: " + amplitude.toFixed(2), 0, 20, width);
+   *   }
+   * }
+   * 
+   * function mousePressed() {
+   *   if(!sample.isPlaying()) {
+   *     sample.play();
+   *   }
+   *   else {
+   *     sample.stop();
+   *   }
+   * }
+   * </code>
+   * </div>
    */
   getLevel() {
     return this.node.getValue();
@@ -82,6 +167,52 @@ class Amplitude extends p5soundNode {
    * @method smooth
    * @for Amplitude
    * @param {Number} Smooth Amplitude analysis by averaging with the last analysis frame. Off by default.
+   * @example
+   * <div>
+   * <code>
+   * let amplitude = 0;
+   * 
+   * async function setup() {
+   *   sample = await loadSound("assets/drums.mp3");
+   *   sample.loop(true);
+   * 
+   *   createCanvas(100, 100);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(8);
+   *   describe("a sketch that visualizes the loudness of a soundfile with smoothing control");
+   * 
+   *   analyze = new p5.Amplitude();
+   *   sample.connect(analyze);
+   * }
+   * 
+   * function draw() {
+   *   background(amplitude * 512, 0, 0);
+   *   
+   *   amplitude = analyze.getLevel();
+   *   
+   *   fill(255);
+   *   if (!sample.isPlaying()) {
+   *     text("click to play the sound, move your mouse to adjust smoothing", 0, 20, width);
+   *   }
+   *   else {
+   *     text("Amplitude: " + amplitude.toFixed(2), 0, 20, width);
+   *   }
+   *   smoothing = map(mouseX, 0, width, 0, 1);
+   *   analyze.smooth(smoothing);
+   *   text("Smoothing: " + smoothing.toFixed(2), 0, 60, width);
+   * }
+   * 
+   * function mousePressed() {
+   *   if(!sample.isPlaying()) {
+   *     sample.play();
+   *   }
+   *   else {
+   *     sample.stop();
+   *   }
+   * }
+   * </code>
+   * </div>
    */
   smooth(s) {
     this.node.smoothing = s;

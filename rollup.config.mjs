@@ -2,6 +2,29 @@ import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 
+const toneGlobalShim = path.resolve('src', 'vendor', 'toneGlobal.js');
+
+function aliasToneGlobal() {
+  return {
+    name: 'alias-tone-global',
+    resolveId(source, importer) {
+      if (source === 'tone/build/esm/core/Global.js') {
+        return toneGlobalShim;
+      }
+
+      if (
+        source === '../Global.js' &&
+        importer &&
+        importer.includes(`${path.sep}node_modules${path.sep}tone${path.sep}build${path.sep}esm${path.sep}core${path.sep}`)
+      ) {
+        return toneGlobalShim;
+      }
+
+      return null;
+    }
+  };
+}
+
 export default [
   // Unminified version
   {
@@ -11,6 +34,7 @@ export default [
       format: 'iife', // Change to IIFE format
     },
     plugins: [
+      aliasToneGlobal(),
       resolve(),
       terser({
         compress: {
@@ -50,6 +74,7 @@ export default [
       format: 'iife', // Change to IIFE format
     },
     plugins: [
+      aliasToneGlobal(),
       resolve(), // Resolves node_modules
       terser(), // Minify the output
     ],

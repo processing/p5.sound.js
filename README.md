@@ -84,6 +84,19 @@ building reference pages (optional)
 npx yuidoc .
 ```
 
+### Release process
+
+This section is for maintainers with npm credentials.
+
+```sh
+npm install
+npm run build
+npm version x.y.z
+git push
+git push --tags
+npm publish
+```
+
 ## Testing the examples
 
 The library is configured to use [Playwright](https://playwright.dev/) to automatically test the [local](./examples) and [web-editor-hosted](https://editor.p5js.org/thomasjohnmartinez/collections/Dp0zGclVL) sets of p5.sound.js examples by automatically controlling a browser (firefox or chromium).

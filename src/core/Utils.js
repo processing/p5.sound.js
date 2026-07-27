@@ -4,6 +4,7 @@
  *  @for p5.sound
  */
 
+import { polyfillAudioListener } from "./audioListenerPolyfill.js";
 import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone/build/esm/core/Global.js";
 import { start as ToneStart } from "tone/build/esm/core/Global.js";
 
@@ -53,8 +54,9 @@ function clamp(value, min, max) {
  */
 function getAudioContext() {
     if (!audioContext) {
-        audioContext = new window.AudioContext();
-        ToneSetContext(audioContext);
+        audioContext = ToneGetContext().rawContext;
+        //polyfillAudioListener(audioContext);
+        //ToneSetContext(audioContext);
     }
     return audioContext;
 }
@@ -94,6 +96,7 @@ function getAudioContext() {
  */
 function setAudioContext(context) {
     audioContext = context;
+    polyfillAudioListener(audioContext);
     ToneSetContext(context);
 }
 

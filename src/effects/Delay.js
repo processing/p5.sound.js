@@ -128,6 +128,54 @@ class Delay extends p5soundMixEffect {
    * @method feedback
    * @for Delay
    * @param {number} feedbackAmount A number between 0 and 0.99.
+   * @example
+   * <div>
+   * <code>
+   * let osc, delay, feedback = 0.5;
+   *
+   * async function setup() {
+   *   sound = await loadSound('assets/chime.mp3')
+   *   sound.loop(true);
+   *   
+   *   let cnv = createCanvas(100, 100);
+   *   background(220);
+   *   textAlign(CENTER);
+   *   textWrap(WORD);
+   *   textSize(9);
+   *   text('click to start audio', width/2, height/2);
+   * 
+   *   delay = new p5.Delay(0.250, feedback);
+   *   
+   *   sound.disconnect();
+   *   sound.connect(delay);
+   *   
+   *   describe('a sketch that demonstrates the feedback parameter.');
+   * }
+   *  
+   * function mousePressed() {
+   *   if (!sound.isPlaying()) {
+   *     sound.play();
+   *   }
+   *   else {
+   *     sound.stop();
+   *   }
+   * }
+   * 
+   * function draw() {
+   *   if(!sound.isPlaying()) {
+   *     background(220);
+   *     text('click to start audio', 0, height/2 - 20, width);
+   *   }
+   *   else {
+   *     background(0, 255, 255);
+   *     text('move mouse to change feedback', 0, height/2 - 20, width);
+   *   }
+   *   feedback = map(mouseX, 0, width, 0.1, 0.99);
+   *   delay.feedback(feedback);
+   *   text('feedback: ' + feedback.toFixed(2), width/2, height/2 + 20);
+   * }
+   * </code>
+   * </div>
    */
   feedback(value) {
     this.node.feedback.rampTo(clamp(value, 0, 0.99), 0.1);

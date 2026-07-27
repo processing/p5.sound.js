@@ -1,23 +1,36 @@
-let synth, ctx
-
 function setup() {
   createCanvas(400, 400);
-  //get the p5.sound.js Audio Context
-  ctx = getAudioContext()
-  //set the Tone.js Audio Context to match the p5.sound.js context
-  Tone.setContext(ctx)
-  //create a new MembraneSynth from the Tone.js library
-  synth = new Tone.MembraneSynth();
-  //create a new p5.sound.js Reverb effect
-  rev = new p5.Reverb(3)
-  //connect the MembraneSynth to the Reverb
-  rev.setInput(synth)
+  background(220);
+  textAlign(CENTER);
+  textWrap(WORD);
+  textSize(13);
+  text('click and drag the mouse', width/2, 150);
+
+  //initiallize the oscillator
+  beep = new p5.Oscillator();
+  
+  describe('A grey sketch that demonstrates how to use the Oscillator class in p5.sound.');
+}
+
+function mousePressed() {
+  beep.start();
+}
+
+function mouseReleased() {
+  beep.stop();
 }
 
 function draw() {
   background(220);
-}
-
-function mousePressed() {
-  synth.triggerAttackRelease("C2", "8n");
+  let frequency = map(mouseX, 0, width, 440, 880);
+  let amp = map(mouseY, 0, height, 1, 0);
+  beep.freq(frequency);
+  beep.amp(amp);
+  if (beep.started) {
+    text('Frequency: ' + frequency.toFixed(0) + 'Hz', 0, height/2, width);
+    text('Amplitude: ' + amp.toFixed(2), 0, height/2 + 20, width);
+  }
+  else {
+    text('click and drag the mouse to change the frequency and amplitude values', 0, height/2, width);
+  }
 }

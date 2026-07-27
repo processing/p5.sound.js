@@ -10,7 +10,7 @@ import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
 /**
  * Add reverb to a sound.
  * 
- * Reverb is an effect that is used commonly in electronic sound production. It makes input sound like it is in an actual space. Large spaces have longer decay times
+ * Reverb is an effect that is used commonly in electronic sound production. It makes input sound like it is in an actual space. Large spaces have longer decay times, while smaller spaces produce less acoustic reflections and therefore have less distinct reverb characteristics.
  * @class Reverb
  * @constructor
  * @extends p5soundMixEffect

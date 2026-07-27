@@ -1,5 +1,5 @@
 let sound_location = 0
-
+let panner
 function setup() {
   createCanvas(400, 400)
   // get and set the "Audio Context"
@@ -7,10 +7,10 @@ function setup() {
   Tone.setContext(ctx)
 
   synthy = new Tone.MonoSynth()
-  panny = new p5.Panner()
+  panner = new p5.Panner()
 
   // connect a Tone.js audio node to a p5 sound effect
-  panny.setInput(synthy)
+  //panner.setInput(synthy)
 }
 
 function draw() {
@@ -20,7 +20,7 @@ function draw() {
 
 function mousePressed() {
   sound_location = random(-1,1)
-  panny.pan(sound_location)
+  panner.pan(sound_location)
   synthy.triggerAttackRelease("D#5", (1.5))
 }
 

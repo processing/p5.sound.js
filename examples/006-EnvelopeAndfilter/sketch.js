@@ -1,4 +1,4 @@
-let osc, env;
+let noise, env;
 
 function setup() {
   let cnv = createCanvas(100, 100);

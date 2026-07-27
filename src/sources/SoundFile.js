@@ -10,13 +10,8 @@ import { p5soundSource } from "../core/p5soundSource";
 
 /**
  * loadSound() returns a new SoundFile from a specified
- * path. If called during preload(), the SoundFile will be ready
- * to play in time for setup() and draw(). If called outside of
- * preload, the SoundFile will not be ready immediately, so
- * loadSound accepts a callback as the second parameter. Using a
- * <a href="https://github.com/processing/p5.js/wiki/Local-server">
- * local server</a> is recommended when loading external files.
- *
+ * path. Call loadSound() from an async function with await 
+ * to ensure the sound is loaded before use.
  * @method loadSound
  * @for p5.sound
  * @param  {String|Array}   path     Path to the sound file, or an array with
@@ -26,25 +21,24 @@ import { p5soundSource } from "../core/p5soundSource";
  *                                   from the HTML5 File API, or a p5.File.
  * @return {SoundFile}               Returns a SoundFile
  * @example
- * <div><code>
+ * <div>
+ * <code>
  * let mySound;
- * function preload() {
- *   mySound = loadSound('/assets/doorbell.mp3');
+ *
+ * async function setup() {
+ *   describe("a sketch that loads and plays a sound file");
+ *   mySound = await loadSound('/assets/doorbell.mp3');
+ *   createCanvas(100, 100);
+ *   background(220);
+ *   text('tap here to play', 10, 20);
  * }
  *
- *  function setup() {
- *    let cnv = createCanvas(100, 100);
- *    cnv.mousePressed(canvasPressed);
- *    background(220);
- *    text('tap here to play', 10, 20);
- *  }
- *
- *  function canvasPressed() {
- *    // playing a sound file on a user gesture
- *    // is equivalent to `userStartAudio()`
- *    mySound.play();
- *  }
- *  </code></div>
+ * function mousePressed() {
+ *   // playing a sound file on a user gesture is equivalent to `userStartAudio()`
+ *   mySound.play();
+ * }
+ * </code>
+ * </div>
  */
 function loadSound (path) {
   if (typeof path === 'string') path = encodeURI(path);
@@ -80,16 +74,11 @@ function loadSound (path) {
  * <code>
  * let sound, amp, delay, cnv;
  * 
- * function preload() {
- *   //replace this sound with something local with rights to distribute
- *   //need to fix local asset loading first though :) 
- *   sound = loadSound('/assets/doorbell.mp3');
- * }
- * 
- * function setup() {
- *   cnv = createCanvas(100, 100);
+ * async function setup() {
+ *   describe("a sketch that plays a soundfile through a delay effect");
+ *   createCanvas(100, 100);
+ *   sound = await loadSound('/assets/doorbell.mp3');
  *   textAlign(CENTER);
- *   cnv.mousePressed(playSound);
  *   amp = new p5.Amplitude();
  *   delay = new p5.Delay();
  *   sound.disconnect();
@@ -97,7 +86,7 @@ function loadSound (path) {
  *   delay.connect(amp);
  * }
  * 
- * function playSound() {
+ * function mousePressed() {
  *   sound.play();
  * }
  * 
@@ -198,6 +187,9 @@ class SoundFile extends p5soundSource {
    * @method stop
    * @for SoundFile
    * @example
+   * <div>
+   * <code>
+   * let sample;
    * async function setup() {
    *  sample = await loadSound("assets/chime.mp3");
    *  createCanvas(100, 100);
@@ -385,16 +377,12 @@ class SoundFile extends p5soundSource {
    * <div>
    * <code>
    * let soundSource, cnv, btn;
-   *
-   * function preload() {
-   *   soundSource = loadSound('/assets/Damscray_-_Dancing_Tiger_01.mp3');
-   * }
    * 
-   * function setup() {
+   * async function setup() {
    *   describe(
    *     'a sketch that says click to play sound. there is a button that says load sound. when you click the button, the path of the sound file player changes and the new sound plays.');
-   *   cnv = createCanvas(100, 100);
-   *   cnv.mousePressed(playSound);
+   *   createCanvas(100, 100);
+   *   soundSource = await loadSound('/assets/Damscray_-_Dancing_Tiger_01.mp3');
    *   background(220);
    *   textAlign(CENTER);
    *   textWrap(WORD);
@@ -405,7 +393,7 @@ class SoundFile extends p5soundSource {
    *   soundSource.loop();  
    * }
    * 
-   * function playSound() {
+   * function mousePressed() {
    *   soundSource.play();
    * }
    * 
@@ -661,18 +649,14 @@ class SoundFile extends p5soundSource {
    * <div>
    * <code>
    * let player;
-   *
-   * function preload() {
-   *   player = loadSound('/assets/lucky_dragons_-_power_melody.mp3');
-   * }
    * 
    * function setup() {
    *   let cnv = createCanvas(100, 100);
    *   background(220);
+   *   player = await loadSound('/assets/lucky_dragons_-_power_melody.mp3');
    *   textAlign(CENTER);
    *   textSize(10);
    *   text('click to play', width/2, height/2);
-   *   cnv.mousePressed(playSound);
    *   player.onended(coolFunction);
    * }
    * 
@@ -681,7 +665,7 @@ class SoundFile extends p5soundSource {
    *   text('sound is done', width/2, height/2);
    * }
    * 
-   * function playSound() {
+   * function mousePressed() {
    *   background(0, 255, 255);
    *   text('sound is playing', width/2, height/2);
    *   if (!player.isPlaying()) {
@@ -704,13 +688,10 @@ class SoundFile extends p5soundSource {
    * <div>
    * <code>
    * let player;
-   *
-   * function preload() {
-   *   player = loadSound('/assets/lucky_dragons_-_power_melody.mp3');
-   * }
    * 
-   * function setup() {
+   * async function setup() {
    *   describe('A sketch that calculates and displays the length of a sound file using number of samples and sample rate.');
+   *   player = await loadSound('/assets/lucky_dragons_-_power_melody.mp3');
    *   createCanvas(100, 100);
    *   background(220);
    *   textAlign(CENTER);

@@ -52,10 +52,8 @@ class Delay extends p5soundMixEffect {
     this.d = d;
     this.f = f;
     this.node = new ToneFeedbackDelay(this.d, this.f)
-    const toneInput  = this.node.input.input ?? this.node.input;
-    const toneOutput = this.node.output.output ?? this.node.output;
-    this.input.connect(toneInput);
-    toneOutput.connect(this.output);
+    this.input.connect(this.node);
+    this.node.connect(this.output);
   }
 
   /**
@@ -185,14 +183,21 @@ class Delay extends p5soundMixEffect {
    * Process an input signal with a delay effect.
    * @method process
    * @for Delay
-   * @param {Object} unit A p5.sound source such as an Oscillator, Soundfile, or AudioIn object. 
-   * @param {Number} delayTime The amount of delay in seconds. A number between 0 and 1.
-   * @param {Number} feedback The amount of feedback. A number between 0 and 1.
+   * @param {Object} unit A p5.sound source such as an Oscillator, Soundfile, or AudioIn object.
+   * @param {Number} [delayTime] The amount of delay in seconds. A number between 0 and 1. Keeps the current delay time if omitted.
+   * @param {Number} [feedback] The amount of feedback. A number between 0 and 1. Keeps the current feedback amount if omitted.
    */
-  process(input, delayTime, feedback) { 
-    this.node.delayTime.value = delayTime;
-    this.node.feedback.value = feedback;
-    input.getNode().connect(this.node);
+  process(input, delayTime = this.node.delayTime.value, feedback = this.node.feedback.value) {
+    //both values are set immediately rather than ramped: process() is usually
+    //called from setup(), where the audio context is still suspended and a
+    //scheduled ramp would not advance until the first user gesture.
+    if (typeof delayTime === 'number') {
+      this.node.delayTime.value = clamp(delayTime, 0, 1);
+    }
+    if (typeof feedback === 'number') {
+      this.node.feedback.value = clamp(feedback, 0, 0.99);
+    }
+    this.setInput(input);
   }
 }
 

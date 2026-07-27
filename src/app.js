@@ -1,4 +1,3 @@
-import "./core/audioParamPolyfill.js";
 import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './core/Utils';
 p5.prototype.getAudioContext = getAudioContext;
 p5.prototype.setAudioContext = setAudioContext;
@@ -65,6 +64,15 @@ p5.prototype.loadSound = loadSound;
 
 import AudioIn from './sources/AudioIn';
 p5.AudioIn = AudioIn;
+
+//The Tone.js library p5.sound is built on, exposed as p5.Tone so sketches can
+//reach the parts p5.sound does not wrap. Use this rather than loading Tone.js
+//separately: two copies of Tone.js cannot share an audio graph, because each
+//bundles its own standardized-audio-context whose type checks reject the
+//other's nodes. Nodes made from p5.Tone are already on p5.sound's context, so
+//they connect to p5.sound nodes with no setup.
+import * as Tone from "tone";
+p5.Tone = Tone;
 
 import { MonoSynth, EQ, Convolver, Distortion, OnsetDetect, Filter, Effect, Compressor, AudioVoice, Part, Phrase, PolySynth, Pulse, Score, SoundLoop } from './core/Friendly';
 //deprecated functions

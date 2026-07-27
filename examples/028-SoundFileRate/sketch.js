@@ -1,3 +1,5 @@
+let sample, rate;
+
 async function setup() {
   sample = await loadSound("assets/drums.mp3");
   sample.loop(true);
@@ -10,6 +12,8 @@ async function setup() {
 
 function draw() {
   background(220);
+  // the sound file is still loading (setup is waiting on loadSound)
+  if (!sample) return;
   rate = map(mouseX, 0, width, 0.5, 2);
   sample.rate(rate);
   if (!sample.isPlaying()) {
@@ -21,6 +25,7 @@ function draw() {
 }
 
 function mousePressed() {
+  if (!sample) return;
   if(!sample.isPlaying()) {
     sample.play();
   }

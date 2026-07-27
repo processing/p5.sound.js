@@ -20,6 +20,7 @@ async function setup() {
 }
 
 function mousePressed() {
+  if (!sample) return;
   if (!sample.isPlaying()) {
     sample.play();
   }

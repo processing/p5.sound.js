@@ -61,10 +61,8 @@ class Reverb extends p5soundMixEffect {
     super();
     this.decayTime = decayTime || 10;
     this.node = new ToneReverb(this.decayTime);
-    const toneInput  = this.node.input.input ?? this.node.input;
-    const toneOutput = this.node.output.output ?? this.node.output;
-    this.input.connect(toneInput);
-    toneOutput.connect(this.output);
+    this.input.connect(this.node);
+    this.node.connect(this.output);
   }
 
   /**

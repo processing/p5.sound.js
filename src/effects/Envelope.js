@@ -38,10 +38,8 @@ class Envelope extends p5soundNode {
       sustain: this.sustain,
       release: this.release,
     })
-    const toneInput  = this.node.input.input ?? this.node.input;
-    const toneOutput = this.node.output.output ?? this.node.output;
-    this.input.connect(toneInput);
-    toneOutput.connect(this.output);
+    this.input.connect(this.node);
+    this.node.connect(this.output);
   }
 
   /**

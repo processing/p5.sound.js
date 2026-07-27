@@ -43,10 +43,8 @@
     constructor(amount = 0) {
       super();
       this.node = new TonePanner(amount);
-      const toneInput  = this.node.input.input ?? this.node.input;
-      const toneOutput = this.node.output.output ?? this.node.output;
-      this.input.connect(toneInput);
-      toneOutput.connect(this.output);
+      this.input.connect(this.node);
+      this.node.connect(this.output);
     }
     
     /**

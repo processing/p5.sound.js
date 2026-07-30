@@ -28,16 +28,13 @@ import { p5soundNode } from "../core/p5soundNode.js";
  * let vY;
  * let vZ;
  * 
- * function preload() {
- *   soundSource = loadSound('/assets/beat.mp3');
- *   font = loadFont('/assets/SourceSansPro-Regular.otf');
- * }
- * 
- * function setup() {
+ * async function setup() {
  *   describe(
  *     'A 3D shape with a sound source attached to it. The sound source is spatialized using the Panner3D class. Click to play the sound.'
  *   );
  *   cnv = createCanvas(100, 100, WEBGL);
+ *   soundSource = await loadSound('/assets/beat.mp3');
+ *   font = await loadFont('/assets/SourceSansPro-Regular.otf');
  *   cnv.mousePressed(playSound);
  * 
  *   camera(0, 0, 0, 0, 0, 1);

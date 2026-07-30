@@ -16,15 +16,12 @@ import { p5soundNode } from "../core/p5soundNode.js";
  * <div>
  * <code>
  * let cnv, soundFile, osc, gain;
- * 
- * function preload() {
- *   soundFile = loadSound('assets/Damscray_DancingTiger.mp3');
- * }
- * 
- * function setup() {
+ *
+ * async function setup() {
  *   cnv = createCanvas(100, 100);
  *   cnv.mousePressed(playSound);
  *   background(220);
+ *   soundFile = await loadSound('assets/Damscray_DancingTiger.mp3');
  *   gain = new p5.Gain(0.74);
  *   osc = new p5.Oscillator();
  *   osc.amp(0.74);

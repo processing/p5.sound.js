@@ -64,7 +64,7 @@ function getAudioContext() {
 /**
  *  Sets the AudioContext to a specified context to enable cross library compatibility.
  *  @function setAudioContext
- *  @param {AudioContext} the desired AudioContext.
+ *  @param {AudioContext} context the desired AudioContext to use.
  *  @example
  *  <div>
  *  <code>

@@ -1,4 +1,3 @@
-import "./core/audioParamPolyfill.js";
 import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './core/Utils';
 p5.prototype.getAudioContext = getAudioContext;
 p5.prototype.setAudioContext = setAudioContext;

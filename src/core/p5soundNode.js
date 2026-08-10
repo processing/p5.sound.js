@@ -6,11 +6,37 @@
 
 import { getAudioContext } from "./Utils";
 import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
+import { connect as ToneConnect } from "tone/build/esm/core/context/ToneAudioNode.js";
+import { isAudioNode, isAudioParam } from "tone/build/esm/core/util/AdvancedTypeCheck.js";
+
+/**
+ * a private helper function that "unwraps" Tone.js nodes with a "this.input" property until it reaches a bare audio node that a plain Web Audio connect() can target.
+ * @private
+ * @function resolveInput
+ */
+function resolveInput(node) {
+  while (node && !isAudioNode(node) && !isAudioParam(node) && typeof node.input !== "undefined") {
+    node = node.input;
+  }
+  return node;
+}
+
+/**
+ * a private helper function that "unwraps" Tone.js nodes with a "this.output" property until it reaches a bare audio node that a plain Web Audio connect() can target.
+ * @private
+ * @function resolveOutput
+ */
+function resolveOutput(node) {
+  while (node && !isAudioNode(node) && typeof node.output !== "undefined") {
+    node = node.output;
+  }
+  return node;
+}
 
 /**
  * This is the primary or "base" class for p5.sound.js "nodes."
- * 
- * It allows p5.sound.js audio sources and effects to connect to one another. It also allows you to change how loud they are. 
+ *
+ * It allows p5.sound.js audio sources and effects to connect to one another. It also allows you to change how loud they are.
  * @class p5soundNode
  * @constructor
  */
@@ -122,7 +148,7 @@ class p5soundNode {
     if(typeof destination.getNode === 'function') {
       this.output.connect(destination.getNode());
     } else {
-      this.output.connect(destination);
+      this.output.connect(resolveInput(destination));
     }
   }
 
@@ -174,16 +200,8 @@ class p5soundNode {
       source.connect(this.input);
       return;
     }
-    //for tone.js nodes
-    if (typeof source.connect === 'function' && typeof source.output !== 'undefined') {
-      source.connect(this.input);
-      return;
-    } 
-    //for web audio nodes
-    if (source instanceof AudioNode) {
-      source.connect(this.input);
-      return;
-    }
+    //for Tone.js nodes
+    ToneConnect(resolveOutput(source), resolveInput(this.input));
   }
   
   /**
@@ -234,4 +252,4 @@ class p5soundNode {
   }
 }
 
-export { p5soundNode };
+export { p5soundNode, resolveInput, resolveOutput };

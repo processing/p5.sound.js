@@ -6,7 +6,7 @@
 
   import { Panner as TonePanner} from "tone/build/esm/component/channel/Panner.js";
   import { clamp } from '../core/Utils.js';
-  import { p5soundNode } from "../core/p5soundNode.js";
+  import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 
   /**
    * A panning effect. Moves the sound from left to right using a value between -1 and 1.
@@ -43,10 +43,8 @@
     constructor(amount = 0) {
       super();
       this.node = new TonePanner(amount);
-      const toneInput  = this.node.input.input ?? this.node.input;
-      const toneOutput = this.node.output.output ?? this.node.output;
-      this.input.connect(toneInput);
-      toneOutput.connect(this.output);
+      this.input.connect(resolveInput(this.node));
+      this.node.connect(this.output);
     }
     
     /**
@@ -89,7 +87,7 @@
      */
     pan(amount) {
       if (typeof amount === "object") {
-        amount.output.connect(this.node.pan.input);
+        amount.output.connect(resolveInput(this.node.pan.input));
         return;
       }
       this.node.pan.rampTo(clamp(amount, -1, 1), 0.01);

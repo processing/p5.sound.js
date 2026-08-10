@@ -5,7 +5,7 @@
  */
 
 import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/component/envelope/AmplitudeEnvelope.js";
-import { p5soundNode } from "../core/p5soundNode";
+import { p5soundNode, resolveInput } from "../core/p5soundNode";
 
 /**
  * Generate an amplitude envelope.
@@ -38,10 +38,8 @@ class Envelope extends p5soundNode {
       sustain: this.sustain,
       release: this.release,
     })
-    const toneInput  = this.node.input.input ?? this.node.input;
-    const toneOutput = this.node.output.output ?? this.node.output;
-    this.input.connect(toneInput);
-    toneOutput.connect(this.output);
+    this.input.connect(resolveInput(this.node));
+    this.node.connect(this.output);
   }
 
   /**

@@ -5,7 +5,7 @@
  */
 
 import { Panner3D as TonePanner3D} from "tone/build/esm/component/channel/Panner3D.js";
-import { p5soundNode } from "../core/p5soundNode.js";
+import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 
 /**
  * A 3D sound spatializer.
@@ -113,10 +113,8 @@ class Panner3D extends p5soundNode {
       positionY:0,
       positionZ:0,
     })
-    const toneInput  = this.node.input.input ?? this.node.input;
-    const toneOutput = this.node.output.output ?? this.node.output;
-    this.input.connect(toneInput);
-    toneOutput.connect(this.output);
+    this.input.connect(resolveInput(this.node));
+    this.node.connect(this.output);
   }
 
   /**
@@ -126,7 +124,7 @@ class Panner3D extends p5soundNode {
    * @param {Object} input an input source to process with the 3D panner.
    */
   process(input) {
-    input.getNode().connect(this.node);
+    this.setInput(input);
   }
 
   /**

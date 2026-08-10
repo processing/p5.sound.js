@@ -1,3 +1,5 @@
+let soundy, amp;
+
 async function setup() {
   soundy = await loadSound('https://tonejs.github.io/audio/berklee/gong_1.mp3');
   createCanvas(400, 400);
@@ -11,10 +13,13 @@ async function setup() {
 }
  
 function mousePressed() {
+  if (!soundy) return;
   soundy.play();
 }
- 
+
 function draw() {
+  // the sound file is still loading (setup is waiting on loadSound)
+  if (!amp) return;
   let level = amp.getLevel();
   level = map(level, 0, 0.2, 0, 255);
   background(level, 0, 0);

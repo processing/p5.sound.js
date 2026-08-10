@@ -6,7 +6,7 @@
 
 import { clamp } from "../core/Utils.js";
 import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter/BiquadFilter.js";
-import { p5soundNode } from "../core/p5soundNode.js";
+import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 
 /**
  * Filter the frequency range of a sound.
@@ -81,10 +81,8 @@ class Biquad extends p5soundNode {
     this.type = t;
     this.cutoff = c;
     this.node = new ToneBiquadFilter(this.cutoff, this.type)
-    const toneInput  = this.node.input.input ?? this.node.input;
-    const toneOutput = this.node.output.output ?? this.node.output;
-    this.input.connect(toneInput);
-    toneOutput.connect(this.output);
+    this.input.connect(resolveInput(this.node));
+    this.node.connect(this.output);
   }
   
   /**

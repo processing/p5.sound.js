@@ -6,6 +6,7 @@
 
 import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
 import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
+import { resolveInput } from "../core/p5soundNode.js";
 
 /**
  * Add reverb to a sound.
@@ -61,10 +62,8 @@ class Reverb extends p5soundMixEffect {
     super();
     this.decayTime = decayTime || 10;
     this.node = new ToneReverb(this.decayTime);
-    const toneInput  = this.node.input.input ?? this.node.input;
-    const toneOutput = this.node.output.output ?? this.node.output;
-    this.input.connect(toneInput);
-    toneOutput.connect(this.output);
+    this.input.connect(resolveInput(this.node));
+    this.node.connect(this.output);
   }
 
   /**

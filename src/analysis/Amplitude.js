@@ -5,7 +5,7 @@
  */
 
 import { Meter as ToneMeter } from "tone/build/esm/component/analysis/Meter.js";
-import { p5soundNode } from "../core/p5soundNode.js";
+import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 
 /**
  * Get the current amplitude or 'loudness' of a sound.
@@ -52,9 +52,7 @@ class Amplitude extends p5soundNode {
   constructor(smoothing = 0) {
     super();
     this.node = new ToneMeter({normalRange:true, smoothing:smoothing});
-    let toneInput = this.node.input;
-    while (toneInput && toneInput.input) toneInput = toneInput.input;
-    this.input.connect(toneInput);
+    this.input.connect(resolveInput(this.node));
   }
 
   /**
@@ -108,7 +106,7 @@ class Amplitude extends p5soundNode {
    * </div>
    */
   setInput(input) {
-    input.getNode().connect(this.node);
+    super.setInput(input);
   }
 
   /**

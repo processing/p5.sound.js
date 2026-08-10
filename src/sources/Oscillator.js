@@ -20,6 +20,7 @@ import { Frequency } from "tone/build/esm/core/type/Frequency.js";
  * @param {String} [type] type of waveform:
  *                        'sine' (default), 'triangle',
  *                        'sawtooth', 'square'
+ * 
  * @example
  * <div>
  * <code>

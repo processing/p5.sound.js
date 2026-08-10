@@ -4,48 +4,94 @@
  *  @for p5.sound
  */
 
-import { polyfillAudioListener } from "./audioListenerPolyfill.js";
-import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone/build/esm/core/Global.js";
-import { start as ToneStart } from "tone/build/esm/core/Global.js";
-
-let audioContext = null;
+import { hasAudioContext } from "tone/build/esm/core/context/AudioContext.js";
+import { setContext as ToneSetContext, start as ToneStart } from "tone/build/esm/core/Global.js";
+import "./polyfills/audioParamPolyfill.js";
+import { polyfillAudioListener } from "./polyfills/audioListenerPolyfill.js";
 
 /**
-   * A private function used to constrain values to a range and prevent boundary violations. 
-   * @private
-   * @function clamp
-*/
+ * A private function used to constrain values to a range and prevent boundary violations.
+ * @private
+ * @function clamp
+ */
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
 
 /**
- *  Get the window's audio context. For patching p5.sound.js into other JavaScript sound libraries. 
+ * A private helper function that creates a vanilla AudioContext. The Firefox incompatibilities
+ * are handled by the polyfills in ./polyfills/.
+ * @private
+ * @function createContext
+ */
+function createContext() {
+    const globalContext = window.AudioContext || window.webkitAudioContext;
+    const ctx = new globalContext();
+    polyfillAudioListener(ctx);
+    return ctx;
+}
+
+/**
+ * The context the p5.sound.js node graph is built on.
+ *
+ * Created as soon as the library loads (rather than lazily, on first
+ * p5soundNode) so it always exists before a sketch runs
+ * @private
+ */
+let context = hasAudioContext ? createContext() : null;
+if (context) {
+    ToneSetContext(context);
+}
+
+/**
+ * A private helper that returns the context, in the unlikely case it wasn't
+ * available yet when this module first loaded.
+ * @private
+ * @function ensureContext
+ */
+function ensureContext() {
+    if (!context) {
+        setAudioContext(createContext());
+    }
+    return context;
+}
+
+/**
+ *  Get the window's audio context. For patching p5.sound.js into other JavaScript sound libraries.
+ *
+ *  Returns the AudioContext that p5.sound.js plays through and builds its node
+ *  graph on directly, so ordinary Web Audio code such as
+ *  `ctx.createGain().connect(ctx.destination)` works against it.
+ *
+ *  It is the browser's own AudioContext, which is what lets another audio
+ *  library share it. Hand it to that library's own context setter before
+ *  creating any of its objects — `Tone.setContext(getAudioContext())` for
+ *  Tone.js — and nodes from both libraries can then be connected to each
+ *  other.
  *  @function getAudioContext
  *  @return {AudioContext} the audio context
  *  @example
  *  <div>
  *  <code>
- *  let synth, ctx
- *  
+ *  let synth, rev
+ *
  *  function setup() {
  *    createCanvas(400, 400);
- *    //get the p5.sound.js Audio Context
- *    ctx = getAudioContext()
- *    //set the Tone.js Audio Context to match the p5.sound.js context
- *    Tone.setContext(ctx)
- *    //create a new MembraneSynth from the Tone.js library
+ *    //hand p5.sound's context to Tone.js, loaded from its own script tag,
+ *    //before making any Tone.js object
+ *    Tone.setContext(getAudioContext());
+ *    //create a new MembraneSynth with Tone.js
  *    synth = new Tone.MembraneSynth();
  *    //create a new p5.sound.js Reverb effect
  *    rev = new p5.Reverb(3)
  *    //connect the MembraneSynth to the Reverb
  *    rev.setInput(synth)
  *  }
- *  
+ *
  *  function draw() {
  *    background(220);
  *  }
- *  
+ *
  *  function mousePressed() {
  *    synth.triggerAttackRelease("C2", "8n");
  *  }
@@ -53,51 +99,45 @@ function clamp(value, min, max) {
  *  </div>
  */
 function getAudioContext() {
-    if (!audioContext) {
-        audioContext = ToneGetContext().rawContext;
-        //polyfillAudioListener(audioContext);
-        //ToneSetContext(audioContext);
-    }
-    return audioContext;
+    return ensureContext();
 }
 
 /**
- *  Sets the AudioContext to a specified context to enable cross library compatibility.
+ *  Sets the audio context to a specified context to enable cross library compatibility.
+ *
+ *  Accepts an AudioContext, an OfflineAudioContext, or a Tone.js Context.
+ *  A raw AudioContext supplied here gets the same Firefox fixes
  *  @function setAudioContext
- *  @param {AudioContext} context the desired AudioContext to use.
+ *  @param {AudioContext|OfflineAudioContext|Context} context the desired audio context.
  *  @example
  *  <div>
  *  <code>
- *  let synth, ctx
- *  
+ *  let osc, ctx
+ *
  *  function setup() {
  *    createCanvas(400, 400);
- *    //get the p5.sound.js Audio Context
- *    ctx = getAudioContext()
- *    //set the Tone.js Audio Context to match the p5.sound.js context
- *    Tone.setContext(ctx)
- *    //create a new MembraneSynth from the Tone.js library
- *    synth = new Tone.MembraneSynth();
- *    //create a new p5.sound.js Reverb effect
- *    rev = new p5.Reverb(3)
- *    //connect the MembraneSynth to the Reverb
- *    rev.setInput(synth)
+ *    //route p5.sound.js through an audio context the sketch owns
+ *    ctx = new AudioContext();
+ *    setAudioContext(ctx);
+ *    //nodes created from here on play through that context
+ *    osc = new p5.Oscillator();
  *  }
- *  
+ *
  *  function draw() {
  *    background(220);
  *  }
- *  
+ *
  *  function mousePressed() {
- *    synth.triggerAttackRelease("C2", "8n");
+ *    osc.start();
  *  }
  *  </code>
  *  </div>
  */
-function setAudioContext(context) {
-    audioContext = context;
-    polyfillAudioListener(audioContext);
-    ToneSetContext(context);
+function setAudioContext(ctx) {
+    context = ctx;
+    //Firefox fix
+    polyfillAudioListener(ctx);
+    ToneSetContext(ctx);
 }
 
 /**
@@ -138,7 +178,7 @@ function setAudioContext(context) {
  *  </div>
  */
 function userStartAudio() {
-    ToneStart();
+    return ToneStart();
 }
 
 /**
@@ -179,8 +219,7 @@ function userStartAudio() {
  *  </div>
  */
 function userStopAudio() {
-    const context = audioContext || ToneGetContext();
-    context.suspend();
+    return ensureContext().suspend();
 }
 
 export { clamp, getAudioContext, setAudioContext, userStartAudio, userStopAudio };

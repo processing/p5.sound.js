@@ -7,7 +7,7 @@
 import { FFT as ToneFFT } from "tone/build/esm/component/analysis/FFT.js";
 import { Waveform as ToneWaveform } from "tone/build/esm/component/analysis/Waveform.js";
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
-import { p5soundNode } from "../core/p5soundNode";
+import { p5soundNode, resolveInput } from "../core/p5soundNode";
 
 /**
  * Analyze the frequency spectrum and waveform of sounds.
@@ -77,9 +77,7 @@ class FFT extends p5soundNode {
         this.node = new ToneGain(1);
         this.node.connect(this.analyzer);
         this.node.connect(this.samples);
-        let toneInput = this.node.input;
-        while (toneInput && toneInput.input) toneInput = toneInput.input;
-        this.input.connect(toneInput);
+        this.input.connect(resolveInput(this.node));
     }
 
     /**

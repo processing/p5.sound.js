@@ -19,8 +19,13 @@ const LISTENER_PARAMS = [
 ];
 
 export function polyfillAudioListener(ctx) {
-  const listener = ctx.listener;
-  if (listener.positionX) return;   // Chrome/Edge/Safari: native, no-op
+  const listener = ctx && ctx.listener;
+  // Bail on anything that isn't a raw context with a bare listener: Chrome,
+  // Edge and Safari already have the params, a second call finds the ones we
+  // installed on the first, and a Tone Context handed to setAudioContext()
+  // carries a Tone ListenerClass that has them too.
+  if (!listener || listener.positionX) return;
+  if (typeof ctx.createConstantSource !== "function") return;
 
   // Muted sink keeps the donor nodes in the processing graph —
   // params on unpulled nodes may not advance their automation.

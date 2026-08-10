@@ -4,25 +4,31 @@
  *  @for p5.sound
  */
 
-import { getToneContext } from "./Utils";
+import { getAudioContext } from "./Utils";
 import { gainToDb as ToneGainToDb } from "tone/build/esm/core/type/Conversions.js";
-import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
 import { connect as ToneConnect } from "tone/build/esm/core/context/ToneAudioNode.js";
 import { isAudioNode, isAudioParam } from "tone/build/esm/core/util/AdvancedTypeCheck.js";
 
 /**
- * A private helper that unwraps Tone.js-style wrappers (objects that expose
- * the node they wrap as `input`) until it reaches a bare audio node or param
- * that connect() can target. Tone.js does this for its own nodes, but its
- * instanceof checks cannot recognize wrappers coming from a second copy of
- * Tone.js loaded by the sketch (see the getAudioContext() example), so we
- * resolve them by shape instead.
+ * a private helper function that "unwraps" Tone.js nodes with a "this.input" property until it reaches a bare audio node that a plain Web Audio connect() can target.
  * @private
  * @function resolveInput
  */
 function resolveInput(node) {
   while (node && !isAudioNode(node) && !isAudioParam(node) && typeof node.input !== "undefined") {
     node = node.input;
+  }
+  return node;
+}
+
+/**
+ * a private helper function that "unwraps" Tone.js nodes with a "this.output" property until it reaches a bare audio node that a plain Web Audio connect() can target.
+ * @private
+ * @function resolveOutput
+ */
+function resolveOutput(node) {
+  while (node && !isAudioNode(node) && typeof node.output !== "undefined") {
+    node = node.output;
   }
   return node;
 }
@@ -37,9 +43,9 @@ function resolveInput(node) {
 class p5soundNode {
   constructor() {
     this.node = null;
-    this.ctx = getToneContext();
-    this.input = new ToneGain({ context: this.ctx });
-    this.output = new ToneGain({ context: this.ctx });
+    this.ctx = getAudioContext();
+    this.input = this.ctx.createGain();
+    this.output = this.ctx.createGain();
     this.output.connect(this.ctx.destination);
   }
 
@@ -194,10 +200,8 @@ class p5soundNode {
       source.connect(this.input);
       return;
     }
-    //for tone.js nodes (from the bundled Tone.js or a copy the sketch loaded)
-    //and for bare web audio nodes. The destination is resolved to a bare node
-    //first so a foreign Tone.js copy can also make the connection.
-    ToneConnect(source, resolveInput(this.input));
+    //for Tone.js nodes
+    ToneConnect(resolveOutput(source), resolveInput(this.input));
   }
   
   /**
@@ -248,4 +252,4 @@ class p5soundNode {
   }
 }
 
-export { p5soundNode };
+export { p5soundNode, resolveInput, resolveOutput };

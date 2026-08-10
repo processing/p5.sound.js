@@ -4,45 +4,70 @@
  *  @for p5.sound
  */
 
-import { getContext as ToneGetContext, setContext as ToneSetContext } from "tone/build/esm/core/Global.js";
-import { start as ToneStart } from "tone/build/esm/core/Global.js";
+import { hasAudioContext } from "tone/build/esm/core/context/AudioContext.js";
+import { setContext as ToneSetContext, start as ToneStart } from "tone/build/esm/core/Global.js";
+import "./polyfills/audioParamPolyfill.js";
+import { polyfillAudioListener } from "./polyfills/audioListenerPolyfill.js";
 
 /**
-   * A private function used to constrain values to a range and prevent boundary violations. 
-   * @private
-   * @function clamp
-*/
+ * A private function used to constrain values to a range and prevent boundary violations.
+ * @private
+ * @function clamp
+ */
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
 
 /**
- * A private accessor for the Tone.js Context that the p5.sound.js node graph
- * is built on. Its cross-browser compatibility fixes are what let p5.sound.js
- * behave the same in Chrome, Firefox and Safari without polyfills.
- *
- * This is deliberately not the same thing as getAudioContext(): nodes need the
- * Tone.js Context (its destination and listener are Tone.js objects), while
- * sketches need the plain AudioContext that Web Audio code expects.
+ * A private helper function that creates a vanilla AudioContext. The Firefox incompatibilities
+ * are handled by the polyfills in ./polyfills/.
  * @private
- * @function getToneContext
+ * @function createContext
  */
-function getToneContext() {
-    return ToneGetContext();
+function createContext() {
+    const globalContext = window.AudioContext || window.webkitAudioContext;
+    const ctx = new globalContext();
+    polyfillAudioListener(ctx);
+    return ctx;
+}
+
+/**
+ * The context the p5.sound.js node graph is built on.
+ *
+ * Created as soon as the library loads (rather than lazily, on first
+ * p5soundNode) so it always exists before a sketch runs
+ * @private
+ */
+let context = hasAudioContext ? createContext() : null;
+if (context) {
+    ToneSetContext(context);
+}
+
+/**
+ * A private helper that returns the context, in the unlikely case it wasn't
+ * available yet when this module first loaded.
+ * @private
+ * @function ensureContext
+ */
+function ensureContext() {
+    if (!context) {
+        setAudioContext(createContext());
+    }
+    return context;
 }
 
 /**
  *  Get the window's audio context. For patching p5.sound.js into other JavaScript sound libraries.
  *
- *  Returns the plain AudioContext that p5.sound.js plays through, so ordinary
- *  Web Audio code such as `ctx.createGain().connect(ctx.destination)` works
- *  against it.
+ *  Returns the AudioContext that p5.sound.js plays through and builds its node
+ *  graph on directly, so ordinary Web Audio code such as
+ *  `ctx.createGain().connect(ctx.destination)` works against it.
  *
- *  To use Tone.js alongside p5.sound.js, reach for p5.Tone rather than sharing
- *  this context with a separately loaded copy of Tone.js. Two copies of Tone.js
- *  cannot share an audio graph no matter which context they are handed, because
- *  each bundles its own standardized-audio-context whose type checks reject the
- *  other's nodes.
+ *  It is the browser's own AudioContext, which is what lets another audio
+ *  library share it. Hand it to that library's own context setter before
+ *  creating any of its objects — `Tone.setContext(getAudioContext())` for
+ *  Tone.js — and nodes from both libraries can then be connected to each
+ *  other.
  *  @function getAudioContext
  *  @return {AudioContext} the audio context
  *  @example
@@ -52,8 +77,11 @@ function getToneContext() {
  *
  *  function setup() {
  *    createCanvas(400, 400);
- *    //create a new MembraneSynth using the Tone.js library bundled with p5.sound
- *    synth = new p5.Tone.MembraneSynth();
+ *    //hand p5.sound's context to Tone.js, loaded from its own script tag,
+ *    //before making any Tone.js object
+ *    Tone.setContext(getAudioContext());
+ *    //create a new MembraneSynth with Tone.js
+ *    synth = new Tone.MembraneSynth();
  *    //create a new p5.sound.js Reverb effect
  *    rev = new p5.Reverb(3)
  *    //connect the MembraneSynth to the Reverb
@@ -71,21 +99,14 @@ function getToneContext() {
  *  </div>
  */
 function getAudioContext() {
-    return ToneGetContext().rawContext;
+    return ensureContext();
 }
 
 /**
  *  Sets the audio context to a specified context to enable cross library compatibility.
  *
  *  Accepts an AudioContext, an OfflineAudioContext, or a Tone.js Context.
- *  Plain contexts are wrapped in a Tone.js Context first, so every
- *  p5.sound.js node keeps its cross-browser compatibility fixes. Call this
- *  before creating any p5.sound.js node — nodes made earlier stay on the
- *  previous context.
- *  Note that a context supplied here loses the compatibility fixes p5.sound.js
- *  normally provides, so some features may behave differently between browsers.
- *  In Firefox, for example, an AudioContext made with `new AudioContext()` has
- *  no AudioListener parameters, which p5.Panner3D relies on.
+ *  A raw AudioContext supplied here gets the same Firefox fixes
  *  @function setAudioContext
  *  @param {AudioContext|OfflineAudioContext|Context} context the desired audio context.
  *  @example
@@ -112,8 +133,11 @@ function getAudioContext() {
  *  </code>
  *  </div>
  */
-function setAudioContext(context) {
-    ToneSetContext(context);
+function setAudioContext(ctx) {
+    context = ctx;
+    //Firefox fix
+    polyfillAudioListener(ctx);
+    ToneSetContext(ctx);
 }
 
 /**
@@ -195,8 +219,7 @@ function userStartAudio() {
  *  </div>
  */
 function userStopAudio() {
-    // Tone's Context has no suspend(); suspend the context it manages.
-    return ToneGetContext().rawContext.suspend();
+    return ensureContext().suspend();
 }
 
-export { clamp, getAudioContext, getToneContext, setAudioContext, userStartAudio, userStopAudio };
+export { clamp, getAudioContext, setAudioContext, userStartAudio, userStopAudio };

@@ -5,7 +5,7 @@
  */
 
 import { PitchShift as TonePitchShift } from "tone/build/esm/effect/PitchShift.js";
-import { p5soundNode } from "../core/p5soundNode.js";
+import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 
 /**
  * Change the pitch of a sound.
@@ -41,7 +41,7 @@ class PitchShifter extends p5soundNode {
     constructor(shiftValue = 1) {
         super();
         this.node = new TonePitchShift(shiftValue)
-        this.input.connect(this.node);
+        this.input.connect(resolveInput(this.node));
         this.node.connect(this.output);
     }
 

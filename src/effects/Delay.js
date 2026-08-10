@@ -4,6 +4,7 @@
  *  @for p5.sound
  */
 import { p5soundMixEffect } from "../core/p5soundMixEffect.js";
+import { resolveInput } from "../core/p5soundNode.js";
 import { FeedbackDelay as ToneFeedbackDelay } from "tone/build/esm/effect/FeedbackDelay.js";
 import { clamp } from '../core/Utils.js';
 
@@ -52,7 +53,7 @@ class Delay extends p5soundMixEffect {
     this.d = d;
     this.f = f;
     this.node = new ToneFeedbackDelay(this.d, this.f)
-    this.input.connect(this.node);
+    this.input.connect(resolveInput(this.node));
     this.node.connect(this.output);
   }
 

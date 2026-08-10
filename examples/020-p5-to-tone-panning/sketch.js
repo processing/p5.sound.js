@@ -4,10 +4,12 @@ let panner, synthy
 function setup() {
   createCanvas(400, 400)
 
-  // p5.Tone is the Tone.js library that ships inside p5.sound. Using it keeps
-  // one Tone.js on the page, so its nodes are already on p5.sound's audio
-  // context and no context sharing is needed.
-  synthy = new p5.Tone.MonoSynth()
+  // Tone.js is loaded from its own script tag. Hand it p5.sound's audio
+  // context before making any Tone.js object, and the two libraries build on
+  // one context, so their nodes can be connected to each other.
+  Tone.setContext(getAudioContext())
+
+  synthy = new Tone.MonoSynth()
   panner = new p5.Panner()
 
   // connect a Tone.js audio node to a p5 sound effect

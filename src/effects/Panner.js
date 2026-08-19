@@ -18,15 +18,12 @@
    * <div>
    * <code>
    * let panner, lfo, soundfile, cnv;
-   * 
-   * function preload() {
-   *   soundfile = loadSound('/assets/beat.mp3');
-   * }
-   * 
-   * function setup() {
+   *
+   * async function setup() {
    *   createCanvas(100, 100);
    *   describe("a sketch that pans a sound source to the left speaker channel")
    *   background(220);
+   *   soundfile = await loadSound('/assets/beat.mp3');
    *   panner = new p5.Panner(-1);
    *   soundfile.loop();
    *   soundfile.disconnect();
@@ -56,15 +53,12 @@
      * <div>
      * <code>
      * let panner, lfo, soundfile, cnv;
-     * 
-     * function preload() {
-     *   soundfile = loadSound('/assets/beat.mp3');
-     * }
-     * 
-     * function setup() {
+     *
+     * async function setup() {
      *   createCanvas(100, 100);
      *   describe("a sketch that pans a sound source between the left and right speaker channels");
      *   background(220);
+     *   soundfile = await loadSound('/assets/beat.mp3');
      *   panner = new p5.Panner();
      *   lfo = new p5.Oscillator(1);
      *   //disconnect lfo from speakers because we don't want to hear it!

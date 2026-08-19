@@ -85,6 +85,48 @@ class FFT extends p5soundNode {
      * @method analyze
      * @for FFT
      * @returns {Array} Array of amplitude values from 0 to 1.
+     * @example
+     * <div>
+     * <code>
+     * let soundfile, fft; 
+     * 
+     * async function setup() {
+     *  createCanvas(100, 100);
+     *  soundfile = await loadSound('assets/chime.mp3');
+     *  textAlign(CENTER);
+     *  textSize(10);
+     * 
+     *  fft = new p5.FFT();
+     *  soundfile.connect(fft);
+     *  soundfile.loop();
+     * }
+     * 
+     * function mousePressed() {
+     *  if(!soundfile.isPlaying()) {
+     *    soundfile.play();
+     *  }
+     *  else {
+     *    soundfile.stop();
+     *  }
+     * }
+     * 
+     * function draw() {
+     *  background(220);
+     *  
+     *  text('tap to play', width/2, height/2 - 20);
+     *  let spectrum = fft.analyze();
+     *  
+     *  noStroke();
+     *  fill(0);
+     * 
+     *  for (let i = 0; i < spectrum.length; i++) {
+     *    let x = map(i, 0, spectrum.length, 0, width);     
+     *    let h = -height + map(spectrum[i], 0, 0.1, height, 0);
+     *    rect(x, height, width / spectrum.length, h * 4)
+     *  }
+     * }
+     * </code>
+     * </div>
      */
     analyze() {
         return this.analyzer.getValue();
@@ -95,6 +137,47 @@ class FFT extends p5soundNode {
      * @method waveform
      * @for FFT
      * @return {Array} Array of sample values from -1 to -1.
+     * @example
+     * <div>
+     * <code>
+     * let soundfile, fft; 
+     * async function setup() {
+     *  createCanvas(100, 100);
+     *  soundfile = await loadSound('assets/chime.mp3');
+     *  textAlign(CENTER);
+     *  textSize(10);
+     * 
+     *  fft = new p5.FFT();
+     *  soundfile.connect(fft);
+     *  soundfile.loop();
+     * }
+     * 
+     * function mousePressed() {
+     *  if(!soundfile.isPlaying()) {
+     *    soundfile.play();
+     *  }
+     *  else {
+     *    soundfile.stop();
+     *  }
+     * }
+     * 
+     * function draw() {
+     *  background(220);
+     *   
+     *  text('tap to play', width/2, height/2 - 20);
+     *  let waveform = fft.waveform();
+     *  noFill();
+     *  beginShape();
+     *  stroke(20);
+     *  for (let i = 0; i < waveform.length; i++){
+     *    let x = map(i, 0, waveform.length, 0, width);
+     *    let y = map( waveform[i], -1, 1, 0, height);
+     *    vertex(x,y);
+     *  }
+     *  endShape();
+     * }
+     * </code>
+     * </div>
      */
     waveform() {
         return this.samples.getValue();

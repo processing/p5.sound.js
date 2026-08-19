@@ -187,6 +187,47 @@ class Delay extends p5soundMixEffect {
    * @param {Object} unit A p5.sound source such as an Oscillator, Soundfile, or AudioIn object.
    * @param {Number} [delayTime] The amount of delay in seconds. A number between 0 and 1. Keeps the current delay time if omitted.
    * @param {Number} [feedback] The amount of feedback. A number between 0 and 1. Keeps the current feedback amount if omitted.
+   * @example
+   * <div>
+   * <code>
+   * let delay, osc;
+   * 
+   * function setup() {
+   *  createCanvas(100, 100);
+   *  textAlign(CENTER);
+   *  text('tap to play', width/2, height/2);
+   *    
+   *  osc = new p5.Oscillator('sine');
+   *  osc.disconnect();
+   *  delay = new p5.Delay();
+   *  //use the delay effect to process the oscillator with a delay time of 0.240 seconds and a feedback amount of 0.7
+   *  delay.process(osc, 0.240, 0.7);
+   * }
+   *     
+   * function mousePressed() {
+   *  osc.start();
+   * }
+   *    
+   * function mouseReleased() {
+   *  osc.stop();
+   * }
+   * 
+   * function draw() {
+   *  background(220)
+   *  let dtime = map(mouseX, 0, width, 0.1, 0.5);
+   *  delay.delayTime(dtime);
+   *  let feedback = map(mouseY, 0, height, 0.1, 0.99);
+   *  delay.feedback(feedback);
+   *  if(!osc.started) {
+   *   text('tap to play', width/2, height/2);
+   *  }
+   *  else {
+   *   text('delay time: ' + dtime.toFixed(2), width/2, height/2);
+   *   text('feedback: ' + feedback.toFixed(2), width/2, height/2 + 20);
+   *  } 
+   * }
+   * </div>
+   * </code>
    */
   process(input, delayTime = this.node.delayTime.value, feedback = this.node.feedback.value) {
     //both values are set immediately rather than ramped: process() is usually

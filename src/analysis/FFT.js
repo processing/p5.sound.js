@@ -136,7 +136,7 @@ class FFT extends p5soundNode {
      * Returns an array of sample values from the input audio.
      * @method waveform
      * @for FFT
-     * @return {Array} Array of sample values from -1 to -1.
+     * @return {Array} Array of sample values from -1 to 1.
      * @example
      * <div>
      * <code>

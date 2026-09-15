@@ -54,7 +54,7 @@ class Noise extends p5soundSource {
   /**
    * Changes the type of noise function.
    * 
-   * White noise is brighter and more "full spectrum" while 'pink' and 'brown' noise is a bit darker.
+   * White noise is brighter and has a wider spectrum while 'pink' and 'brown' noise sound warmer.
    * @method type
    * @for Noise
    * @param {String} type the type of noise (white, pink, brown)

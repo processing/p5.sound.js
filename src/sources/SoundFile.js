@@ -113,7 +113,7 @@ class SoundFile extends p5soundSource {
   }
 
   /**
-   * Start the soundfile.
+   * Start the soundfile. Same as the play() method.
    * @method start
    * @for SoundFile 
    * @example

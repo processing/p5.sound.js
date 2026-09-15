@@ -56,7 +56,7 @@ class AudioIn extends p5soundSource {
         this.node = new ToneUserMedia().connect(this.output);
     }
     /**
-     * Start the audio input.
+     * Start the audio input device.
      * @method start
      * @for AudioIn
      * @example
@@ -108,7 +108,7 @@ class AudioIn extends p5soundSource {
         });
     }
     /**
-     * Stop the audio input.
+     * Stop the audio input device.
      * @method stop
      * @for AudioIn
      * @example

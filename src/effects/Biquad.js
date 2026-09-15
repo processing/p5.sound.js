@@ -9,7 +9,11 @@ import { BiquadFilter as ToneBiquadFilter} from "tone/build/esm/component/filter
 import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 
 /**
- * Filter the frequency range of a sound.
+ * Filter the frequency range of a sound. 
+ * 
+ * Previously called p5.Filter, this class can be used to create lowpass, highpass, and bandpass filters. It can also be used to create more complex filters like notch, allpass, and peaking filters.
+ * 
+ * Additionally, you can create a lowpass, highpass, or bandpass filter using the LowPass, HighPass, and BandPass classes directly.
  * @class Biquad
  * @constructor
  * @extends p5soundNode
@@ -28,7 +32,7 @@ import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
  *   cnv.mousePressed(makeNoise);
  *   fill(255, 0, 255);
  * 
- *   filterEffect = new p5.BandPass();
+ *   filterEffect = new p5.Biquad(8000, 'bandpass');
  *   noise = new p5.Noise();
  *   noise.disconnect();
  *   noise.connect(filterEffect);

@@ -8,7 +8,7 @@ import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
 import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 
 /**
- * Generate a gain node to use for mixing and main volume.
+ * Generate a gain node to use for mixing and adjusting volume levels.
  * @class Gain
  * @constructor
  * @extends p5soundNode

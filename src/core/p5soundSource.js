@@ -18,9 +18,9 @@ class p5soundSource extends p5soundNode {
     this.started = false;
   }
   /**
-   * Starts the p5 sound source.
+   * Starts a p5 sound source.
    * 
-   * Should be called from a user interaction such as MousePressed() in order to adhere to the browser's autoplay policy.
+   * Must be called from a user interaction such as mousePressed() in order to adhere to the browser's autoplay policy.
    * @method start
    * @for p5soundSource
    * @example
@@ -65,7 +65,7 @@ class p5soundSource extends p5soundNode {
   }
   
   /**
-   * Stops the p5 sound source.
+   * Stops a p5 sound source.
    * @method stop
    * @for p5soundSource
    * @example

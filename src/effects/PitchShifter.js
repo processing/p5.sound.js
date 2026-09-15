@@ -15,7 +15,7 @@ import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
  * @example
  * <div>
  * <code>
- * let cnv, pitchShifter;
+ * let pitchShifter;
  *  
  * async function setup() {
  *   describe('a sketch that pitches the microphone input up an octave');
@@ -53,7 +53,7 @@ class PitchShifter extends p5soundNode {
      * @example
      * <div>
      * <code>
-     * let cnv, pitchShifter;
+     * let pitchShifter;
      *
      * async function setup() {
      *   describe('a sketch that pitches the microphone input up an octave');

@@ -140,9 +140,8 @@ class Envelope extends p5soundNode {
   }
 
   /**
-   * Trigger the Release of the envelope. Similar to releasing the key on 
-   * a piano and letting the sound fade according to the release level and 
-   * release time. 
+   * Triggers the "release" of an envelope. Akin to letting go of a key on 
+   * the piano after striking its. 
    * @method triggerRelease
    * @for Envelope
    * @example

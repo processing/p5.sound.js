@@ -101,6 +101,7 @@ class AudioIn extends p5soundSource {
         this.node.open().then(() => {
             // promise resolves when input is available
             console.log("mic open");
+            this.started = true;
             // print the incoming mic levels in decibels
         }).catch(e => {
             // promise is rejected when the user doesn't have or allow mic access
@@ -150,6 +151,7 @@ class AudioIn extends p5soundSource {
      */
     stop() {
         this.node.close();
+        this.started = false;
     }
 }
 

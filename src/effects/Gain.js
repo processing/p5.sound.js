@@ -5,6 +5,7 @@
  */
 
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
+import { Volume as ToneVolume } from "tone/build/esm/component/channel/Volume.js"
 import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 
 /**
@@ -49,7 +50,7 @@ import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 class Gain extends p5soundNode {
   constructor(value = 1) {
     super();
-    this.node = new ToneGain(value)
+    this.node = new ToneVolume(value)
     this.input.connect(resolveInput(this.node));
     this.node.connect(this.output);
   }

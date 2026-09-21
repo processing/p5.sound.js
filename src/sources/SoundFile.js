@@ -534,7 +534,7 @@ class SoundFile extends p5soundSource {
    * <div>
    * <code>
    * async function setup() {
-   *  sample = await loadSound("assets/drums.mp3");
+   *  sample = await loadSound("assets/drum.mp3");
    *  duration = sample.duration();
    *  sample.loop(true);
    *  createCanvas(100, 100);

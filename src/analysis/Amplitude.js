@@ -10,7 +10,7 @@ import { p5soundNode, resolveInput } from "../core/p5soundNode.js";
 /**
  * Get the current amplitude or 'loudness' of a sound.
  * 
- * Useful for audio-reactive visualizations or analysis.
+ * Useful for audio-responsive visualizations or analysis.
  * @class Amplitude
  * @constructor
  * @extends p5soundNode
@@ -63,7 +63,7 @@ class Amplitude extends p5soundNode {
    * let amplitude = 0;
    * 
    * async function setup() {
-   *   sample = await loadSound("assets/drums.mp3");
+   *   sample = await loadSound("assets/drum.mp3");
    *   sample.loop(true);
    * 
    *   createCanvas(100, 100);
@@ -117,7 +117,7 @@ class Amplitude extends p5soundNode {
    * let amplitude = 0;
    * 
    * async function setup() {
-   *   sample = await loadSound("assets/drums.mp3");
+   *   sample = await loadSound("assets/drum.mp3");
    *   sample.loop(true);
    * 
    *   createCanvas(100, 100);
@@ -158,17 +158,19 @@ class Amplitude extends p5soundNode {
   }
 
   /**
-   * Get the current amplitude value of a sound.
+   * Averages values in the analysis to get less jumpy output.
+   * 
+   * A value closer to 1 will be more smooth but will also introduce a slight delay.
    * @method smooth
    * @for Amplitude
-   * @param {Number} Smooth Amplitude analysis by averaging with the last analysis frame. Off by default.
+   * @param {Number} Smooth amplitude analysis by averaging with the last analysis frame. Off by default.
    * @example
    * <div>
    * <code>
    * let amplitude = 0;
    * 
    * async function setup() {
-   *   sample = await loadSound("assets/drums.mp3");
+   *   sample = await loadSound("assets/drum.mp3");
    *   sample.loop(true);
    * 
    *   createCanvas(100, 100);

@@ -40,9 +40,9 @@ import { p5soundSource } from "../core/p5soundSource";
  * </code>
  * </div>
  */
-function loadSound (path) {
+function loadSound(path) {
   if (typeof path === 'string') path = encodeURI(path);
-  if(self._incrementPreload && self._decrementPreload){
+  if (self._incrementPreload && self._decrementPreload) {
     self._incrementPreload();
     let player = new p5.SoundFile(
       path,
@@ -52,7 +52,7 @@ function loadSound (path) {
     );
     return player;
 
-  } else{
+  } else {
     return new Promise((resolve) => {
       let player = new p5.SoundFile(
         path,
@@ -110,8 +110,18 @@ class SoundFile extends p5soundSource {
     this.playing = false;
     this.speed = 1;
     this.paused = false;
+    this._playMode = 'sustain';
+    this._activePlayers = [];
   }
-
+  /**
+     * Set the play mode for the soundfile.
+     * @method playMode
+     * @for SoundFile
+     * @param {String} mode 'sustain', 'restart', or 'untilDone'
+     */
+  playMode(mode) {
+    this._playMode = mode;
+  }
   /**
    * Start the soundfile. Same as the play() method.
    * @method start
@@ -140,11 +150,7 @@ class SoundFile extends p5soundSource {
    * </div>
    */
   start() {
-    this.node.playbackRate = this.speed;
-    this.playing = true;
-    if (!this.paused) {
-      this.node.start();
-    }
+    this.play();
   }
 
   /**
@@ -176,10 +182,41 @@ class SoundFile extends p5soundSource {
    */
   play() {
     this.node.playbackRate = this.speed;
-    this.playing = true;
-    if (!this.paused) {
-      this.node.start();
+    if (this._playMode === 'untilDone' && this.playing) return;
+    if (this._playMode === 'restart') this.stop();
+
+    let offset = 0;
+    if (this.paused) {
+      offset = this.pauseTime || 0;
+      this.paused = false;
     }
+
+    this.playing = true;
+
+    let player = new TonePlayer(this.node.buffer).connect(this.output);
+    player.playbackRate = this.speed;
+    player.loop = this.node.loop;
+    if (this.node.loopStart !== undefined) player.loopStart = this.node.loopStart;
+    if (this.node.loopEnd !== undefined) player.loopEnd = this.node.loopEnd;
+
+    player._startTime = player.context.currentTime;
+    player._startOffset = offset;
+
+    player.onstop = () => {
+      const idx = this._activePlayers.indexOf(player);
+      if (idx !== -1) this._activePlayers.splice(idx, 1);
+      player.dispose();
+
+      if (this._activePlayers.length === 0) {
+        this.playing = false;
+        if (!this.paused && !this._isStopping && typeof this.node.onstop === 'function') {
+          this.node.onstop();
+        }
+      }
+    };
+
+    this._activePlayers.push(player);
+    player.start(undefined, offset);
   }
 
   /**
@@ -221,8 +258,14 @@ class SoundFile extends p5soundSource {
    * </div>
    */
   stop() {
-    this.node.stop();
+    this._isStopping = true;
+    this._activePlayers.forEach(p => {
+      if (p.state === 'started') p.stop();
+    });
     this.playing = false;
+    this.paused = false;
+    this.pauseTime = 0;
+    this._isStopping = false;
   }
 
   /**
@@ -263,10 +306,28 @@ class SoundFile extends p5soundSource {
    * </div>
    */
   pause() {
-    //no such pause method in Tone.js need to find workaround
-    this.node.playbackRate = 0;
-    this.playing = false;
     this.paused = true;
+
+    if (typeof this.currentTime === 'function') {
+      this.pauseTime = this.currentTime();
+    } else if (this._activePlayers.length > 0) {
+      let p = this._activePlayers[this._activePlayers.length - 1];
+      let elapsed = (p.context.currentTime - p._startTime) * this.speed;
+      this.pauseTime = p._startOffset + elapsed;
+
+      if (p.loop) {
+        let dur = p.loopEnd || p.buffer.duration;
+        let start = p.loopStart || 0;
+        this.pauseTime = start + ((this.pauseTime - start) % (dur - start));
+      }
+    } else {
+      this.pauseTime = 0;
+    }
+
+    this._activePlayers.forEach(p => {
+      if (p.state === 'started') p.stop();
+    });
+    this.playing = false;
   }
 
   /**
@@ -320,6 +381,7 @@ class SoundFile extends p5soundSource {
    */
   loop(value = true) {
     this.node.loop = value;
+    this._activePlayers.forEach(p => p.loop = value);
   }
 
   /**
@@ -365,8 +427,12 @@ class SoundFile extends p5soundSource {
   loopPoints(startTime = 0, duration = this.node.buffer.duration) {
     this.node.loopStart = startTime;
     this.node.loopEnd = startTime + duration;
+    this._activePlayers.forEach(p => {
+      p.loopStart = startTime;
+      p.loopEnd = startTime + duration;
+    });
   }
-  
+
   /**
    * Change the path for the soundfile.
    * @method setPath
@@ -465,6 +531,7 @@ class SoundFile extends p5soundSource {
     }
     this.node.playbackRate = value;
     this.speed = value;
+    this._activePlayers.forEach(p => p.playbackRate = value);
   }
 
   /**
@@ -564,7 +631,7 @@ class SoundFile extends p5soundSource {
    * </div>
    */
   jump(value) {
-    this.node.seek(value);
+    this._activePlayers.forEach(p => p.seek(value));
   }
 
   /**
@@ -678,7 +745,7 @@ class SoundFile extends p5soundSource {
   onended(callback) {
     this.node.onstop = callback;
   }
-    
+
   /**
    * Return the number of samples in a sound file.
    * @method frames

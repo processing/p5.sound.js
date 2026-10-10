@@ -585,7 +585,7 @@ class SoundFile extends p5soundSource {
    * function draw() {
    *  background(220);
    *  //check if sample is playing or not
-   *  if (!sample.playing) {
+   *  if (!sample.isPlaying()) {
    *    text("click to play the sound, demonstrating the start() method", 0, 20, width);
    *  }
    *  else {
@@ -595,7 +595,7 @@ class SoundFile extends p5soundSource {
    *
    * function mousePressed() {
    *  //check if sample is playing or not
-   *  if (!sample.playing) {
+   *  if (!sample.isPlaying()) {
    *    sample.start();
    *  }
    *  else {

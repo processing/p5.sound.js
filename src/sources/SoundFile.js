@@ -206,7 +206,7 @@ class SoundFile extends p5soundSource {
       const idx = this._activePlayers.indexOf(player);
       if (idx !== -1) this._activePlayers.splice(idx, 1);
       player.dispose();
-
+      
       if (this._activePlayers.length === 0) {
         this.playing = false;
         if (!this.paused && !this._isStopping && typeof this.node.onstop === 'function') {
@@ -258,14 +258,14 @@ class SoundFile extends p5soundSource {
    * </div>
    */
   stop() {
-    this._isStopping = true;
+    this._isStopping = true; 
     this._activePlayers.forEach(p => {
       if (p.state === 'started') p.stop();
     });
     this.playing = false;
     this.paused = false;
     this.pauseTime = 0;
-    this._isStopping = false;
+    this._isStopping = false; 
   }
 
   /**
@@ -305,8 +305,8 @@ class SoundFile extends p5soundSource {
    * </code>
    * </div>
    */
-  pause() {
-    this.paused = true;
+ pause() {
+    this.paused = true; 
 
     if (typeof this.currentTime === 'function') {
       this.pauseTime = this.currentTime();
@@ -314,7 +314,7 @@ class SoundFile extends p5soundSource {
       let p = this._activePlayers[this._activePlayers.length - 1];
       let elapsed = (p.context.currentTime - p._startTime) * this.speed;
       this.pauseTime = p._startOffset + elapsed;
-
+      
       if (p.loop) {
         let dur = p.loopEnd || p.buffer.duration;
         let start = p.loopStart || 0;
@@ -529,7 +529,10 @@ class SoundFile extends p5soundSource {
     if (value < 0) {
       value = 0;
     }
-    this.node.playbackRate = value;
+    if (this.playing) {
+      this.node.playbackRate = value;
+      this._activePlayers.forEach(p => p.playbackRate = value);
+    }
     this.speed = value;
     this._activePlayers.forEach(p => p.playbackRate = value);
   }
@@ -652,7 +655,7 @@ class SoundFile extends p5soundSource {
    * function draw() {
    *  background(220);
    *  //check if sample is playing or not
-   *  if (!sample.playing) {
+   *  if (!sample.isPlaying()) {
    *    text("click to play the sound, demonstrating the start() method", 0, 20, width);
    *  }
    *  else {
@@ -662,7 +665,7 @@ class SoundFile extends p5soundSource {
    *
    * function mousePressed() {
    *  //check if sample is playing or not
-   *  if (!sample.playing) {
+   *  if (!sample.isPlaying()) {
    *    sample.start();
    *  }
    *  else {

@@ -501,9 +501,11 @@ class SoundFile extends p5soundSource {
     if (value < 0) {
       value = 0;
     }
-    this.node.playbackRate = value;
+    if (this.playing) {
+      this.node.playbackRate = value;
+      this._activePlayers.forEach(p => p.playbackRate = value);
+    }
     this.speed = value;
-    this._activePlayers.forEach(p => p.playbackRate = value);
   }
 
   /**

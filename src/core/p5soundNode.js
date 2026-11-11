@@ -97,8 +97,9 @@ class p5soundNode {
       value.connect(this.output.gain);
       return;
     }
-    let dbValue = ToneGainToDb(value);
-    this.node.volume.rampTo(dbValue, p);
+    const now = this.ctx.currentTime;
+    this.output.gain.cancelScheduledValues(now);
+    this.output.gain.linearRampToValueAtTime(value, now + p);
   }
 
   /**

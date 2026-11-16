@@ -605,7 +605,18 @@ class SoundFile extends p5soundSource {
    * </div>
    */
   jump(value) {
-    this._activePlayers.forEach(p => p.seek(value));
+    this._activePlayers.forEach(p => {
+      if (p.playbackRate === 0) {
+        // A paused sound is a player with a playback rate of 0. Tone.js's seek()
+        // divides by the playback rate to schedule the end of the sound, so seek
+        // at the sound's normal rate and then pause it again at the new position.
+        p.playbackRate = this.speed > 0 ? this.speed : 1;
+        p.seek(value);
+        p.playbackRate = 0;
+      } else {
+        p.seek(value);
+      }
+    });
   }
 
   /**

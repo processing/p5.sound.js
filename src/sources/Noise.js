@@ -88,8 +88,8 @@ class Noise extends p5soundSource {
    *   let txt = 'type: ' + noiseType;
    *   text(txt, width/2, 40);
    * }
-   * </div>
    * </code>
+   * </div>
    */
   type(t) {
     this.node.type = t;

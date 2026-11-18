@@ -614,6 +614,8 @@ class SoundFile extends p5soundSource {
    * @for SoundFile 
    * @return {Boolean} Playback state, true or false.
    * @example
+   * <div>
+   * <code>
    * async function setup() {
    *  sample = await loadSound("assets/chime.mp3");
    *  createCanvas(100, 100);

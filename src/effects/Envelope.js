@@ -296,6 +296,8 @@ class Envelope extends p5soundNode {
    *   noise.start();
    *   envelope.play();
    * }
+   * </code>
+   * </div>
    */
   releaseTime(value) {
     this.node.release = value;

@@ -111,6 +111,8 @@ class Delay extends p5soundMixEffect {
    *   let dtime = map(mouseX, 0, width, 0.1, 0.5);
    *   delay.delayTime(dtime);
    * }
+   * </code>
+   * </div>
    */
   delayTime(value, rampTime = 0.1) {
     //legacy behavior

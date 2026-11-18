@@ -180,6 +180,8 @@ class Oscillator extends p5soundSource {
    *   let txt = 'type: ' + currentWaveShape;
    *   text(txt, width/2, 40);
    * }
+   * </code>
+   * </div>
    */
   setType(t) {
     this.node.type = t;

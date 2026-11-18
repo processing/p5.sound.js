@@ -352,8 +352,8 @@ class Envelope extends p5soundNode {
    *   noise.start();
    *   envelope.play();
    * }
+   * </code>
    * </div>
-   * <code>
    */
   attackTime(value) {
     this.node.attack = value;

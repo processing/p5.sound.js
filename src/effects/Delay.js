@@ -40,12 +40,12 @@ import { clamp } from '../core/Utils.js';
  * function oscStart() {
  *   osc.start();
  * }
- * 
- * </code>
- * </div>
+ *
  * function mouseReleased() {
  *   osc.stop();
  * }
+ * </code>
+ * </div>
  */
 class Delay extends p5soundMixEffect {
   constructor(d = 0.250, f = 0.2)  {
@@ -226,8 +226,8 @@ class Delay extends p5soundMixEffect {
    *   text('feedback: ' + feedback.toFixed(2), width/2, height/2 + 20);
    *  } 
    * }
-   * </div>
    * </code>
+   * </div>
    */
   process(input, delayTime = this.node.delayTime.value, feedback = this.node.feedback.value) {
     //both values are set immediately rather than ramped: process() is usually

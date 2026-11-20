@@ -137,7 +137,38 @@ class Oscillator extends p5soundSource {
    * @example
    * <div>
    * <code>
-   * 
+   * let osc1, osc2, phase = 0;
+   *
+   * function setup() {
+   *   let cnv = createCanvas(100, 100);
+   *   cnv.mousePressed(startSound);
+   *   textAlign(CENTER);
+   *   textSize(9);
+   *
+   *   // two sine waves with the same frequency
+   *   osc1 = new p5.Oscillator(220, 'sine');
+   *   osc2 = new p5.Oscillator(220, 'sine');
+   *   osc1.amp(0.3);
+   *   osc2.amp(0.3);
+   *   describe('Two sine waves at the same pitch. Moving the mouse changes the phase of the second one: they get louder in phase and cancel out at 180 degrees.');
+   * }
+   *
+   * function startSound() {
+   *   osc1.start();
+   *   osc2.start();
+   * }
+   *
+   * function draw() {
+   *   background(220);
+   *   // at 0 degrees the waves add up, at 180 degrees they cancel out
+   *   phase = round(map(mouseX, 0, width, 0, 360, true));
+   *   osc2.phase(phase);
+   *   text('click to play', width / 2, 20);
+   *   text('move mouse to change', width / 2, 40);
+   *   text('phase: ' + phase, width / 2, 60);
+   * }
+   * </code>
+   * </div>
    */
   phase(p) {
     this.node.phase = p;

@@ -29,6 +29,9 @@ p5.Delay = Delay;
 import Reverb from './effects/Reverb';
 p5.Reverb = Reverb;
 
+import Distortion from './effects/Distortion';
+p5.Distortion = Distortion;
+
 import Biquad from './effects/Biquad';
 p5.Biquad = Biquad;
 
@@ -65,12 +68,11 @@ p5.prototype.loadSound = loadSound;
 import AudioIn from './sources/AudioIn';
 p5.AudioIn = AudioIn;
 
-import { MonoSynth, EQ, Convolver, Distortion, OnsetDetect, Filter, Effect, Compressor, AudioVoice, Part, Phrase, PolySynth, Pulse, Score, SoundLoop } from './core/Friendly';
+import { MonoSynth, EQ, Convolver, OnsetDetect, Filter, Effect, Compressor, AudioVoice, Part, Phrase, PolySynth, Pulse, Score, SoundLoop } from './core/Friendly';
 //deprecated functions
 p5.MonoSynth = MonoSynth;
 p5.EQ = EQ;
 p5.Convolver = Convolver;
-p5.Distortion = Distortion;
 p5.OnsetDetect = OnsetDetect;
 p5.Filter = Filter;
 p5.Effect = Effect;

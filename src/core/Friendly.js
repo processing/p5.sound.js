@@ -9,7 +9,6 @@ const createDeprecatedClass = (className) => {
 const MonoSynth = createDeprecatedClass('MonoSynth')
 const EQ = createDeprecatedClass('EQ')
 const Convolver = createDeprecatedClass('Convolver')
-const Distortion = createDeprecatedClass('Distortion')
 const OnsetDetect = createDeprecatedClass('OnsetDetect')
 const Filter = createDeprecatedClass('Filter')
 const Effect = createDeprecatedClass('Effect')
@@ -22,4 +21,4 @@ const Pulse = createDeprecatedClass('Pulse')
 const Score = createDeprecatedClass('Score')
 const SoundLoop = createDeprecatedClass('SoundLoop')
 
-export { MonoSynth, EQ, Convolver, Distortion, OnsetDetect, Filter, Effect, Compressor, AudioVoice, Part, Phrase, PolySynth, Pulse, Score, SoundLoop };
+export { MonoSynth, EQ, Convolver, OnsetDetect, Filter, Effect, Compressor, AudioVoice, Part, Phrase, PolySynth, Pulse, Score, SoundLoop };
